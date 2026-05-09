@@ -113,7 +113,7 @@ home → challenge:
 
 - FAVORit POST is live but silent until `localStorage.setItem('favoritWorkerUrl', 'https://...')` is run once in the browser console on the host device — URL intentionally kept out of committed code per FERPA_RULES.md
 - Question bank has 15 of 24 target questions — `[TODO:Q]` marker in source flags the gap
-- No `window.runPuzzleTests()` hook yet — add before moving to Classroom Ready status
+- `window.runPuzzleTests()` is live — run in browser console to validate all 24 questions; returns `{ passed, failed, total }`
 
 ---
 

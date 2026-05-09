@@ -1928,6 +1928,47 @@ document.querySelectorAll('#nav button').forEach(btn => {
 document.getElementById('session-id').textContent = 'SID: ' + ANALYTICS.sessionId.slice(-8);
 ANALYTICS.log('boot', { build: 'v1.0', q_count: QUESTION_BANK.length, lens_count: LENSES.length });
 render();
+
+window.runPuzzleTests = function() {
+  const VALID_LABELS = new Set(['1', '2', '3', '4']);
+  let passed = 0;
+  let failed = 0;
+
+  QUESTION_BANK.forEach(q => {
+    const id = q.id;
+    const errors = [];
+
+    // (a) exactly 4 choices with labels '1'–'4'
+    if (!q.choices || q.choices.length !== 4) {
+      errors.push('choice count ' + (q.choices ? q.choices.length : 0) + ' ≠ 4');
+    } else {
+      const labelSet = new Set(q.choices.map(c => c.label));
+      ['1','2','3','4'].forEach(l => { if (!labelSet.has(l)) errors.push('missing label ' + l); });
+      q.choices.forEach(c => { if (!VALID_LABELS.has(c.label)) errors.push('invalid label ' + c.label); });
+    }
+
+    // (b) correctAnswer is one of the 4 labels
+    if (!VALID_LABELS.has(q.correctAnswer)) {
+      errors.push('correctAnswer "' + q.correctAnswer + '" not in {1,2,3,4}');
+    }
+
+    // (c) bestLens is in applicableLenses
+    if (!Array.isArray(q.applicableLenses) || !q.applicableLenses.includes(q.bestLens)) {
+      errors.push('bestLens ' + q.bestLens + ' not in applicableLenses [' + (q.applicableLenses || []).join(',') + ']');
+    }
+
+    if (errors.length === 0) {
+      console.log('[runPuzzleTests] PASS ' + id);
+      passed++;
+    } else {
+      console.error('[runPuzzleTests] FAIL ' + id + ': ' + errors.join('; '));
+      failed++;
+    }
+  });
+
+  console.log('[runPuzzleTests] ' + passed + ' passed, ' + failed + ' failed — ' + QUESTION_BANK.length + ' questions checked');
+  return { passed, failed, total: QUESTION_BANK.length };
+};
 </script>
 </body>
 </html>
