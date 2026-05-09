@@ -32,7 +32,7 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 
 ## Open (priority order)
 
-- [ ] **Expand question bank to 24 questions** — append 9 more to `QUESTION_BANK` in `index.html`; maintain the full schema (`label`, `correctAnswer`, `applicableLenses`, `bestLens`, `walkthroughs`, `errorTags`); cover standards not yet represented (N.RN, G.GPE, S.ID.8, A.REI.12)
+- [x] **Expand question bank to 24 questions** — Q16–Q24 added covering A.REI.4, A.REI.12, N.RN.2, F.IF.7, A.CED.2, A.APR.3, F.IF.5, G.GPE.5 — 2026-05-09
 - [ ] **Wire FAVORit Sheets endpoint** — paste Cloudflare Worker URL into `ANALYTICS.workerUrl`; uncomment the `fetch()` call at `[TODO:AN]`; verify fire-and-forget with no-cors
 - [ ] **Add `window.runPuzzleTests()`** — write a self-test hook that verifies: (a) all 24 questions have exactly 4 choices with labels '1'–'4', (b) correctAnswer is one of the 4 labels, (c) bestLens is in applicableLenses; must log pass/fail to console
 - [ ] **Browser QA — Chromebook (1366×768)** — verify: fixed page header visible, practice 2-col choice grid readable, TI-84 iframe loads or fallback link shows, challenge timer bar renders correctly
@@ -70,3 +70,4 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 - [x] TI-84 iframe in Practice side rail with fallback link — 2026-05-09
 - [x] `choiceLayout()` auto-detects short vs long choices; 2-column grid uses correct odd/even column order per DESIGN_BRIEF — 2026-05-09
 - [x] CONTEXT.md and TASKS.md written — 2026-05-09
+- [x] Question bank expanded to 24 questions (Q16–Q24: A.REI.4, A.REI.12, N.RN.2, F.IF.7, A.CED.2, A.APR.3, F.IF.5, G.GPE.5) — 2026-05-09
