@@ -1366,16 +1366,31 @@ const QUESTION_BANK = [
 /* ============================================================================
    MODULE: ANALYTICS
    Anonymous session. No PII. FAVORit-compatible schema.
+
+   SETUP (one-time, per deployment device):
+     The Worker URL is stored in localStorage — never in committed code.
+     Run once in the browser console on the teacher/host device:
+       localStorage.setItem('favoritWorkerUrl', 'https://your-worker.workers.dev')
+     To remove: localStorage.removeItem('favoritWorkerUrl')
+     To verify: localStorage.getItem('favoritWorkerUrl')
 ============================================================================ */
 const ANALYTICS = {
   sessionId: 'anon_' + Date.now(),
+  workerUrl: localStorage.getItem('favoritWorkerUrl') || '',
   events: [],
 
   log(eventType, payload) {
     const event = { sid: this.sessionId, ts: new Date().toISOString(), type: eventType, ...payload };
     this.events.push(event);
     console.log('[FAVORit]', event);
-    // [TODO:AN] POST to Cloudflare Worker when URL is set
+    if (this.workerUrl) {
+      fetch(this.workerUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(event)
+      }).catch(() => {}); // fire-and-forget — suppress network errors silently
+    }
   }
 };
 

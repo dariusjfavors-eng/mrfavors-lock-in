@@ -33,7 +33,7 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 ## Open (priority order)
 
 - [x] **Expand question bank to 24 questions** — Q16–Q24 added covering A.REI.4, A.REI.12, N.RN.2, F.IF.7, A.CED.2, A.APR.3, F.IF.5, G.GPE.5 — 2026-05-09
-- [ ] **Wire FAVORit Sheets endpoint** — paste Cloudflare Worker URL into `ANALYTICS.workerUrl`; uncomment the `fetch()` call at `[TODO:AN]`; verify fire-and-forget with no-cors
+- [x] **Wire FAVORit Sheets endpoint** — fetch() is live; URL stored in localStorage (never in code); run `localStorage.setItem('favoritWorkerUrl', 'https://...')` once in the browser console on the host device — 2026-05-09
 - [ ] **Add `window.runPuzzleTests()`** — write a self-test hook that verifies: (a) all 24 questions have exactly 4 choices with labels '1'–'4', (b) correctAnswer is one of the 4 labels, (c) bestLens is in applicableLenses; must log pass/fail to console
 - [ ] **Browser QA — Chromebook (1366×768)** — verify: fixed page header visible, practice 2-col choice grid readable, TI-84 iframe loads or fallback link shows, challenge timer bar renders correctly
 - [ ] **Register in COMMAND_CENTER.md** — move `regents-mc-trainer` from untracked to the Structured or Build row in `docs/COMMAND_CENTER.md`
@@ -55,7 +55,7 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 
 ## Blocked
 
-- **FAVORit Sheets Worker URL** — needs a Cloudflare Worker deployed and URL in hand before the endpoint can be wired; POST calls are suppressed until then
+- **Cloudflare Worker deployment** — the fetch() is wired and ready; the Worker itself still needs to be deployed and its URL set via `localStorage.setItem('favoritWorkerUrl', '...')` on the host device
 
 ---
 

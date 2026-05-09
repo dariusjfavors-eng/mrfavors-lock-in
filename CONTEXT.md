@@ -43,7 +43,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 ```
 LENSES          → 10 static strategy objects; keystrokes, example, standards, pitfall
 QUESTION_BANK   → question objects; choices use label:'1'–'4', correctAnswer:'1'–'4'
-ANALYTICS       → anonymous FAVORit schema; console log + POST stub (Worker URL pending)
+ANALYTICS       → anonymous FAVORit schema; reads Worker URL from localStorage('favoritWorkerUrl') — URL never in committed code
 STATE           → UI state machine: view, selectedLensId, practice{}, challenge{}
 UI_RENDER       → all view renderers (see Screen Flow)
 UI_HANDLERS     → navigate(), selectLens(), practice handlers, challenge + timer handlers
@@ -70,7 +70,7 @@ home → challenge:
 | `renderChallenge()` | Renders timer bar + choices; delegates to `renderChallengeResults()` when done |
 | `startChallengeTimer()` | `setInterval` at 1s; updates `#timer-bar` and `#timer-text` by ID after re-render |
 | `challengePickAnswer(label)` | Sets `_challengeSelectedChoice`, calls `render()` — no DOM mutation |
-| `ANALYTICS.log(type, payload)` | Pushes to `ANALYTICS.events[]` and console; POST stub ready for Worker URL |
+| `ANALYTICS.log(type, payload)` | Pushes to `ANALYTICS.events[]`, console, and fires POST if `localStorage('favoritWorkerUrl')` is set |
 
 ### Choice Schema
 
@@ -111,7 +111,7 @@ home → challenge:
 
 ## 5. KNOWN ISSUES
 
-- `[TODO:AN]` in source: `ANALYTICS.workerUrl` is empty — POST calls are suppressed until a Cloudflare Worker URL is pasted in
+- FAVORit POST is live but silent until `localStorage.setItem('favoritWorkerUrl', 'https://...')` is run once in the browser console on the host device — URL intentionally kept out of committed code per FERPA_RULES.md
 - Question bank has 15 of 24 target questions — `[TODO:Q]` marker in source flags the gap
 - No `window.runPuzzleTests()` hook yet — add before moving to Classroom Ready status
 
