@@ -1161,6 +1161,205 @@ const QUESTION_BANK = [
       10: 'Eliminate (1), (2), (4) — all describe constant additive change, which is linear.'
     },
     errorTags: ['linear_vs_exponential']
+  },
+  {
+    id: 'Q16',
+    exam: 'Algebra I — Regents style',
+    questionNumber: 16,
+    standard: 'A.REI.4',
+    stem: 'What are the solutions to x² + 6x + 5 = 0?',
+    choices: [
+      { label: '1', text: 'x = −1 and x = −5' },
+      { label: '2', text: 'x = 1 and x = 5' },
+      { label: '3', text: 'x = −1 and x = 5' },
+      { label: '4', text: 'x = 1 and x = −5' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [2, 3, 6, 9],
+    bestLens: 9,
+    walkthroughs: {
+      2: 'Y1=X²+6X+5. GRAPH. Two zeros at x=−1 and x=−5.',
+      3: 'Test (1): plug x=−1: 1−6+5=0 ✓. Plug x=−5: 25−30+5=0 ✓.',
+      6: 'a·c=5, b=6. Pair: 1 and 5 (sum=6, product=5). Factor: (x+1)(x+5)=0. Roots: −1 and −5.',
+      9: 'Need pair that multiplies to +5 and adds to +6. Both positive? Pair 1 and 5 → roots −1 and −5.'
+    },
+    errorTags: ['sign_error_on_roots', 'factor_sign_confusion']
+  },
+  {
+    id: 'Q17',
+    exam: 'Algebra I — Regents style',
+    questionNumber: 17,
+    standard: 'A.REI.12',
+    stem: 'Which ordered pair is a solution to y > 2x − 3?',
+    choices: [
+      { label: '1', text: '(0, −4)' },
+      { label: '2', text: '(2, 1)' },
+      { label: '3', text: '(3, 4)' },
+      { label: '4', text: '(1, −1)' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [3, 9, 1],
+    bestLens: 3,
+    walkthroughs: {
+      3: 'Test each: (0,−4): −4>−3? No. (2,1): 1>1? No (not strict). (3,4): 4>3? Yes ✓. (1,−1): −1>−1? No.',
+      9: 'y=2x−3 is the boundary line. Points strictly above it satisfy y>2x−3. (3,4) is above the line.',
+      1: 'Y1=2X−3. Plot (3,4) — it sits above the line.'
+    },
+    errorTags: ['boundary_confusion', 'strict_vs_weak_inequality']
+  },
+  {
+    id: 'Q18',
+    exam: 'Algebra I — Regents style',
+    questionNumber: 18,
+    standard: 'N.RN.2',
+    stem: 'What is the value of 27^(2/3)?',
+    choices: [
+      { label: '1', text: '6' },
+      { label: '2', text: '9' },
+      { label: '3', text: '18' },
+      { label: '4', text: '3' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [9, 3],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'a^(m/n) = (a^(1/n))^m. 27^(2/3) = (27^(1/3))^2 = 3^2 = 9.',
+      3: 'Plug into calculator: 27^(2÷3) → 9. Or: ∛27=3, then 3²=9.'
+    },
+    errorTags: ['fractional_exponent_misuse', 'only_cube_root_taken']
+  },
+  {
+    id: 'Q19',
+    exam: 'Algebra I — Regents style',
+    questionNumber: 19,
+    standard: 'F.IF.7',
+    stem: 'Which equation represents a line with a slope of −2 and a y-intercept of 3?',
+    choices: [
+      { label: '1', text: 'y = 3x − 2' },
+      { label: '2', text: 'y = −2x + 3' },
+      { label: '3', text: 'y = 2x + 3' },
+      { label: '4', text: 'y = −3x + 2' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [9, 1, 4],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'y = mx + b. Slope m = −2, y-intercept b = 3 → y = −2x + 3.',
+      1: 'Graph each. Only (2) passes through (0, 3) with a downward slope.',
+      4: 'TABLE: at x=0, (2) gives y=3 ✓. At x=1, y=1 → slope=−2 ✓.'
+    },
+    errorTags: ['slope_intercept_swap']
+  },
+  {
+    id: 'Q20',
+    exam: 'Algebra I — Regents style',
+    questionNumber: 20,
+    standard: 'A.CED.2',
+    stem: 'A student earns $12 per hour babysitting and $9 per hour tutoring. She wants to earn at least $108. If b = babysitting hours and t = tutoring hours, which inequality represents this situation?',
+    choices: [
+      { label: '1', text: '12b + 9t ≥ 108' },
+      { label: '2', text: '12b + 9t ≤ 108' },
+      { label: '3', text: '12b + 9t = 108' },
+      { label: '4', text: '9b + 12t ≥ 108' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Total earnings = 12b + 9t. "At least $108" → ≥ 108. Rates: $12 for b, $9 for t. → 12b + 9t ≥ 108.',
+      10: 'Eliminate (2): ≤ means at most, wrong direction. Eliminate (3): exact, not a range. Eliminate (4): rates are swapped.'
+    },
+    errorTags: ['inequality_direction', 'variable_swap']
+  },
+  {
+    id: 'Q21',
+    exam: 'Algebra I — Regents style',
+    questionNumber: 21,
+    standard: 'A.APR.3',
+    stem: 'What are the zeros of the function f(x) = x² + 2x − 15?',
+    choices: [
+      { label: '1', text: 'x = −5 and x = 3' },
+      { label: '2', text: 'x = 5 and x = −3' },
+      { label: '3', text: 'x = −5 and x = −3' },
+      { label: '4', text: 'x = 5 and x = 3' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [2, 3, 6, 9],
+    bestLens: 9,
+    walkthroughs: {
+      2: 'Y1=X²+2X−15. GRAPH. Zeros at x=−5 and x=3.',
+      3: 'Test x=−5: 25−10−15=0 ✓. Test x=3: 9+6−15=0 ✓.',
+      6: 'a·c=−15, b=2. Pair: 5 and −3 (5+(−3)=2, 5·(−3)=−15). Factor: (x+5)(x−3). Zeros: −5 and 3.',
+      9: 'Need pair that multiplies to −15, adds to +2. Pair: 5 and −3. Roots are −5 and 3.'
+    },
+    errorTags: ['sign_error_on_roots', 'product_sum_confusion']
+  },
+  {
+    id: 'Q22',
+    exam: 'Algebra I — Regents style',
+    questionNumber: 22,
+    standard: 'F.IF.5',
+    stem: 'A rocket launches from the ground. Its height is modeled by h(t) = −16t² + 128t, where h is feet and t is seconds. Which domain is appropriate for this model?',
+    choices: [
+      { label: '1', text: 't ≥ 0 only' },
+      { label: '2', text: '0 ≤ t ≤ 8' },
+      { label: '3', text: '0 ≤ t ≤ 128' },
+      { label: '4', text: 'All real numbers' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [2, 8, 7, 9],
+    bestLens: 2,
+    walkthroughs: {
+      2: 'Y1=−16X²+128X. Zeros at t=0 (launch) and t=8 (landing). Rocket is in flight for 0 ≤ t ≤ 8.',
+      8: 'Real-world domain: rocket exists between launch (t=0) and landing. Landing: −16t²+128t=0 → t=8.',
+      7: 'Vertex at t=4 (max height). But valid t runs from t=0 to the second zero at t=8.',
+      9: 'Factor: t(−16t+128)=0 → t=0 or t=8. Domain restricted to between the zeros.'
+    },
+    errorTags: ['mathematical_vs_contextual_domain', 'zero_as_only_bound']
+  },
+  {
+    id: 'Q23',
+    exam: 'Algebra I — Regents style',
+    questionNumber: 23,
+    standard: 'G.GPE.5',
+    stem: 'Which equation represents a line parallel to y = 3x − 7?',
+    choices: [
+      { label: '1', text: 'y = −3x + 2' },
+      { label: '2', text: 'y = 3x + 5' },
+      { label: '3', text: 'y = (1/3)x − 7' },
+      { label: '4', text: 'y = −(1/3)x + 4' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [9, 1],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Parallel lines have equal slopes. Original slope = 3. Only (2) has slope 3 with a different y-intercept.',
+      1: 'Y1=3X−7, Y2 through each choice. Only (2) produces a non-intersecting parallel line.'
+    },
+    errorTags: ['parallel_vs_perpendicular', 'reciprocal_vs_negative_reciprocal']
+  },
+  {
+    id: 'Q24',
+    exam: 'Algebra I — Regents style',
+    questionNumber: 24,
+    standard: 'A.REI.4',
+    stem: 'What are the roots of 2x² − 4x − 6 = 0?',
+    choices: [
+      { label: '1', text: 'x = 3 and x = 1' },
+      { label: '2', text: 'x = −3 and x = 1' },
+      { label: '3', text: 'x = 3 and x = −1' },
+      { label: '4', text: 'x = −3 and x = −1' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [2, 3, 6, 9],
+    bestLens: 9,
+    walkthroughs: {
+      2: 'Y1=2X²−4X−6. GRAPH. Zeros at x=3 and x=−1.',
+      3: 'Test x=3: 2(9)−4(3)−6=18−12−6=0 ✓. Test x=−1: 2(1)+4−6=0 ✓.',
+      6: 'Divide by 2: x²−2x−3=0. a·c=−3, b=−2. Pair: −3 and 1. Factor: (x−3)(x+1)=0. Roots: 3, −1.',
+      9: 'Divide by 2 first: x²−2x−3=0. Pair that multiplies to −3, adds to −2: −3 and 1 → roots 3 and −1.'
+    },
+    errorTags: ['forgot_leading_coefficient', 'sign_error_on_roots']
   }
 ];
 
