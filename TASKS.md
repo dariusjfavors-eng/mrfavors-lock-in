@@ -6,14 +6,13 @@ Last updated: 2026-05-10 (session 3 — phase 2 handoff)
 
 ## Context
 
-v1.0 shipped today. The game has a complete white exam-paper aesthetic (verified against DESIGN_BRIEF),
-10 TI-84 lenses, 15 Regents-style questions, a full Practice Mode (lens-pick → walkthrough → answer →
+v1.0 shipped. The game has a complete white exam-paper aesthetic (verified against DESIGN_BRIEF),
+10 TI-84 lenses, 24 Regents-style questions, a full Practice Mode (lens-pick → walkthrough → answer →
 review), and a Challenge Mode with a 90-second per-question timer and per-standard results report.
-The `index.html` is 1730 lines, single-file, vanilla JS, no Google Fonts.
+The `index.html` is ~2004 lines, single-file, vanilla JS, no Google Fonts.
 
-The two most urgent gaps: the question bank is 15 of 24 (one full Part I set), and the FAVORit
-Sheets POST endpoint is stubbed — the Worker URL needs to be pasted in. No localStorage is used;
-session data is ephemeral by design.
+The FAVORit fetch() is wired — the Worker URL is set via `localStorage.setItem('favoritWorkerUrl','...')`
+on the host device (never in code). No localStorage for session data; ephemeral by design.
 
 Read CONTEXT.md before touching code. Pay close attention to the choice schema (`label: '1'–'4'`,
 never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must not regress.
@@ -23,10 +22,12 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 ## Starting Checklist
 
 1. Read `CONTEXT.md` fully before touching `index.html`
-2. Read `DESIGN_BRIEF.md` if you plan to change any visual element
-3. Open `index.html` in browser and verify: white background, Arial font, `(1)(2)(3)(4)` labels visible
-4. Search `[TODO:Q]` in source to find where new questions should be appended
-5. Search `[TODO:AN]` in source to find the Sheets Worker URL placeholder
+2. Read `docs/UBIQUITOUS_LANGUAGE.md` — shared domain model; use its terms in all prompts
+3. Read `DESIGN_BRIEF.md` if you plan to change any visual element
+4. Read `docs/DESIGN_SYSTEM.md` TIER 1 rules — required for any SVG/visual work (accessibility, iframe)
+5. Read `docs/ASSET_GUIDE.md` — inline SVG is Strategy C; all SVG assets must be logged in CONTEXT.md ## Assets
+6. Open `index.html` in browser and verify: white background, Arial font, `(1)(2)(3)(4)` labels visible
+7. Search `[TODO:Q]` in source to find where new questions should be appended
 
 ---
 
@@ -36,8 +37,15 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 
 ## Phase 2 — Question Bank Expansion (June 2025 + 2026 Regents, image-bearing questions)
 
-> Read the phase 2 plan before starting. Source: docs/prompts/GRILL_ME_PROMPT.md was run.
-> SVG accuracy is non-negotiable — wrong graphs teach wrong math.
+> Grill Me pass was run 2026-05-10. SVG accuracy is non-negotiable — wrong graphs teach wrong math.
+
+### Session PRD
+**Design concept:** Expand QUESTION_BANK from 24 to ~84 questions using verbatim June 2026 + June 2025 NYS Algebra 1 Part I exams (post-shift format) and authored Part II–style MC; image-bearing questions use inline SVG derived from actual math — no eyeballing.
+**Work type:** Content (question authoring) + Visual/Asset (inline SVG)
+**Modules touched:** QUESTION_BANK only — zero renderer, CSS, or handler changes
+**Interface changes:** `Q.stem` may now contain inline `<svg>` — existing interpolation handles it; no code changes needed
+**Out of scope:** New lenses, new modes, new renderers, external image files, MathJax/KaTeX
+**Done when:** `window.runPuzzleTests()` passes all questions; each image question renders SVG correctly in Practice and Challenge modes at 1366×768
 
 ### Starting Checklist
 1. Pull June 2026 and June 2025 Algebra I Regents Part I PDFs from nysedregents.org

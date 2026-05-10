@@ -18,7 +18,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 | Framework | Vanilla JS only, zero build tools |
 | Storage | None — session is ephemeral, no localStorage |
 | PII Policy | None stored; FAVORit analytics are anonymous (sid = `anon_` + timestamp) |
-| Current Status | v1.0 shipped; question bank incomplete (15 of 24) |
+| Current Status | v1.0 shipped; 24/24 questions complete; Phase 2 expansion planned |
 
 ---
 
@@ -113,12 +113,30 @@ home → challenge:
 ## 5. KNOWN ISSUES
 
 - FAVORit POST is live but silent until `localStorage.setItem('favoritWorkerUrl', 'https://...')` is run once in the browser console on the host device — URL intentionally kept out of committed code per FERPA_RULES.md
-- Question bank has 15 of 24 target questions — `[TODO:Q]` marker in source flags the gap
-- `window.runPuzzleTests()` is live — run in browser console to validate all 24 questions; returns `{ passed, failed, total }`
+- `window.runPuzzleTests()` is live — run in browser console to validate all questions; returns `{ passed, failed, total }`
+- Phase 2 SVG questions not yet authored — `[TODO:Q]` marker in source flags the insertion point
 
 ---
 
-## 6. BACKGROUND SYSTEM
+## 6. ASSETS
+
+Per `docs/ASSET_GUIDE.md` — all visual assets must be logged here with tier and delivery strategy.
+
+| Asset | Tier | Status | Notes |
+|-------|------|--------|-------|
+| Inline SVG coordinate planes | T2 | 🔜 Planned — Phase 2 | `svgPlane()` helper; exam-paper style (black stroke, white fill) |
+| Inline SVG function graphs | T2 | 🔜 Planned — Phase 2 | `svgGraph()` helper; accuracy protocol required |
+| Inline SVG scatter plots | T2 | 🔜 Planned — Phase 2 | `svgScatter()` helper |
+| Inline SVG box plots | T2 | 🔜 Planned — Phase 2 | `svgBoxPlot()` helper |
+| Inline SVG bar graphs | T2 | 🔜 Planned — Phase 2 | `svgBarGraph()` helper |
+| HTML data tables | T2 | 🔜 Planned — Phase 2 | `svgTable()` returns `<table>` string; S.ID.5 questions |
+
+**Delivery:** Strategy C (inline SVG/HTML) — single-file constraint requires all assets embedded in `Q.stem`.
+**Authorship note:** Math diagrams are exam content, not game art. T2 is correct — accuracy matters more than authorship here.
+
+---
+
+## 7. BACKGROUND SYSTEM
 
 Pure white `#FFFFFF` — styled as NYS Regents exam paper.
 Fixed `.page-header` strip at top (36px, `border-bottom: 1px solid #000`).
