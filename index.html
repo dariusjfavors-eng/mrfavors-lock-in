@@ -877,6 +877,124 @@ const LENSES = [
    Choice layout: if any choice.text.length > 40 → stack vertically.
    Otherwise → 2-column grid, col order: (1)(2) left, (3)(4) right.
 ============================================================================ */
+
+/* ============================================================================
+   SVG HELPERS — Inline visual assets for image-bearing questions.
+   Accuracy protocol: all pixel coords from explicit toX / toY mapping only.
+   Never eyeball. See CONTEXT.md §6 and docs/ASSET_GUIDE.md.
+============================================================================ */
+
+function svgPlane({ xMin=-5, xMax=5, yMin=-5, yMax=5, W=280, H=280,
+                    padL=36, padR=16, padT=16, padB=36, step=1 } = {}) {
+  const iW = W - padL - padR, iH = H - padT - padB;
+  const toX = x => ((x - xMin) / (xMax - xMin) * iW + padL).toFixed(1);
+  const toY = y => (H - padB - (y - yMin) / (yMax - yMin) * iH).toFixed(1);
+  const ox = +toX(0), oy = +toY(0);
+  let s = `<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:8px auto;font-family:Arial,sans-serif;font-size:9px;">`;
+  s += `<g stroke="#ccc" stroke-width="0.5">`;
+  for (let x = xMin; x <= xMax; x += step) s += `<line x1="${toX(x)}" y1="${padT}" x2="${toX(x)}" y2="${H-padB}"/>`;
+  for (let y = yMin; y <= yMax; y += step) s += `<line x1="${padL}" y1="${toY(y)}" x2="${W-padR}" y2="${toY(y)}"/>`;
+  s += `</g>`;
+  s += `<line x1="${padL}" y1="${oy}" x2="${W-padR}" y2="${oy}" stroke="#000" stroke-width="1.5"/>`;
+  s += `<line x1="${ox}" y1="${padT}" x2="${ox}" y2="${H-padB}" stroke="#000" stroke-width="1.5"/>`;
+  s += `<g fill="#000" text-anchor="middle">`;
+  for (let x = xMin; x <= xMax; x += step) {
+    if (x === 0) continue;
+    s += `<text x="${toX(x)}" y="${oy + 12}">${x}</text>`;
+  }
+  s += `</g><g fill="#000" text-anchor="end">`;
+  for (let y = yMin; y <= yMax; y += step) {
+    if (y === 0) continue;
+    s += `<text x="${ox - 4}" y="${+toY(y) + 3}">${y}</text>`;
+  }
+  s += `</g>`;
+  s += `<text x="${W - padR}" y="${oy - 4}" font-size="10" fill="#000">x</text>`;
+  s += `<text x="${ox + 4}" y="${padT + 10}" font-size="10" fill="#000">y</text>`;
+  return s + `</svg>`;
+}
+
+function svgGraph(planeOpts = {}, fns = []) {
+  const opts = { xMin:-5, xMax:5, yMin:-10, yMax:10, W:280, H:280,
+                 padL:36, padR:16, padT:16, padB:36, step:1, ...planeOpts };
+  const { xMin, xMax, yMin, yMax } = opts;
+  let s = svgPlane(opts).replace('</svg>', '');
+  const iW = opts.W - opts.padL - opts.padR, iH = opts.H - opts.padT - opts.padB;
+  const toX = x => ((x - xMin) / (xMax - xMin) * iW + opts.padL).toFixed(1);
+  const toY = y => (opts.H - opts.padB - (y - yMin) / (yMax - yMin) * iH).toFixed(1);
+  for (const { fn, color = '#000', samples = 200, dash = '' } of fns) {
+    let d = '', prev = null;
+    for (let i = 0; i <= samples; i++) {
+      const x = xMin + i * (xMax - xMin) / samples;
+      const y = fn(x);
+      if (!isFinite(y) || y < yMin - (yMax - yMin) || y > yMax + (yMax - yMin)) { prev = null; continue; }
+      d += prev ? `L${toX(x)},${toY(y)}` : `M${toX(x)},${toY(y)}`;
+      prev = true;
+    }
+    s += `<path d="${d}" stroke="${color}" stroke-width="1.8" fill="none"${dash ? ` stroke-dasharray="${dash}"` : ''}/>`;
+  }
+  return s + `</svg>`;
+}
+
+function svgTable(headers = [], rows = [], { caption = '' } = {}) {
+  const st = 'border:1px solid #000;padding:5px 10px;font-size:14px;font-family:Arial,sans-serif;text-align:center;';
+  const ths = headers.map(h => `<th style="${st}background:#f0f0f0;">${h}</th>`).join('');
+  const trs = rows.map(r => `<tr>${r.map(c => `<td style="${st}">${c}</td>`).join('')}</tr>`).join('');
+  return (caption ? `<p style="font-size:13px;margin:8px 0 4px;">${caption}</p>` : '')
+    + `<div style="overflow-x:auto;margin:8px 0;"><table style="border-collapse:collapse;margin:0 auto;"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table></div>`;
+}
+
+function svgScatter(planeOpts = {}, points = [], { r = 4, color = '#000' } = {}) {
+  const opts = { xMin:0, xMax:10, yMin:0, yMax:10, W:280, H:280,
+                 padL:40, padR:16, padT:16, padB:40, step:2, ...planeOpts };
+  const { xMin, xMax, yMin, yMax } = opts;
+  const iW = opts.W - opts.padL - opts.padR, iH = opts.H - opts.padT - opts.padB;
+  const toX = x => ((x - xMin) / (xMax - xMin) * iW + opts.padL).toFixed(1);
+  const toY = y => (opts.H - opts.padB - (y - yMin) / (yMax - yMin) * iH).toFixed(1);
+  let s = svgPlane(opts).replace('</svg>', '');
+  for (const [px, py] of points)
+    s += `<circle cx="${toX(px)}" cy="${toY(py)}" r="${r}" fill="${color}" stroke="#000" stroke-width="0.5"/>`;
+  return s + `</svg>`;
+}
+
+function svgBoxPlot({ min, q1, median, q3, max, label = '', W = 300, H = 80 } = {}) {
+  const padL = 24, padR = 24, padT = 28, padB = 28;
+  const iW = W - padL - padR, midY = H / 2, boxH = (H - padT - padB) * 0.65;
+  const toX = v => ((v - min) / (max - min) * iW + padL).toFixed(1);
+  let s = `<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:6px auto;font-family:Arial,sans-serif;font-size:9px;">`;
+  if (label) s += `<text x="${W/2}" y="${padT - 6}" text-anchor="middle" font-size="11" fill="#000">${label}</text>`;
+  s += `<line x1="${toX(min)}" y1="${midY}" x2="${toX(max)}" y2="${midY}" stroke="#000" stroke-width="1.5"/>`;
+  s += `<rect x="${toX(q1)}" y="${midY - boxH/2}" width="${(+toX(q3) - +toX(q1)).toFixed(1)}" height="${boxH}" fill="#fff" stroke="#000" stroke-width="1.5"/>`;
+  s += `<line x1="${toX(median)}" y1="${midY - boxH/2}" x2="${toX(median)}" y2="${midY + boxH/2}" stroke="#000" stroke-width="2"/>`;
+  for (const v of [min, max]) {
+    s += `<line x1="${toX(v)}" y1="${midY - boxH*0.4}" x2="${toX(v)}" y2="${midY + boxH*0.4}" stroke="#000" stroke-width="1.5"/>`;
+    s += `<text x="${toX(v)}" y="${midY + boxH/2 + 14}" text-anchor="middle" fill="#000">${v}</text>`;
+  }
+  for (const v of [q1, median, q3])
+    s += `<text x="${toX(v)}" y="${midY + boxH/2 + 14}" text-anchor="middle" fill="#000">${v}</text>`;
+  return s + `</svg>`;
+}
+
+function svgBarGraph({ labels = [], values = [], yLabel = '', W = 280, H = 200,
+                       padL = 44, padR = 16, padT = 20, padB = 44, barColor = '#333' } = {}) {
+  const maxVal = Math.max(...values, 1), iH = H - padT - padB, iW = W - padL - padR;
+  const toY = v => (padT + (1 - v / maxVal) * iH).toFixed(1);
+  const barW = iW / labels.length;
+  let s = `<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:6px auto;font-family:Arial,sans-serif;font-size:10px;">`;
+  s += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H-padB}" stroke="#000" stroke-width="1.5"/>`;
+  s += `<line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#000" stroke-width="1.5"/>`;
+  if (yLabel) s += `<text x="${padL-32}" y="${H/2}" text-anchor="middle" transform="rotate(-90,${padL-32},${H/2})" font-size="11" fill="#000">${yLabel}</text>`;
+  for (let i = 0; i < labels.length; i++) {
+    const bx = (padL + i * barW + barW * 0.1).toFixed(1);
+    const bw = (barW * 0.8).toFixed(1);
+    const by = toY(values[i]);
+    const bh = (H - padB - +by).toFixed(1);
+    s += `<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" fill="${barColor}" stroke="#000" stroke-width="0.5"/>`;
+    s += `<text x="${(+bx + +bw/2).toFixed(1)}" y="${H-padB+14}" text-anchor="middle">${labels[i]}</text>`;
+    s += `<text x="${(+bx + +bw/2).toFixed(1)}" y="${+by-3}" text-anchor="middle" font-size="9">${values[i]}</text>`;
+  }
+  return s + `</svg>`;
+}
+
 const QUESTION_BANK = [
   {
     id: 'Q01',
@@ -1398,6 +1516,300 @@ const QUESTION_BANK = [
       9: 'Divide by 2 first: x²−2x−3=0. Pair that multiplies to −3, adds to −2: −3 and 1 → roots 3 and −1.'
     },
     errorTags: ['forgot_leading_coefficient', 'sign_error_on_roots']
+  },
+
+  // ── June 2025 Algebra I Regents — Part I ────────────────────────────────────
+
+  {
+    id: 'Q25',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 25,
+    standard: 'F.LE.1',
+    stem: 'Which scenario best represents an exponential relationship?',
+    choices: [
+      { label: '1', text: "Kirsten's New Year's resolution is to lose one pound each week." },
+      { label: '2', text: 'Sarah wants to increase her grade by 5 points each quarter.' },
+      { label: '3', text: 'Tommy wants to reduce his spending by $50 each month.' },
+      { label: '4', text: 'Dylan hopes to grow his business by 5% each month.' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Exponential changes by a constant factor (multiplier) each period. (4) grows 5% each month → multiply by 1.05 each time → exponential. (1)(2)(3) each add or subtract a fixed amount each period → linear.',
+      10: 'Eliminate (1)(2)(3): each changes by a fixed amount (−1 lb, +5 pts, −$50) → linear. Only (4) describes a percentage change → must be exponential.'
+    },
+    errorTags: ['misidentifies_percentage_growth_as_linear']
+  },
+
+  {
+    id: 'Q26',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 26,
+    standard: 'S.ID.2',
+    stem: `The geometry test scores for Andrea and Joe are shown below.${svgTable(
+      ['', 'Test 1', 'Test 2', 'Test 3', 'Test 4'],
+      [['Andrea', '82', '87', '90', '84'], ['Joe', '91', '78', '94', '67']]
+    )}Which statement about their test scores is correct?`,
+    choices: [
+      { label: '1', text: "Both the mean and standard deviation of Andrea's test scores are higher than Joe's." },
+      { label: '2', text: "Both the mean and standard deviation of Joe's test scores are higher than Andrea's." },
+      { label: '3', text: "The mean of Andrea's test scores is higher than Joe's, but Joe's standard deviation is higher than Andrea's." },
+      { label: '4', text: "The mean of Joe's test scores is higher than Andrea's, but Andrea's standard deviation is higher than Joe's." }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: "Andrea's mean: (82+87+90+84)/4 = 85.75. Joe's mean: (91+78+94+67)/4 = 82.5. Andrea's mean is higher. Spread: Andrea's range = 8, Joe's range = 27 → Joe's std dev is larger. Answer (3) matches both.",
+      10: "Joe's 67 drags his mean below Andrea's tight 80s cluster → eliminate (2)(4). Joe's wild spread (67 to 94) means higher std dev than Andrea's compact scores → eliminate (1). Only (3) remains."
+    },
+    errorTags: ['confuses_mean_and_spread', 'ignores_outlier_effect_on_spread']
+  },
+
+  {
+    id: 'Q27',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 27,
+    standard: 'A.APR.1',
+    stem: 'Which polynomial has a degree of 3 and a leading coefficient of 2?',
+    choices: [
+      { label: '1', text: '2x² + 3x + 1' },
+      { label: '2', text: '6x³ + 3x² − 2x' },
+      { label: '3', text: '3x² + 2x + 2' },
+      { label: '4', text: '2x³ + x² + 4x' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Degree = highest exponent; leading coefficient = its coefficient. Target: degree 3, leading coeff 2. (4) 2x³ → degree 3 ✓, leading coeff 2 ✓. (2) 6x³ has right degree but leading coeff 6 ≠ 2.',
+      10: 'Kill (1)(3): highest power is x², degree 2 not 3. Kill (2): 6x³ → leading coeff 6 ≠ 2. Only (4): 2x³ satisfies both conditions.'
+    },
+    errorTags: ['confuses_degree_with_leading_coefficient', 'ignores_leading_coefficient']
+  },
+
+  {
+    id: 'Q28',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 28,
+    standard: 'A.APR.1',
+    stem: 'The expression (−3x² + 9) − (7x² − 5x + 4) is equivalent to',
+    choices: [
+      { label: '1', text: '−10x² + 5x + 5' },
+      { label: '2', text: '−10x² + 5x + 13' },
+      { label: '3', text: '−10x² − 5x + 5' },
+      { label: '4', text: '−10x² − 5x + 13' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9, 3],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Distribute the negative: −3x² + 9 − 7x² + 5x − 4. Combine: (−3−7)x² = −10x², +5x stays, 9−4 = 5. Result: −10x² + 5x + 5.',
+      3: 'Store x=1: (−3+9)−(7−5+4) = 6−6 = 0. Test (1): −10+5+5 = 0 ✓. Test (3): −10−5+5 = −10 ✗.'
+    },
+    errorTags: ['forgot_distribute_negative', 'sign_error_on_middle_term']
+  },
+
+  {
+    id: 'Q29',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 29,
+    standard: 'F.IF.6',
+    stem: `The function h(x) gives the average height, in inches, of a tomato plant x weeks after transplanting.${svgTable(
+      ['x (weeks)', '2', '4', '6', '9', '12', '16'],
+      [['h(x) (inches)', '6', '12', '24', '51', '60', '64']]
+    )}Between weeks 4 and 12, the average rate of change, in inches per week, is`,
+    choices: [
+      { label: '1', text: '6' },
+      { label: '2', text: '8' },
+      { label: '3', text: '48' },
+      { label: '4', text: '58' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9, 4],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Rate of change = (h(12) − h(4)) / (12 − 4) = (60 − 12) / 8 = 48 / 8 = 6 inches per week.',
+      4: 'Read from table: h(4)=12, h(12)=60. Change in output = 60−12 = 48. Change in input = 12−4 = 8. Rate = 48/8 = 6.'
+    },
+    errorTags: ['reports_change_in_output_not_rate', 'uses_wrong_interval_endpoints']
+  },
+
+  {
+    id: 'Q30',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 30,
+    standard: 'A.REI.4',
+    stem: 'Chloe is solving the equation x² + 5x = 3x + 3. Her first step gives x² + 2x − 3 = 0. Which property justifies this step?',
+    choices: [
+      { label: '1', text: 'the zero product property' },
+      { label: '2', text: 'the commutative property' },
+      { label: '3', text: 'the distributive property' },
+      { label: '4', text: 'the subtraction property of equality' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'From x²+5x = 3x+3 to x²+2x−3=0: she subtracted 3x and 3 from both sides. Subtracting from both sides = subtraction property of equality.',
+      10: 'Zero product property follows factoring — not done yet. Commutative reorders terms. Distributive needs parentheses. Only (4) matches moving terms across the equals sign.'
+    },
+    errorTags: ['confuses_zero_product_with_subtraction_property']
+  },
+
+  {
+    id: 'Q31',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 31,
+    standard: 'F.BF.3',
+    stem: 'Which function represents the graph of w(x) = |x| shifted 2 units to the right?',
+    choices: [
+      { label: '1', text: 'g(x) = |x + 2|' },
+      { label: '2', text: 'h(x) = |x − 2|' },
+      { label: '3', text: 'q(x) = |x| + 2' },
+      { label: '4', text: 'r(x) = |x| − 2' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [9, 3],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Horizontal shift RIGHT by h units: replace x with (x−h). Right 2 → |x−2|. (1) |x+2| shifts LEFT. (3)(4) shift vertically, not horizontally.',
+      3: 'Vertex of w(x)=|x| is (0,0). Shifted right 2 → vertex should move to (2,0). Test h(2)=|2−2|=0 ✓. Test g(2)=|2+2|=4 ✗.'
+    },
+    errorTags: ['horizontal_shift_direction_reversed']
+  },
+
+  {
+    id: 'Q32',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 32,
+    standard: 'A.REI.6',
+    stem: 'Given the system y + 4x = 5 and 2x − 3y = 10, a step in solving by substitution would be',
+    choices: [
+      { label: '1', text: '2(5 − 4x) + 4x = 5' },
+      { label: '2', text: '2(5 + 4x) + 4x = 5' },
+      { label: '3', text: '2x − 3(5 − 4x) = 10' },
+      { label: '4', text: '2x − 3(5 + 4x) = 10' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [9, 1],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Solve eq 1 for y: y = 5 − 4x. Substitute into eq 2 (2x − 3y = 10), replacing y: 2x − 3(5 − 4x) = 10. Answer (3).',
+      1: 'Y= Intersection finds the answer graphically. For the algebraic step: isolate y=5−4x from eq 1, then substitute into eq 2 → 2x−3(5−4x)=10, which is (3).'
+    },
+    errorTags: ['substitutes_into_wrong_equation', 'wrong_sign_when_isolating_y']
+  },
+
+  {
+    id: 'Q33',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 33,
+    standard: 'A.REI.4',
+    stem: 'Which equation is equivalent to x² − 6x = 27?',
+    choices: [
+      { label: '1', text: '(x − 3)² = 27 − 9' },
+      { label: '2', text: '(x − 3)² = 27 + 9' },
+      { label: '3', text: '(x − 3)² = 27 + 36' },
+      { label: '4', text: '(x − 3)² = 27 − 36' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [9, 2],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Complete the square: half of −6 is −3; (−3)²=9. Add 9 to BOTH sides: x²−6x+9 = 27+9. Left side = (x−3)². So (x−3)²=27+9.',
+      2: 'Y1=X²−6X−27. Zeros are ≈−3 and 9. Check: if (x−3)²=36=27+9, roots are x=3±6 → x=9 and x=−3 ✓. Answer (2).'
+    },
+    errorTags: ['adds_to_only_one_side', 'wrong_value_when_completing_square']
+  },
+
+  {
+    id: 'Q34',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 34,
+    standard: 'N.RN.3',
+    stem: 'The sum of √3 and √5 is',
+    choices: [
+      { label: '1', text: 'rational, since the sum can be expressed as an integer' },
+      { label: '2', text: 'rational, since the sum can be expressed as a nonterminating decimal' },
+      { label: '3', text: 'irrational, since the sum can be expressed as a terminating decimal' },
+      { label: '4', text: 'irrational, since the sum cannot be expressed as a terminating or repeating decimal' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: '√3 ≈ 1.732… and √5 ≈ 2.236… — both non-terminating, non-repeating. Their sum ≈ 3.968… is also non-terminating non-repeating → irrational. Answer (4).',
+      10: 'Eliminate (1): sum is not an integer. Eliminate (2): nonterminating BUT repeating would be rational — √3+√5 does not repeat. Eliminate (3): a terminating decimal is rational, contradicting "irrational". Only (4) is correct.'
+    },
+    errorTags: ['assumes_irrational_plus_irrational_is_rational', 'confuses_nonterminating_with_irrational']
+  },
+
+  {
+    id: 'Q35',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 35,
+    standard: 'A.SSE.2',
+    stem: 'Which expression is equivalent to a⁸ − b⁶?',
+    choices: [
+      { label: '1', text: '(a⁴ − b³)²' },
+      { label: '2', text: '(a⁶ − b⁴)²' },
+      { label: '3', text: '(a⁴)² − (b³)²' },
+      { label: '4', text: '(a⁶)² − (b⁴)²' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'a⁸ − b⁶ = (a⁴)² − (b³)². Recognize as difference of two squares X²−Y² where X=a⁴, Y=b³. Answer (3) shows this directly without expanding.',
+      10: 'Eliminate (1)(2): squaring a binomial (a−b)² = a²−2ab+b² produces a middle term — so these expand to a⁸−2a⁴b³+b⁶ ≠ a⁸−b⁶. Eliminate (4): (a⁶)²−(b⁴)²=a¹²−b⁸ ≠ a⁸−b⁶. Only (3) works.'
+    },
+    errorTags: ['treats_difference_of_squares_as_square_of_difference']
+  },
+
+  {
+    id: 'Q36',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 36,
+    standard: 'A.CED.1',
+    stem: "The sum of Tim's age and Jack's age is 44. Tim's age is 4 less than 7 times Jack's age, x. An equation that could be used to model this scenario is",
+    choices: [
+      { label: '1', text: '(7x − 4) + x = 44' },
+      { label: '2', text: '(4 − 7x) + x = 44' },
+      { label: '3', text: '7x − 4 = 44' },
+      { label: '4', text: '4 − 7x = 44' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9, 3],
+    bestLens: 9,
+    walkthroughs: {
+      9: "Jack's age = x. Tim's age = 7x−4 (4 less than 7 times Jack's). Their sum = 44: (7x−4)+x=44. Answer (1).",
+      3: 'Try x=6: Tim=7(6)−4=38. Sum=38+6=44 ✓. Test (1): (42−4)+6=44 ✓. Test (3): 38≠44 ✗.'
+    },
+    errorTags: ['omits_one_persons_age_from_sum', 'reverses_subtraction_direction']
+  },
+
+  {
+    id: 'Q37',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 37,
+    standard: 'F.LE.2',
+    stem: 'Which equation represents the sequence 12, 6, 3, 3/2, …, where a₁ = 12?',
+    choices: [
+      { label: '1', text: 'aₙ = 12 · (1/2)^(n − 1)' },
+      { label: '2', text: 'aₙ = 12 · (1/2)^n' },
+      { label: '3', text: 'aₙ = 12 · 2^(n − 1)' },
+      { label: '4', text: 'aₙ = 12 · 2^n' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9, 4],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Common ratio: 6/12=1/2, 3/6=1/2 — geometric with r=1/2. Explicit formula: aₙ=a₁·r^(n−1)=12·(1/2)^(n−1). Check: a₁=12·1=12 ✓, a₂=12·(1/2)=6 ✓.',
+      4: 'Enter n values 1,2,3,4 in L1; 12,6,3,1.5 in L2. Each ratio L2/L2prev = 0.5. Geometric formula with r=1/2: aₙ=12·(1/2)^(n−1).'
+    },
+    errorTags: ['off_by_one_in_exponent', 'confuses_geometric_with_r_equals_2']
   }
 ];
 
