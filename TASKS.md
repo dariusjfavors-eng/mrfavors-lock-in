@@ -1,6 +1,6 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-09 (session 2)
+Last updated: 2026-05-10 (session 3 — phase 2 handoff)
 
 ---
 
@@ -31,6 +31,39 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 ---
 
 ## Open (priority order)
+
+---
+
+## Phase 2 — Question Bank Expansion (June 2025 + 2026 Regents, image-bearing questions)
+
+> Read the phase 2 plan before starting. Source: docs/prompts/GRILL_ME_PROMPT.md was run.
+> SVG accuracy is non-negotiable — wrong graphs teach wrong math.
+
+### Starting Checklist
+1. Pull June 2026 and June 2025 Algebra I Regents Part I PDFs from nysedregents.org
+2. Author SVG helper functions before writing any image questions
+3. Apply SVG accuracy protocol: derive pixel coords from math, verify every point
+4. Run `window.runPuzzleTests()` after every batch of 6 new questions
+
+### Open
+- [ ] Author `svgPlane()`, `svgGraph()`, `svgTable()`, `svgScatter()`, `svgBoxPlot()`, `svgBarGraph()` helpers at top of QUESTION_BANK block
+- [ ] June 2026 Part I — text-only questions (~16 of 24, verbatim from exam)
+- [ ] June 2026 Part I — image questions (~8 of 24, inline SVG, accuracy protocol required)
+- [ ] June 2025 Part I — text-only questions (post-shift format, verbatim)
+- [ ] June 2025 Part I — image questions (inline SVG, accuracy protocol required)
+- [ ] Part II–style MC: S.ID.1/2/5/6 (box plots, scatter plots, two-way frequency tables)
+- [ ] Part II–style MC: F.IF.1/9, F.BF.3, A.REI.11 (graph-reading questions)
+- [ ] Browser QA — SVG rendering at 1366×768 in both Practice and Challenge modes
+
+### Out of Scope (this phase)
+- New lenses — 10 lenses are sufficient for all new questions
+- New modes or renderers — zero code changes needed; SVG works in stem today
+- External image files — inline SVG only, single-file constraint holds
+- MathJax or KaTeX — Unicode math characters sufficient (², −, ≤, ≥, π)
+
+---
+
+## Phase 1 — Deployment
 
 - [ ] **Deploy Cloudflare Worker** — activate FAVORit endpoint; paste URL via `localStorage.setItem('favoritWorkerUrl', 'https://...')` on host device
 - [ ] **GitHub Pages deployment** — publish `games/regents-mc-trainer/index.html` so it can be embedded in Google Sites
