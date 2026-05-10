@@ -71,6 +71,7 @@ home → challenge:
 | `startChallengeTimer()` | `setInterval` at 1s; updates `#timer-bar` and `#timer-text` by ID after re-render |
 | `challengePickAnswer(label)` | Sets `_challengeSelectedChoice`, calls `render()` — no DOM mutation |
 | `ANALYTICS.log(type, payload)` | Pushes to `ANALYTICS.events[]`, console, and fires POST if `localStorage('favoritWorkerUrl')` is set |
+| `showRail(visible, showHint)` | Shows/hides `#persistent-rail` (the static TI-84 aside outside `<main>`); optionally hides `#lens-hint-card`. Called by all renderers: `true/true` in practice, `true/false` on active challenge question, `false/false` everywhere else |
 
 ### Choice Schema
 
@@ -127,4 +128,5 @@ No star field, no orbs, no gradients, no texture. This is an intentional DESIGN_
 
 ## 7. LAST SESSION LOG
 
+- 2026-05-09 (session 2) — Persistent calculator pass: TI-84 iframe moved to static `#persistent-rail` outside `<main>` (no reload on question advance); calculator added to Challenge Mode; loading screen hardcoded "Mister Favors" / "HSES-ALG1". Layout: `.practice-wrap` grid removed; `#content-row` flex + `#persistent-rail` flex child added. `showRail()` helper added to UI_RENDER. 24/24 self-tests pass.
 - 2026-05-09 — v1.0 shipped: white exam-paper theme, 10 lenses, 15 questions, Practice Mode, Challenge Mode with 90s per-question timer and per-standard results report. CONTEXT.md and TASKS.md written.

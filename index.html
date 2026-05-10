@@ -380,12 +380,7 @@ html, body {
 /* ============================================================================
    PRACTICE MODE
 ============================================================================ */
-.practice-wrap {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 24px;
-}
-@media (max-width: 920px) { .practice-wrap { grid-template-columns: 1fr; } }
+/* .practice-wrap grid removed — two-column layout now handled by #content-row */
 
 .problem-meta {
   display: flex;
@@ -612,6 +607,27 @@ html, body {
 }
 
 .hidden { display: none !important; }
+
+/* ============================================================================
+   CONTENT ROW — main + persistent rail
+============================================================================ */
+#content-row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+#main {
+  flex: 1 1 0;
+  min-width: 0;
+}
+#persistent-rail {
+  flex: 0 0 360px;
+  width: 360px;
+}
+@media (max-width: 920px) {
+  #content-row { flex-direction: column; }
+  #persistent-rail { flex: 0 0 auto; width: 100%; }
+}
 </style>
 </head>
 
@@ -631,7 +647,29 @@ html, body {
     <button data-view="challenge">Challenge</button>
   </nav>
 
-  <main id="main"></main>
+  <div id="content-row">
+    <main id="main"></main>
+
+    <aside id="persistent-rail" class="side-rail hidden">
+      <div class="rail-card" style="padding:12px;">
+        <h4>TI-84 Online</h4>
+        <iframe
+          src="https://ti84online.com"
+          title="TI-84 Calculator Emulator"
+          class="ti-iframe"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          loading="lazy"
+        ></iframe>
+        <div class="ti-fallback">
+          Blank? <a href="https://ti84online.com" target="_blank" rel="noopener">Open standalone &nearr;</a>
+        </div>
+      </div>
+      <div class="rail-card" id="lens-hint-card">
+        <h4>Lens Hint</h4>
+        <p id="lens-hint-text"></p>
+      </div>
+    </aside>
+  </div>
 
   <footer class="footer">
     <span>Anon session &middot; No PII</span>
@@ -1431,7 +1469,15 @@ function choiceLayout(q) {
 /* ============================================================================
    MODULE: UI_RENDER
 ============================================================================ */
-const main = document.getElementById('main');
+const main          = document.getElementById('main');
+const _rail         = document.getElementById('persistent-rail');
+const _lensHintCard = document.getElementById('lens-hint-card');
+const _lensHintText = document.getElementById('lens-hint-text');
+
+function showRail(visible, showHint) {
+  _rail.classList.toggle('hidden', !visible);
+  if (_lensHintCard) _lensHintCard.classList.toggle('hidden', !showHint);
+}
 
 function render() {
   if (STATE.view === 'home')      return renderHome();
@@ -1442,6 +1488,7 @@ function render() {
 
 /* ---- HOME ---- */
 function renderHome() {
+  showRail(false, false);
   main.innerHTML = `
     <div class="cover">
       <div class="cover-institution">The University of the State of New York</div>
@@ -1449,8 +1496,8 @@ function renderHome() {
       <div class="cover-subject">ALGEBRA I</div>
       <div class="cover-subtitle">Mr. Favors&rsquo; Regents Lock-In &mdash; MC Trainer</div>
 
-      <div class="cover-field">Student Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-      <div class="cover-field" style="margin-bottom: 0;">School Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <div class="cover-field">Student Name: &nbsp;Mister Favors</div>
+      <div class="cover-field" style="margin-bottom: 0;">School Name: &nbsp;HSES-ALG1</div>
 
       <hr class="cover-divider">
       <div class="cover-mode-title">Part I &mdash; Select a Mode</div>
@@ -1471,6 +1518,7 @@ function renderHome() {
 
 /* ---- LIBRARY ---- */
 function renderLibrary() {
+  showRail(false, false);
   if (STATE.selectedLensId) return renderLensDetail();
 
   const cards = LENSES.map(L => `
@@ -1619,39 +1667,17 @@ function renderPractice() {
   }
 
   main.innerHTML = `
-    <div class="practice-wrap">
-      <div>
-        <div class="problem-meta">
-          <span>Question ${STATE.practice.cursor + 1} of ${STATE.practice.queue.length} &middot; ${Q.exam}</span>
-          <span>${Q.standard}</span>
-        </div>
-        <div class="problem-stem">${Q.stem}</div>
-        ${body}
-      </div>
-
-      <aside class="side-rail">
-        <div class="rail-card" style="padding:12px;">
-          <h4>TI-84 Online</h4>
-          <iframe
-            src="https://ti84online.com"
-            title="TI-84 Calculator Emulator"
-            class="ti-iframe"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-            loading="lazy"
-          ></iframe>
-          <div class="ti-fallback">
-            Blank? <a href="https://ti84online.com" target="_blank" rel="noopener">Open standalone &nearr;</a>
-          </div>
-        </div>
-        <div class="rail-card">
-          <h4>Lens Hint</h4>
-          <p>${phase === 'lens-pick'
-            ? 'What is the question asking for? An x-value? Roots? An equivalent expression? That tells you the lens family.'
-            : 'Lens locked. Use the walkthrough as your script.'}</p>
-        </div>
-      </aside>
+    <div class="problem-meta">
+      <span>Question ${STATE.practice.cursor + 1} of ${STATE.practice.queue.length} &middot; ${Q.exam}</span>
+      <span>${Q.standard}</span>
     </div>
+    <div class="problem-stem">${Q.stem}</div>
+    ${body}
   `;
+  showRail(true, true);
+  _lensHintText.textContent = phase === 'lens-pick'
+    ? 'What is the question asking for? An x-value? Roots? An equivalent expression? That tells you the lens family.'
+    : 'Lens locked. Use the walkthrough as your script.';
 }
 
 /* ---- CHALLENGE ---- */
@@ -1659,6 +1685,7 @@ function renderChallenge() {
   const C = STATE.challenge;
 
   if (!C.started) {
+    showRail(false, false);
     main.innerHTML = `
       <div class="section-title">Challenge Mode</div>
       <div class="section-sub">Regents simulation &middot; timed &middot; no hints</div>
@@ -1700,6 +1727,7 @@ function renderChallenge() {
     ? `<div class="btn-row"><button class="btn" onclick="challengeNext()">Next &rarr;</button></div>`
     : '';
 
+  showRail(true, false);
   main.innerHTML = `
     <div class="problem-meta">
       <span>Question ${C.cursor + 1} of ${C.queue.length}</span>
@@ -1716,6 +1744,7 @@ function renderChallenge() {
 }
 
 function renderChallengeResults() {
+  showRail(false, false);
   const C = STATE.challenge;
   const total = C.answers.length;
   const correct = C.answers.filter(a => a.correct).length;
@@ -1821,6 +1850,7 @@ function nextPracticeQ() {
 }
 
 function renderPracticeComplete() {
+  showRail(false, false);
   main.innerHTML = `
     <div style="max-width:480px; margin: 40px auto; text-align:center;">
       <div class="section-title" style="text-align:center; border:none;">Practice Complete</div>
