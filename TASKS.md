@@ -35,9 +35,9 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 - [x] **Expand question bank to 24 questions** — Q16–Q24 added covering A.REI.4, A.REI.12, N.RN.2, F.IF.7, A.CED.2, A.APR.3, F.IF.5, G.GPE.5 — 2026-05-09
 - [x] **Wire FAVORit Sheets endpoint** — fetch() is live; URL stored in localStorage (never in code); run `localStorage.setItem('favoritWorkerUrl', 'https://...')` once in the browser console on the host device — 2026-05-09
 - [x] **Add `window.runPuzzleTests()`** — self-test hook verifies: (a) all 24 questions have exactly 4 choices with labels '1'–'4', (b) correctAnswer is one of the 4 labels, (c) bestLens is in applicableLenses; logs PASS/FAIL per question + summary to console — 2026-05-09
-- [ ] **Browser QA — Chromebook (1366×768)** — verify: fixed page header visible, practice 2-col choice grid readable, TI-84 iframe loads or fallback link shows, challenge timer bar renders correctly
-- [ ] **Register in COMMAND_CENTER.md** — move `regents-mc-trainer` from untracked to the Structured or Build row in `docs/COMMAND_CENTER.md`
-- [ ] **Write UBIQUITOUS_LANGUAGE entries** — add regents-mc-trainer game mechanics (lens, walkthrough, choiceLayout, FAVORit, Part I) to `docs/UBIQUITOUS_LANGUAGE.md`
+- [x] **Browser QA — Chromebook (1366×768)** — all five checks passed: fixed header visible, white #FFFFFF confirmed via computed style, 2-col choice grid (1)(3)/(2)(4) correct, TI-84 iframe loading, Challenge timer depletes and turns #8B0000 at ≤30s — 2026-05-09
+- [x] **Register in COMMAND_CENTER.md** — moved `regents-mc-trainer` entry into COMMAND_CENTER.md — 2026-05-09
+- [x] **Write UBIQUITOUS_LANGUAGE entries** — added Regents Lock-In Module Map (8 modules + interfaces) and Game Mechanics (19 terms: lens, choiceLayout, Practice/Challenge phases, FAVORit, _challengeSelectedChoice, Part I scope) — 2026-05-09
 
 ---
 
