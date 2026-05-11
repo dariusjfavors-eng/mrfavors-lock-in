@@ -2652,6 +2652,32 @@ const QUESTION_BANK = [
       10: 'Eliminate (3) and (4): C is a vertical line — fails VLT immediately. Eliminate (1): B is a horizontal line — it IS a function. Answer: A and B only.'
     },
     errorTags: ['fails_vertical_line_test', 'confuses_vertical_with_horizontal']
+  },
+  {
+    id: 'Q72',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 23,
+    standard: 'F.IF.4',
+    stem: 'The axis of symmetry is x = 2 for which quadratic function?',
+    choices: [
+      { label: '1', text: (() => {
+          return svgGraph(
+            { xMin:-3, xMax:5, yMin:-5, yMax:6, W:180, H:160, padL:32, padR:16, padT:16, padB:32, step:1 },
+            [{ fn: function(x){ return x*x - 2*x - 3; }, samples:200 }]
+          ).replace('>y</text>', '>f(x)</text>');
+        })() },
+      { label: '2', text: 'j(x) = 2x² + 8x' },
+      { label: '3', text: svgTable(['x', 'g(x)'], [[-2, 6], [-1, 3], [0, 2], [1, 3], [2, 6]]) },
+      { label: '4', text: 'h(x) = x² − 4x − 5' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [7, 9],
+    bestLens: 7,
+    walkthroughs: {
+      7: 'Graph each algebraic choice in Y= on the TI-84. Press 2nd TRACE (CALC) → minimum to find the vertex x-coordinate — that is the axis of symmetry. (2): j(x) = 2x² + 8x → vertex at x = −2, not x = 2 ✗. (4): h(x) = x² − 4x − 5 → vertex at x = 2 ✓. For the table: minimum g(x) = 2 at x = 0 → axis x = 0 ✗. For the graph: vertex at x = 1 ✗.',
+      9: 'Axis of symmetry formula: x = −b/(2a). (2): j(x) = 2x² + 8x → x = −8/(2×2) = −2 ✗. (4): h(x) = x² − 4x − 5 → x = 4/2 = 2 ✓. Table: g(x) symmetric about x = 0 (g(−2)=g(2)=6, min at x=0) → axis x = 0 ✗. Graph: vertex at x = 1 ✗.'
+    },
+    errorTags: ['axis_symmetry_formula', 'misreads_graph_vertex', 'ignores_table_symmetry']
   }
 ];
 

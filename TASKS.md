@@ -1,6 +1,15 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-11 (session 7 — phase 2 session D)
+Last updated: 2026-05-11 (session 9 — phase 2 session E complete)
+
+---
+
+## Phase 2 Session E — Session PRD
+**Design concept:** Author June 2025 Q23 (axis of symmetry — SVG in choices) and any remaining June 2025 Part I questions; audit choice renderer first and patch UI_RENDER only if needed to support innerHTML in choices.
+**Modules touched:** QUESTION_BANK primary; UI_RENDER (choice renderer) only if audit shows textContent is used
+**Interface changes:** Q72 appended to QUESTION_BANK; renderer change (if needed) is minimal — one line, choice interpolation only
+**Out of scope:** Part II–style MC, new lenses, new modes, CSS changes, deployment
+**Done when:** `window.runPuzzleTests()` passes all questions; Q23 choice SVG renders correctly in Practice and Challenge modes; no regression on existing questions
 
 ---
 
@@ -62,10 +71,10 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 4. Run `window.runPuzzleTests()` after every batch of 6 new questions
 
 ### Open
-- [ ] **Session E** — June 2025 Q23 (axis of symmetry — SVG in choices, deferred; requires renderer check) and any remaining Part I questions
 - [ ] Part II–style MC: S.ID.1/2/5/6 (box plots, scatter plots, two-way frequency tables)
 - [ ] Part II–style MC: F.IF.1/9, F.BF.3, A.REI.11 (graph-reading questions)
 ### Done (Phase 2)
+- [x] **Session E** — June 2025 Q23 (axis of symmetry — SVG graph in choice 1, svgTable in choice 3); renderer confirmed innerHTML-safe; no renderer change needed; 72/72 pass — 2026-05-11
 - [x] Browser QA — SVG rendering at 1366×768 for Q59–Q71 in Practice and Challenge modes — 2026-05-11
 - [x] Author `svgPlane()`, `svgGraph()`, `svgTable()`, `svgScatter()`, `svgBoxPlot()`, `svgBarGraph()` helpers — 2026-05-10
 - [x] June 2025 Part I — text-only questions Q25–Q37 (exam Qs 3–11, 14, 15, 17, 22) — 2026-05-10
