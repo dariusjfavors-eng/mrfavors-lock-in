@@ -62,10 +62,10 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 4. Run `window.runPuzzleTests()` after every batch of 6 new questions
 
 ### Open
-- [ ] **Session D** — June 2025 Part I image questions (exam Qs 1, 2, 12, 13, 16, 18, 19, 20, 21, 23, 24) — inline SVG, accuracy protocol required; PDF renders at `/tmp/june2025-exam-p*.png`
+- [ ] **Session E** — June 2025 Q23 (axis of symmetry — SVG in choices, deferred; requires renderer check) and any remaining Part I questions
 - [ ] Part II–style MC: S.ID.1/2/5/6 (box plots, scatter plots, two-way frequency tables)
 - [ ] Part II–style MC: F.IF.1/9, F.BF.3, A.REI.11 (graph-reading questions)
-- [ ] Browser QA — SVG rendering at 1366×768 for Q59–Q61 in Practice and Challenge modes
+- [ ] Browser QA — SVG rendering at 1366×768 for Q59–Q71 in Practice and Challenge modes
 
 ### Done (Phase 2)
 - [x] Author `svgPlane()`, `svgGraph()`, `svgTable()`, `svgScatter()`, `svgBoxPlot()`, `svgBarGraph()` helpers — 2026-05-10
@@ -73,6 +73,8 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 - [x] January 2026 Part I — text-only questions Q38–Q56 (exam Qs 2–4, 6, 8–10, 12–16, 18–24) — corrected from PDF 2026-05-11
 - [x] January 2026 Part I — encoding-ambiguous (Q57 Jan Q5, Q58 Jan Q17) — 2026-05-11
 - [x] January 2026 Part I — image questions Q59 (Jan Q1 parabola), Q60 (Jan Q7 4-graph), Q61 (Jan Q11 4-number-lines) — 2026-05-11
+- [x] June 2025 Part I — text/encoding-ambiguous Q62–Q67 (exam Qs 1,16,18,20,21,24; N.RN.2/3, F.IF.2, A.CED.4, A.REI.3, N.Q.1) — 2026-05-11
+- [x] June 2025 Part I — image questions Q68–Q71 (exam Qs 2,12,13,19; F.IF.4, S.ID.2, F.IF.1×2) — 2026-05-11
 
 ### Out of Scope (this phase)
 - New lenses — 10 lenses are sufficient for all new questions
