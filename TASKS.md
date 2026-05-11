@@ -65,9 +65,8 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 - [ ] **Session E** — June 2025 Q23 (axis of symmetry — SVG in choices, deferred; requires renderer check) and any remaining Part I questions
 - [ ] Part II–style MC: S.ID.1/2/5/6 (box plots, scatter plots, two-way frequency tables)
 - [ ] Part II–style MC: F.IF.1/9, F.BF.3, A.REI.11 (graph-reading questions)
-- [ ] Browser QA — SVG rendering at 1366×768 for Q59–Q71 in Practice and Challenge modes
-
 ### Done (Phase 2)
+- [x] Browser QA — SVG rendering at 1366×768 for Q59–Q71 in Practice and Challenge modes — 2026-05-11
 - [x] Author `svgPlane()`, `svgGraph()`, `svgTable()`, `svgScatter()`, `svgBoxPlot()`, `svgBarGraph()` helpers — 2026-05-10
 - [x] June 2025 Part I — text-only questions Q25–Q37 (exam Qs 3–11, 14, 15, 17, 22) — 2026-05-10
 - [x] January 2026 Part I — text-only questions Q38–Q56 (exam Qs 2–4, 6, 8–10, 12–16, 18–24) — corrected from PDF 2026-05-11
