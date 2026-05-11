@@ -1810,6 +1810,411 @@ const QUESTION_BANK = [
       4: 'Enter n values 1,2,3,4 in L1; 12,6,3,1.5 in L2. Each ratio L2/L2prev = 0.5. Geometric formula with r=1/2: aₙ=12·(1/2)^(n−1).'
     },
     errorTags: ['off_by_one_in_exponent', 'confuses_geometric_with_r_equals_2']
+  },
+  {
+    id: 'Q38',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 2,
+    standard: 'N.RN.3',
+    stem: 'What is the product of √25 and √2?',
+    choices: [
+      { label: '1', text: 'irrational, because it is the product of a rational and an irrational number' },
+      { label: '2', text: 'rational, because both factors are square roots' },
+      { label: '3', text: 'irrational, because both factors are irrational numbers' },
+      { label: '4', text: 'rational, because √25 simplifies to a perfect square' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: '√25 = 5 (rational integer). √2 is irrational. By N.RN.3: a nonzero rational × irrational = irrational. Product = 5√2, which is irrational. Trap (3): √25 is NOT irrational — it equals 5.',
+      10: 'Eliminate trap (3): √25 = 5, a rational number, so "both factors are irrational" is false. Eliminate (2) and (4): product of rational × irrational is never rational. Only (1) states the correct classification and reason.'
+    },
+    errorTags: ['misclassifies_perfect_square_root', 'over_applies_irrational']
+  },
+  {
+    id: 'Q39',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 3,
+    standard: 'A.REI.11',
+    stem: 'What is the solution set of |4x + 2| = 3x + 5?',
+    choices: [
+      { label: '1', text: 'x = 1 and x = −3' },
+      { label: '2', text: 'x = 3 only' },
+      { label: '3', text: 'x = 3 and x = −1' },
+      { label: '4', text: 'x = −1 only' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [1, 3],
+    bestLens: 1,
+    walkthroughs: {
+      1: 'Graph y₁ = |4x + 2| and y₂ = 3x + 5. Use 2nd TRACE → intersect. Intersections at x = −1 and x = 3. Verify: at x=−1, right side = 3(−1)+5=2 ≥ 0 ✓; at x=3, right side = 14 ≥ 0 ✓.',
+      3: 'Case 1: 4x+2 = 3x+5 → x = 3. Case 2: 4x+2 = −(3x+5) → 7x = −7 → x = −1. Check both: |4(3)+2|=14=3(3)+5 ✓; |4(−1)+2|=2=3(−1)+5 ✓.'
+    },
+    errorTags: ['forgets_negative_case', 'extraneous_solution_check']
+  },
+  {
+    id: 'Q40',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 4,
+    standard: 'A.SSE.2',
+    stem: 'Which expression is equivalent to x² − 26x − 120?',
+    choices: [
+      { label: '1', text: '(x + 4)(x − 30)' },
+      { label: '2', text: '(x − 4)(x + 30)' },
+      { label: '3', text: '(x + 6)(x − 20)' },
+      { label: '4', text: '(x − 6)(x + 20)' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [6, 3],
+    bestLens: 6,
+    walkthroughs: {
+      6: 'Need two numbers: product = −120, sum = −26. Try 4 and −30: (4)(−30) = −120 ✓, 4+(−30) = −26 ✓. Factored form: (x+4)(x−30).',
+      3: 'Plug & Check: expand (x+4)(x−30) = x²−30x+4x−120 = x²−26x−120 ✓. Choice (2): gives x²+26x−120 (middle term sign flipped). Choices (3),(4): middle terms are ±14x — wrong.'
+    },
+    errorTags: ['sign_error_in_factoring', 'wrong_factor_pair']
+  },
+  {
+    id: 'Q41',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 6,
+    standard: 'A.APR.1',
+    stem: 'Which polynomial has a degree of 3, a leading coefficient of 2, and a constant term of −6?',
+    choices: [
+      { label: '1', text: 'x³ + 2x − 6' },
+      { label: '2', text: '−2x³ + 5x − 6' },
+      { label: '3', text: '2x² + 5x − 6' },
+      { label: '4', text: '2x³ + 5x² − x − 6' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Check each condition on (4): highest exponent = 3 (degree 3 ✓), coefficient of x³ = 2 ✓, constant term = −6 ✓. Eliminate: (1) leading coeff = 1; (2) leading coeff = −2; (3) degree = 2.',
+      10: 'Eliminate traps: (1) has a 1 in front of x³. (2) leading coefficient is negative (−2 ≠ 2). (3) highest power is 2, not 3. Only (4) satisfies all three conditions.'
+    },
+    errorTags: ['confuses_leading_coeff_sign', 'misidentifies_degree']
+  },
+  {
+    id: 'Q42',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 8,
+    standard: 'F.IF.2',
+    stem: 'The value of an investment is modeled by v(t) = 500(1.08)ᵗ, where t represents the number of years since the investment was made. Which statement best describes this investment?',
+    choices: [
+      { label: '1', text: 'The initial investment was $1.08.' },
+      { label: '2', text: 'The value increases by $1.08 each year.' },
+      { label: '3', text: 'The initial investment was $500.' },
+      { label: '4', text: 'The value increases by 500% each year.' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [9, 4],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'In v(t) = a·bᵗ: a = initial value (at t=0), b = growth factor. v(0) = 500·(1.08)⁰ = 500·1 = 500. Initial investment = $500. The 1.08 means 8% annual growth — not $1.08 per year.',
+      4: 'Build a table: t=0 → 500; t=1 → 540; t=2 → 583.20. The starting value at t=0 is $500 ✓. Growth each period is multiplicative (×1.08), not additive ($1.08).'
+    },
+    errorTags: ['confuses_growth_factor_with_rate', 'misreads_initial_value']
+  },
+  {
+    id: 'Q43',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 9,
+    standard: 'A.CED.4',
+    stem: 'The formula for the surface area of a cylinder is S = 2πr² + 2πrh. Which equation correctly expresses h in terms of S and r?',
+    choices: [
+      { label: '1', text: 'h = (S − 2πr²) / (2πr)' },
+      { label: '2', text: 'h = (S + 2πr²) / (2πr)' },
+      { label: '3', text: 'h = (S − 2πr) / (2πr²)' },
+      { label: '4', text: 'h = (S − 2πr²) / (πr)' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9, 3],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Isolate h step by step: S = 2πr² + 2πrh → S − 2πr² = 2πrh → h = (S − 2πr²)/(2πr). Trap (2): adds 2πr² instead of subtracting. Trap (3): wrong denominator (r² ≠ r). Trap (4): missing the 2 in the denominator.',
+      3: 'Back-substitute choice (1) into S = 2πr² + 2πrh: S = 2πr² + 2πr·(S−2πr²)/(2πr) = 2πr² + S − 2πr² = S ✓.'
+    },
+    errorTags: ['sign_error_in_isolation', 'wrong_denominator_when_solving_for_variable']
+  },
+  {
+    id: 'Q44',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 10,
+    standard: 'A.REI.6',
+    stem: 'Given the system below, what expression could be substituted for y in 2x + 5y = 1 to solve the system algebraically?\n3x − y = 10\n2x + 5y = 1',
+    choices: [
+      { label: '1', text: '−3x + 10' },
+      { label: '2', text: '3x + 10' },
+      { label: '3', text: '3x − 10' },
+      { label: '4', text: '−3x − 10' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [9, 1],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'From 3x − y = 10, isolate y: subtract 3x → −y = 10 − 3x → y = 3x − 10. Substituting into the second equation: 2x + 5(3x − 10) = 1. Trap (1): forgetting to flip both signs gives −3x + 10.',
+      1: 'Graph both equations (rearrange to y= form): y₁ = 3x − 10, y₂ = (1 − 2x)/5. The expression for y substituted from the first equation is y = 3x − 10.'
+    },
+    errorTags: ['sign_error_in_isolation', 'wrong_substitution_expression']
+  },
+  {
+    id: 'Q45',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 12,
+    standard: 'A.REI.3',
+    stem: 'Given the equation 3x − 8 = 22, which property justifies rewriting this equation as 3x = 30?',
+    choices: [
+      { label: '1', text: 'addition property of equality' },
+      { label: '2', text: 'multiplication property of equality' },
+      { label: '3', text: 'commutative property of addition' },
+      { label: '4', text: 'distributive property' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9, 3],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'From 3x − 8 = 22 to 3x = 30: we added 8 to both sides. Adding the same value to both sides is the addition property of equality. No multiplication or distribution occurred in this single step.',
+      3: 'Verify: 3x − 8 + 8 = 22 + 8 → 3x = 30 ✓. The operation was addition. Trap (2): multiplication property involves multiplying/dividing. Trap (3): commutative property just reorders terms — nothing reordered here.'
+    },
+    errorTags: ['confuses_addition_with_multiplication_property', 'property_identification_error']
+  },
+  {
+    id: 'Q46',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 13,
+    standard: 'F.LE.1',
+    stem: 'Which table represents a function that could be modeled by an exponential equation?',
+    choices: [
+      { label: '1', text: 'x: 1, 2, 3, 4, 5   f(x): 3, 6, 9, 12, 15' },
+      { label: '2', text: 'x: 1, 2, 3, 4, 5   f(x): 3, 6, 12, 24, 48' },
+      { label: '3', text: 'x: 1, 2, 3, 4, 5   f(x): 3, 7, 13, 21, 31' },
+      { label: '4', text: 'x: 1, 2, 3, 4, 5   f(x): 5, 8, 11, 14, 17' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [4, 9],
+    bestLens: 4,
+    walkthroughs: {
+      4: 'Enter f(x) values in L2 and compute consecutive ratios in L3 = L2/lag(L2). Choice (2): 6/3=2, 12/6=2, 24/12=2, 48/24=2 — constant ratio → exponential (f(x)=3·2^(x−1)). Choices (1),(4): constant differences → linear. Choice (3): differences 4,6,8,10 → quadratic.',
+      9: 'Exponential functions have a constant multiplicative ratio between consecutive outputs. Only choice (2) multiplies by 2 each step. Choices (1),(4) add a constant. Choice (3) increases by larger amounts each step (quadratic pattern).'
+    },
+    errorTags: ['confuses_constant_ratio_with_constant_difference', 'misidentifies_quadratic_as_exponential']
+  },
+  {
+    id: 'Q47',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 14,
+    standard: 'F.IF.2',
+    stem: 'If f(x) = √(x + 1) + 5, what is the value of f(3)?',
+    choices: [
+      { label: '1', text: '6' },
+      { label: '2', text: '7' },
+      { label: '3', text: '8' },
+      { label: '4', text: '9' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [3, 9],
+    bestLens: 3,
+    walkthroughs: {
+      3: 'Substitute x = 3: f(3) = √(3+1) + 5 = √4 + 5 = 2 + 5 = 7. Trap (1): forgetting the +5, computing only √4 = 2. Trap (4): computing √(3+1+5) = √9 = 3 (wrong — the +5 is outside the radical).',
+      9: 'Structure: f(x) = √(x+1) + 5. The +5 is added after taking the square root, not inside. At x=3: radicand = 4, √4 = 2, then 2 + 5 = 7.'
+    },
+    errorTags: ['order_of_operations_error', 'forgets_constant_term']
+  },
+  {
+    id: 'Q48',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 15,
+    standard: 'F.BF.3',
+    stem: 'The function f(x) = (x + 5)² − 2 is shifted 3 units to the left to create a new function g(x). What is the equation of g(x)?',
+    choices: [
+      { label: '1', text: 'g(x) = (x + 2)² − 2' },
+      { label: '2', text: 'g(x) = (x + 8)² − 2' },
+      { label: '3', text: 'g(x) = (x + 5)² + 1' },
+      { label: '4', text: 'g(x) = (x + 5)² − 5' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [9, 7],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Shift left h units: replace x with (x+h). Left 3: g(x) = ((x+3)+5)² − 2 = (x+8)² − 2. Trap (1): shift right 3 gives (x+2)²−2. Traps (3),(4): vertical shifts, not horizontal.',
+      7: 'Vertex of f is at (−5, −2). Shift left 3: new vertex = (−8, −2). Vertex form: g(x) = (x − (−8))² − 2 = (x+8)² − 2.'
+    },
+    errorTags: ['shift_direction_error', 'confuses_horizontal_with_vertical_shift']
+  },
+  {
+    id: 'Q49',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 16,
+    standard: 'A.APR.3',
+    stem: 'What are all the zeros of f(x) = x(x² − 36)?',
+    choices: [
+      { label: '1', text: '0 and 6, only' },
+      { label: '2', text: '0 and −6, only' },
+      { label: '3', text: '6 and −6, only' },
+      { label: '4', text: '0, 6, and −6' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [2, 9],
+    bestLens: 2,
+    walkthroughs: {
+      2: 'Enter f(x) = x(x²−36) in Y=. Graph and find all zeros using 2nd TRACE → zero. Three zeros: x = −6, x = 0, x = 6. f is degree 3, so up to 3 zeros is expected.',
+      9: 'Factor completely: x(x²−36) = x(x−6)(x+6). Set each factor to zero: x=0, x=6, x=−6. Traps: (1) missing −6; (2) missing 6; (3) missing the factor of x, so missing the zero at 0.'
+    },
+    errorTags: ['misses_zero_at_origin', 'incomplete_factoring_of_difference_of_squares']
+  },
+  {
+    id: 'Q50',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 18,
+    standard: 'S.ID.5',
+    stem: `A survey of 400 students asked them to choose their preferred lunch and drink. The results are shown below.${svgTable(
+      ['', 'Water', 'Juice', 'Total'],
+      [['Pizza', '58', '142', '200'], ['Salad', '80', '120', '200'], ['Total', '138', '262', '400']]
+    )}What is the relative frequency of students who chose pizza and water?`,
+    choices: [
+      { label: '1', text: '0.420' },
+      { label: '2', text: '0.290' },
+      { label: '3', text: '0.345' },
+      { label: '4', text: '0.145' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Relative frequency = joint cell / grand total. Pizza AND Water = 58. Grand total = 400. RF = 58/400 = 0.145. Traps: (1) = 58/138 (conditional given water); (2) = 58/200 (conditional given pizza); (3) = 138/400 (water column total / grand total).',
+      10: 'Eliminate traps: "relative frequency of pizza AND water" requires the grand total (400) as denominator. Choices (1),(2),(3) all divide by marginal totals (138 or 200), not the grand total. Only (4) uses 58/400.'
+    },
+    errorTags: ['uses_marginal_total_instead_of_grand_total', 'confuses_conditional_with_joint_frequency']
+  },
+  {
+    id: 'Q51',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 19,
+    standard: 'N.Q.1',
+    stem: 'A person jogs at a rate of 6 miles per hour. Which expression can be used to find this speed in feet per second? (1 mile = 5,280 feet)',
+    choices: [
+      { label: '1', text: '6 × 5280 ÷ 3600' },
+      { label: '2', text: '6 ÷ 5280 × 3600' },
+      { label: '3', text: '6 × 3600 ÷ 5280' },
+      { label: '4', text: '6 ÷ 5280 ÷ 3600' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [10, 9],
+    bestLens: 10,
+    walkthroughs: {
+      10: 'Trap: (3) multiplies by 3600 hr — that keeps the hours unit instead of canceling it. Unit chain: (6 mi/hr)·(5280 ft/mi)·(1 hr/3600 s) = 6×5280÷3600 ft/s. Only (1) matches.',
+      9: 'Dimensional analysis: miles cancel with 5280 ft/mi (multiply). Hours cancel with 1 hr/3600 s (divide). Result: 6×5280÷3600 = 8.8 ft/s.'
+    },
+    errorTags: ['inverts_conversion_factor', 'unit_cancellation_error']
+  },
+  {
+    id: 'Q52',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 20,
+    standard: 'A.APR.1',
+    stem: 'Which expression is equivalent to (−2x²)³?',
+    choices: [
+      { label: '1', text: '−6x⁵' },
+      { label: '2', text: '6x⁶' },
+      { label: '3', text: '−8x⁵' },
+      { label: '4', text: '−8x⁶' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [9, 3],
+    bestLens: 9,
+    walkthroughs: {
+      9: '(−2x²)³ = (−2)³·(x²)³ = −8·x⁶ = −8x⁶. Key rules: cube the coefficient (−2)³=−8; multiply the exponents for the variable (2×3=6). Odd power of a negative stays negative. Trap (3): adds exponents (2+3=5) instead of multiplying.',
+      3: 'Plug x=1: (−2)³ = −8. Check choices at x=1: (1)−6; (2)6; (3)−8 ✓ but exponent test fails; (4)−8 ✓. Plug x=2: (−2·4)³=(−8)³=−512. Choice (4): −8·2⁶=−8·64=−512 ✓. Choice (3): −8·2⁵=−256 ✗.'
+    },
+    errorTags: ['adds_exponents_instead_of_multiplying', 'sign_error_with_odd_power']
+  },
+  {
+    id: 'Q53',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 21,
+    standard: 'F.IF.6',
+    stem: `A radioactive substance is decaying over time. The table below shows the amount remaining.${svgTable(
+      ['Year', 'Amount (grams)'],
+      [['2000', '800.0'], ['2007', '316.0'], ['2014', '74.8']]
+    )}What is the average rate of change in the amount of substance from 2000 to 2014?`,
+    choices: [
+      { label: '1', text: '−52.5 g per year' },
+      { label: '2', text: '−69.1 g per year' },
+      { label: '3', text: '−45.1 g per year' },
+      { label: '4', text: '−51.8 g per year' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [4, 9],
+    bestLens: 4,
+    walkthroughs: {
+      4: 'Enter years in L1, amounts in L2. Average rate = (L2[3]−L2[1])/(L1[3]−L1[1]) = (74.8−800.0)/(2014−2000) = −725.2/14 = −51.8 g/yr. Trap (2): uses only 2000–2007 → (316−800)/7 = −69.1.',
+      9: 'Average rate of change = Δy/Δx. Use the endpoints of the requested interval: from 2000 to 2014. Δy = 74.8 − 800.0 = −725.2 g; Δx = 14 yr. Rate = −725.2/14 = −51.8 g/yr. Do not use the 2007 middle value.'
+    },
+    errorTags: ['uses_wrong_interval_endpoints', 'includes_middle_value_in_rate_calculation']
+  },
+  {
+    id: 'Q54',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 22,
+    standard: 'A.APR.1',
+    stem: 'What is the difference when (2x² − 3x + 4) is subtracted from (x² + 2x − 5)?',
+    choices: [
+      { label: '1', text: '3x² − x − 1' },
+      { label: '2', text: '−x² − x − 1' },
+      { label: '3', text: '−x² + 5x − 9' },
+      { label: '4', text: '3x² + 5x − 9' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [9, 3],
+    bestLens: 9,
+    walkthroughs: {
+      9: '(x²+2x−5) − (2x²−3x+4). Distribute the negative sign: x²+2x−5 − 2x²+3x−4. Combine: (1−2)x²=−x²; (2+3)x=5x; (−5−4)=−9. Result: −x²+5x−9. Key trap: not flipping −3x to +3x when distributing the minus.',
+      3: 'Plug x=1: (1+2−5)−(2−3+4) = (−2)−(3) = −5. Check choices at x=1: (1)3−1−1=1; (2)−1−1−1=−3; (3)−1+5−9=−5 ✓; (4)3+5−9=−1.'
+    },
+    errorTags: ['distribution_error_on_subtraction', 'sign_error_in_polynomial_operations']
+  },
+  {
+    id: 'Q55',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 23,
+    standard: 'A.REI.4',
+    stem: 'Which equation is equivalent to (x − 3)² = 33?',
+    choices: [
+      { label: '1', text: 'x² − 9 = 33' },
+      { label: '2', text: 'x² + 6x = 24' },
+      { label: '3', text: 'x² − 6x = 24' },
+      { label: '4', text: 'x² − 6x = 42' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [9, 3],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Expand (x−3)² = x²−6x+9. So x²−6x+9=33. Subtract 9: x²−6x=24. Trap (1): x²−9 (forgetting the −6x cross term). Trap (2): sign error on cross term (+6x). Trap (4): adding 9 instead of subtracting (x²−6x=33+9=42).',
+      3: 'Expand: (x−3)² = x²−6x+9. Set equal to 33: x²−6x+9=33. Subtract 9 from both sides: x²−6x=24. Check by plugging x=3+√33: all four forms should agree — but only (3) results from correct algebra.'
+    },
+    errorTags: ['expand_perfect_square_error', 'sign_error_on_cross_term']
+  },
+  {
+    id: 'Q56',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 24,
+    standard: 'F.BF.2',
+    stem: 'In a geometric sequence, a₁ = −2 and the common ratio is −3. What is the value of a₄?',
+    choices: [
+      { label: '1', text: '−54' },
+      { label: '2', text: '−18' },
+      { label: '3', text: '18' },
+      { label: '4', text: '54' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [9, 4],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Explicit formula: aₙ = a₁·rⁿ⁻¹. a₄ = −2·(−3)³ = −2·(−27) = 54. Key: (−3)³ = −27 (odd power keeps negative); −2·(−27) = +54 (negative × negative = positive). Trap (1): forgetting that two negatives multiply to positive.',
+      4: 'Build term by term: a₁=−2; a₂=(−2)(−3)=6; a₃=(6)(−3)=−18; a₄=(−18)(−3)=54. Track signs carefully — they alternate because r is negative.'
+    },
+    errorTags: ['sign_error_with_negative_ratio', 'off_by_one_in_sequence_index']
   }
 ];
 
