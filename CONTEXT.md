@@ -146,5 +146,8 @@ No star field, no orbs, no gradients, no texture. This is an intentional DESIGN_
 
 ## 7. LAST SESSION LOG
 
+- 2026-05-11 (session 6) — Phase 2 Session C: Full audit of Q38–Q56 against actual Jan 2026 exam PDF; all corrected (Session B had fabricated content). Added Q57 (Jan Q5, N.RN.3), Q58 (Jan Q17, A.REI.4), Q59 (Jan Q1, F.IF.4 — parabola SVG via `svgGraph()`), Q60 (Jan Q7, F.IF.1 — 4-graph IIFE SVG), Q61 (Jan Q11, A.REI.3 — 4-number-line IIFE SVG). Q46 choices use `svgTable()` for 4 exponential decay tables. Q55 stem corrected to standard→vertex form direction. 61/61 pass.
+- 2026-05-10 (session 5) — Phase 2 Session B: 19 January 2026 Part I questions added verbatim (Q38–Q56). Q50/Q53 use `svgTable()` in stem. 56/56 pass.
+- 2026-05-10 (session 4) — Phase 2 Session A: 6 SVG helpers authored (`svgPlane`, `svgGraph`, `svgTable`, `svgScatter`, `svgBoxPlot`, `svgBarGraph`) with toX/toY accuracy protocol. 13 June 2025 questions added verbatim (Q25–Q37). 37/37 pass.
 - 2026-05-09 (session 2) — Persistent calculator pass: TI-84 iframe moved to static `#persistent-rail` outside `<main>` (no reload on question advance); calculator added to Challenge Mode; loading screen hardcoded "Mister Favors" / "HSES-ALG1". Layout: `.practice-wrap` grid removed; `#content-row` flex + `#persistent-rail` flex child added. `showRail()` helper added to UI_RENDER. 24/24 self-tests pass.
 - 2026-05-09 — v1.0 shipped: white exam-paper theme, 10 lenses, 15 questions, Practice Mode, Challenge Mode with 90s per-question timer and per-standard results report. CONTEXT.md and TASKS.md written.

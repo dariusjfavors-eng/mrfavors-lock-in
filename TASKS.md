@@ -1,15 +1,14 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-10 (session 3 — phase 2 handoff)
+Last updated: 2026-05-11 (session 6 — phase 2 session C close)
 
 ---
 
 ## Context
 
-v1.0 shipped. The game has a complete white exam-paper aesthetic (verified against DESIGN_BRIEF),
-10 TI-84 lenses, 24 Regents-style questions, a full Practice Mode (lens-pick → walkthrough → answer →
-review), and a Challenge Mode with a 90-second per-question timer and per-standard results report.
-The `index.html` is ~2004 lines, single-file, vanilla JS, no Google Fonts.
+v1.0 shipped. Phase 2 Sessions A+B+C complete. The game now has 61 questions, 10 TI-84 lenses,
+6 SVG helper functions, Practice Mode and Challenge Mode. `index.html` is ~2600+ lines,
+single-file, vanilla JS, no Google Fonts. 61/61 `window.runPuzzleTests()` pass.
 
 The FAVORit fetch() is wired — the Worker URL is set via `localStorage.setItem('favoritWorkerUrl','...')`
 on the host device (never in code). No localStorage for session data; ephemeral by design.
@@ -54,14 +53,17 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 4. Run `window.runPuzzleTests()` after every batch of 6 new questions
 
 ### Open
-- [ ] Author `svgPlane()`, `svgGraph()`, `svgTable()`, `svgScatter()`, `svgBoxPlot()`, `svgBarGraph()` helpers at top of QUESTION_BANK block
-- [ ] June 2026 Part I — text-only questions (~16 of 24, verbatim from exam)
-- [ ] June 2026 Part I — image questions (~8 of 24, inline SVG, accuracy protocol required)
-- [ ] June 2025 Part I — text-only questions (post-shift format, verbatim)
-- [ ] June 2025 Part I — image questions (inline SVG, accuracy protocol required)
+- [ ] **Session D** — June 2025 Part I image questions (exam Qs 1, 2, 12, 13, 16, 18, 19, 20, 21, 23, 24) — inline SVG, accuracy protocol required; PDF renders at `/tmp/june2025-exam-p*.png`
 - [ ] Part II–style MC: S.ID.1/2/5/6 (box plots, scatter plots, two-way frequency tables)
 - [ ] Part II–style MC: F.IF.1/9, F.BF.3, A.REI.11 (graph-reading questions)
-- [ ] Browser QA — SVG rendering at 1366×768 in both Practice and Challenge modes
+- [ ] Browser QA — SVG rendering at 1366×768 for Q59–Q61 in Practice and Challenge modes
+
+### Done (Phase 2)
+- [x] Author `svgPlane()`, `svgGraph()`, `svgTable()`, `svgScatter()`, `svgBoxPlot()`, `svgBarGraph()` helpers — 2026-05-10
+- [x] June 2025 Part I — text-only questions Q25–Q37 (exam Qs 3–11, 14, 15, 17, 22) — 2026-05-10
+- [x] January 2026 Part I — text-only questions Q38–Q56 (exam Qs 2–4, 6, 8–10, 12–16, 18–24) — corrected from PDF 2026-05-11
+- [x] January 2026 Part I — encoding-ambiguous (Q57 Jan Q5, Q58 Jan Q17) — 2026-05-11
+- [x] January 2026 Part I — image questions Q59 (Jan Q1 parabola), Q60 (Jan Q7 4-graph), Q61 (Jan Q11 4-number-lines) — 2026-05-11
 
 ### Out of Scope (this phase)
 - New lenses — 10 lenses are sufficient for all new questions
