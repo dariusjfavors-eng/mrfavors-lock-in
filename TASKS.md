@@ -1,6 +1,15 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-11 (session 9 — phase 2 session E complete)
+Last updated: 2026-05-11 (session 10 — phase 2 session F)
+
+---
+
+## Phase 2 Session F — Session PRD
+**Design concept:** Embed KaTeX inline (minified JS + CSS, no external font files) and add a `math(latex)` helper; fix `choiceLayout()` to measure LaTeX source length not rendered HTML; then update QUESTION_BANK in batches to replace Unicode/plain-text math with KaTeX-rendered notation matching the NYS Regents exam look.
+**Modules touched:** `<style>` block (KaTeX CSS, @font-face stripped), `<script>` block (KaTeX JS + `math()` helper + `choiceLayout()` fix), QUESTION_BANK (batched — not all 72 in one session)
+**Interface changes:** New `math(latex)` → `katex.renderToString(latex, {throwOnError:false})` helper added before QUESTION_BANK; `choiceLayout(q)` strips HTML tags before measuring length; existing `stem` and `choice.text` strings updated to use `math()` calls for fractions, radicals, exponents
+**Out of scope:** Challenge mode changes (24-question randomization, wrong-answer training mode), new questions, new lenses, new modes, deployment
+**Done when:** `window.runPuzzleTests()` passes all questions after each batch; at least one fraction (Q67), one radical (Q62/Q63), and one exponent question render with proper Regents-style notation; `choiceLayout()` still returns 'grid' for short-choice questions
 
 ---
 
@@ -73,6 +82,10 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 ### Open
 - [ ] Part II–style MC: S.ID.1/2/5/6 (box plots, scatter plots, two-way frequency tables)
 - [ ] Part II–style MC: F.IF.1/9, F.BF.3, A.REI.11 (graph-reading questions)
+
+### Future Sessions (Grill Me required before starting)
+- [ ] **Session G** — Challenge mode rework: exactly 24 questions randomly sampled from full bank each attempt (matching real Regents Part I length); requires Grill Me
+- [ ] **Session H** — Wrong-answer training mode: after Challenge, students can drill questions they got wrong; requires Grill Me
 ### Done (Phase 2)
 - [x] **Session E** — June 2025 Q23 (axis of symmetry — SVG graph in choice 1, svgTable in choice 3); renderer confirmed innerHTML-safe; no renderer change needed; 72/72 pass — 2026-05-11
 - [x] Browser QA — SVG rendering at 1366×768 for Q59–Q71 in Practice and Challenge modes — 2026-05-11

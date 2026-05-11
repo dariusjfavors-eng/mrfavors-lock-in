@@ -628,6 +628,18 @@ html, body {
   #content-row { flex-direction: column; }
   #persistent-rail { flex: 0 0 auto; width: 100%; }
 }
+/* ── Math rendering ─────────────────────────────────────── */
+.mfrac {
+  display: inline-flex; flex-direction: column;
+  align-items: center; vertical-align: middle;
+  font-size: 0.92em; margin: 0 2px; line-height: 1.2;
+}
+.mfrac .mnum { border-bottom: 1.5px solid currentColor; padding: 0 3px; text-align: center; }
+.mfrac .mden { padding: 0 3px; text-align: center; }
+.msqrt { display: inline-flex; align-items: flex-end; margin: 0 1px; }
+.msqrt .mrad { font-size: 1.15em; line-height: 1; margin-right: -1px; vertical-align: baseline; }
+.msqrt .mbody { border-top: 1.5px solid currentColor; padding: 1px 3px 0; }
+.mcoef { font-style: normal; }
 </style>
 </head>
 
@@ -879,6 +891,40 @@ const LENSES = [
 ============================================================================ */
 
 /* ============================================================================
+   MATH HELPER — Renders LaTeX-like notation as HTML/CSS.
+   Covers all Regents Algebra 1 notation: fractions, radicals, exponents.
+   Usage: math('\\frac{1}{2}mv^{2}')  →  inline HTML string
+============================================================================ */
+function math(s) {
+  // nested \frac (one level deep)
+  const renderFrac = str => str.replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g,
+    (_, n, d) => `<span class="mfrac"><span class="mnum">${n}</span><span class="mden">${d}</span></span>`);
+  s = renderFrac(renderFrac(s)); // two passes handles a^{b}/c patterns
+  // \sqrt{body} with optional coefficient: 2\sqrt{3}
+  s = s.replace(/(\d*)\\sqrt\{([^}]+)\}/g, (_, coef, body) =>
+    (coef ? `<span class="mcoef">${coef}</span>` : '') +
+    `<span class="msqrt"><span class="mrad">√</span><span class="mbody">${body}</span></span>`);
+  // \sqrt x (single token, no braces)
+  s = s.replace(/(\d*)\\sqrt ([A-Za-z0-9])/g, (_, coef, body) =>
+    (coef ? `<span class="mcoef">${coef}</span>` : '') +
+    `<span class="msqrt"><span class="mrad">√</span><span class="mbody">${body}</span></span>`);
+  // superscripts: ^{expr} or ^x
+  s = s.replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>');
+  s = s.replace(/\^([A-Za-z0-9])/g, '<sup>$1</sup>');
+  // subscripts: _{expr}
+  s = s.replace(/\_\{([^}]+)\}/g, '<sub>$1</sub>');
+  // \text{...} — strip wrapper, keep content
+  s = s.replace(/\\text\{([^}]+)\}/g, '$1');
+  // symbols
+  s = s.replace(/\\cdot/g, '·').replace(/\\times/g, '×')
+       .replace(/\\leq/g, '≤').replace(/\\geq/g, '≥')
+       .replace(/\\neq/g, '≠').replace(/\\pm/g, '±')
+       .replace(/\\infty/g, '∞').replace(/\\pi/g, 'π')
+       .replace(/\\ne /g, '≠ ');
+  return s;
+}
+
+/* ============================================================================
    SVG HELPERS — Inline visual assets for image-bearing questions.
    Accuracy protocol: all pixel coords from explicit toX / toY mapping only.
    Never eyeball. See CONTEXT.md §6 and docs/ASSET_GUIDE.md.
@@ -1092,9 +1138,9 @@ const QUESTION_BANK = [
     stem: 'A savings account starts with $500 and earns 4% annual interest compounded annually. Which function models the balance B after t years?',
     choices: [
       { label: '1', text: 'B = 500 + 4t' },
-      { label: '2', text: 'B = 500(0.04)^t' },
-      { label: '3', text: 'B = 500(1.04)^t' },
-      { label: '4', text: 'B = 500(4)^t' }
+      { label: '2', text: math('B = 500(0.04)^{t}') },
+      { label: '3', text: math('B = 500(1.04)^{t}') },
+      { label: '4', text: math('B = 500(4)^{t}') }
     ],
     correctAnswer: '3',
     applicableLenses: [9, 3, 4],
@@ -1368,7 +1414,7 @@ const QUESTION_BANK = [
     exam: 'Algebra I — Regents style',
     questionNumber: 18,
     standard: 'N.RN.2',
-    stem: 'What is the value of 27^(2/3)?',
+    stem: 'What is the value of ' + math('27^{2/3}') + '?',
     choices: [
       { label: '1', text: '6' },
       { label: '2', text: '9' },
@@ -1482,8 +1528,8 @@ const QUESTION_BANK = [
     choices: [
       { label: '1', text: 'y = −3x + 2' },
       { label: '2', text: 'y = 3x + 5' },
-      { label: '3', text: 'y = (1/3)x − 7' },
-      { label: '4', text: 'y = −(1/3)x + 4' }
+      { label: '3', text: 'y = ' + math('\\frac{1}{3}') + 'x − 7' },
+      { label: '4', text: 'y = −' + math('\\frac{1}{3}') + 'x + 4' }
     ],
     correctAnswer: '2',
     applicableLenses: [9, 1],
@@ -1729,7 +1775,7 @@ const QUESTION_BANK = [
     exam: 'June 2025 Algebra I Regents — Part I',
     questionNumber: 34,
     standard: 'N.RN.3',
-    stem: 'The sum of √3 and √5 is',
+    stem: 'The sum of ' + math('\\sqrt{3}') + ' and ' + math('\\sqrt{5}') + ' is',
     choices: [
       { label: '1', text: 'rational, since the sum can be expressed as an integer' },
       { label: '2', text: 'rational, since the sum can be expressed as a nonterminating decimal' },
@@ -1795,12 +1841,12 @@ const QUESTION_BANK = [
     exam: 'June 2025 Algebra I Regents — Part I',
     questionNumber: 37,
     standard: 'F.LE.2',
-    stem: 'Which equation represents the sequence 12, 6, 3, 3/2, …, where a₁ = 12?',
+    stem: 'Which equation represents the sequence 12, 6, 3, ' + math('\\frac{3}{2}') + ', …, where a₁ = 12?',
     choices: [
-      { label: '1', text: 'aₙ = 12 · (1/2)^(n − 1)' },
-      { label: '2', text: 'aₙ = 12 · (1/2)^n' },
-      { label: '3', text: 'aₙ = 12 · 2^(n − 1)' },
-      { label: '4', text: 'aₙ = 12 · 2^n' }
+      { label: '1', text: math('a_{n} = 12 \\cdot (\\frac{1}{2})^{n - 1}') },
+      { label: '2', text: math('a_{n} = 12 \\cdot (\\frac{1}{2})^{n}') },
+      { label: '3', text: math('a_{n} = 12 \\cdot 2^{n - 1}') },
+      { label: '4', text: math('a_{n} = 12 \\cdot 2^{n}') }
     ],
     correctAnswer: '1',
     applicableLenses: [9, 4],
@@ -1816,7 +1862,7 @@ const QUESTION_BANK = [
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 2,
     standard: 'N.RN.3',
-    stem: 'The product of √25 and √2 will result in',
+    stem: 'The product of ' + math('\\sqrt{25}') + ' and ' + math('\\sqrt{2}') + ' will result in',
     choices: [
       { label: '1', text: 'an irrational number' },
       { label: '2', text: 'a rational number' },
@@ -1923,9 +1969,9 @@ const QUESTION_BANK = [
     standard: 'A.CED.4',
     stem: 'The formula for the surface area of a cylinder can be expressed as S = 2πr² + 2πrh, where r is the radius and h is the height of the cylinder. What is the height, h, expressed in terms of S, π, and r?',
     choices: [
-      { label: '1', text: 'h = (S − 2πr²) / (2πr)' },
+      { label: '1', text: math('h = \\frac{S − 2πr²}{2πr}') },
       { label: '2', text: 'h = S − r' },
-      { label: '3', text: 'h = (2πr² − S) / (2πr)' },
+      { label: '3', text: math('h = \\frac{2πr² − S}{2πr}') },
       { label: '4', text: 'h = r − S' }
     ],
     correctAnswer: '1',
@@ -2005,7 +2051,7 @@ const QUESTION_BANK = [
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 14,
     standard: 'F.IF.2',
-    stem: 'If f(x) = √(x + 1) + 5, then what is the value of f(3)?',
+    stem: 'If f(x) = ' + math('\\sqrt{x + 1}') + ' + 5, then what is the value of f(3)?',
     choices: [
       { label: '1', text: '9' },
       { label: '2', text: '7' },
@@ -2222,12 +2268,12 @@ const QUESTION_BANK = [
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 5,
     standard: 'N.RN.3',
-    stem: 'The expression 3 − 2√5 + 6√5 is equivalent to',
+    stem: 'The expression ' + math('3 - 2\\sqrt{5} + 6\\sqrt{5}') + ' is equivalent to',
     choices: [
-      { label: '1', text: '7√5' },
-      { label: '2', text: '7√10' },
-      { label: '3', text: '3 + 4√5' },
-      { label: '4', text: '3 + 4√10' }
+      { label: '1', text: math('7\\sqrt{5}') },
+      { label: '2', text: math('7\\sqrt{10}') },
+      { label: '3', text: math('3 + 4\\sqrt{5}') },
+      { label: '4', text: math('3 + 4\\sqrt{10}') }
     ],
     correctAnswer: '3',
     applicableLenses: [9, 10],
@@ -2244,7 +2290,7 @@ const QUESTION_BANK = [
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 17,
     standard: 'A.REI.4',
-    stem: 'The point (x, −6) lies on the graph of a parabola whose equation is y = −x² − x + 6. The value of x can be',
+    stem: 'The point (x, −6) lies on the graph of a parabola whose equation is ' + math('y = -x^{2} - x + 6') + '. The value of x can be',
     choices: [
       { label: '1', text: '−3 or 2' },
       { label: '2', text: '−4 or 3' },
@@ -2396,12 +2442,12 @@ const QUESTION_BANK = [
     exam: 'June 2025 Algebra I Regents — Part I',
     questionNumber: 1,
     standard: 'N.RN.2',
-    stem: 'The expression 10/√2 is equivalent to',
+    stem: 'The expression ' + math('\\frac{10}{\\sqrt{2}}') + ' is equivalent to',
     choices: [
       { label: '1', text: '5' },
       { label: '2', text: '20' },
-      { label: '3', text: '5√2' },
-      { label: '4', text: '10√2' }
+      { label: '3', text: math('5\\sqrt{2}') },
+      { label: '4', text: math('10\\sqrt{2}') }
     ],
     correctAnswer: '3',
     applicableLenses: [3, 9],
@@ -2417,12 +2463,12 @@ const QUESTION_BANK = [
     exam: 'June 2025 Algebra I Regents — Part I',
     questionNumber: 16,
     standard: 'N.RN.3',
-    stem: 'The sum of 2√27 and 4√12 is',
+    stem: 'The sum of ' + math('2\\sqrt{27}') + ' and ' + math('4\\sqrt{12}') + ' is',
     choices: [
-      { label: '1', text: '14√3' },
-      { label: '2', text: '34√3' },
-      { label: '3', text: '6√39' },
-      { label: '4', text: '8√39' }
+      { label: '1', text: math('14\\sqrt{3}') },
+      { label: '2', text: math('34\\sqrt{3}') },
+      { label: '3', text: math('6\\sqrt{39}') },
+      { label: '4', text: math('8\\sqrt{39}') }
     ],
     correctAnswer: '1',
     applicableLenses: [3, 9],
@@ -2438,12 +2484,12 @@ const QUESTION_BANK = [
     exam: 'June 2025 Algebra I Regents — Part I',
     questionNumber: 18,
     standard: 'F.IF.2',
-    stem: 'Given the function g(x) = 2^(x+3) / (x² − 2), what is the value of g(−2)?',
+    stem: 'Given the function ' + math('g(x) = \\frac{2^{x+3}}{x^{2} - 2}') + ', what is the value of g(−2)?',
     choices: [
       { label: '1', text: '1' },
-      { label: '2', text: '1/3' },
+      { label: '2', text: math('\\frac{1}{3}') },
       { label: '3', text: '−1' },
-      { label: '4', text: '−1/3' }
+      { label: '4', text: math('\\frac{-1}{3}') }
     ],
     correctAnswer: '1',
     applicableLenses: [3, 4],
@@ -2459,12 +2505,12 @@ const QUESTION_BANK = [
     exam: 'June 2025 Algebra I Regents — Part I',
     questionNumber: 20,
     standard: 'A.CED.4',
-    stem: 'The formula to calculate kinetic energy is K = ½mv², where K is kinetic energy, m is mass, and v is velocity. When m is written in terms of K and v, the equation is',
+    stem: 'The formula to calculate kinetic energy is ' + math('K = \\frac{1}{2}mv^{2}') + ', where K is kinetic energy, m is mass, and v is velocity. When m is written in terms of K and v, the equation is',
     choices: [
-      { label: '1', text: 'm = 2K/v²' },
-      { label: '2', text: 'm = 2Kv²' },
-      { label: '3', text: 'm = √(2Kv²)' },
-      { label: '4', text: 'm = K/(2v²)' }
+      { label: '1', text: math('m = \\frac{2K}{v^{2}}') },
+      { label: '2', text: math('m = 2Kv^{2}') },
+      { label: '3', text: math('m = \\sqrt{2Kv^{2}}') },
+      { label: '4', text: math('m = \\frac{K}{2v^{2}}') }
     ],
     correctAnswer: '1',
     applicableLenses: [9, 10],
@@ -2480,12 +2526,12 @@ const QUESTION_BANK = [
     exam: 'June 2025 Algebra I Regents — Part I',
     questionNumber: 21,
     standard: 'A.REI.3',
-    stem: 'The solution to the equation 2(3x − 1)/3 = x + 2 is',
+    stem: 'The solution to the equation ' + math('\\frac{2(3x - 1)}{3} = x + 2') + ' is',
     choices: [
-      { label: '1', text: '1/3' },
-      { label: '2', text: '2/3' },
-      { label: '3', text: '4/3' },
-      { label: '4', text: '8/3' }
+      { label: '1', text: math('\\frac{1}{3}') },
+      { label: '2', text: math('\\frac{2}{3}') },
+      { label: '3', text: math('\\frac{4}{3}') },
+      { label: '4', text: math('\\frac{8}{3}') }
     ],
     correctAnswer: '4',
     applicableLenses: [1, 3],
@@ -2503,10 +2549,10 @@ const QUESTION_BANK = [
     standard: 'N.Q.1',
     stem: 'Each day, a freight train passes by Anna\'s house. This freight train travels at 49 miles per hour. Each railroad car is 56 feet long. Which expression represents the number of railroad cars that pass by Anna\'s house per minute?',
     choices: [
-      { label: '1', text: '49mi/1hr · 1mi/5280ft · 1hr/60min · 1car/56ft' },
-      { label: '2', text: '49mi/1hr · 1mi/5280ft · 60min/1hr · 1car/56ft' },
-      { label: '3', text: '49mi/1hr · 5280ft/1mi · 1hr/60min · 1car/56ft' },
-      { label: '4', text: '49mi/1hr · 5280ft/1mi · 60min/1hr · 1car/56ft' }
+      { label: '1', text: math('\\frac{49\\text{ mi}}{1\\text{ hr}} \\cdot \\frac{1\\text{ mi}}{5280\\text{ ft}} \\cdot \\frac{1\\text{ hr}}{60\\text{ min}} \\cdot \\frac{1\\text{ car}}{56\\text{ ft}}') },
+      { label: '2', text: math('\\frac{49\\text{ mi}}{1\\text{ hr}} \\cdot \\frac{1\\text{ mi}}{5280\\text{ ft}} \\cdot \\frac{60\\text{ min}}{1\\text{ hr}} \\cdot \\frac{1\\text{ car}}{56\\text{ ft}}') },
+      { label: '3', text: math('\\frac{49\\text{ mi}}{1\\text{ hr}} \\cdot \\frac{5280\\text{ ft}}{1\\text{ mi}} \\cdot \\frac{1\\text{ hr}}{60\\text{ min}} \\cdot \\frac{1\\text{ car}}{56\\text{ ft}}') },
+      { label: '4', text: math('\\frac{49\\text{ mi}}{1\\text{ hr}} \\cdot \\frac{5280\\text{ ft}}{1\\text{ mi}} \\cdot \\frac{60\\text{ min}}{1\\text{ hr}} \\cdot \\frac{1\\text{ car}}{56\\text{ ft}}') }
     ],
     correctAnswer: '3',
     applicableLenses: [9, 10],
@@ -2743,7 +2789,8 @@ function currentCQ()   { return getQ(STATE.challenge.queue[STATE.challenge.curso
 function shuffle(arr)  { return [...arr].sort(() => Math.random() - 0.5); }
 
 function choiceLayout(q) {
-  return q.choices.some(c => c.text.length > 40) ? 'stack' : 'grid';
+  const display = c => c.text.replace(/<[^>]+>/g, '');
+  return q.choices.some(c => display(c).length > 40) ? 'stack' : 'grid';
 }
 
 /* ============================================================================
