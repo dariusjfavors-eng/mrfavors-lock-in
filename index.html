@@ -1816,42 +1816,42 @@ const QUESTION_BANK = [
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 2,
     standard: 'N.RN.3',
-    stem: 'What is the product of √25 and √2?',
+    stem: 'The product of √25 and √2 will result in',
     choices: [
-      { label: '1', text: 'irrational, because it is the product of a rational and an irrational number' },
-      { label: '2', text: 'rational, because both factors are square roots' },
-      { label: '3', text: 'irrational, because both factors are irrational numbers' },
-      { label: '4', text: 'rational, because √25 simplifies to a perfect square' }
+      { label: '1', text: 'an irrational number' },
+      { label: '2', text: 'a rational number' },
+      { label: '3', text: 'a natural number' },
+      { label: '4', text: 'an integer' }
     ],
     correctAnswer: '1',
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: '√25 = 5 (rational integer). √2 is irrational. By N.RN.3: a nonzero rational × irrational = irrational. Product = 5√2, which is irrational. Trap (3): √25 is NOT irrational — it equals 5.',
-      10: 'Eliminate trap (3): √25 = 5, a rational number, so "both factors are irrational" is false. Eliminate (2) and (4): product of rational × irrational is never rational. Only (1) states the correct classification and reason.'
+      9: '√25 = 5 (a rational integer). √2 is irrational. N.RN.3: rational × irrational = irrational. Product = 5√2 ≈ 7.07, which is irrational. Trap (3),(4): 5√2 is not a whole number.',
+      10: 'Eliminate (2): rational × irrational is never rational. Eliminate (3),(4): 5√2 ≈ 7.07 — not a whole number or integer. Only (1) is correct.'
     },
-    errorTags: ['misclassifies_perfect_square_root', 'over_applies_irrational']
+    errorTags: ['misclassifies_perfect_square_root', 'confuses_irrational_with_integer']
   },
   {
     id: 'Q39',
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 3,
     standard: 'A.REI.11',
-    stem: 'What is the solution set of |4x + 2| = 3x + 5?',
+    stem: 'When f(x) = |4x + 2| and g(x) = 3x + 5 are graphed on the same set of axes, for which value of x is f(x) = g(x)?',
     choices: [
-      { label: '1', text: 'x = 1 and x = −3' },
-      { label: '2', text: 'x = 3 only' },
-      { label: '3', text: 'x = 3 and x = −1' },
-      { label: '4', text: 'x = −1 only' }
+      { label: '1', text: '1' },
+      { label: '2', text: '2' },
+      { label: '3', text: '3' },
+      { label: '4', text: '14' }
     ],
     correctAnswer: '3',
     applicableLenses: [1, 3],
     bestLens: 1,
     walkthroughs: {
-      1: 'Graph y₁ = |4x + 2| and y₂ = 3x + 5. Use 2nd TRACE → intersect. Intersections at x = −1 and x = 3. Verify: at x=−1, right side = 3(−1)+5=2 ≥ 0 ✓; at x=3, right side = 14 ≥ 0 ✓.',
-      3: 'Case 1: 4x+2 = 3x+5 → x = 3. Case 2: 4x+2 = −(3x+5) → 7x = −7 → x = −1. Check both: |4(3)+2|=14=3(3)+5 ✓; |4(−1)+2|=2=3(−1)+5 ✓.'
+      1: 'Enter Y₁ = |4x + 2| and Y₂ = 3x + 5. Graph and use 2nd TRACE → intersect. Intersection visible at x = 3. Verify: |4(3)+2| = |14| = 14 and 3(3)+5 = 14 ✓.',
+      3: 'Test x = 3: |4(3)+2| = 14, 3(3)+5 = 14 ✓. Test x = 1: |6| = 6, 3(1)+5 = 8 ✗. Test x = 2: |10| = 10, 3(2)+5 = 11 ✗. Only x = 3 works among the choices.'
     },
-    errorTags: ['forgets_negative_case', 'extraneous_solution_check']
+    errorTags: ['errors_in_absolute_value_evaluation', 'forgets_to_verify_substitution']
   },
   {
     id: 'Q40',
@@ -1879,54 +1879,54 @@ const QUESTION_BANK = [
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 6,
     standard: 'A.APR.1',
-    stem: 'Which polynomial has a degree of 3, a leading coefficient of 2, and a constant term of −6?',
+    stem: 'Students were asked to write a polynomial given the following conditions:\n  • the degree of the expression is 3\n  • the leading coefficient is 2\n  • the constant term is −6\n\nWhich expression satisfies all three conditions?',
     choices: [
-      { label: '1', text: 'x³ + 2x − 6' },
-      { label: '2', text: '−2x³ + 5x − 6' },
-      { label: '3', text: '2x² + 5x − 6' },
-      { label: '4', text: '2x³ + 5x² − x − 6' }
+      { label: '1', text: '4x − 6 + 3x²' },
+      { label: '2', text: '3x² − 6x + 4' },
+      { label: '3', text: '4 − 6x + 2x³' },
+      { label: '4', text: '4x² + 2x³ − 6' }
     ],
     correctAnswer: '4',
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'Check each condition on (4): highest exponent = 3 (degree 3 ✓), coefficient of x³ = 2 ✓, constant term = −6 ✓. Eliminate: (1) leading coeff = 1; (2) leading coeff = −2; (3) degree = 2.',
-      10: 'Eliminate traps: (1) has a 1 in front of x³. (2) leading coefficient is negative (−2 ≠ 2). (3) highest power is 2, not 3. Only (4) satisfies all three conditions.'
+      9: 'Rewrite (4) in standard form: 2x³ + 4x² − 6. Degree = 3 ✓, leading coefficient = 2 ✓, constant = −6 ✓. Eliminate (1),(2): highest power is 2 (degree 2). Eliminate (3): 4−6x+2x³ — constant term is 4, not −6.',
+      10: 'Eliminate (1),(2): no x³ term present → degree 2, not 3. Eliminate (3): constant term is 4 (not −6). Only (4) satisfies all three conditions.'
     },
-    errorTags: ['confuses_leading_coeff_sign', 'misidentifies_degree']
+    errorTags: ['misidentifies_degree', 'misreads_constant_term']
   },
   {
     id: 'Q42',
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 8,
     standard: 'F.IF.2',
-    stem: 'The value of an investment is modeled by v(t) = 500(1.08)ᵗ, where t represents the number of years since the investment was made. Which statement best describes this investment?',
+    stem: 'The following function models the value of a diamond ring, in dollars, t years after it is purchased:\n\nv(t) = 500(1.08)ᵗ\n\nWhat was the original price of the ring, in dollars?',
     choices: [
-      { label: '1', text: 'The initial investment was $1.08.' },
-      { label: '2', text: 'The value increases by $1.08 each year.' },
-      { label: '3', text: 'The initial investment was $500.' },
-      { label: '4', text: 'The value increases by 500% each year.' }
+      { label: '1', text: '$108' },
+      { label: '2', text: '$460' },
+      { label: '3', text: '$500' },
+      { label: '4', text: '$540' }
     ],
     correctAnswer: '3',
-    applicableLenses: [9, 4],
-    bestLens: 9,
+    applicableLenses: [3, 9],
+    bestLens: 3,
     walkthroughs: {
-      9: 'In v(t) = a·bᵗ: a = initial value (at t=0), b = growth factor. v(0) = 500·(1.08)⁰ = 500·1 = 500. Initial investment = $500. The 1.08 means 8% annual growth — not $1.08 per year.',
-      4: 'Build a table: t=0 → 500; t=1 → 540; t=2 → 583.20. The starting value at t=0 is $500 ✓. Growth each period is multiplicative (×1.08), not additive ($1.08).'
+      3: 'Original price = value at t = 0. v(0) = 500(1.08)⁰ = 500·1 = 500. Trap (4): v(1) = 500(1.08) = $540 is the value after 1 year, not the original price. Trap (1): $108 confuses the growth factor 1.08 with a dollar amount.',
+      9: 'In v(t) = a·bᵗ, the initial value (t = 0) equals a = 500. The 1.08 is the annual growth factor (8% growth per year), not a dollar amount.'
     },
-    errorTags: ['confuses_growth_factor_with_rate', 'misreads_initial_value']
+    errorTags: ['evaluates_at_wrong_t_value', 'confuses_initial_value_with_growth_factor']
   },
   {
     id: 'Q43',
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 9,
     standard: 'A.CED.4',
-    stem: 'The formula for the surface area of a cylinder is S = 2πr² + 2πrh. Which equation correctly expresses h in terms of S and r?',
+    stem: 'The formula for the surface area of a cylinder can be expressed as S = 2πr² + 2πrh, where r is the radius and h is the height of the cylinder. What is the height, h, expressed in terms of S, π, and r?',
     choices: [
       { label: '1', text: 'h = (S − 2πr²) / (2πr)' },
-      { label: '2', text: 'h = (S + 2πr²) / (2πr)' },
-      { label: '3', text: 'h = (S − 2πr) / (2πr²)' },
-      { label: '4', text: 'h = (S − 2πr²) / (πr)' }
+      { label: '2', text: 'h = S − r' },
+      { label: '3', text: 'h = (2πr² − S) / (2πr)' },
+      { label: '4', text: 'h = r − S' }
     ],
     correctAnswer: '1',
     applicableLenses: [9, 3],
@@ -1942,75 +1942,75 @@ const QUESTION_BANK = [
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 10,
     standard: 'A.REI.6',
-    stem: 'Given the system below, what expression could be substituted for y in 2x + 5y = 1 to solve the system algebraically?\n3x − y = 10\n2x + 5y = 1',
+    stem: 'When solving the following system of equations algebraically, Mason used the substitution method.\n\n3x − y = 10\n2x + 5y = 1\n\nWhich equation could he have used?',
     choices: [
-      { label: '1', text: '−3x + 10' },
-      { label: '2', text: '3x + 10' },
-      { label: '3', text: '3x − 10' },
-      { label: '4', text: '−3x − 10' }
+      { label: '1', text: '2(3x − 10) + 5x = 1' },
+      { label: '2', text: '2(−3x + 10) + 5x = 1' },
+      { label: '3', text: '2x + 5(3x − 10) = 1' },
+      { label: '4', text: '2x + 5(−3x + 10) = 1' }
     ],
     correctAnswer: '3',
     applicableLenses: [9, 1],
     bestLens: 9,
     walkthroughs: {
-      9: 'From 3x − y = 10, isolate y: subtract 3x → −y = 10 − 3x → y = 3x − 10. Substituting into the second equation: 2x + 5(3x − 10) = 1. Trap (1): forgetting to flip both signs gives −3x + 10.',
-      1: 'Graph both equations (rearrange to y= form): y₁ = 3x − 10, y₂ = (1 − 2x)/5. The expression for y substituted from the first equation is y = 3x − 10.'
+      9: 'From 3x − y = 10, solve for y: y = 3x − 10. Substitute into the second equation 2x + 5y = 1: 2x + 5(3x − 10) = 1. Trap (4): wrong sign — −3x + 10 would come from y = −3x + 10 (incorrect). Traps (1),(2): substituted into the wrong equation.',
+      1: 'Graph both equations. The substitution step uses y = 3x − 10 from the first equation, plugged into the second: 2x + 5(3x − 10) = 1.'
     },
-    errorTags: ['sign_error_in_isolation', 'wrong_substitution_expression']
+    errorTags: ['substitutes_into_wrong_equation', 'sign_error_when_solving_for_y']
   },
   {
     id: 'Q45',
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 12,
     standard: 'A.REI.3',
-    stem: 'Given the equation 3x − 8 = 22, which property justifies rewriting this equation as 3x = 30?',
+    stem: 'When solving the equation 3(2x + 5) − 8 = 7x + 10, the first step could be 3(2x + 5) = 7x + 18. Which property justifies this step?',
     choices: [
       { label: '1', text: 'addition property of equality' },
-      { label: '2', text: 'multiplication property of equality' },
-      { label: '3', text: 'commutative property of addition' },
-      { label: '4', text: 'distributive property' }
+      { label: '2', text: 'commutative property of addition' },
+      { label: '3', text: 'multiplication property of equality' },
+      { label: '4', text: 'distributive property of multiplication over addition' }
     ],
     correctAnswer: '1',
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: 'From 3x − 8 = 22 to 3x = 30: we added 8 to both sides. Adding the same value to both sides is the addition property of equality. No multiplication or distribution occurred in this single step.',
-      3: 'Verify: 3x − 8 + 8 = 22 + 8 → 3x = 30 ✓. The operation was addition. Trap (2): multiplication property involves multiplying/dividing. Trap (3): commutative property just reorders terms — nothing reordered here.'
+      9: 'The step goes from 3(2x+5)−8 = 7x+10 to 3(2x+5) = 7x+18. We added 8 to both sides (−8+8=0 left; 10+8=18 right). Adding the same value to both sides is the addition property of equality.',
+      3: 'Verify: add 8 to both sides: 3(2x+5)−8+8 = 7x+10+8 → 3(2x+5) = 7x+18 ✓. The step used addition, not distribution or multiplication.'
     },
-    errorTags: ['confuses_addition_with_multiplication_property', 'property_identification_error']
+    errorTags: ['confuses_addition_with_distributive_property', 'property_identification_error']
   },
   {
     id: 'Q46',
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 13,
     standard: 'F.LE.1',
-    stem: 'Which table represents a function that could be modeled by an exponential equation?',
+    stem: 'Which table of values best models an exponential decay function?',
     choices: [
-      { label: '1', text: 'x: 1, 2, 3, 4, 5   f(x): 3, 6, 9, 12, 15' },
-      { label: '2', text: 'x: 1, 2, 3, 4, 5   f(x): 3, 6, 12, 24, 48' },
-      { label: '3', text: 'x: 1, 2, 3, 4, 5   f(x): 3, 7, 13, 21, 31' },
-      { label: '4', text: 'x: 1, 2, 3, 4, 5   f(x): 5, 8, 11, 14, 17' }
+      { label: '1', text: svgTable(['x', 'f(x)'], [['−2','7'],['−1','4'],['0','1'],['1','−2'],['2','−5'],['3','−8']]) },
+      { label: '2', text: svgTable(['m', 'f(m)'], [['0','200'],['1','180'],['2','162'],['3','146'],['4','131'],['5','118']]) },
+      { label: '3', text: svgTable(['n', 'f(n)'], [['0','200'],['0.5','210'],['1','220'],['1.5','231'],['2','242'],['2.5','254']]) },
+      { label: '4', text: svgTable(['p', 'f(p)'], [['−3','−2'],['−2','−5'],['−1','−6'],['0','−5'],['1','−2'],['2','3']]) }
     ],
     correctAnswer: '2',
     applicableLenses: [4, 9],
     bestLens: 4,
     walkthroughs: {
-      4: 'Enter f(x) values in L2 and compute consecutive ratios in L3 = L2/lag(L2). Choice (2): 6/3=2, 12/6=2, 24/12=2, 48/24=2 — constant ratio → exponential (f(x)=3·2^(x−1)). Choices (1),(4): constant differences → linear. Choice (3): differences 4,6,8,10 → quadratic.',
-      9: 'Exponential functions have a constant multiplicative ratio between consecutive outputs. Only choice (2) multiplies by 2 each step. Choices (1),(4) add a constant. Choice (3) increases by larger amounts each step (quadratic pattern).'
+      4: 'Enter x-values in L1, f-values in L2. Compute consecutive ratios: Table (2): 180/200=0.9, 162/180=0.9, 146/162≈0.9 — constant ratio between 0 and 1 → exponential decay. Table (1): constant differences (−3) → linear. Table (3): ratios > 1 → exponential growth, not decay. Table (4): differences change direction → quadratic.',
+      9: 'Exponential decay has a constant ratio r where 0 < r < 1. Only table (2) has consistent ratio ≈ 0.9 per step (decaying by ~10% each time). Table (1) decreases by a constant amount (linear). Table (3) grows. Table (4) changes direction (quadratic shape).'
     },
-    errorTags: ['confuses_constant_ratio_with_constant_difference', 'misidentifies_quadratic_as_exponential']
+    errorTags: ['confuses_constant_ratio_with_constant_difference', 'confuses_growth_with_decay']
   },
   {
     id: 'Q47',
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 14,
     standard: 'F.IF.2',
-    stem: 'If f(x) = √(x + 1) + 5, what is the value of f(3)?',
+    stem: 'If f(x) = √(x + 1) + 5, then what is the value of f(3)?',
     choices: [
-      { label: '1', text: '6' },
+      { label: '1', text: '9' },
       { label: '2', text: '7' },
-      { label: '3', text: '8' },
-      { label: '4', text: '9' }
+      { label: '3', text: '3' },
+      { label: '4', text: '10' }
     ],
     correctAnswer: '2',
     applicableLenses: [3, 9],
@@ -2030,15 +2030,15 @@ const QUESTION_BANK = [
     choices: [
       { label: '1', text: 'g(x) = (x + 2)² − 2' },
       { label: '2', text: 'g(x) = (x + 8)² − 2' },
-      { label: '3', text: 'g(x) = (x + 5)² + 1' },
-      { label: '4', text: 'g(x) = (x + 5)² − 5' }
+      { label: '3', text: 'g(x) = (x + 5)² − 5' },
+      { label: '4', text: 'g(x) = (x + 5)² + 1' }
     ],
     correctAnswer: '2',
     applicableLenses: [9, 7],
     bestLens: 9,
     walkthroughs: {
-      9: 'Shift left h units: replace x with (x+h). Left 3: g(x) = ((x+3)+5)² − 2 = (x+8)² − 2. Trap (1): shift right 3 gives (x+2)²−2. Traps (3),(4): vertical shifts, not horizontal.',
-      7: 'Vertex of f is at (−5, −2). Shift left 3: new vertex = (−8, −2). Vertex form: g(x) = (x − (−8))² − 2 = (x+8)² − 2.'
+      9: 'Shift left 3 units: replace x with (x+3). g(x) = ((x+3)+5)² − 2 = (x+8)² − 2. Trap (1): shift right 3 gives (x+2)²−2. Traps (3),(4): these are vertical shifts (change to the −2 constant), not horizontal.',
+      7: 'Vertex of f is at (−5, −2). Shift left 3: new vertex = (−8, −2). Vertex form: g(x) = (x+8)² − 2.'
     },
     errorTags: ['shift_direction_error', 'confuses_horizontal_with_vertical_shift']
   },
@@ -2049,8 +2049,8 @@ const QUESTION_BANK = [
     standard: 'A.APR.3',
     stem: 'What are all the zeros of f(x) = x(x² − 36)?',
     choices: [
-      { label: '1', text: '0 and 6, only' },
-      { label: '2', text: '0 and −6, only' },
+      { label: '1', text: '0, only' },
+      { label: '2', text: '6, only' },
       { label: '3', text: '6 and −6, only' },
       { label: '4', text: '0, 6, and −6' }
     ],
@@ -2068,22 +2068,22 @@ const QUESTION_BANK = [
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 18,
     standard: 'S.ID.5',
-    stem: `A survey of 400 students asked them to choose their preferred lunch and drink. The results are shown below.${svgTable(
-      ['', 'Water', 'Juice', 'Total'],
-      [['Pizza', '58', '142', '200'], ['Salad', '80', '120', '200'], ['Total', '138', '262', '400']]
-    )}What is the relative frequency of students who chose pizza and water?`,
+    stem: `The two-way frequency table below is a summary of concession stand sales for a football game.${svgTable(
+      ['', 'Soda', 'Water', 'Coffee', 'Total'],
+      [['Hot Dogs', '50', '62', '46', '158'], ['Pizza', '120', '58', '4', '182'], ['No Food', '30', '20', '10', '60'], ['Total', '200', '140', '60', '400']]
+    )}Of the people making a purchase at the concession stand, what is the relative frequency of them buying pizza and a water?`,
     choices: [
-      { label: '1', text: '0.420' },
-      { label: '2', text: '0.290' },
-      { label: '3', text: '0.345' },
+      { label: '1', text: '0.58' },
+      { label: '2', text: '0.35' },
+      { label: '3', text: '0.455' },
       { label: '4', text: '0.145' }
     ],
     correctAnswer: '4',
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'Relative frequency = joint cell / grand total. Pizza AND Water = 58. Grand total = 400. RF = 58/400 = 0.145. Traps: (1) = 58/138 (conditional given water); (2) = 58/200 (conditional given pizza); (3) = 138/400 (water column total / grand total).',
-      10: 'Eliminate traps: "relative frequency of pizza AND water" requires the grand total (400) as denominator. Choices (1),(2),(3) all divide by marginal totals (138 or 200), not the grand total. Only (4) uses 58/400.'
+      9: 'Relative frequency = joint cell ÷ grand total. Pizza AND Water = 58. Grand total = 400. RF = 58/400 = 0.145. Trap (3): 182/400 = 0.455 uses the pizza row total. Trap (2): 140/400 = 0.35 uses the water column total.',
+      10: 'Eliminate traps: "relative frequency of pizza AND water" needs the grand total (400) as denominator. Only 58/400 = 0.145 gives the joint relative frequency.'
     },
     errorTags: ['uses_marginal_total_instead_of_grand_total', 'confuses_conditional_with_joint_frequency']
   },
@@ -2092,21 +2092,21 @@ const QUESTION_BANK = [
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 19,
     standard: 'N.Q.1',
-    stem: 'A person jogs at a rate of 6 miles per hour. Which expression can be used to find this speed in feet per second? (1 mile = 5,280 feet)',
+    stem: 'When Theodore was driving in Canada, his speed was 104 kilometers per hour. Theodore was asked to convert his metric speed to a different rate, using the following conversion:\n\n(104 km / 1 hr) × (1 hr / 60 min) × (1 min / 60 sec) × (0.6214 mi / 1 km) × (5280 ft / 1 mi)\n\nAssuming he did all the work correctly, what would the units be for Theodore\'s rate?',
     choices: [
-      { label: '1', text: '6 × 5280 ÷ 3600' },
-      { label: '2', text: '6 ÷ 5280 × 3600' },
-      { label: '3', text: '6 × 3600 ÷ 5280' },
-      { label: '4', text: '6 ÷ 5280 ÷ 3600' }
+      { label: '1', text: 'feet per second' },
+      { label: '2', text: 'feet per minute' },
+      { label: '3', text: 'seconds per foot' },
+      { label: '4', text: 'minutes per foot' }
     ],
     correctAnswer: '1',
-    applicableLenses: [10, 9],
-    bestLens: 10,
+    applicableLenses: [9, 10],
+    bestLens: 9,
     walkthroughs: {
-      10: 'Trap: (3) multiplies by 3600 hr — that keeps the hours unit instead of canceling it. Unit chain: (6 mi/hr)·(5280 ft/mi)·(1 hr/3600 s) = 6×5280÷3600 ft/s. Only (1) matches.',
-      9: 'Dimensional analysis: miles cancel with 5280 ft/mi (multiply). Hours cancel with 1 hr/3600 s (divide). Result: 6×5280÷3600 = 8.8 ft/s.'
+      9: 'Cancel units step by step: km cancels (÷ km from 0.6214 mi/km), hr cancels (÷ hr from 1 hr/60 min), min cancels (÷ min from 1 min/60 sec). Remaining: ft in numerator, sec in denominator → feet per second.',
+      10: 'Eliminate (3),(4): "per foot" puts ft in the denominator — the 5280 ft/mi conversion puts ft in the numerator. Eliminate (2): minutes cancel entirely in the chain. Only (1) feet per second results from complete unit cancellation.'
     },
-    errorTags: ['inverts_conversion_factor', 'unit_cancellation_error']
+    errorTags: ['unit_cancellation_error', 'inverts_unit_fraction']
   },
   {
     id: 'Q52',
@@ -2115,8 +2115,8 @@ const QUESTION_BANK = [
     standard: 'A.APR.1',
     stem: 'Which expression is equivalent to (−2x²)³?',
     choices: [
-      { label: '1', text: '−6x⁵' },
-      { label: '2', text: '6x⁶' },
+      { label: '1', text: '−2x⁵' },
+      { label: '2', text: '−2x⁶' },
       { label: '3', text: '−8x⁵' },
       { label: '4', text: '−8x⁶' }
     ],
@@ -2134,24 +2134,24 @@ const QUESTION_BANK = [
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 21,
     standard: 'F.IF.6',
-    stem: `A radioactive substance is decaying over time. The table below shows the amount remaining.${svgTable(
-      ['Year', 'Amount (grams)'],
-      [['2000', '800.0'], ['2007', '316.0'], ['2014', '74.8']]
-    )}What is the average rate of change in the amount of substance from 2000 to 2014?`,
+    stem: `A radioactive substance is decaying over time. The table below shows the amount of the substance that remained for selected years.${svgTable(
+      ['Year', '2000', '2001', '2005', '2010', '2014', '2017', '2019'],
+      [['Amount Remaining (grams)', '750', '450', '219', '85', '25', '12', '8']]
+    )}To the nearest tenth, the average rate of change, in grams per year, from 2000 to 2014 is`,
     choices: [
-      { label: '1', text: '−52.5 g per year' },
-      { label: '2', text: '−69.1 g per year' },
-      { label: '3', text: '−45.1 g per year' },
-      { label: '4', text: '−51.8 g per year' }
+      { label: '1', text: '39.1' },
+      { label: '2', text: '51.8' },
+      { label: '3', text: '−39.1' },
+      { label: '4', text: '−51.8' }
     ],
     correctAnswer: '4',
     applicableLenses: [4, 9],
     bestLens: 4,
     walkthroughs: {
-      4: 'Enter years in L1, amounts in L2. Average rate = (L2[3]−L2[1])/(L1[3]−L1[1]) = (74.8−800.0)/(2014−2000) = −725.2/14 = −51.8 g/yr. Trap (2): uses only 2000–2007 → (316−800)/7 = −69.1.',
-      9: 'Average rate of change = Δy/Δx. Use the endpoints of the requested interval: from 2000 to 2014. Δy = 74.8 − 800.0 = −725.2 g; Δx = 14 yr. Rate = −725.2/14 = −51.8 g/yr. Do not use the 2007 middle value.'
+      4: 'Enter years in L1, amounts in L2. Use only the 2000 and 2014 rows: (25 − 750)/(2014 − 2000) = −725/14 ≈ −51.8 g/yr. Trap (3): uses 2000 to 2019 → (8−750)/(2019−2000) = −742/19 ≈ −39.1. Trap (2): drops the negative sign.',
+      9: 'Average rate = Δy/Δx using only the endpoints 2000 and 2014: (25 − 750)/(14) = −725/14 ≈ −51.8 g/yr. The substance is decaying so the rate must be negative.'
     },
-    errorTags: ['uses_wrong_interval_endpoints', 'includes_middle_value_in_rate_calculation']
+    errorTags: ['uses_wrong_interval_endpoints', 'drops_negative_sign_on_rate']
   },
   {
     id: 'Q54',
@@ -2160,10 +2160,10 @@ const QUESTION_BANK = [
     standard: 'A.APR.1',
     stem: 'What is the difference when (2x² − 3x + 4) is subtracted from (x² + 2x − 5)?',
     choices: [
-      { label: '1', text: '3x² − x − 1' },
-      { label: '2', text: '−x² − x − 1' },
+      { label: '1', text: 'x² − 5x + 9' },
+      { label: '2', text: 'x² − x + 1' },
       { label: '3', text: '−x² + 5x − 9' },
-      { label: '4', text: '3x² + 5x − 9' }
+      { label: '4', text: '−x² − x − 1' }
     ],
     correctAnswer: '3',
     applicableLenses: [9, 3],
@@ -2179,42 +2179,214 @@ const QUESTION_BANK = [
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 23,
     standard: 'A.REI.4',
-    stem: 'Which equation is equivalent to (x − 3)² = 33?',
+    stem: 'Which equation has the same solution as x² − 6x = 24?',
     choices: [
-      { label: '1', text: 'x² − 9 = 33' },
-      { label: '2', text: 'x² + 6x = 24' },
-      { label: '3', text: 'x² − 6x = 24' },
-      { label: '4', text: 'x² − 6x = 42' }
+      { label: '1', text: '(x − 3)² = 24' },
+      { label: '2', text: '(x − 6)² = 24' },
+      { label: '3', text: '(x − 3)² = 33' },
+      { label: '4', text: '(x − 6)² = 60' }
     ],
     correctAnswer: '3',
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: 'Expand (x−3)² = x²−6x+9. So x²−6x+9=33. Subtract 9: x²−6x=24. Trap (1): x²−9 (forgetting the −6x cross term). Trap (2): sign error on cross term (+6x). Trap (4): adding 9 instead of subtracting (x²−6x=33+9=42).',
-      3: 'Expand: (x−3)² = x²−6x+9. Set equal to 33: x²−6x+9=33. Subtract 9 from both sides: x²−6x=24. Check by plugging x=3+√33: all four forms should agree — but only (3) results from correct algebra.'
+      9: 'Complete the square: x²−6x=24 → add (−6/2)²=9 to both sides: x²−6x+9=33 → (x−3)²=33. Trap (1): added 9 to left only, forgot to add to right. Trap (2): used full coefficient 6 instead of half (6/2=3). Trap (4): (x−6)² expands differently.',
+      3: 'Verify (3): (x−3)²=33 → x²−6x+9=33 → x²−6x=24 ✓. Test (1): (x−3)²=24 → x²−6x+9=24 → x²−6x=15 ✗. Only (3) gives the original equation.'
     },
-    errorTags: ['expand_perfect_square_error', 'sign_error_on_cross_term']
+    errorTags: ['forgets_to_add_constant_to_both_sides', 'uses_full_coefficient_instead_of_half']
   },
   {
     id: 'Q56',
     exam: 'January 2026 Algebra I Regents — Part I',
     questionNumber: 24,
     standard: 'F.BF.2',
-    stem: 'In a geometric sequence, a₁ = −2 and the common ratio is −3. What is the value of a₄?',
+    stem: 'In a sequence, the first term is −2 and the common ratio is −3. The fourth term in this sequence is',
     choices: [
-      { label: '1', text: '−54' },
-      { label: '2', text: '−18' },
-      { label: '3', text: '18' },
+      { label: '1', text: '−162' },
+      { label: '2', text: '−11' },
+      { label: '3', text: '24' },
       { label: '4', text: '54' }
     ],
     correctAnswer: '4',
     applicableLenses: [9, 4],
     bestLens: 9,
     walkthroughs: {
-      9: 'Explicit formula: aₙ = a₁·rⁿ⁻¹. a₄ = −2·(−3)³ = −2·(−27) = 54. Key: (−3)³ = −27 (odd power keeps negative); −2·(−27) = +54 (negative × negative = positive). Trap (1): forgetting that two negatives multiply to positive.',
-      4: 'Build term by term: a₁=−2; a₂=(−2)(−3)=6; a₃=(6)(−3)=−18; a₄=(−18)(−3)=54. Track signs carefully — they alternate because r is negative.'
+      9: 'Explicit formula: aₙ = a₁·rⁿ⁻¹. a₄ = −2·(−3)³ = −2·(−27) = 54. Trap (1): −162 = a₅ (computed one term too many). Trap (2): −11 = treating as arithmetic, −2 + 3·(−3) = −11.',
+      4: 'Build term by term: a₁=−2; a₂=(−2)(−3)=6; a₃=(6)(−3)=−18; a₄=(−18)(−3)=54. Track signs — they alternate because the ratio is negative.'
     },
-    errorTags: ['sign_error_with_negative_ratio', 'off_by_one_in_sequence_index']
+    errorTags: ['off_by_one_in_sequence_index', 'confuses_geometric_with_arithmetic']
+  },
+
+  {
+    id: 'Q57',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 5,
+    standard: 'N.RN.3',
+    stem: 'The expression 3 − 2√5 + 6√5 is equivalent to',
+    choices: [
+      { label: '1', text: '7√5' },
+      { label: '2', text: '7√10' },
+      { label: '3', text: '3 + 4√5' },
+      { label: '4', text: '3 + 4√10' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Combine like radical terms: −2√5 + 6√5 = (−2+6)√5 = 4√5. The constant 3 remains separate. Result: 3 + 4√5. Trap (1): absorbs the 3 into the radical. Traps (2),(4): √5 + √5 = 2√5, never √10 — you only get √10 by multiplying √5 · √2.',
+      10: 'Eliminate (2),(4): combining √5 terms never produces √10. Eliminate (1): 7√5 ignores the constant 3. Only (3) correctly keeps the constant separate from the radical term.'
+    },
+    errorTags: ['absorbs_constant_into_radical', 'adds_radicands_instead_of_coefficients']
+  },
+
+  {
+    id: 'Q58',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 17,
+    standard: 'A.REI.4',
+    stem: 'The point (x, −6) lies on the graph of a parabola whose equation is y = −x² − x + 6. The value of x can be',
+    choices: [
+      { label: '1', text: '−3 or 2' },
+      { label: '2', text: '−4 or 3' },
+      { label: '3', text: '3, only' },
+      { label: '4', text: '−4, only' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [1, 3],
+    bestLens: 3,
+    walkthroughs: {
+      3: 'Substitute y = −6: −x²−x+6=−6 → −x²−x+12=0 → x²+x−12=0 → (x+4)(x−3)=0 → x=−4 or x=3. Both values work. Trap (3): only lists x=3; trap (4): only lists x=−4 — a parabola can cross a horizontal line at two points.',
+      1: 'Graph y = −x²−x+6 and y = −6. Use 2nd TRACE → intersect. Two intersections at x = −4 and x = 3.'
+    },
+    errorTags: ['misses_second_solution', 'sign_error_in_quadratic_setup']
+  },
+
+  {
+    id: 'Q59',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 1,
+    standard: 'F.IF.4',
+    stem: `A parabola is graphed on the set of axes below.${svgGraph(
+      { xMin:-1, xMax:7, yMin:-5, yMax:5, W:260, H:210, padL:36, padR:16, padT:16, padB:36, step:1 },
+      [{ fn: x => (x-3)*(x-3) - 4, color:'#000' }]
+    )}\nWhat are the equation of the axis of symmetry and the coordinates of the vertex of this parabola?`,
+    choices: [
+      { label: '1', text: 'x = 3 and (3, −4)' },
+      { label: '2', text: 'y = 3 and (3, −4)' },
+      { label: '3', text: 'x = −4 and (−4, 3)' },
+      { label: '4', text: 'y = −4 and (−4, 3)' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [7, 9],
+    bestLens: 7,
+    walkthroughs: {
+      7: 'Vertex/Min-Max lens: the lowest point of the upward parabola is the vertex. From the graph, the minimum is at (3, −4). The axis of symmetry is the vertical line through the vertex: x = 3.',
+      9: 'Read the turning point from the graph: vertex = (3, −4). The axis of symmetry is always a vertical line x = (x-coordinate of vertex) = x = 3. Eliminate (2),(4): axis of symmetry is always x = c, never y = c for a vertical parabola.'
+    },
+    errorTags: ['confuses_x_and_y_for_axis_of_symmetry', 'swaps_vertex_coordinates']
+  },
+
+  {
+    id: 'Q60',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 7,
+    standard: 'F.IF.1',
+    stem: (() => {
+      const ax = (ox, oy) => [
+        `<g stroke="#ccc" stroke-width="0.5">`,
+        ...[1,2,3,4,5].map(i => `<line x1="${ox+20+i*24}" y1="${oy+12}" x2="${ox+20+i*24}" y2="${oy+108}"/>`),
+        ...[1,2,3,4].map(i => `<line x1="${ox+20}" y1="${oy+108-i*24}" x2="${ox+140}" y2="${oy+108-i*24}"/>`),
+        `</g>`,
+        `<line x1="${ox+20}" y1="${oy+108}" x2="${ox+142}" y2="${oy+108}" stroke="#000" stroke-width="1.5"/>`,
+        `<polygon points="${ox+142},${oy+105} ${ox+148},${oy+108} ${ox+142},${oy+111}" fill="#000"/>`,
+        `<line x1="${ox+20}" y1="${oy+108}" x2="${ox+20}" y2="${oy+10}" stroke="#000" stroke-width="1.5"/>`,
+        `<polygon points="${ox+17},${oy+10} ${ox+20},${oy+4} ${ox+23},${oy+10}" fill="#000"/>`,
+        `<text x="${ox+151}" y="${oy+112}" font-size="10" fill="#000">x</text>`,
+        `<text x="${ox+24}" y="${oy+9}" font-size="10" fill="#000">y</text>`
+      ].join('');
+      const dot = (ox, oy, x, y, open=false) => open
+        ? `<circle cx="${ox+20+x*24}" cy="${oy+108-y*24}" r="4" fill="#fff" stroke="#000" stroke-width="1.5"/>`
+        : `<circle cx="${ox+20+x*24}" cy="${oy+108-y*24}" r="4" fill="#000"/>`;
+      const seg = (ox, oy, x1, y1, x2, y2) =>
+        `<line x1="${ox+20+x1*24}" y1="${oy+108-y1*24}" x2="${ox+20+x2*24}" y2="${oy+108-y2*24}" stroke="#000" stroke-width="2.5"/>`;
+      const lbl = (ox, oy, t) => `<text x="${ox+80}" y="${oy+126}" text-anchor="middle" font-size="13" fill="#000">(${t})</text>`;
+      const svgW=162, svgH=130;
+      const mk = (ox, oy, content, t) =>
+        `<svg width="${svgW}" height="${svgH}" xmlns="http://www.w3.org/2000/svg" style="display:block;font-family:Arial,sans-serif;">${ax(0,0)}${content}${lbl(0,0,t)}</svg>`;
+      const g1 = mk(0,0, dot(0,0,1,1)+dot(0,0,2,2)+dot(0,0,3,2)+dot(0,0,4,3)+dot(0,0,5,3), '1');
+      const g3 = mk(0,0, dot(0,0,1,2)+dot(0,0,2,3)+dot(0,0,2,4)+dot(0,0,3,3)+dot(0,0,3,4)+dot(0,0,5,4), '3');
+      const g2 = mk(0,0, seg(0,0,1,1,3,1)+dot(0,0,1,1,true)+dot(0,0,3,1)+seg(0,0,2,2,4,2)+dot(0,0,2,2,true)+dot(0,0,4,2)+seg(0,0,3,3,5,3)+dot(0,0,3,3)+dot(0,0,5,3), '2');
+      const g4 = mk(0,0, seg(0,0,2,1,2,3)+dot(0,0,2,1)+dot(0,0,2,3)+seg(0,0,4,2,4,4)+dot(0,0,4,2)+dot(0,0,4,4,true)+dot(0,0,5,3,true)+dot(0,0,5,4,true), '4');
+      return `Which graph below represents a function?<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px auto;max-width:340px;">${g1}${g3}${g2}${g4}</div>`;
+    })(),
+    choices: [
+      { label: '1', text: 'Graph (1)' },
+      { label: '2', text: 'Graph (2)' },
+      { label: '3', text: 'Graph (3)' },
+      { label: '4', text: 'Graph (4)' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9, 8],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'A function passes the vertical line test: each x-value maps to exactly one y-value. Graph (1): 5 isolated points, each at a distinct x — passes VLT ✓. Graph (3): columns x=2 and x=3 each have two stacked dots — two y-values, fails VLT. Graph (2): overlapping horizontal segments share x-values at two different heights — fails VLT. Graph (4): vertical line segments — one x has infinitely many y-values, fails VLT.',
+      8: 'Domain & Range lens: for a function, every input (x) must produce exactly one output (y). Only graph (1) has a unique y for every x shown.'
+    },
+    errorTags: ['fails_vertical_line_test', 'confuses_relation_with_function']
+  },
+
+  {
+    id: 'Q61',
+    exam: 'January 2026 Algebra I Regents — Part I',
+    questionNumber: 11,
+    standard: 'A.REI.3',
+    stem: (() => {
+      const W=280, H=44, tickY=22, padL=28, padR=16, xMin=0, xMax=3.5;
+      const toX = v => (padL + (v/xMax)*(W-padL-padR)).toFixed(1);
+      const ticks = [0, 0.5, 1, 1.5, 2, 2.5, 3];
+      const labels = ['0', '½', '1', '1½', '2', '2½', '3'];
+      const base = () => {
+        let s = `<g stroke="#000" stroke-width="1">`;
+        s += `<line x1="${padL}" y1="${tickY}" x2="${W-padR}" y2="${tickY}"/>`;
+        s += `<polygon points="${padL-5},${tickY-3} ${padL},${tickY} ${padL-5},${tickY+3}" fill="#000"/>`;
+        s += `<polygon points="${W-padR+5},${tickY-3} ${W-padR},${tickY} ${W-padR+5},${tickY+3}" fill="#000"/>`;
+        ticks.forEach((v,i) => {
+          s += `<line x1="${toX(v)}" y1="${tickY-5}" x2="${toX(v)}" y2="${tickY+5}"/>`;
+          s += `<text x="${toX(v)}" y="${tickY+18}" text-anchor="middle" font-size="10" fill="#000">${labels[i]}</text>`;
+        });
+        s += `</g>`;
+        return s;
+      };
+      const ray = (v, open, dir, lbl) => {
+        const cx = +toX(v), cy = tickY;
+        const rayEnd = dir === 'right' ? W-padR : padL;
+        const c = open
+          ? `<circle cx="${cx}" cy="${cy}" r="4" fill="#fff" stroke="#000" stroke-width="1.5"/>`
+          : `<circle cx="${cx}" cy="${cy}" r="4" fill="#000"/>`;
+        const line = `<line x1="${cx}" y1="${cy}" x2="${rayEnd}" y2="${cy}" stroke="#000" stroke-width="2.5"/>`;
+        const label = `<text x="${padL-5}" y="${tickY-8}" font-size="11" fill="#000">(${lbl})</text>`;
+        return `<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="display:block;font-family:Arial,sans-serif;">${base()}${line}${c}${label}</svg>`;
+      };
+      const nl1 = ray(0.5, true, 'left', '1');
+      const nl2 = ray(0.5, false, 'right', '2');
+      const nl3 = ray(0.5, true, 'right', '3');
+      const nl4 = ray(0.5, false, 'left', '4');
+      return `Which graph represents the solution to the inequality 4 + 3x > 9 − 7x?<div style="display:flex;flex-direction:column;gap:6px;margin:8px 0;">${nl1}${nl2}${nl3}${nl4}</div>`;
+    })(),
+    choices: [
+      { label: '1', text: 'x < ½ (open circle, left ray)' },
+      { label: '2', text: 'x ≥ ½ (closed circle, right ray)' },
+      { label: '3', text: 'x > ½ (open circle, right ray)' },
+      { label: '4', text: 'x ≤ ½ (closed circle, left ray)' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [9, 3],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Solve: 4+3x > 9−7x → add 7x: 4+10x > 9 → subtract 4: 10x > 5 → x > ½. Open circle (strict inequality >), ray pointing RIGHT. Graph (3) matches.',
+      3: 'Test x = 1: 4+3 = 7, 9−7 = 2, 7 > 2 ✓. Test x = 0: 4 > 9 ✗. Solution is x > ½. Open circle (not ≥), ray right.'
+    },
+    errorTags: ['uses_closed_circle_for_strict_inequality', 'wrong_direction_ray']
   }
 ];
 
