@@ -2387,6 +2387,271 @@ const QUESTION_BANK = [
       3: 'Test x = 1: 4+3 = 7, 9−7 = 2, 7 > 2 ✓. Test x = 0: 4 > 9 ✗. Solution is x > ½. Open circle (not ≥), ray right.'
     },
     errorTags: ['uses_closed_circle_for_strict_inequality', 'wrong_direction_ray']
+  },
+
+  // ── Phase 2 Session D — June 2025 Part I ─────────────────────────────────
+
+  {
+    id: 'Q62',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 1,
+    standard: 'N.RN.2',
+    stem: 'The expression 10/√2 is equivalent to',
+    choices: [
+      { label: '1', text: '5' },
+      { label: '2', text: '20' },
+      { label: '3', text: '5√2' },
+      { label: '4', text: '10√2' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [3, 9],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Rationalize: multiply numerator and denominator by √2 → 10√2/2 = 5√2. No calculator needed.',
+      3: 'TI-84: 10/√(2) ≈ 7.071. Test choices: 5√(2) ≈ 7.071 ✓. Answer is (3).'
+    },
+    errorTags: ['fails_to_rationalize', 'multiplies_radicand_instead']
+  },
+  {
+    id: 'Q63',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 16,
+    standard: 'N.RN.3',
+    stem: 'The sum of 2√27 and 4√12 is',
+    choices: [
+      { label: '1', text: '14√3' },
+      { label: '2', text: '34√3' },
+      { label: '3', text: '6√39' },
+      { label: '4', text: '8√39' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [3, 9],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Simplify: 2√27 = 2·3√3 = 6√3; 4√12 = 4·2√3 = 8√3. Sum = 14√3. The √39 traps combine unlike radicands.',
+      3: 'TI-84: 2√(27)+4√(12) ≈ 24.25. Test: 14√(3) ≈ 24.25 ✓. Eliminates the √39 distractors.'
+    },
+    errorTags: ['combines_unlike_radicands', 'fails_to_simplify_radical']
+  },
+  {
+    id: 'Q64',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 18,
+    standard: 'F.IF.2',
+    stem: 'Given the function g(x) = 2^(x+3) / (x² − 2), what is the value of g(−2)?',
+    choices: [
+      { label: '1', text: '1' },
+      { label: '2', text: '1/3' },
+      { label: '3', text: '−1' },
+      { label: '4', text: '−1/3' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [3, 4],
+    bestLens: 3,
+    walkthroughs: {
+      3: 'Store −2 → X. Evaluate 2^(X+3)/(X²−2): numerator = 2^1 = 2; denominator = 4−2 = 2. Result = 1. Answer is (1).',
+      4: 'Y1 = 2^(X+3)/(X²−2). TABLE at X = −2: Y1 = 1 ✓.'
+    },
+    errorTags: ['sign_error_in_exponent', 'denominator_evaluation_error']
+  },
+  {
+    id: 'Q65',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 20,
+    standard: 'A.CED.4',
+    stem: 'The formula to calculate kinetic energy is K = ½mv², where K is kinetic energy, m is mass, and v is velocity. When m is written in terms of K and v, the equation is',
+    choices: [
+      { label: '1', text: 'm = 2K/v²' },
+      { label: '2', text: 'm = 2Kv²' },
+      { label: '3', text: 'm = √(2Kv²)' },
+      { label: '4', text: 'm = K/(2v²)' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'K = ½mv² → multiply both sides by 2: 2K = mv² → divide by v²: m = 2K/v². Two-step isolation.',
+      10: 'Eliminate (2): dividing by v² removes it, not multiplies. Eliminate (3): no square root arises when isolating m. Eliminate (4): ½ inverts to 2, not stays as ½.'
+    },
+    errorTags: ['fails_to_invert_half', 'takes_square_root_of_both_sides']
+  },
+  {
+    id: 'Q66',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 21,
+    standard: 'A.REI.3',
+    stem: 'The solution to the equation 2(3x − 1)/3 = x + 2 is',
+    choices: [
+      { label: '1', text: '1/3' },
+      { label: '2', text: '2/3' },
+      { label: '3', text: '4/3' },
+      { label: '4', text: '8/3' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [1, 3],
+    bestLens: 1,
+    walkthroughs: {
+      1: 'Y1 = 2(3X−1)/3, Y2 = X+2. ZOOM 6 → 2nd TRACE → 5: intersect → X ≈ 2.667 = 8/3. Answer is (4).',
+      3: 'Test X = 8/3: LHS = 2(3·8/3−1)/3 = 2(7)/3 = 14/3. RHS = 8/3+2 = 14/3 ✓.'
+    },
+    errorTags: ['fails_to_clear_fraction', 'distribution_error']
+  },
+  {
+    id: 'Q67',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 24,
+    standard: 'N.Q.1',
+    stem: 'Each day, a freight train passes by Anna\'s house. This freight train travels at 49 miles per hour. Each railroad car is 56 feet long. Which expression represents the number of railroad cars that pass by Anna\'s house per minute?',
+    choices: [
+      { label: '1', text: '49mi/1hr · 1mi/5280ft · 1hr/60min · 1car/56ft' },
+      { label: '2', text: '49mi/1hr · 1mi/5280ft · 60min/1hr · 1car/56ft' },
+      { label: '3', text: '49mi/1hr · 5280ft/1mi · 1hr/60min · 1car/56ft' },
+      { label: '4', text: '49mi/1hr · 5280ft/1mi · 60min/1hr · 1car/56ft' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [9, 10],
+    bestLens: 9,
+    walkthroughs: {
+      9: 'Need mi→ft (×5280ft/1mi) and hr→min (×1hr/60min). Check units cancel: mi/hr × ft/mi × hr/min × car/ft = car/min ✓. Only (3) has both conversions oriented correctly.',
+      10: 'Eliminate (1)&(2): 1mi/5280ft inverts the conversion — miles don\'t cancel. Eliminate (4): 60min/1hr multiplies minutes instead of dividing. Answer is (3).'
+    },
+    errorTags: ['inverts_unit_conversion', 'flips_time_conversion']
+  },
+  {
+    id: 'Q68',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 2,
+    standard: 'F.IF.4',
+    stem: 'A parabola is graphed on the set of axes below.' +
+      svgGraph(
+        { xMin:-2, xMax:8, yMin:-5, yMax:10, W:280, H:220, padL:36, padR:16, padT:16, padB:36, step:1 },
+        [{ fn: function(x){ return (x-3)*(x-3)-4; }, samples:200 }]
+      ) +
+      'Over which interval is the parabola only increasing?',
+    choices: [
+      { label: '1', text: '[1, 4]' },
+      { label: '2', text: '[3, ∞)' },
+      { label: '3', text: '(−∞, 3]' },
+      { label: '4', text: '[−1, 1]' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [7, 8],
+    bestLens: 8,
+    walkthroughs: {
+      8: 'Scan the graph for the vertex (lowest point) — it sits at x = 3. Parabola opens upward, so it decreases left of x = 3 and increases right of x = 3. Increasing interval: [3, ∞).',
+      7: 'Enter Y1 = (X−3)²−4. 2nd TRACE → 3: minimum → vertex at X = 3. Parabola increases for all x > 3 → [3, ∞).'
+    },
+    errorTags: ['confuses_increasing_with_decreasing', 'reports_root_interval_instead']
+  },
+  {
+    id: 'Q69',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 12,
+    standard: 'S.ID.2',
+    stem: (() => {
+      const s1 = svgBoxPlot({ min:9, q1:11, median:13, q3:14, max:17, label:'Swim Team', W:280, H:80 });
+      const s2 = svgBoxPlot({ min:8, q1:9,  median:11, q3:12, max:15, label:'Track Team', W:280, H:80 });
+      return 'The box plots below summarize the ages of athletes on the swim team and the track team.' +
+        '<div style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;">' + s1 + s2 + '</div>' +
+        'Based on the box plots, which statement must be true?';
+    })(),
+    choices: [
+      { label: '1', text: 'The IQR of both teams is the same.' },
+      { label: '2', text: 'There are more athletes on the swim team than on the track team.' },
+      { label: '3', text: 'The median age of the swim team is less than the median age of the track team.' },
+      { label: '4', text: 'The range of ages of the swim team is smaller than the range of ages of the track team.' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [8, 10],
+    bestLens: 8,
+    walkthroughs: {
+      8: 'Read IQR = Q3 − Q1 for each: Swim IQR = 14 − 11 = 3; Track IQR = 12 − 9 = 3. Equal ✓. Eliminate (3): swim median (13) > track median (11). Eliminate (4): swim range = 17−9 = 8 > track range = 15−8 = 7.',
+      10: 'Eliminate (2): box plots show spread, not count. Eliminate (3): 13 > 11, so swim median is GREATER, not less. Eliminate (4): swim range = 8 > track range = 7. Only (1) is always true.'
+    },
+    errorTags: ['confuses_range_with_IQR', 'reads_median_direction_incorrectly']
+  },
+  {
+    id: 'Q70',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 13,
+    standard: 'F.IF.1',
+    stem: (() => {
+      const W=280, H=220, padL=40, padR=20, padT=16, padB=36;
+      const xMin=0, xMax=15, yMin=0, yMax=50;
+      const iW = W-padL-padR, iH = H-padT-padB;
+      const toX = function(x){ return ((x-xMin)/(xMax-xMin)*iW+padL).toFixed(1); };
+      const toY = function(y){ return (H-padB-(y-yMin)/(yMax-yMin)*iH).toFixed(1); };
+      let s = svgPlane({xMin:0,xMax:15,yMin:0,yMax:50,W:280,H:220,padL:40,padR:20,padT:16,padB:36,step:5}).replace('</svg>','');
+      s += '<line x1="'+toX(0)+'" y1="'+toY(20)+'" x2="'+toX(9)+'" y2="'+toY(30)+'" stroke="#000" stroke-width="1.8"/>';
+      s += '<line x1="'+toX(9)+'" y1="'+toY(30)+'" x2="'+toX(12)+'" y2="'+toY(45)+'" stroke="#000" stroke-width="1.8"/>';
+      s += '<circle cx="'+toX(0)+'" cy="'+toY(20)+'" r="4" fill="#fff" stroke="#000" stroke-width="1.5"/>';
+      s += '<circle cx="'+toX(12)+'" cy="'+toY(45)+'" r="4" fill="#000"/>';
+      s += '<text x="'+(+toX(3)+6).toFixed(1)+'" y="'+(+toY(23)-4).toFixed(1)+'" font-size="11" fill="#000">f(x)</text>';
+      s += '</svg>';
+      return 'The graph of f(x) is shown below.' + s + 'The domain of this function is';
+    })(),
+    choices: [
+      { label: '1', text: '[0, 12]' },
+      { label: '2', text: '[15, 45]' },
+      { label: '3', text: '0 < x ≤ 12' },
+      { label: '4', text: '15 < x ≤ 45' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [8, 10],
+    bestLens: 8,
+    walkthroughs: {
+      8: 'Domain = x-values the function is defined for. Left endpoint (0,20) has an OPEN circle → x = 0 excluded. Right endpoint (12,45) has a CLOSED dot → x = 12 included. Domain: 0 < x ≤ 12.',
+      10: 'Eliminate (1): open circle at x = 0 means x = 0 is NOT included — bracket [0 is wrong. Eliminate (2) and (4): those use y-values (15–45), not x-values. Domain is about x.'
+    },
+    errorTags: ['confuses_domain_with_range', 'ignores_open_circle']
+  },
+  {
+    id: 'Q71',
+    exam: 'June 2025 Algebra I Regents — Part I',
+    questionNumber: 19,
+    standard: 'F.IF.1',
+    stem: (() => {
+      const panel = function(content, lbl) {
+        const W=110, H=110, cx=55, cy=55;
+        return '<svg width="'+W+'" height="'+H+'" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;font-family:Arial,sans-serif;">'
+          +'<line x1="10" y1="'+cy+'" x2="'+(W-6)+'" y2="'+cy+'" stroke="#000" stroke-width="1"/>'
+          +'<polygon points="'+(W-10)+','+(cy-3)+' '+(W-5)+','+cy+' '+(W-10)+','+(cy+3)+'" fill="#000"/>'
+          +'<line x1="'+cx+'" y1="'+(H-6)+'" x2="'+cx+'" y2="10" stroke="#000" stroke-width="1"/>'
+          +'<polygon points="'+(cx-3)+',14 '+cx+',8 '+(cx+3)+',14" fill="#000"/>'
+          +content
+          +'<text x="'+cx+'" y="'+(H-3)+'" text-anchor="middle" font-size="12" font-weight="bold" fill="#000">('+lbl+')</text>'
+          +'</svg>';
+      };
+      const A = '<path d="M 28 20 Q 55 80 55 80 Q 55 80 82 20" stroke="#000" stroke-width="1.8" fill="none"/>'
+               +'<polygon points="26,26 28,20 33,24" fill="#000"/>'
+               +'<polygon points="80,26 82,20 87,24" fill="#000"/>';
+      const B = '<line x1="15" y1="55" x2="95" y2="55" stroke="#000" stroke-width="1.8"/>'
+               +'<polygon points="15,52 8,55 15,58" fill="#000"/>'
+               +'<polygon points="95,52 102,55 95,58" fill="#000"/>';
+      const C = '<line x1="55" y1="15" x2="55" y2="95" stroke="#000" stroke-width="1.8"/>'
+               +'<polygon points="52,19 55,13 58,19" fill="#000"/>'
+               +'<polygon points="52,91 55,97 58,91" fill="#000"/>';
+      const D = '<circle cx="55" cy="55" r="28" stroke="#000" stroke-width="1.8" fill="none"/>';
+      return 'Four graphs are shown below.'
+        +'<div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;">'
+        +panel(A,'A')+panel(B,'B')+panel(C,'C')+panel(D,'D')
+        +'</div>'
+        +'Which of the graphs represent(s) a function?';
+    })(),
+    choices: [
+      { label: '1', text: 'A, only' },
+      { label: '2', text: 'A and B, only' },
+      { label: '3', text: 'A, B, and C, only' },
+      { label: '4', text: 'A, B, C, and D' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [8, 10],
+    bestLens: 8,
+    walkthroughs: {
+      8: 'Vertical Line Test (VLT): if any vertical line crosses the graph more than once, it is NOT a function. A (downward arch): VLT passes ✓. B (horizontal line): VLT passes ✓. C (vertical line): every vertical line at x=same value hits it — FAILS ✗. D (circle): any interior x hits top and bottom — FAILS ✗. Functions: A and B only.',
+      10: 'Eliminate (3) and (4): C is a vertical line — fails VLT immediately. Eliminate (1): B is a horizontal line — it IS a function. Answer: A and B only.'
+    },
+    errorTags: ['fails_vertical_line_test', 'confuses_vertical_with_horizontal']
   }
 ];
 

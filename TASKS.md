@@ -1,6 +1,15 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-11 (session 6 — phase 2 session C close)
+Last updated: 2026-05-11 (session 7 — phase 2 session D)
+
+---
+
+## Phase 2 Session D — Session PRD
+**Design concept:** Append 10 June 2025 Part I questions (6 text-only + 4 SVG image questions) to QUESTION_BANK, verified against PDF renders at 1366×768 in both Practice and Challenge modes.
+**Modules touched:** QUESTION_BANK only
+**Interface changes:** New question objects Q62–Q71 appended after Q61; text questions use Unicode math; SVG questions use existing helpers (`svgGraph` for Q2/Q13, IIFE multi-panel for Q12/Q19)
+**Out of scope:** Q23 (SVG in choices — deferred), Part II–style MC, renderer/CSS/handler changes, deployment
+**Done when:** `window.runPuzzleTests()` passes all questions; each SVG question visually verified at 1366×768 in Practice and Challenge modes against PDF renders
 
 ---
 
