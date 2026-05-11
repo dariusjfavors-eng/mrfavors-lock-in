@@ -4,12 +4,12 @@ Last updated: 2026-05-11 (session 10 — phase 2 session F)
 
 ---
 
-## Phase 2 Session F — Session PRD
-**Design concept:** Embed KaTeX inline (minified JS + CSS, no external font files) and add a `math(latex)` helper; fix `choiceLayout()` to measure LaTeX source length not rendered HTML; then update QUESTION_BANK in batches to replace Unicode/plain-text math with KaTeX-rendered notation matching the NYS Regents exam look.
-**Modules touched:** `<style>` block (KaTeX CSS, @font-face stripped), `<script>` block (KaTeX JS + `math()` helper + `choiceLayout()` fix), QUESTION_BANK (batched — not all 72 in one session)
-**Interface changes:** New `math(latex)` → `katex.renderToString(latex, {throwOnError:false})` helper added before QUESTION_BANK; `choiceLayout(q)` strips HTML tags before measuring length; existing `stem` and `choice.text` strings updated to use `math()` calls for fractions, radicals, exponents
-**Out of scope:** Challenge mode changes (24-question randomization, wrong-answer training mode), new questions, new lenses, new modes, deployment
-**Done when:** `window.runPuzzleTests()` passes all questions after each batch; at least one fraction (Q67), one radical (Q62/Q63), and one exponent question render with proper Regents-style notation; `choiceLayout()` still returns 'grid' for short-choice questions
+## Phase 2 Session F — Session PRD ✅ COMPLETE 2026-05-11
+**Design concept:** Custom CSS renderer (not KaTeX) — `.mfrac`/`.msqrt`/`.mcoef` CSS classes + `math(latex)` helper; fix `choiceLayout()` to strip HTML before measuring length; update QUESTION_BANK in batches to replace plain-text math with properly rendered notation matching the NYS Regents exam look.
+**Modules touched:** `<style>` block (`.mfrac`, `.msqrt`, `.mcoef` classes), `<script>` block (`math()` helper + `choiceLayout()` fix), QUESTION_BANK (Q05, Q18, Q23, Q34, Q37–Q38, Q43, Q47, Q57–Q58, Q62–Q67)
+**Interface changes:** `math(latex)` helper returns inline HTML string; `choiceLayout(q)` now strips HTML tags before measuring; 14 questions updated with stacked fractions, radical overlines, superscript exponents
+**Out of scope:** Challenge mode changes, new questions, new lenses, new modes, deployment
+**Done when:** ✅ 72/72 pass; ✅ stacked fractions (Q67), radical overlines (Q62/Q63), superscript exponents (Q58); ✅ `choiceLayout()` still returns 'grid' for short-choice questions
 
 ---
 
@@ -87,6 +87,7 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 - [ ] **Session G** — Challenge mode rework: exactly 24 questions randomly sampled from full bank each attempt (matching real Regents Part I length); requires Grill Me
 - [ ] **Session H** — Wrong-answer training mode: after Challenge, students can drill questions they got wrong; requires Grill Me
 ### Done (Phase 2)
+- [x] **Session F** — math() renderer: custom CSS (.mfrac/.msqrt/.mcoef) + helper function; choiceLayout() HTML-strip fix; 14 questions updated (Q05, Q18, Q23, Q34, Q37–Q38, Q43, Q47, Q57–Q58, Q62–Q67) with stacked fractions, radical overlines, superscript exponents; 72/72 pass — 2026-05-11
 - [x] **Session E** — June 2025 Q23 (axis of symmetry — SVG graph in choice 1, svgTable in choice 3); renderer confirmed innerHTML-safe; no renderer change needed; 72/72 pass — 2026-05-11
 - [x] Browser QA — SVG rendering at 1366×768 for Q59–Q71 in Practice and Challenge modes — 2026-05-11
 - [x] Author `svgPlane()`, `svgGraph()`, `svgTable()`, `svgScatter()`, `svgBoxPlot()`, `svgBarGraph()` helpers — 2026-05-10
@@ -101,7 +102,7 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 - New lenses — 10 lenses are sufficient for all new questions
 - New modes or renderers — zero code changes needed; SVG works in stem today
 - External image files — inline SVG only, single-file constraint holds
-- MathJax or KaTeX — Unicode math characters sufficient (², −, ≤, ≥, π)
+- MathJax or KaTeX — custom CSS renderer chosen over KaTeX (264kb overhead rejected); math() helper is sufficient for Regents notation
 
 ---
 
