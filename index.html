@@ -3272,6 +3272,7 @@ function renderChallengeResults() {
   const total = C.answers.length;
   const correct = C.answers.filter(a => a.correct).length;
   const wrong = total - correct;
+  ANALYTICS.log('challenge_complete', { total, correct, score_pct: Math.round((correct / total) * 100) });
 
   // Group by standard
   const byStandard = {};
@@ -3473,7 +3474,7 @@ function challengeLockAnswer() {
   });
   C.answered = true;
   clearChallengeTimer();
-  ANALYTICS.log('challenge_attempt', { qid: Q.id, standard: Q.standard, picked_choice: _challengeSelectedChoice, correct });
+  ANALYTICS.log('challenge_attempt', { qid: Q.id, standard: Q.standard, picked_choice: _challengeSelectedChoice, correct_answer: Q.correctAnswer, correct, time_spent_s: timeSpent, best_lens: Q.bestLens });
   _challengeSelectedChoice = null;
   challengeNext();
 }
