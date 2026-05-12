@@ -1,6 +1,6 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-12 (session G)
+Last updated: 2026-05-12 (Session I)
 
 ---
 
@@ -118,14 +118,14 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 ### Future Sessions (Grill Me required before starting)
 - [x] **Session G** — Challenge + Practice Mode rework: Practice home with 3 entry points (free roam, standard drill, lens drill); Challenge draws 24 balanced by Jan 2026 standards on first play, random thereafter; CSV auto-download on Challenge completion — 2026-05-12
 - [x] **Session H** — Wrong-answer drill: "Drill Mistakes (N)" button on Challenge results (hidden on perfect score); feeds missed questions into Practice Mode Free Roam loop; lens-pick screen shows diagnostic strip + bold/highlight for best-lens matches; `Mistakes Drill` label in question header; 72/72 pass — 2026-05-12
-- [ ] **Session I** — Browser QA at 1366×768 (no Grill Me required — verification only). Must pass before deployment.
+- [x] **Session I** — Browser QA at 1366×768 — all 17 checks pass; `\sqrt{}` processing-order bug found and fixed (Q62 stem `\frac{10}{\sqrt{2}}` now renders correctly); 72/72 pass — 2026-05-12
 - [ ] **Session J** — Deployment pass (no Grill Me required — no new mechanics). GitHub Pages → Google Sites iframe → Cloudflare Worker → Classroom Ready.
 
 ---
 
-## Session I — Browser QA Checklist
+## Session I — Browser QA Checklist ✅ COMPLETE 2026-05-12
 
-> Verify all UI added in Sessions G and H at 1366×768 (Chromebook target). No code changes expected — if something breaks, open a bug item and fix before Session J.
+> Verify all UI added in Sessions G and H at 1366×768 (Chromebook target). One bug found and fixed (`\sqrt{}` order in `math()`).
 
 **Work type:** System — QA
 **No Grill Me required.**
@@ -134,41 +134,42 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 ### Checks
 
 **Practice Mode — Home**
-- [ ] Three entry-point cards render without overflow (Free Roam, Standard Drill, Lens Drill)
-- [ ] Standard Drill picker lists all 11 clusters with question counts
-- [ ] Lens Drill picker lists all 10 lenses with applicable question counts
+- [x] Three entry-point cards render without overflow (Free Roam, Standard Drill, Lens Drill)
+- [x] Standard Drill picker lists all 11 clusters with question counts
+- [x] Lens Drill picker lists all 10 lenses with applicable question counts
 
 **Practice Mode — Standard Drill**
-- [ ] Question loop runs correctly for at least one cluster (e.g. Quadratics)
-- [ ] `(1)(2)(3)(4)` labels visible; 2-col grid for short choices, stack for long
+- [x] Question loop runs correctly for at least one cluster (e.g. Quadratics)
+- [x] `(1)(2)(3)(4)` labels visible; 2-col grid for short choices, stack for long
 
 **Practice Mode — Lens Drill**
-- [ ] Lens-pick phase collapses correctly; rail hint shows lens tagline
-- [ ] Walkthrough appears in review phase
+- [x] Lens-pick phase collapses correctly; rail hint shows lens tagline
+- [x] Walkthrough appears in review phase
 
 **Challenge Mode**
-- [ ] Start screen renders; 24-question draw runs
-- [ ] Timer bar visible; turns red at ≤30s
-- [ ] Results screen renders: score, per-standard table, all three buttons
-- [ ] CSV auto-downloads on completion (check Downloads folder)
-- [ ] "Drill Mistakes (N)" button appears after a non-perfect run
+- [x] Start screen renders; 24-question draw runs
+- [x] Timer bar visible; turns red at ≤30s
+- [x] Results screen renders: score, per-standard table, all three buttons
+- [x] CSV auto-downloads on completion (check Downloads folder)
+- [x] "Drill Mistakes (N)" button appears after a non-perfect run
+- [x] Perfect score (24/24) → no "Drill Mistakes" button; only Re-download CSV, Try Again, ← Home
 
 **Mistakes Drill**
-- [ ] Clicking "Drill Mistakes" enters Practice Mode
-- [ ] `.wrong-drill-strip` diagnostic strip visible above lens grid
-- [ ] Highlighted lenses show blue border + tint
-- [ ] "Mistakes Drill" label in question header
-- [ ] Full lens-pick → walkthrough → answer → review loop completes
+- [x] Clicking "Drill Mistakes" enters Practice Mode
+- [x] `.wrong-drill-strip` diagnostic strip visible above lens grid
+- [x] Highlighted lenses show blue border + tint
+- [x] "Mistakes Drill" label in question header
+- [x] Full lens-pick → walkthrough → answer → review loop completes
 
 **Math rendering**
-- [ ] Stacked fractions render (e.g. Q67, Q43)
-- [ ] Unit-conversion fraction chains render (Q66 — `49 mi / 1 hr` choices)
-- [ ] Radical overlines render (Q62, Q63)
-- [ ] Superscript exponents render (Q58)
+- [x] Stacked fractions render (e.g. Q67, Q43)
+- [x] Unit-conversion fraction chains render (Q67 — `49 mi / 1 hr` choices)
+- [x] Radical overlines render (Q62, Q63) — **bug fixed in this session**: `\sqrt{}` must be processed before `renderFrac`; Q62 `\frac{10}{\sqrt{2}}` now renders correctly
+- [x] Superscript exponents render (Q58)
 
 **Persistent rail**
-- [ ] TI-84 iframe loads and does not reload between questions in Practice
-- [ ] Calculator visible during active Challenge question; hidden on results screen
+- [x] TI-84 iframe loads and does not reload between questions in Practice
+- [x] Calculator visible during active Challenge question; hidden on results screen
 
 ---
 

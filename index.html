@@ -930,12 +930,9 @@ const LENSES = [
    Usage: math('\\frac{1}{2}mv^{2}')  →  inline HTML string
 ============================================================================ */
 function math(s) {
-  // \text{...} — strip wrapper first so \frac numerators/denominators parse cleanly
+  // \text{...} and \sqrt{} must be stripped/rendered before \frac so that
+  // [^{}]* in renderFrac can match numerators/denominators containing them
   s = s.replace(/\\text\{([^}]+)\}/g, '$1');
-  // nested \frac (one level deep)
-  const renderFrac = str => str.replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g,
-    (_, n, d) => `<span class="mfrac"><span class="mnum">${n}</span><span class="mden">${d}</span></span>`);
-  s = renderFrac(renderFrac(s)); // two passes handles a^{b}/c patterns
   // \sqrt{body} with optional coefficient: 2\sqrt{3}
   s = s.replace(/(\d*)\\sqrt\{([^}]+)\}/g, (_, coef, body) =>
     (coef ? `<span class="mcoef">${coef}</span>` : '') +
@@ -944,6 +941,10 @@ function math(s) {
   s = s.replace(/(\d*)\\sqrt ([A-Za-z0-9])/g, (_, coef, body) =>
     (coef ? `<span class="mcoef">${coef}</span>` : '') +
     `<span class="msqrt"><span class="mrad">√</span><span class="mbody">${body}</span></span>`);
+  // nested \frac (one level deep) — runs after \text and \sqrt so denominators with those are clean
+  const renderFrac = str => str.replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g,
+    (_, n, d) => `<span class="mfrac"><span class="mnum">${n}</span><span class="mden">${d}</span></span>`);
+  s = renderFrac(renderFrac(s)); // two passes handles a^{b}/c patterns
   // superscripts: ^{expr} or ^x
   s = s.replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>');
   s = s.replace(/\^([A-Za-z0-9])/g, '<sup>$1</sup>');
