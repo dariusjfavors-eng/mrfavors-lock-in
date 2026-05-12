@@ -469,6 +469,18 @@ html, body {
   color: var(--ink);
 }
 .lens-pick:hover { background: var(--hover); }
+.lens-pick.lens-highlight {
+  border-left: 3px solid var(--hint);
+  background: var(--hint-bg);
+}
+.wrong-drill-strip {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  background: var(--hint-bg);
+  border-left: 3px solid var(--hint);
+  font-size: 13px;
+  color: var(--hint);
+}
 .lp-num {
   display: block;
   font-size: 10px;
@@ -640,6 +652,28 @@ html, body {
 .msqrt .mrad { font-size: 1.15em; line-height: 1; margin-right: -1px; vertical-align: baseline; }
 .msqrt .mbody { border-top: 1.5px solid currentColor; padding: 1px 3px 0; }
 .mcoef { font-style: normal; }
+
+/* PRACTICE MODE HOME */
+.practice-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+@media (max-width: 700px) {
+  .practice-mode-grid { grid-template-columns: 1fr; }
+}
+.pmode-card {
+  border: 1px solid var(--ink);
+  padding: 20px 16px;
+  cursor: pointer;
+  background: var(--page);
+  text-align: center;
+}
+.pmode-card:hover { background: var(--hover); }
+.pmode-icon { font-size: 26px; margin-bottom: 10px; }
+.pmode-card h4 { font-size: 14px; font-weight: 700; margin: 0 0 8px; }
+.pmode-card p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.4; }
 </style>
 </head>
 
@@ -896,6 +930,8 @@ const LENSES = [
    Usage: math('\\frac{1}{2}mv^{2}')  →  inline HTML string
 ============================================================================ */
 function math(s) {
+  // \text{...} — strip wrapper first so \frac numerators/denominators parse cleanly
+  s = s.replace(/\\text\{([^}]+)\}/g, '$1');
   // nested \frac (one level deep)
   const renderFrac = str => str.replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g,
     (_, n, d) => `<span class="mfrac"><span class="mnum">${n}</span><span class="mden">${d}</span></span>`);
@@ -913,8 +949,6 @@ function math(s) {
   s = s.replace(/\^([A-Za-z0-9])/g, '<sup>$1</sup>');
   // subscripts: _{expr}
   s = s.replace(/\_\{([^}]+)\}/g, '<sub>$1</sub>');
-  // \text{...} — strip wrapper, keep content
-  s = s.replace(/\\text\{([^}]+)\}/g, '$1');
   // symbols
   s = s.replace(/\\cdot/g, '·').replace(/\\times/g, '×')
        .replace(/\\leq/g, '≤').replace(/\\geq/g, '≥')
@@ -2769,16 +2803,23 @@ const STATE = {
     cursor: 0,
     phase: 'lens-pick', // 'lens-pick' | 'walkthrough' | 'answer' | 'review'
     lensGuess: null,
-    answerPick: null
+    answerPick: null,
+    subView: 'home',       // 'home' | 'standard-picker' | 'lens-picker' | 'active'
+    drillMode: 'free',     // 'free' | 'standard' | 'lens' | 'wrong'
+    filterStandard: null,  // cluster key or null
+    filterLens: null,      // lens id or null
+    wrongPool: []          // pre-built pool for drillMode='wrong'
   },
   challenge: {
     started: false,
     queue: [],
     cursor: 0,
-    answers: [],       // {qid, picked, correct, standard, errorTag}
+    answers: [],       // {qid, picked, correct, standard, errorTag, timeSpent, stem, bestLens}
     secondsLeft: 90,
     timerInterval: null,
-    answered: false
+    answered: false,
+    attemptCount: 0,        // 0 = first play (balanced draw); >0 = random
+    questionStartTime: null // ms timestamp when current question began
   }
 };
 
@@ -2791,6 +2832,43 @@ function shuffle(arr)  { return [...arr].sort(() => Math.random() - 0.5); }
 function choiceLayout(q) {
   const display = c => c.text.replace(/<[^>]+>/g, '');
   return q.choices.some(c => display(c).length > 40) ? 'stack' : 'grid';
+}
+
+/* Standard clusters — human-readable labels mapped to domain code arrays */
+const STANDARD_CLUSTERS = [
+  { key: 'linear-eq',    label: 'Solving Linear Equations',        standards: ['A.REI.3', 'A.REI.6', 'A.REI.11'] },
+  { key: 'inequalities', label: 'Inequalities & Systems',          standards: ['A.REI.12'] },
+  { key: 'quadratics',   label: 'Quadratics & Factoring',          standards: ['A.REI.4', 'A.APR.3', 'A.SSE.2', 'A.SSE.3b'] },
+  { key: 'polynomials',  label: 'Polynomial Operations',           standards: ['A.APR.1'] },
+  { key: 'creating-eq',  label: 'Writing & Rearranging Equations', standards: ['A.CED.1', 'A.CED.2', 'A.CED.4'] },
+  { key: 'functions',    label: 'Interpreting Functions',          standards: ['F.IF.1', 'F.IF.2', 'F.IF.4', 'F.IF.5', 'F.IF.6', 'F.IF.7', 'F.IF.9'] },
+  { key: 'models',       label: 'Linear & Exponential Models',     standards: ['F.LE.1', 'F.LE.2', 'F.BF.1', 'F.BF.2', 'F.BF.3'] },
+  { key: 'radicals',     label: 'Radicals & Rational Exponents',   standards: ['N.RN.2', 'N.RN.3'] },
+  { key: 'statistics',   label: 'Statistics & Data',               standards: ['S.ID.2', 'S.ID.5', 'S.ID.7'] },
+  { key: 'quantities',   label: 'Quantities & Units',              standards: ['N.Q.1'] },
+  { key: 'geometry',     label: 'Geometry — Slope',                standards: ['G.GPE.5'] }
+];
+
+/* Balanced draw: January 2026 Regents Part I standards distribution (24 questions) */
+const JAN2026_DIST = [
+  'F.IF.4','N.RN.3','A.REI.11','A.SSE.2','N.RN.3','A.APR.1',
+  'F.IF.1','F.IF.2','A.CED.4','A.REI.6','A.REI.3','A.REI.3',
+  'F.LE.1','F.IF.2','F.BF.3','A.APR.3','A.REI.4','S.ID.5',
+  'N.Q.1','A.APR.1','F.IF.6','A.APR.1','A.REI.4','F.BF.2'
+];
+
+function sampleChallenge(attemptCount) {
+  if (attemptCount === 0) {
+    const used = new Set();
+    const result = [];
+    for (const std of JAN2026_DIST) {
+      const pool = QUESTION_BANK.filter(q => q.standard === std && !used.has(q.id));
+      const src = pool.length ? pool : QUESTION_BANK.filter(q => !used.has(q.id));
+      if (src.length) { const q = shuffle(src)[0]; used.add(q.id); result.push(q.id); }
+    }
+    return shuffle(result);
+  }
+  return shuffle(QUESTION_BANK.map(q => q.id)).slice(0, 24);
 }
 
 /* ============================================================================
@@ -2907,26 +2985,56 @@ function renderLensDetail() {
 
 /* ---- PRACTICE ---- */
 function renderPractice() {
-  if (!STATE.practice.queue.length) startPractice();
+  const sv = STATE.practice.subView;
+  if (sv === 'home')            return renderPracticeHome();
+  if (sv === 'standard-picker') return renderStandardPicker();
+  if (sv === 'lens-picker')     return renderLensPicker();
+
+  /* subView === 'active' */
   const Q = currentQ();
-  if (!Q) return renderHome();
+  if (!Q) return renderPracticeHome();
 
   const phase = STATE.practice.phase;
+  const isLensDrill = STATE.practice.drillMode === 'lens';
   const layout = choiceLayout(Q);
   let body = '';
 
-  /* Phase 1: Lens Pick */
+  /* Phase 1: Lens Pick (skipped in lens drill) */
   if (phase === 'lens-pick') {
-    const lensOptions = LENSES.map(L => `
-      <button class="lens-pick" onclick="pickLens(${L.id})">
-        <span class="lp-num">${L.code} &middot; ${L.icon}</span>
-        ${L.name}
-      </button>
-    `).join('');
+    const isWrongDrill = STATE.practice.drillMode === 'wrong';
+    const highlightedLensIds = new Set();
+    let diagnosticStrip = '';
+
+    if (isWrongDrill) {
+      const wrongPool = STATE.practice.wrongPool;
+      const stdCounts = {};
+      wrongPool.forEach(q => {
+        stdCounts[q.standard] = (stdCounts[q.standard] || 0) + 1;
+        highlightedLensIds.add(q.bestLens);
+      });
+      const stdText = Object.entries(stdCounts)
+        .map(([s, n]) => `<strong>${s}</strong> (${n})`)
+        .join(' &middot; ');
+      diagnosticStrip = `
+        <div class="wrong-drill-strip">
+          Missed ${wrongPool.length} question${wrongPool.length !== 1 ? 's' : ''} &mdash; ${stdText}
+        </div>`;
+    }
+
+    const lensOptions = LENSES.map(L => {
+      const highlighted = isWrongDrill && highlightedLensIds.has(L.id);
+      return `
+        <button class="lens-pick${highlighted ? ' lens-highlight' : ''}" onclick="pickLens(${L.id})">
+          <span class="lp-num">${L.code} &middot; ${L.icon}</span>
+          ${highlighted ? `<strong>${L.name}</strong>` : L.name}
+        </button>`;
+    }).join('');
+
     body = `
       <div class="lens-picker-prompt">
         <div class="pp-eyebrow">Step 1 &mdash; Which lens?</div>
         <p>Read the problem. Before solving, pick the strategy that fits best. You&rsquo;ll see whether your lens is strong, workable, or off-target.</p>
+        ${diagnosticStrip}
       </div>
       <div class="lens-picker-grid">${lensOptions}</div>
     `;
@@ -2966,7 +3074,7 @@ function renderPractice() {
       let cls = 'choice';
       if (phase === 'answer' && STATE.practice.answerPick === c.label) cls += ' selected';
       if (phase === 'review') {
-        if (c.label === Q.correctAnswer)           cls += ' correct';
+        if (c.label === Q.correctAnswer)                cls += ' correct';
         else if (c.label === STATE.practice.answerPick) cls += ' incorrect';
         cls += ' disabled';
       }
@@ -2984,28 +3092,114 @@ function renderPractice() {
     }
     if (phase === 'review') {
       const correct = STATE.practice.answerPick === Q.correctAnswer;
+      const lensName = getLens(STATE.practice.lensGuess) ? getLens(STATE.practice.lensGuess).name : '';
       const fb = correct
-        ? `<div class="feedback good"><div class="fb-label">Correct</div><p>Standard ${Q.standard}. Lens used: ${getLens(STATE.practice.lensGuess).name}.</p></div>`
-        : `<div class="feedback bad"><div class="fb-label">Incorrect</div><p>Correct answer: (${Q.correctAnswer}). Common error: <strong>${Q.errorTags[0]}</strong>. Re-read the walkthrough above.</p></div>`;
-      lockBtn = `${fb}<div class="btn-row"><button class="btn" onclick="nextPracticeQ()">Next question &rarr;</button><button class="btn secondary" onclick="navigate('home')">Exit</button></div>`;
+        ? `<div class="feedback good"><div class="fb-label">Correct</div><p>Standard ${Q.standard}. Lens used: ${lensName}.</p></div>`
+        : `<div class="feedback bad"><div class="fb-label">Incorrect</div><p>Correct answer: (${Q.correctAnswer}). Common error: <strong>${Q.errorTags[0]}</strong>. Best lens: ${getLens(Q.bestLens).name}.</p></div>`;
+      let walkExtra = '';
+      if (isLensDrill && STATE.practice.lensGuess && Q.walkthroughs && Q.walkthroughs[STATE.practice.lensGuess]) {
+        walkExtra = `<div class="lens-picker-prompt" style="margin-top:12px;"><div class="pp-eyebrow">How the ${lensName} lens solves it</div><div class="ti-screen" style="margin-top:8px;">${Q.walkthroughs[STATE.practice.lensGuess]}</div></div>`;
+      }
+      lockBtn = `${fb}${walkExtra}<div class="btn-row"><button class="btn" onclick="nextPracticeQ()">Next question &rarr;</button><button class="btn secondary" onclick="navigate('home')">Exit</button></div>`;
     }
 
     body = `<div class="choices ${layout}">${choicesHtml}</div>${lockBtn}`;
   }
 
+  const drillLabel = isLensDrill
+    ? `Lens Drill &mdash; ${getLens(STATE.practice.filterLens) ? getLens(STATE.practice.filterLens).name : ''}`
+    : STATE.practice.drillMode === 'standard' && STATE.practice.filterStandard
+      ? `Standard Drill &mdash; ${(STANDARD_CLUSTERS.find(c => c.key === STATE.practice.filterStandard) || {}).label || ''}`
+      : STATE.practice.drillMode === 'wrong'
+        ? 'Mistakes Drill'
+        : 'Free Roam';
+
   main.innerHTML = `
     <div class="problem-meta">
-      <span>Question ${STATE.practice.cursor + 1} of ${STATE.practice.queue.length} &middot; ${Q.exam}</span>
+      <span>Question ${STATE.practice.cursor + 1} of ${STATE.practice.queue.length} &middot; ${drillLabel}</span>
       <span>${Q.standard}</span>
     </div>
     <div class="problem-stem">${Q.stem}</div>
     ${body}
   `;
   showRail(true, true);
-  _lensHintText.textContent = phase === 'lens-pick'
-    ? 'What is the question asking for? An x-value? Roots? An equivalent expression? That tells you the lens family.'
-    : 'Lens locked. Use the walkthrough as your script.';
+  if (isLensDrill && STATE.practice.filterLens) {
+    const L = getLens(STATE.practice.filterLens);
+    _lensHintText.textContent = L ? `${L.name}: ${L.tagline}` : 'Lens Drill';
+  } else {
+    _lensHintText.textContent = phase === 'lens-pick'
+      ? 'What is the question asking for? An x-value? Roots? An equivalent expression? That tells you the lens family.'
+      : 'Lens locked. Use the walkthrough as your script.';
+  }
 }
+
+function renderPracticeHome() {
+  showRail(false, false);
+  main.innerHTML = `
+    <div class="section-title">Practice Mode</div>
+    <div class="section-sub">Choose how you want to drill &mdash; all ${QUESTION_BANK.length} questions in the bank.</div>
+    <div class="practice-mode-grid">
+      <div class="pmode-card" onclick="startPractice('free')">
+        <div class="pmode-icon">&infin;</div>
+        <h4>Free Roam</h4>
+        <p>Random questions from the full bank. All standards. No filter.</p>
+      </div>
+      <div class="pmode-card" onclick="showStandardPicker()">
+        <div class="pmode-icon">&#9634;</div>
+        <h4>Standard Drill</h4>
+        <p>Pick a topic cluster. Drill questions from that standard group only.</p>
+      </div>
+      <div class="pmode-card" onclick="showLensPicker()">
+        <div class="pmode-icon">&#9737;</div>
+        <h4>Lens Drill</h4>
+        <p>Pick a TI-84 strategy. Drill questions where that lens applies.</p>
+      </div>
+    </div>
+    <div style="margin-top:16px;">
+      <button class="btn secondary" onclick="navigate('home')">&larr; Back to Home</button>
+    </div>
+  `;
+}
+
+function renderStandardPicker() {
+  showRail(false, false);
+  const buttons = STANDARD_CLUSTERS.map(c => {
+    const count = QUESTION_BANK.filter(q => c.standards.includes(q.standard)).length;
+    return `<button class="lens-pick" onclick="startPractice('standard','${c.key}')">
+      <span class="lp-num">${count} question${count !== 1 ? 's' : ''}</span>${c.label}
+    </button>`;
+  }).join('');
+  main.innerHTML = `
+    <div class="section-title">Standard Drill</div>
+    <div class="section-sub">Pick a topic cluster to drill</div>
+    <div class="lens-picker-grid">${buttons}</div>
+    <div style="margin-top:16px;">
+      <button class="btn secondary" onclick="backToPracticeHome()">&larr; Back</button>
+    </div>
+  `;
+}
+
+function renderLensPicker() {
+  showRail(false, false);
+  const buttons = LENSES.map(L => {
+    const count = QUESTION_BANK.filter(q => q.applicableLenses.includes(L.id)).length;
+    return `<button class="lens-pick" onclick="startPractice('lens',${L.id})">
+      <span class="lp-num">${L.code} &middot; ${L.icon} &middot; ${count} q</span>${L.name}
+    </button>`;
+  }).join('');
+  main.innerHTML = `
+    <div class="section-title">Lens Drill</div>
+    <div class="section-sub">Pick a strategy to train on &mdash; you&rsquo;ll drill questions where that lens applies</div>
+    <div class="lens-picker-grid">${buttons}</div>
+    <div style="margin-top:16px;">
+      <button class="btn secondary" onclick="backToPracticeHome()">&larr; Back</button>
+    </div>
+  `;
+}
+
+function showStandardPicker() { STATE.practice.subView = 'standard-picker'; render(); }
+function showLensPicker()     { STATE.practice.subView = 'lens-picker'; render(); }
+function backToPracticeHome() { STATE.practice.subView = 'home'; render(); }
 
 /* ---- CHALLENGE ---- */
 function renderChallenge() {
@@ -3017,8 +3211,9 @@ function renderChallenge() {
       <div class="section-title">Challenge Mode</div>
       <div class="section-sub">Regents simulation &middot; timed &middot; no hints</div>
       <div style="max-width:540px;">
-        <p style="font-size:15px; margin-bottom:12px;">Each question has <strong>90 seconds</strong>. No lens picker. No walkthrough. Answer and move on. Results show your score by standard after all questions.</p>
-        <p style="font-size:14px; color:var(--muted); margin-bottom:20px;">${QUESTION_BANK.length} questions available.</p>
+        <p style="font-size:15px; margin-bottom:12px;">Each question has <strong>90 seconds</strong>. No lens picker. No walkthrough. Answer and move on. Results show your score by standard after all 24 questions.</p>
+        <p style="font-size:14px; color:var(--muted); margin-bottom:12px;">${QUESTION_BANK.length} questions in the bank &middot; 24 drawn per attempt &middot; ${STATE.challenge.attemptCount === 0 ? 'First play is balanced by standard' : 'Randomized draw'}.</p>
+        <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">A CSV study guide downloads automatically when you finish.</p>
         <div class="btn-row">
           <button class="btn" onclick="startChallenge()">Start Challenge</button>
           <button class="btn secondary" onclick="navigate('home')">&larr; Back</button>
@@ -3075,6 +3270,7 @@ function renderChallengeResults() {
   const C = STATE.challenge;
   const total = C.answers.length;
   const correct = C.answers.filter(a => a.correct).length;
+  const wrong = total - correct;
 
   // Group by standard
   const byStandard = {};
@@ -3098,16 +3294,22 @@ function renderChallengeResults() {
       <div class="section-title">Challenge Complete</div>
       <div class="results-score">${correct}/${total}</div>
       <div class="results-label">${Math.round((correct/total)*100)}% &mdash; ${correct >= total * 0.75 ? 'Passing' : 'Needs Work'}</div>
+      <p style="font-size:13px; color:var(--muted); margin:8px 0 16px;">Your results CSV downloaded automatically. Open it in Excel to see which lenses to study.</p>
       <table class="results-table">
         <thead><tr><th>Standard</th><th>Score</th><th>Status</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
       <div class="btn-row">
+        <button class="btn secondary" onclick="downloadCSV()">Re-download CSV</button>
+        ${wrong > 0 ? `<button class="btn" onclick="startWrongAnswerDrill()">Drill Mistakes (${wrong})</button>` : ''}
         <button class="btn" onclick="resetChallenge()">Try Again</button>
         <button class="btn secondary" onclick="navigate('home')">&larr; Home</button>
       </div>
     </div>
   `;
+
+  // Auto-download on first render of results screen
+  setTimeout(downloadCSV, 400);
 }
 
 function formatTime(s) {
@@ -3124,7 +3326,15 @@ function navigate(view) {
   if (view !== 'challenge') STATE.challenge.started = false;
   STATE.view = view;
   STATE.selectedLensId = null;
-  if (view === 'practice') { STATE.practice.queue = []; STATE.practice.cursor = 0; }
+  if (view === 'practice') {
+    STATE.practice.queue = [];
+    STATE.practice.cursor = 0;
+    STATE.practice.subView = 'home';
+    STATE.practice.drillMode = 'free';
+    STATE.practice.filterStandard = null;
+    STATE.practice.filterLens = null;
+    STATE.practice.wrongPool = [];
+  }
   document.querySelectorAll('#nav button').forEach(b => {
     b.classList.toggle('active', b.dataset.view === view);
   });
@@ -3136,12 +3346,27 @@ function selectLens(id) { STATE.selectedLensId = id; ANALYTICS.log('lens_view', 
 function clearLensSelection() { STATE.selectedLensId = null; render(); }
 
 /* Practice handlers */
-function startPractice() {
-  STATE.practice.queue = shuffle(QUESTION_BANK.map(q => q.id));
+function startPractice(drillMode = 'free', filter = null) {
+  let pool = QUESTION_BANK;
+  if (drillMode === 'standard' && filter) {
+    const cluster = STANDARD_CLUSTERS.find(c => c.key === filter);
+    if (cluster) pool = QUESTION_BANK.filter(q => cluster.standards.includes(q.standard));
+  } else if (drillMode === 'lens' && filter !== null) {
+    pool = QUESTION_BANK.filter(q => q.applicableLenses.includes(filter));
+  } else if (drillMode === 'wrong') {
+    pool = STATE.practice.wrongPool;
+  }
+  if (!pool.length) pool = QUESTION_BANK;
+  STATE.practice.queue = shuffle(pool.map(q => q.id));
   STATE.practice.cursor = 0;
-  STATE.practice.phase = 'lens-pick';
-  STATE.practice.lensGuess = null;
+  STATE.practice.drillMode = drillMode;
+  STATE.practice.filterStandard = drillMode === 'standard' ? filter : null;
+  STATE.practice.filterLens = drillMode === 'lens' ? filter : null;
+  STATE.practice.lensGuess = drillMode === 'lens' ? filter : null;
+  STATE.practice.phase = drillMode === 'lens' ? 'answer' : 'lens-pick';
   STATE.practice.answerPick = null;
+  STATE.practice.subView = 'active';
+  render();
 }
 
 function pickLens(lensId) {
@@ -3167,8 +3392,9 @@ function lockAnswer() {
 function nextPracticeQ() {
   if (STATE.practice.cursor < STATE.practice.queue.length - 1) {
     STATE.practice.cursor++;
-    STATE.practice.phase = 'lens-pick';
-    STATE.practice.lensGuess = null;
+    const isLensDrill = STATE.practice.drillMode === 'lens';
+    STATE.practice.phase = isLensDrill ? 'answer' : 'lens-pick';
+    STATE.practice.lensGuess = isLensDrill ? STATE.practice.filterLens : null;
     STATE.practice.answerPick = null;
     render();
   } else {
@@ -3181,13 +3407,23 @@ function renderPracticeComplete() {
   main.innerHTML = `
     <div style="max-width:480px; margin: 40px auto; text-align:center;">
       <div class="section-title" style="text-align:center; border:none;">Practice Complete</div>
-      <p style="font-size:15px; margin: 16px 0 24px; color:var(--muted);">You&rsquo;ve finished all ${QUESTION_BANK.length} questions in this set.</p>
+      <p style="font-size:15px; margin: 16px 0 24px; color:var(--muted);">You&rsquo;ve finished all ${STATE.practice.queue.length} question${STATE.practice.queue.length !== 1 ? 's' : ''} in this set.</p>
       <div class="btn-row" style="justify-content:center;">
-        <button class="btn" onclick="startPractice(); render();">Practice Again</button>
+        <button class="btn" onclick="startPractice();">Practice Again</button>
         <button class="btn secondary" onclick="navigate('challenge')">Try Challenge Mode</button>
       </div>
     </div>
   `;
+}
+
+function startWrongAnswerDrill() {
+  const wrongIds = STATE.challenge.answers.filter(a => !a.correct).map(a => a.qid);
+  STATE.practice.wrongPool = QUESTION_BANK.filter(q => wrongIds.includes(q.id));
+  STATE.view = 'practice';
+  document.querySelectorAll('#nav button').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === 'practice');
+  });
+  startPractice('wrong');
 }
 
 /* Challenge handlers */
@@ -3195,7 +3431,8 @@ function startChallenge() {
   const C = STATE.challenge;
   clearChallengeTimer();
   C.started = true;
-  C.queue = shuffle(QUESTION_BANK.map(q => q.id));
+  C.queue = sampleChallenge(C.attemptCount);
+  C.attemptCount++;
   C.cursor = 0;
   C.answers = [];
   C.answered = false;
@@ -3224,7 +3461,15 @@ function challengeLockAnswer() {
   const C = STATE.challenge;
   const Q = currentCQ();
   const correct = _challengeSelectedChoice === Q.correctAnswer;
-  C.answers.push({ qid: Q.id, picked: _challengeSelectedChoice, correct, standard: Q.standard, errorTag: correct ? null : Q.errorTags[0] });
+  const timeSpent = Math.round((Date.now() - (C.questionStartTime || Date.now())) / 1000);
+  const bestL = getLens(Q.bestLens);
+  C.answers.push({
+    qid: Q.id, picked: _challengeSelectedChoice, correct, standard: Q.standard,
+    errorTag: correct ? null : Q.errorTags[0],
+    timeSpent,
+    stem: Q.stem.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
+    bestLens: bestL ? bestL.name : Q.bestLens
+  });
   C.answered = true;
   clearChallengeTimer();
   ANALYTICS.log('challenge_attempt', { qid: Q.id, standard: Q.standard, picked_choice: _challengeSelectedChoice, correct });
@@ -3235,9 +3480,16 @@ function challengeLockAnswer() {
 function challengeNext() {
   const C = STATE.challenge;
   if (!C.answered) {
-    // Time ran out — mark unanswered
     const Q = currentCQ();
-    if (Q) C.answers.push({ qid: Q.id, picked: null, correct: false, standard: Q.standard, errorTag: 'no_answer' });
+    if (Q) {
+      const bestL = getLens(Q.bestLens);
+      C.answers.push({
+        qid: Q.id, picked: null, correct: false, standard: Q.standard, errorTag: 'no_answer',
+        timeSpent: 90,
+        stem: Q.stem.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
+        bestLens: bestL ? bestL.name : Q.bestLens
+      });
+    }
   }
   C.cursor++;
   C.answered = false;
@@ -3249,6 +3501,7 @@ function challengeNext() {
 
 function startChallengeTimer() {
   clearChallengeTimer();
+  STATE.challenge.questionStartTime = Date.now();
   STATE.challenge.timerInterval = setInterval(() => {
     STATE.challenge.secondsLeft--;
     const bar = document.getElementById('timer-bar');
@@ -3274,6 +3527,31 @@ function clearChallengeTimer() {
     clearInterval(STATE.challenge.timerInterval);
     STATE.challenge.timerInterval = null;
   }
+}
+
+function generateCSV() {
+  const C = STATE.challenge;
+  const sid = ANALYTICS.sessionId;
+  const headers = 'sid,question_id,standard,student_answer,correct_answer,result,time_spent_seconds,question_stem,best_lens';
+  const rows = C.answers.map(a => {
+    const q = getQ(a.qid);
+    const stem = '"' + (a.stem || '').replace(/"/g, '""') + '"';
+    return [sid, a.qid, a.standard, a.picked || 'no_answer', q ? q.correctAnswer : '', a.correct ? 'correct' : 'incorrect', a.timeSpent, stem, a.bestLens || ''].join(',');
+  });
+  return [headers, ...rows].join('\n');
+}
+
+function downloadCSV() {
+  const csv = generateCSV();
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'regents-lockIn-' + ANALYTICS.sessionId.slice(-8) + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 /* ============================================================================

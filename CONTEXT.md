@@ -2,7 +2,7 @@
 > Read this file before changing the game. Keep DESIGN_BRIEF fidelity,
 > the ephemeral session model, and the exam-paper aesthetic intact.
 
-Version: 1.0 | Status: Build
+Version: 1.1 | Status: Build
 Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/regents-mc-trainer/`
 
 ---
@@ -18,7 +18,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 | Framework | Vanilla JS only, zero build tools |
 | Storage | None — session is ephemeral, no localStorage |
 | PII Policy | None stored; FAVORit analytics are anonymous (sid = `anon_` + timestamp) |
-| Current Status | Phase 2 Session E complete; 72/72 questions; Browser QA ✅ complete |
+| Current Status | Session H complete; 72/72 questions; Wrong-answer drill added to Challenge results flow |
 
 ---
 
@@ -41,37 +41,48 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 ### Module Map
 
 ```
-LENSES          → 10 static strategy objects; keystrokes, example, standards, pitfall
-QUESTION_BANK   → question objects; choices use label:'1'–'4', correctAnswer:'1'–'4'
-ANALYTICS       → anonymous FAVORit schema; reads Worker URL from localStorage('favoritWorkerUrl') — URL never in committed code
-STATE           → UI state machine: view, selectedLensId, practice{}, challenge{}
-UI_RENDER       → all view renderers (see Screen Flow)
-UI_HANDLERS     → navigate(), selectLens(), practice handlers, challenge + timer handlers
-INIT            → nav wiring, session-id footer, boot ANALYTICS.log
+LENSES            → 10 static strategy objects; keystrokes, example, standards, pitfall
+STANDARD_CLUSTERS → 11 cluster objects mapping human-readable labels to standard code arrays
+QUESTION_BANK     → question objects; choices use label:'1'–'4', correctAnswer:'1'–'4'
+ANALYTICS         → anonymous FAVORit schema; reads Worker URL from localStorage('favoritWorkerUrl') — URL never in committed code
+STATE             → UI state machine: view, selectedLensId, practice{subView,drillMode,filterStandard,filterLens,wrongPool,...}, challenge{attemptCount,questionStartTime,...}
+UI_RENDER         → all view renderers including practice sub-views (see Screen Flow)
+UI_HANDLERS       → navigate(), selectLens(), practice handlers, challenge + timer handlers, CSV download
+INIT              → nav wiring, session-id footer, boot ANALYTICS.log
 ```
 
 ### Screen Flow
 
 ```
 home → library → lensDetail → library → home
-home → practice:
-  [lens-pick → walkthrough → answer → review] → next question loop
-  → practiceComplete → home
+home → practice (subView='home') →
+  Free Roam: startPractice('free') → [lens-pick → walkthrough → answer → review] loop → practiceComplete
+  Standard Drill: renderStandardPicker() → startPractice('standard', clusterKey) → [lens-pick → walkthrough → answer → review] loop
+  Lens Drill: renderLensPicker() → startPractice('lens', lensId) → [answer → review] loop (lens-pick collapsed; rail hint = lens tagline)
 home → challenge:
-  start screen → [question + 90s timer] × N → challengeResults → home
+  start screen → startChallenge() → sampleChallenge(attemptCount) draws 24 Qs
+    → [question + 90s timer] × 24 → renderChallengeResults() → auto-downloads CSV → home
 ```
 
 ### Key Functions
 
 | Function | What it does |
 |----------|-------------|
-| `choiceLayout(q)` | Returns `'grid'` or `'stack'` based on choice text length |
-| `renderPractice()` | Drives all 4 practice phases from `STATE.practice.phase` |
+| `choiceLayout(q)` | Returns `'grid'` or `'stack'` based on choice text length (HTML-stripped) |
+| `sampleChallenge(attemptCount)` | Returns array of 24 question IDs: balanced by Jan 2026 Regents standard dist if `attemptCount===0`, random otherwise |
+| `renderPractice()` | Branches on `STATE.practice.subView`: home/standard-picker/lens-picker/active |
+| `renderPracticeHome()` | Three entry-point cards: Free Roam, Standard Drill, Lens Drill |
+| `renderStandardPicker()` | Lists 11 STANDARD_CLUSTERS with question counts; calls `startPractice('standard', key)` |
+| `renderLensPicker()` | Lists 10 lenses with applicable question counts; calls `startPractice('lens', id)` |
+| `startPractice(drillMode, filter)` | Builds filtered pool, shuffles, sets `STATE.practice.subView = 'active'`, calls `render()` |
 | `renderChallenge()` | Renders timer bar + choices; delegates to `renderChallengeResults()` when done |
-| `startChallengeTimer()` | `setInterval` at 1s; updates `#timer-bar` and `#timer-text` by ID after re-render |
+| `startChallengeTimer()` | Sets `questionStartTime = Date.now()`; `setInterval` at 1s; updates `#timer-bar` and `#timer-text` |
 | `challengePickAnswer(label)` | Sets `_challengeSelectedChoice`, calls `render()` — no DOM mutation |
+| `generateCSV()` | Builds CSV string from `STATE.challenge.answers` (9 columns) |
+| `downloadCSV()` | Creates Blob URL, triggers `<a>` click, cleans up — auto-called 400ms after `renderChallengeResults()` |
+| `startWrongAnswerDrill()` | Reads `STATE.challenge.answers`, builds `STATE.practice.wrongPool` from missed questions, sets `STATE.view='practice'`, calls `startPractice('wrong')` |
 | `ANALYTICS.log(type, payload)` | Pushes to `ANALYTICS.events[]`, console, and fires POST if `localStorage('favoritWorkerUrl')` is set |
-| `showRail(visible, showHint)` | Shows/hides `#persistent-rail` (the static TI-84 aside outside `<main>`); optionally hides `#lens-hint-card`. Called by all renderers: `true/true` in practice, `true/false` on active challenge question, `false/false` everywhere else |
+| `showRail(visible, showHint)` | Shows/hides `#persistent-rail`; optionally hides `#lens-hint-card`. `true/true` in practice active, `true/false` on active challenge question, `false/false` everywhere else |
 
 ### Choice Schema
 
@@ -146,6 +157,8 @@ No star field, no orbs, no gradients, no texture. This is an intentional DESIGN_
 
 ## 7. LAST SESSION LOG
 
+- 2026-05-12 (Session H) — Wrong-answer drill added. `renderChallengeResults()` adds "Drill Mistakes (N)" button (hidden if score is perfect). `startWrongAnswerDrill()` reads `STATE.challenge.answers`, filters to wrong answers, builds `STATE.practice.wrongPool`, sets `STATE.view='practice'`, calls `startPractice('wrong')`. `startPractice()` extended: `drillMode='wrong'` uses pre-built `wrongPool` instead of filtering `QUESTION_BANK`. Lens-pick screen in wrong drill mode adds `.wrong-drill-strip` diagnostic (missed count + standard breakdown) and `.lens-highlight` bold styling on lenses that were `bestLens` for missed questions. `drillLabel` shows "Mistakes Drill" in question header. `renderPracticeComplete()` now uses `STATE.practice.queue.length` instead of hardcoded `QUESTION_BANK.length`. 72/72 pass.
+- 2026-05-12 (Session G) — Practice Mode rework: `STATE.practice` gains `subView`, `drillMode`, `filterStandard`, `filterLens`; new renderers `renderPracticeHome()`, `renderStandardPicker()`, `renderLensPicker()`; `startPractice(drillMode, filter)` replaces zero-arg form. Lens Drill collapses lens-pick phase, pre-sets `lensGuess`, shows rail hint from start, shows walkthrough in review. `STATE.challenge` gains `attemptCount` and `questionStartTime`; `sampleChallenge(attemptCount)` replaces inline shuffle; `generateCSV()` + `downloadCSV()` added; `challengeLockAnswer()` and `challengeNext()` now push `timeSpent`, `stem`, `bestLens` into `C.answers`. CSV auto-downloads 400ms after `renderChallengeResults()`. 72/72 pass.
 - 2026-05-11 (session 10) — Phase 2 Session F: math() renderer added. CSS classes .mfrac/.msqrt/.mcoef added; math() helper defined before QUESTION_BANK; choiceLayout() fixed to strip HTML before measuring length. Q05 choices (exponential ^t), Q18 stem (27^{2/3}), Q23 choices (1/3 slope fractions), Q34 stem (√3, √5), Q37 stem+choices (3/2, (1/2)^n sequences), Q38 stem (√25, √2), Q43 choices (surface area formula fractions), Q47 stem (√(x+1)+5), Q57 choices (radical expressions), Q58 stem (quadratic), Q62–Q67 (all fraction/radical/exponent questions) updated with math(). 72/72 pass.
 - 2026-05-11 (session 9) — Phase 2 Session E: Q72 authored (exam Q23, F.IF.4 — axis of symmetry x=2). Choice (1) uses svgGraph() with f(x)=x²−2x−3 and f(x) y-axis label; choice (3) uses svgTable() for g(x) values. Renderer confirmed innerHTML-safe — no renderer change needed. Answer: (4) h(x)=x²−4x−5, verified against official scoring key. 72/72 pass. June 2025 Part I complete.
 - 2026-05-11 (session 8) — Browser QA complete: all 13 SVG questions (Q59–Q71) verified in Practice Mode and Challenge Mode at 1366×768. Open circle/closed dot endpoints confirmed on Q70. Four-graph VLT panels confirmed on Q71. HTTP server killed. Session E open: Q23 (axis of symmetry, SVG in choices — renderer check needed).

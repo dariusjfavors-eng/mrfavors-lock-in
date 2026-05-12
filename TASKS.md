@@ -1,6 +1,38 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-11 (session 10 — phase 2 session F)
+Last updated: 2026-05-12 (session G)
+
+---
+
+## Session H — Wrong-Answer Drill — Session PRD ✅ COMPLETE 2026-05-12
+
+**Design concept:** After a Challenge attempt, students with wrong answers get a "Drill Mistakes" button that feeds only missed questions into the existing Practice Mode Free Roam loop; the lens-pick screen surfaces a diagnostic strip and bold hints on the most relevant lenses, but the student picks freely.
+**Modules touched:** UI_RENDER (`renderChallengeResults()` + lens-pick screen), UI_HANDLERS (`startPractice()` extension + new `startWrongAnswerDrill()` handler)
+**Interface changes:**
+- `renderChallengeResults()` adds "Drill Mistakes" button — rendered only when wrong-answer count > 0
+- `startPractice()` extended: accepts `drillMode: 'wrong'` with a pre-built pool array; bypasses `QUESTION_BANK` filter logic
+- `STATE.practice` gains `wrongPool: []` — pre-built at drill start from `STATE.challenge.answers`; read-once, never mutated by the drill
+- Lens-pick renderer in `drillMode === 'wrong'`: adds a diagnostic strip (missed count + standard breakdown) and bold class on lens rows whose id appears as `bestLens` on any missed question
+**Out of scope:** Saving wrong-answer pool across sessions, new questions, filtering drill pool by standard/lens before entering, "you improved" comparison, deployment
+**Done when:** 72/72 `window.runPuzzleTests()` pass; "Drill Mistakes" button absent on perfect Challenge score; button present and functional with wrong answers; bold lens hints render only in wrong-answer drill (`drillMode === 'wrong'`); Free Roam / Standard Drill / Lens Drill flows unchanged
+**Also fixed:** `math()` helper bug — `\text{}` stripping moved before `renderFrac` so fractions containing `\text{ mi}` / `\text{ hr}` etc. render correctly (Q66 unit conversion choices). Root cause: `[^{}]*` in `renderFrac` regex rejected numerators/denominators containing braces from un-stripped `\text{}`.
+
+---
+
+## Session G — Challenge + Practice Mode Rework — Session PRD ✅ COMPLETE 2026-05-12
+
+**Design concept:** Practice Mode gains two new entry points (standard/cluster drill and lens drill) alongside free roam; Challenge Mode draws 24 questions balanced by January 2026 Regents standards on first play, random on subsequent plays this session, and auto-downloads a CSV study guide on completion.
+**Modules touched:** STATE (new fields on `challenge{}` and `practice{}`), UI_RENDER (new Practice home, lens-drill view with collapsible reference card, Challenge results with CSV trigger), UI_HANDLERS (new `sampleChallenge()`, `generateCSV()`, standard/lens picker handlers)
+**Interface changes:**
+- `STATE.challenge{}` gains `attemptCount: 0` (incremented each play; gates balanced vs. random draw; ephemeral, no localStorage)
+- `STATE.practice{}` gains `drillMode: 'free' | 'standard' | 'lens'`, `filterStandard: string | null`, `filterLens: string | null`
+- New `sampleChallenge(attemptCount)` → returns array of 24 question objects (balanced if `attemptCount === 0`, random otherwise)
+- New `generateCSV(results)` → builds and auto-downloads CSV; columns: `sid, question_id, standard, student_answer, correct_answer, result, time_spent_seconds, question_stem, best_lens`
+- Practice home renders three entry-point cards: Free Roam, Standard Drill (human-readable cluster picker), Lens Drill (lens picker)
+- Lens drill skips lens-pick phase; collapsible `.lens-reference-card` available throughout answer + review phases
+- Standard clusters: human-readable labels mapped to domain code arrays (e.g., "Quadratics" → [A.REI.4, A.APR.3, A.SSE.2])
+**Out of scope:** Lens color/classification system, Lens 11+, Session H wrong-answer mode, new questions, deployment, DESIGN_BRIEF changes
+**Done when:** 72/72 `window.runPuzzleTests()` pass; first Challenge play draws balanced 24; subsequent plays draw random 24; CSV auto-downloads on completion with all 9 columns; Practice home shows three entry points; standard picker uses human-readable labels; lens drill collapses lens-pick phase with collapsible reference card; no regression on existing flows
 
 ---
 
@@ -84,8 +116,76 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 - [ ] Part II–style MC: F.IF.1/9, F.BF.3, A.REI.11 (graph-reading questions)
 
 ### Future Sessions (Grill Me required before starting)
-- [ ] **Session G** — Challenge mode rework: exactly 24 questions randomly sampled from full bank each attempt (matching real Regents Part I length); requires Grill Me
-- [ ] **Session H** — Wrong-answer training mode: after Challenge, students can drill questions they got wrong; requires Grill Me
+- [x] **Session G** — Challenge + Practice Mode rework: Practice home with 3 entry points (free roam, standard drill, lens drill); Challenge draws 24 balanced by Jan 2026 standards on first play, random thereafter; CSV auto-download on Challenge completion — 2026-05-12
+- [x] **Session H** — Wrong-answer drill: "Drill Mistakes (N)" button on Challenge results (hidden on perfect score); feeds missed questions into Practice Mode Free Roam loop; lens-pick screen shows diagnostic strip + bold/highlight for best-lens matches; `Mistakes Drill` label in question header; 72/72 pass — 2026-05-12
+- [ ] **Session I** — Browser QA at 1366×768 (no Grill Me required — verification only). Must pass before deployment.
+- [ ] **Session J** — Deployment pass (no Grill Me required — no new mechanics). GitHub Pages → Google Sites iframe → Cloudflare Worker → Classroom Ready.
+
+---
+
+## Session I — Browser QA Checklist
+
+> Verify all UI added in Sessions G and H at 1366×768 (Chromebook target). No code changes expected — if something breaks, open a bug item and fix before Session J.
+
+**Work type:** System — QA
+**No Grill Me required.**
+**Done when:** All checks below pass at 1366×768 with no visual regressions.
+
+### Checks
+
+**Practice Mode — Home**
+- [ ] Three entry-point cards render without overflow (Free Roam, Standard Drill, Lens Drill)
+- [ ] Standard Drill picker lists all 11 clusters with question counts
+- [ ] Lens Drill picker lists all 10 lenses with applicable question counts
+
+**Practice Mode — Standard Drill**
+- [ ] Question loop runs correctly for at least one cluster (e.g. Quadratics)
+- [ ] `(1)(2)(3)(4)` labels visible; 2-col grid for short choices, stack for long
+
+**Practice Mode — Lens Drill**
+- [ ] Lens-pick phase collapses correctly; rail hint shows lens tagline
+- [ ] Walkthrough appears in review phase
+
+**Challenge Mode**
+- [ ] Start screen renders; 24-question draw runs
+- [ ] Timer bar visible; turns red at ≤30s
+- [ ] Results screen renders: score, per-standard table, all three buttons
+- [ ] CSV auto-downloads on completion (check Downloads folder)
+- [ ] "Drill Mistakes (N)" button appears after a non-perfect run
+
+**Mistakes Drill**
+- [ ] Clicking "Drill Mistakes" enters Practice Mode
+- [ ] `.wrong-drill-strip` diagnostic strip visible above lens grid
+- [ ] Highlighted lenses show blue border + tint
+- [ ] "Mistakes Drill" label in question header
+- [ ] Full lens-pick → walkthrough → answer → review loop completes
+
+**Math rendering**
+- [ ] Stacked fractions render (e.g. Q67, Q43)
+- [ ] Unit-conversion fraction chains render (Q66 — `49 mi / 1 hr` choices)
+- [ ] Radical overlines render (Q62, Q63)
+- [ ] Superscript exponents render (Q58)
+
+**Persistent rail**
+- [ ] TI-84 iframe loads and does not reload between questions in Practice
+- [ ] Calculator visible during active Challenge question; hidden on results screen
+
+---
+
+## Session J — Deployment Checklist
+
+> Ship to production. No new features. Complete in order — each step gates the next.
+
+**Work type:** System — Deployment
+**No Grill Me required.**
+**Done when:** Google Sites iframe QA passes at 1366×768 and COMMAND_CENTER.md shows "Classroom Ready."
+
+### Steps
+
+- [ ] **1. GitHub Pages** — push `games/regents-mc-trainer/index.html` to `gh-pages` branch (or root of a dedicated repo); confirm live URL loads the game
+- [ ] **2. Google Sites iframe QA** — embed the GitHub Pages URL in a Google Sites page; verify at 1366×768: fixed header visible, white background, choices render, calculator loads, timer runs
+- [ ] **3. Cloudflare Worker** — deploy Worker; run `localStorage.setItem('favoritWorkerUrl', 'https://...')` once in the browser console on the host device; confirm FAVORit POST fires (check Worker logs)
+- [ ] **4. Promote to Classroom Ready** — update `docs/COMMAND_CENTER.md` lifecycle stage for `regents-mc-trainer` from `Build` → `Classroom Ready`
 ### Done (Phase 2)
 - [x] **Session F** — math() renderer: custom CSS (.mfrac/.msqrt/.mcoef) + helper function; choiceLayout() HTML-strip fix; 14 questions updated (Q05, Q18, Q23, Q34, Q37–Q38, Q43, Q47, Q57–Q58, Q62–Q67) with stacked fractions, radical overlines, superscript exponents; 72/72 pass — 2026-05-11
 - [x] **Session E** — June 2025 Q23 (axis of symmetry — SVG graph in choice 1, svgTable in choice 3); renderer confirmed innerHTML-safe; no renderer change needed; 72/72 pass — 2026-05-11
