@@ -81,7 +81,7 @@ home → challenge:
 | `generateCSV()` | Builds CSV string from `STATE.challenge.answers` (9 columns) |
 | `downloadCSV()` | Creates Blob URL, triggers `<a>` click, cleans up — auto-called 400ms after `renderChallengeResults()` |
 | `startWrongAnswerDrill()` | Reads `STATE.challenge.answers`, builds `STATE.practice.wrongPool` from missed questions, sets `STATE.view='practice'`, calls `startPractice('wrong')` |
-| `ANALYTICS.log(type, payload)` | Pushes to `ANALYTICS.events[]`, console, and fires POST if `localStorage('favoritWorkerUrl')` is set |
+| `ANALYTICS.log(type, payload)` | Pushes to `ANALYTICS.events[]`, console, and fires POST to hardcoded Apps Script endpoint (private repo — URL committed). `localStorage('favoritWorkerUrl')` overrides if set. Events: `boot`, `view_change`, `lens_view`, `lens_pick`, `mc_attempt`, `challenge_attempt`, `challenge_complete`. `mc_attempt` + `challenge_attempt` carry: `qid`, `standard`, `stem`, `picked_choice`, `picked_text`, `correct_answer`, `correct_text`, `correct`, `best_lens`, `best_lens_name`. `challenge_complete` carries: `total`, `correct`, `score_pct`. |
 | `showRail(visible, showHint)` | Shows/hides `#persistent-rail`; optionally hides `#lens-hint-card`. `true/true` in practice active, `true/false` on active challenge question, `false/false` everywhere else |
 
 ### Choice Schema
@@ -123,7 +123,7 @@ home → challenge:
 
 ## 5. KNOWN ISSUES
 
-- FAVORit POST is live but silent until `localStorage.setItem('favoritWorkerUrl', 'https://...')` is run once in the browser console on the host device — URL intentionally kept out of committed code per FERPA_RULES.md
+- FAVORit POST is live and active — Apps Script endpoint hardcoded in `ANALYTICS.workerUrl` (repo is private; FERPA_RULES waived for private deployment). Sheet ID: `11tzYXMZim5gq_rJ9qBhL_PeuQgMIxbuSKbqUPYWC1jE`. Tracker script: `scripts/sheets-tracker.gs`. `localStorage('favoritWorkerUrl')` overrides the hardcoded URL if set on a device.
 - `window.runPuzzleTests()` is live — run in browser console to validate all questions; returns `{ passed, failed, total }`
 - Phase 2 SVG questions not yet authored — `[TODO:Q]` marker in source flags the insertion point
 
@@ -157,6 +157,7 @@ No star field, no orbs, no gradients, no texture. This is an intentional DESIGN_
 
 ## 7. LAST SESSION LOG
 
+- 2026-05-13 (Session I + Analytics) — Session I Browser QA complete: all 17 checks green at 1366×768; `\sqrt{}` processing-order bug found and fixed in `math()` (Q62 `\frac{10}{\sqrt{2}}` now renders correctly). Google Apps Script tracker added (`scripts/sheets-tracker.gs`): `doPost()` writes to two tabs — Questions (one row per answered question) and Sessions (one row per Challenge completion). FAVORit endpoint hardcoded in `ANALYTICS.workerUrl` (private repo). `mc_attempt` and `challenge_attempt` enriched with `stem`, `picked_text`, `correct_text`, `best_lens_name`. New `challenge_complete` event fires in `renderChallengeResults()`. 72/72 pass.
 - 2026-05-12 (Session H) — Wrong-answer drill added. `renderChallengeResults()` adds "Drill Mistakes (N)" button (hidden if score is perfect). `startWrongAnswerDrill()` reads `STATE.challenge.answers`, filters to wrong answers, builds `STATE.practice.wrongPool`, sets `STATE.view='practice'`, calls `startPractice('wrong')`. `startPractice()` extended: `drillMode='wrong'` uses pre-built `wrongPool` instead of filtering `QUESTION_BANK`. Lens-pick screen in wrong drill mode adds `.wrong-drill-strip` diagnostic (missed count + standard breakdown) and `.lens-highlight` bold styling on lenses that were `bestLens` for missed questions. `drillLabel` shows "Mistakes Drill" in question header. `renderPracticeComplete()` now uses `STATE.practice.queue.length` instead of hardcoded `QUESTION_BANK.length`. 72/72 pass.
 - 2026-05-12 (Session G) — Practice Mode rework: `STATE.practice` gains `subView`, `drillMode`, `filterStandard`, `filterLens`; new renderers `renderPracticeHome()`, `renderStandardPicker()`, `renderLensPicker()`; `startPractice(drillMode, filter)` replaces zero-arg form. Lens Drill collapses lens-pick phase, pre-sets `lensGuess`, shows rail hint from start, shows walkthrough in review. `STATE.challenge` gains `attemptCount` and `questionStartTime`; `sampleChallenge(attemptCount)` replaces inline shuffle; `generateCSV()` + `downloadCSV()` added; `challengeLockAnswer()` and `challengeNext()` now push `timeSpent`, `stem`, `bestLens` into `C.answers`. CSV auto-downloads 400ms after `renderChallengeResults()`. 72/72 pass.
 - 2026-05-11 (session 10) — Phase 2 Session F: math() renderer added. CSS classes .mfrac/.msqrt/.mcoef added; math() helper defined before QUESTION_BANK; choiceLayout() fixed to strip HTML before measuring length. Q05 choices (exponential ^t), Q18 stem (27^{2/3}), Q23 choices (1/3 slope fractions), Q34 stem (√3, √5), Q37 stem+choices (3/2, (1/2)^n sequences), Q38 stem (√25, √2), Q43 choices (surface area formula fractions), Q47 stem (√(x+1)+5), Q57 choices (radical expressions), Q58 stem (quadratic), Q62–Q67 (all fraction/radical/exponent questions) updated with math(). 72/72 pass.

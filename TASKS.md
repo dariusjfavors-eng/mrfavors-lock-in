@@ -1,6 +1,22 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-12 (Session I)
+Last updated: 2026-05-13 (Analytics/Tracker)
+
+---
+
+## Google Sheets Tracker — ✅ COMPLETE 2026-05-13
+
+**Design concept:** Real-time student response tracking via Google Apps Script Web App — every answered question writes a row to a "Questions" tab; every completed Challenge writes a row to a "Sessions" tab. No student setup required; endpoint hardcoded in game (private repo).
+**Modules touched:** ANALYTICS (payload enrichment + hardcoded endpoint), new `scripts/sheets-tracker.gs`
+**Interface changes:**
+- `ANALYTICS.workerUrl` now hardcodes the Apps Script `/exec` URL as fallback (localStorage override still works)
+- `mc_attempt` event enriched: adds `stem`, `picked_text`, `correct_text`, `best_lens`, `best_lens_name`
+- `challenge_attempt` event enriched: adds `stem`, `picked_text`, `correct_text`, `best_lens_name`
+- New `challenge_complete` event fires in `renderChallengeResults()`: `{ total, correct, score_pct }`
+- `scripts/sheets-tracker.gs`: `doPost()` routes by `type`; creates Questions (15 cols) and Sessions (6 cols) tabs automatically
+**Sheet:** `11tzYXMZim5gq_rJ9qBhL_PeuQgMIxbuSKbqUPYWC1jE` (blank sheet, dedicated tracker)
+**Out of scope:** Practice-mode session summary rows, per-lens analytics, student identity
+**Done when:** Questions tab receives rows with full text on every answered question; Sessions tab receives one row per Challenge completion; 72/72 pass
 
 ---
 
@@ -185,7 +201,7 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 
 - [ ] **1. GitHub Pages** — push `games/regents-mc-trainer/index.html` to `gh-pages` branch (or root of a dedicated repo); confirm live URL loads the game
 - [ ] **2. Google Sites iframe QA** — embed the GitHub Pages URL in a Google Sites page; verify at 1366×768: fixed header visible, white background, choices render, calculator loads, timer runs
-- [ ] **3. Cloudflare Worker** — deploy Worker; run `localStorage.setItem('favoritWorkerUrl', 'https://...')` once in the browser console on the host device; confirm FAVORit POST fires (check Worker logs)
+- [x] **3. Analytics endpoint** — Google Apps Script Web App deployed (`scripts/sheets-tracker.gs`); endpoint hardcoded in `ANALYTICS.workerUrl`; Questions + Sessions tabs live in tracking sheet — 2026-05-13
 - [ ] **4. Promote to Classroom Ready** — update `docs/COMMAND_CENTER.md` lifecycle stage for `regents-mc-trainer` from `Build` → `Classroom Ready`
 ### Done (Phase 2)
 - [x] **Session F** — math() renderer: custom CSS (.mfrac/.msqrt/.mcoef) + helper function; choiceLayout() HTML-strip fix; 14 questions updated (Q05, Q18, Q23, Q34, Q37–Q38, Q43, Q47, Q57–Q58, Q62–Q67) with stacked fractions, radical overlines, superscript exponents; 72/72 pass — 2026-05-11
