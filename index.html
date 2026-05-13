@@ -3387,7 +3387,9 @@ function lockAnswer() {
   const Q = currentQ();
   const correct = STATE.practice.answerPick === Q.correctAnswer;
   STATE.practice.phase = 'review';
-  ANALYTICS.log('mc_attempt', { qid: Q.id, standard: Q.standard, lens_used: STATE.practice.lensGuess, picked_choice: STATE.practice.answerPick, correct, error_tag: correct ? null : Q.errorTags[0] });
+  const _maPicked = (Q.choices.find(c => c.label === STATE.practice.answerPick) || {text:''}).text.replace(/<[^>]+>/g,'').trim();
+  const _maCorrect = (Q.choices.find(c => c.label === Q.correctAnswer) || {text:''}).text.replace(/<[^>]+>/g,'').trim();
+  ANALYTICS.log('mc_attempt', { qid: Q.id, standard: Q.standard, lens_used: STATE.practice.lensGuess, picked_choice: STATE.practice.answerPick, picked_text: _maPicked, correct_answer: Q.correctAnswer, correct_text: _maCorrect, correct, stem: Q.stem.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim(), best_lens: Q.bestLens, best_lens_name: getLens(Q.bestLens) ? getLens(Q.bestLens).name : Q.bestLens, error_tag: correct ? null : Q.errorTags[0] });
   render();
 }
 
@@ -3474,7 +3476,9 @@ function challengeLockAnswer() {
   });
   C.answered = true;
   clearChallengeTimer();
-  ANALYTICS.log('challenge_attempt', { qid: Q.id, standard: Q.standard, picked_choice: _challengeSelectedChoice, correct_answer: Q.correctAnswer, correct, time_spent_s: timeSpent, best_lens: Q.bestLens });
+  const _caPicked = (Q.choices.find(c => c.label === _challengeSelectedChoice) || {text:''}).text.replace(/<[^>]+>/g,'').trim();
+  const _caCorrect = (Q.choices.find(c => c.label === Q.correctAnswer) || {text:''}).text.replace(/<[^>]+>/g,'').trim();
+  ANALYTICS.log('challenge_attempt', { qid: Q.id, standard: Q.standard, picked_choice: _challengeSelectedChoice, picked_text: _caPicked, correct_answer: Q.correctAnswer, correct_text: _caCorrect, correct, time_spent_s: timeSpent, stem: Q.stem.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim(), best_lens: Q.bestLens, best_lens_name: bestL ? bestL.name : Q.bestLens });
   _challengeSelectedChoice = null;
   challengeNext();
 }
