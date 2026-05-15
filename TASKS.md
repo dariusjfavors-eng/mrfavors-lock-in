@@ -1,6 +1,20 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-13 (Analytics/Tracker)
+Last updated: 2026-05-15 (Session K — math() bug fix + Lens 3 step cards)
+
+---
+
+## Session K — math() Bug Fix + Lens Step Cards — ✅ COMPLETE 2026-05-15
+
+**Design concept:** (1) Fix `math()` renderer so fractions with superscripts/subscripts inside numerator/denominator display correctly instead of showing raw LaTeX. (2) Add bordered numbered step cards for Lens walkthroughs — backward-compatible: arrays render as cards, strings render as before. Convert all Lens 3 (bestLens) walkthroughs to step arrays as proof of concept.
+**Modules touched:** `math()` function (processing order), `<style>` block (step card CSS), `UI_RENDER` (walkthrough renderer branch), `QUESTION_BANK` (Lens 3 walkthroughs for Q01, Q07, Q09, Q11, Q12, Q17, Q42, Q47, Q58, Q64)
+**Interface changes:**
+- `math()`: superscripts `^{}` and subscripts `_{}` now processed before `renderFrac` — fracs like `\frac{2^{x+3}}{x^2-2}` now render correctly
+- `walkthroughs[lensId]` renderer: if array → `.lens-steps` bordered step cards; if string → unchanged `.ti-screen` paragraph
+- 10 Lens 3 walkthroughs converted to step arrays (Q01, Q07, Q09, Q11, Q12, Q17, Q42, Q47, Q58, Q64)
+- CSS added: `.lens-steps`, `.lens-step`, `.lens-step-num`, `.lens-step-body`
+**Out of scope:** Lens 1, 2, 4–10 conversions (future sessions); click-to-reveal steps; screenshot QA workflow; variant drill mode
+**Done when:** 72/72 `window.runPuzzleTests()` pass; Q58/Q64 fractions render correctly; Lens 3 step cards visible with bordered cards; string walkthroughs unchanged
 
 ---
 

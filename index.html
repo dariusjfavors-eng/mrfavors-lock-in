@@ -653,6 +653,16 @@ html, body {
 .msqrt .mbody { border-top: 1.5px solid currentColor; padding: 1px 3px 0; }
 .mcoef { font-style: normal; }
 
+/* LENS STEP CARDS */
+.lens-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.lens-step {
+  display: flex; align-items: flex-start; gap: 10px;
+  border: 1.5px solid #000; padding: 8px 12px;
+  background: #fff; font-family: Arial, Helvetica, sans-serif;
+}
+.lens-step-num { font-weight: bold; font-size: 0.85em; min-width: 22px; padding-top: 1px; flex-shrink: 0; }
+.lens-step-body { font-size: 0.95em; line-height: 1.5; }
+
 /* PRACTICE MODE HOME */
 .practice-mode-grid {
   display: grid;
@@ -930,8 +940,8 @@ const LENSES = [
    Usage: math('\\frac{1}{2}mv^{2}')  →  inline HTML string
 ============================================================================ */
 function math(s) {
-  // \text{...} and \sqrt{} must be stripped/rendered before \frac so that
-  // [^{}]* in renderFrac can match numerators/denominators containing them
+  // Processing order matters: \text{}, \sqrt{}, ^{}, _{} must all be converted
+  // to HTML before \frac runs so that [^{}]* in renderFrac matches correctly.
   s = s.replace(/\\text\{([^}]+)\}/g, '$1');
   // \sqrt{body} with optional coefficient: 2\sqrt{3}
   s = s.replace(/(\d*)\\sqrt\{([^}]+)\}/g, (_, coef, body) =>
@@ -941,15 +951,15 @@ function math(s) {
   s = s.replace(/(\d*)\\sqrt ([A-Za-z0-9])/g, (_, coef, body) =>
     (coef ? `<span class="mcoef">${coef}</span>` : '') +
     `<span class="msqrt"><span class="mrad">√</span><span class="mbody">${body}</span></span>`);
-  // nested \frac (one level deep) — runs after \text and \sqrt so denominators with those are clean
-  const renderFrac = str => str.replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g,
-    (_, n, d) => `<span class="mfrac"><span class="mnum">${n}</span><span class="mden">${d}</span></span>`);
-  s = renderFrac(renderFrac(s)); // two passes handles a^{b}/c patterns
-  // superscripts: ^{expr} or ^x
+  // superscripts and subscripts — must run before renderFrac so ^{2} inside
+  // a numerator/denominator doesn't leave braces that break [^{}]*
   s = s.replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>');
   s = s.replace(/\^([A-Za-z0-9])/g, '<sup>$1</sup>');
-  // subscripts: _{expr}
   s = s.replace(/\_\{([^}]+)\}/g, '<sub>$1</sub>');
+  // \frac — runs last among structural transforms; all brace-bearing tokens above are now HTML
+  const renderFrac = str => str.replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g,
+    (_, n, d) => `<span class="mfrac"><span class="mnum">${n}</span><span class="mden">${d}</span></span>`);
+  s = renderFrac(renderFrac(s));
   // symbols
   s = s.replace(/\\cdot/g, '·').replace(/\\times/g, '×')
        .replace(/\\leq/g, '≤').replace(/\\geq/g, '≥')
@@ -1094,7 +1104,12 @@ const QUESTION_BANK = [
     bestLens: 3,
     walkthroughs: {
       1: 'Y1 = 2X+7, Y2 = 19. Intersection at X = 6.',
-      3: 'Plug x=6: 2(6)+7 = 19 ✓.',
+      3: [
+        'Read the choices — you need the x-value that makes 2x + 7 = 19 true.',
+        'Try choice (1): x = 6 → 2(6) + 7 = 12 + 7 = 19 ✓',
+        'The equation holds. No need to test further.',
+        'Answer: (1) x = 6.'
+      ],
       9: '2x = 12 → x = 6. Structural solve.'
     },
     errorTags: ['arithmetic_slip']
@@ -1224,7 +1239,13 @@ const QUESTION_BANK = [
     applicableLenses: [3, 4],
     bestLens: 3,
     walkthroughs: {
-      3: 'f(−1) = (−1)²−3(−1)+2 = 1+3+2 = 6.',
+      3: [
+        'Substitute x = −1 into every term of f(x) = x² − 3x + 2.',
+        'x² term: (−1)² = 1.',
+        '−3x term: −3(−1) = +3.',
+        'Constant: +2.',
+        'f(−1) = 1 + 3 + 2 = 6. Answer: (1).'
+      ],
       4: 'Y1=X²−3X+2. TABLE at X=−1 → Y=6.'
     },
     errorTags: ['sign_error_on_substitution']
@@ -1266,7 +1287,13 @@ const QUESTION_BANK = [
     applicableLenses: [3, 4, 9],
     bestLens: 3,
     walkthroughs: {
-      3: 'Plug x=2: (8+10−3)+(4−4+7)=15+7=22. Test (1): 3(4)+3(2)+4=22 ✓.',
+      3: [
+        'Pick a test value: x = 2 (avoids 0 and 1, which can hide errors).',
+        'Evaluate the original expression at x = 2: (2·4 + 5·2 − 3) + (4 − 4 + 7) = 15 + 7 = 22.',
+        'Test choice (1) at x = 2: 3(4) + 3(2) + 4 = 12 + 6 + 4 = 22 ✓',
+        'Test choice (2) to confirm it fails: 3(4) + 7(2) + 4 = 30 ✗',
+        'Answer: (1).'
+      ],
       4: 'Y1=original expression, Y2=(1). Identical TABLE column.',
       9: 'x² coeffs: 2+1=3. x coeffs: 5+(−2)=3. Constants: −3+7=4. → 3x²+3x+4.'
     },
@@ -1309,7 +1336,13 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3, 4],
     bestLens: 3,
     walkthroughs: {
-      3: 'f(1)=5, f(2)=8, f(3)=11. Test (1): f(1)=3+2=5 ✓, f(2)=6+2=8 ✓. Test (4): f(1)=3+5=8 ✗.',
+      3: [
+        'List the first few terms from the rule: f(1) = 5, f(2) = 8, f(3) = 11.',
+        'Test choice (1) f(n) = 3n + 2: f(1) = 5 ✓, f(2) = 8 ✓, f(3) = 11 ✓ — matches.',
+        'Test choice (4) f(n) = 3n + 5: f(1) = 3 + 5 = 8 ✗ — eliminates it immediately.',
+        'Test choice (2) f(n) = 5n + 3: f(1) = 8 ✗ — out.',
+        'Answer: (1) f(n) = 3n + 2.'
+      ],
       9: 'Arithmetic: f(n) = first + (n−1)·d = 5+(n−1)·3 = 5+3n−3 = 3n+2.',
       4: 'TABLE for each expression. Only (1) gives 5, 8, 11, 14...'
     },
@@ -1331,7 +1364,12 @@ const QUESTION_BANK = [
     applicableLenses: [1, 3],
     bestLens: 3,
     walkthroughs: {
-      3: 'Test x=−3: −2(−3)+8 = 6+8 = 14 ✓.',
+      3: [
+        'Read the choices — you need the x-value that makes −2x + 8 = 14 true.',
+        'Try choice (2): x = −3 → −2(−3) + 8 = 6 + 8 = 14 ✓',
+        'Watch the sign: negative times negative = positive.',
+        'Answer: (2) x = −3.'
+      ],
       1: 'Y1=−2X+8, Y2=14. Intersect at X=−3.'
     },
     errorTags: ['sign_error', 'inverse_ops']
@@ -1438,7 +1476,13 @@ const QUESTION_BANK = [
     applicableLenses: [3, 9, 1],
     bestLens: 3,
     walkthroughs: {
-      3: 'Test each: (0,−4): −4>−3? No. (2,1): 1>1? No (not strict). (3,4): 4>3? Yes ✓. (1,−1): −1>−1? No.',
+      3: [
+        'Substitute each ordered pair (x, y) into y > 2x − 3.',
+        'Choice (1) (0, −4): −4 > 2(0) − 3 → −4 > −3? No.',
+        'Choice (2) (2, 1): 1 > 2(2) − 3 → 1 > 1? No — strict inequality means not equal.',
+        'Choice (3) (3, 4): 4 > 2(3) − 3 → 4 > 3? Yes ✓',
+        'Answer: (3). Key: ">" is strict — a point on the boundary line does NOT count.'
+      ],
       9: 'y=2x−3 is the boundary line. Points strictly above it satisfy y>2x−3. (3,4) is above the line.',
       1: 'Y1=2X−3. Plot (3,4) — it sits above the line.'
     },
@@ -1992,7 +2036,13 @@ const QUESTION_BANK = [
     applicableLenses: [3, 9],
     bestLens: 3,
     walkthroughs: {
-      3: 'Original price = value at t = 0. v(0) = 500(1.08)⁰ = 500·1 = 500. Trap (4): v(1) = 500(1.08) = $540 is the value after 1 year, not the original price. Trap (1): $108 confuses the growth factor 1.08 with a dollar amount.',
+      3: [
+        '"Original price" means the value before any time has passed — evaluate at t = 0.',
+        'v(0) = 500(1.08)⁰ = 500 · 1 = 500.',
+        'Answer: (3) $500.',
+        'Trap (4): $540 = v(1) — that is the price after 1 year, not the original.',
+        'Trap (1): $108 misreads the growth factor 1.08 as a dollar amount.'
+      ],
       9: 'In v(t) = a·bᵗ, the initial value (t = 0) equals a = 500. The 1.08 is the annual growth factor (8% growth per year), not a dollar amount.'
     },
     errorTags: ['evaluates_at_wrong_t_value', 'confuses_initial_value_with_growth_factor']
@@ -2097,7 +2147,13 @@ const QUESTION_BANK = [
     applicableLenses: [3, 9],
     bestLens: 3,
     walkthroughs: {
-      3: 'Substitute x = 3: f(3) = √(3+1) + 5 = √4 + 5 = 2 + 5 = 7. Trap (1): forgetting the +5, computing only √4 = 2. Trap (4): computing √(3+1+5) = √9 = 3 (wrong — the +5 is outside the radical).',
+      3: [
+        'Substitute x = 3 into f(x) = √(x + 1) + 5.',
+        'Inside the radical first: 3 + 1 = 4.',
+        'Take the square root: √4 = 2.',
+        'Add the constant outside the radical: 2 + 5 = 7.',
+        'Answer: (2) 7. Trap: the +5 is outside the radical — don\'t add it inside.'
+      ],
       9: 'Structure: f(x) = √(x+1) + 5. The +5 is added after taking the square root, not inside. At x=3: radicand = 4, √4 = 2, then 2 + 5 = 7.'
     },
     errorTags: ['order_of_operations_error', 'forgets_constant_term']
@@ -2336,7 +2392,13 @@ const QUESTION_BANK = [
     applicableLenses: [1, 3],
     bestLens: 3,
     walkthroughs: {
-      3: 'Substitute y = −6: −x²−x+6=−6 → −x²−x+12=0 → x²+x−12=0 → (x+4)(x−3)=0 → x=−4 or x=3. Both values work. Trap (3): only lists x=3; trap (4): only lists x=−4 — a parabola can cross a horizontal line at two points.',
+      3: [
+        'Substitute y = −6 into the equation: −6 = −x² − x + 6.',
+        'Rearrange: −x² − x + 12 = 0 → multiply by −1 → x² + x − 12 = 0.',
+        'Factor: (x + 4)(x − 3) = 0.',
+        'Solve: x = −4 or x = 3. Both values satisfy the equation.',
+        'Answer: (2). Traps: choices (3) and (4) only give one value — a parabola can cross a horizontal line at two points.'
+      ],
       1: 'Graph y = −x²−x+6 and y = −6. Use 2nd TRACE → intersect. Two intersections at x = −4 and x = 3.'
     },
     errorTags: ['misses_second_solution', 'sign_error_in_quadratic_setup']
@@ -2530,7 +2592,13 @@ const QUESTION_BANK = [
     applicableLenses: [3, 4],
     bestLens: 3,
     walkthroughs: {
-      3: 'Store −2 → X. Evaluate 2^(X+3)/(X²−2): numerator = 2^1 = 2; denominator = 4−2 = 2. Result = 1. Answer is (1).',
+      3: [
+        'Substitute x = −2 into g(x) = 2^(x+3) / (x² − 2).',
+        'Numerator: 2^(−2 + 3) = 2^1 = 2.',
+        'Denominator: (−2)² − 2 = 4 − 2 = 2.',
+        'g(−2) = 2 ÷ 2 = 1.',
+        'Answer: (1). Watch the exponent: −2 + 3 = 1, not −2 − 3.'
+      ],
       4: 'Y1 = 2^(X+3)/(X²−2). TABLE at X = −2: Y1 = 1 ✓.'
     },
     errorTags: ['sign_error_in_exponent', 'denominator_evaluation_error']
@@ -2775,7 +2843,7 @@ const QUESTION_BANK = [
 ============================================================================ */
 const ANALYTICS = {
   sessionId: 'anon_' + Date.now(),
-  workerUrl: localStorage.getItem('favoritWorkerUrl') || 'https://script.google.com/macros/s/AKfycbyKPyuCV8Pnnb3SjCtcvQadUWYS2v6HMkk61WDuXvyB4z_0Fx_tgE-zg6HW1uhmwreM/exec',
+  workerUrl: localStorage.getItem('favoritWorkerUrl') || 'https://script.google.com/macros/s/AKfycby7SlqwCPnC2mh-RjR7R4eAi9dqZYVhAj9aoMAXGNHjmMGh0IgPaR5qx2NRQ1kFH4Kl/exec',
   events: [],
 
   log(eventType, payload) {
@@ -3047,9 +3115,14 @@ function renderPractice() {
     const isValid = Q.applicableLenses.includes(guess);
     const isBest  = Q.bestLens === guess;
     const guessLens = getLens(guess);
-    const walkText = isValid
+    const walkRaw = isValid
       ? Q.walkthroughs[guess]
       : `${guessLens.name} doesn&rsquo;t fit this problem well. Consider: ${Q.applicableLenses.map(id => getLens(id).name).join(', ')}.`;
+    const walkHtml = Array.isArray(walkRaw)
+      ? `<div class="lens-steps">${walkRaw.map((step, i) =>
+          `<div class="lens-step"><span class="lens-step-num">Step ${i + 1}</span><span class="lens-step-body">${step}</span></div>`
+        ).join('')}</div>`
+      : `<div class="ti-screen" style="margin-top:10px;">${walkRaw}</div>`;
 
     let fb = '';
     if (isBest)       fb = `<div class="feedback good"><div class="fb-label">Strong pick</div><p>${guessLens.name} is the most efficient lens here.</p></div>`;
@@ -3060,7 +3133,7 @@ function renderPractice() {
       ${fb}
       <div class="lens-picker-prompt" style="margin-top:12px;">
         <div class="pp-eyebrow">Step 2 &mdash; Walkthrough (${guessLens.name})</div>
-        <div class="ti-screen" style="margin-top:10px;">${walkText}</div>
+        ${walkHtml}
       </div>
       <div class="btn-row">
         <button class="btn" onclick="advanceToAnswer()">Now pick your answer &rarr;</button>
@@ -3099,7 +3172,13 @@ function renderPractice() {
         : `<div class="feedback bad"><div class="fb-label">Incorrect</div><p>Correct answer: (${Q.correctAnswer}). Common error: <strong>${Q.errorTags[0]}</strong>. Best lens: ${getLens(Q.bestLens).name}.</p></div>`;
       let walkExtra = '';
       if (isLensDrill && STATE.practice.lensGuess && Q.walkthroughs && Q.walkthroughs[STATE.practice.lensGuess]) {
-        walkExtra = `<div class="lens-picker-prompt" style="margin-top:12px;"><div class="pp-eyebrow">How the ${lensName} lens solves it</div><div class="ti-screen" style="margin-top:8px;">${Q.walkthroughs[STATE.practice.lensGuess]}</div></div>`;
+        const drillWalkRaw = Q.walkthroughs[STATE.practice.lensGuess];
+        const drillWalkHtml = Array.isArray(drillWalkRaw)
+          ? `<div class="lens-steps">${drillWalkRaw.map((step, i) =>
+              `<div class="lens-step"><span class="lens-step-num">Step ${i + 1}</span><span class="lens-step-body">${step}</span></div>`
+            ).join('')}</div>`
+          : `<div class="ti-screen" style="margin-top:8px;">${drillWalkRaw}</div>`;
+        walkExtra = `<div class="lens-picker-prompt" style="margin-top:12px;"><div class="pp-eyebrow">How the ${lensName} lens solves it</div>${drillWalkHtml}</div>`;
       }
       lockBtn = `${fb}${walkExtra}<div class="btn-row"><button class="btn" onclick="nextPracticeQ()">Next question &rarr;</button><button class="btn secondary" onclick="navigate('home')">Exit</button></div>`;
     }
