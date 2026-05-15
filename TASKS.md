@@ -213,8 +213,8 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 
 ### Steps
 
-- [x] **1. GitHub Pages** — `git subtree push --prefix games/regents-mc-trainer origin gh-pages`; gh-pages branch live at `https://github.com/dariusjfavors-eng/mrfavors-algebra/tree/gh-pages`; enable Pages in repo Settings → Pages → gh-pages, / (root) — 2026-05-15
-- [ ] **2. Google Sites iframe QA** — embed `https://dariusjfavors-eng.github.io/mrfavors-algebra/` in Google Sites; verify at 1366×768: fixed header visible, white background, choices render, calculator loads, timer runs
+- [x] **1. GitHub Pages** — private repo; created public deploy repo `mrfavors-lock-in` at `https://github.com/dariusjfavors-eng/mrfavors-lock-in`; pushed `index.html` to main; Pages auto-enabled via API → `https://dariusjfavors-eng.github.io/mrfavors-lock-in/` — 2026-05-15
+- [ ] **2. Google Sites iframe QA** — embed `https://dariusjfavors-eng.github.io/mrfavors-lock-in/` in Google Sites; verify at 1366×768: fixed header visible, white background, choices render, calculator loads, timer runs
 - [x] **3. Analytics endpoint** — Google Apps Script Web App deployed (`scripts/sheets-tracker.gs`); endpoint hardcoded in `ANALYTICS.workerUrl`; Questions + Sessions tabs live in tracking sheet — 2026-05-13
 - [x] **4. Promote to Classroom Ready** — `docs/COMMAND_CENTER.md` updated: `Build` → `Classroom Ready` — 2026-05-15
 ### Done (Phase 2)
