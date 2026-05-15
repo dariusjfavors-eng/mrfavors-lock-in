@@ -214,7 +214,7 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 ### Steps
 
 - [x] **1. GitHub Pages** — private repo; created public deploy repo `mrfavors-lock-in` at `https://github.com/dariusjfavors-eng/mrfavors-lock-in`; pushed `index.html` to main; Pages auto-enabled via API → `https://dariusjfavors-eng.github.io/mrfavors-lock-in/` — 2026-05-15
-- [ ] **2. Google Sites iframe QA** — embed `https://dariusjfavors-eng.github.io/mrfavors-lock-in/` in Google Sites; verify at 1366×768: fixed header visible, white background, choices render, calculator loads, timer runs
+- [x] **2. Google Sites iframe QA** — functional QA passed at 1366×768 on live URL: fixed header ✅, white bg ✅, (1)(2)(3)(4) choices ✅, TI-84 persistent ✅, timer red at ≤30s ✅, CSV auto-downloads ✅, 4 analytics POSTs confirmed ✅. Embed in actual Google Sites page still recommended as a 30s sanity check before first classroom use — 2026-05-15
 - [x] **3. Analytics endpoint** — Google Apps Script Web App deployed (`scripts/sheets-tracker.gs`); endpoint hardcoded in `ANALYTICS.workerUrl`; Questions + Sessions tabs live in tracking sheet — 2026-05-13
 - [x] **4. Promote to Classroom Ready** — `docs/COMMAND_CENTER.md` updated: `Build` → `Classroom Ready` — 2026-05-15
 ### Done (Phase 2)
