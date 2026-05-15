@@ -2,7 +2,7 @@
 > Read this file before changing the game. Keep DESIGN_BRIEF fidelity,
 > the ephemeral session model, and the exam-paper aesthetic intact.
 
-Version: 1.1 | Status: Build
+Version: 1.2 | Status: Classroom Ready
 Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/regents-mc-trainer/`
 
 ---
@@ -18,7 +18,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 | Framework | Vanilla JS only, zero build tools |
 | Storage | None — session is ephemeral, no localStorage |
 | PII Policy | None stored; FAVORit analytics are anonymous (sid = `anon_` + timestamp) |
-| Current Status | Session H complete; 72/72 questions; Wrong-answer drill added to Challenge results flow |
+| Current Status | Classroom Ready — deployed to gh-pages 2026-05-15; 72/72 questions; Sessions A–K + J complete |
 
 ---
 
@@ -157,6 +157,8 @@ No star field, no orbs, no gradients, no texture. This is an intentional DESIGN_
 
 ## 7. LAST SESSION LOG
 
+- 2026-05-15 (Session J — Deployment) — main pushed (8 commits, Sessions I–K). `git subtree push --prefix games/regents-mc-trainer origin gh-pages` created gh-pages branch. GitHub Pages enabled → `https://dariusjfavors-eng.github.io/mrfavors-algebra/`. COMMAND_CENTER.md updated: Build → Classroom Ready. Google Sites iframe QA pending (user action).
+- 2026-05-15 (Session K — math() + Lens 3 step cards) — math() processing order fixed: ^{} and _{} now processed before renderFrac; fracs like \frac{2^{x+3}}{x^2-2} render correctly. Walkthrough renderer branches: array → .lens-steps bordered step cards; string → unchanged .ti-screen. 10 Lens 3 walkthroughs converted to step arrays (Q01 Q07 Q09 Q11 Q12 Q17 Q42 Q47 Q58 Q64). WORKFLOW.md documents processing order invariant + backward-compat migration pattern. 72/72 pass.
 - 2026-05-13 (Session I + Analytics) — Session I Browser QA complete: all 17 checks green at 1366×768; `\sqrt{}` processing-order bug found and fixed in `math()` (Q62 `\frac{10}{\sqrt{2}}` now renders correctly). Google Apps Script tracker added (`scripts/sheets-tracker.gs`): `doPost()` writes to two tabs — Questions (one row per answered question) and Sessions (one row per Challenge completion). FAVORit endpoint hardcoded in `ANALYTICS.workerUrl` (private repo). `mc_attempt` and `challenge_attempt` enriched with `stem`, `picked_text`, `correct_text`, `best_lens_name`. New `challenge_complete` event fires in `renderChallengeResults()`. 72/72 pass.
 - 2026-05-12 (Session H) — Wrong-answer drill added. `renderChallengeResults()` adds "Drill Mistakes (N)" button (hidden if score is perfect). `startWrongAnswerDrill()` reads `STATE.challenge.answers`, filters to wrong answers, builds `STATE.practice.wrongPool`, sets `STATE.view='practice'`, calls `startPractice('wrong')`. `startPractice()` extended: `drillMode='wrong'` uses pre-built `wrongPool` instead of filtering `QUESTION_BANK`. Lens-pick screen in wrong drill mode adds `.wrong-drill-strip` diagnostic (missed count + standard breakdown) and `.lens-highlight` bold styling on lenses that were `bestLens` for missed questions. `drillLabel` shows "Mistakes Drill" in question header. `renderPracticeComplete()` now uses `STATE.practice.queue.length` instead of hardcoded `QUESTION_BANK.length`. 72/72 pass.
 - 2026-05-12 (Session G) — Practice Mode rework: `STATE.practice` gains `subView`, `drillMode`, `filterStandard`, `filterLens`; new renderers `renderPracticeHome()`, `renderStandardPicker()`, `renderLensPicker()`; `startPractice(drillMode, filter)` replaces zero-arg form. Lens Drill collapses lens-pick phase, pre-sets `lensGuess`, shows rail hint from start, shows walkthrough in review. `STATE.challenge` gains `attemptCount` and `questionStartTime`; `sampleChallenge(attemptCount)` replaces inline shuffle; `generateCSV()` + `downloadCSV()` added; `challengeLockAnswer()` and `challengeNext()` now push `timeSpent`, `stem`, `bestLens` into `C.answers`. CSV auto-downloads 400ms after `renderChallengeResults()`. 72/72 pass.

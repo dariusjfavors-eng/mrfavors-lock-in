@@ -1,6 +1,6 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-15 (Session K — math() bug fix + Lens 3 step cards)
+Last updated: 2026-05-15 (Session J — Deployment)
 
 ---
 
@@ -213,10 +213,10 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 
 ### Steps
 
-- [ ] **1. GitHub Pages** — push `games/regents-mc-trainer/index.html` to `gh-pages` branch (or root of a dedicated repo); confirm live URL loads the game
-- [ ] **2. Google Sites iframe QA** — embed the GitHub Pages URL in a Google Sites page; verify at 1366×768: fixed header visible, white background, choices render, calculator loads, timer runs
+- [x] **1. GitHub Pages** — `git subtree push --prefix games/regents-mc-trainer origin gh-pages`; gh-pages branch live at `https://github.com/dariusjfavors-eng/mrfavors-algebra/tree/gh-pages`; enable Pages in repo Settings → Pages → gh-pages, / (root) — 2026-05-15
+- [ ] **2. Google Sites iframe QA** — embed `https://dariusjfavors-eng.github.io/mrfavors-algebra/` in Google Sites; verify at 1366×768: fixed header visible, white background, choices render, calculator loads, timer runs
 - [x] **3. Analytics endpoint** — Google Apps Script Web App deployed (`scripts/sheets-tracker.gs`); endpoint hardcoded in `ANALYTICS.workerUrl`; Questions + Sessions tabs live in tracking sheet — 2026-05-13
-- [ ] **4. Promote to Classroom Ready** — update `docs/COMMAND_CENTER.md` lifecycle stage for `regents-mc-trainer` from `Build` → `Classroom Ready`
+- [x] **4. Promote to Classroom Ready** — `docs/COMMAND_CENTER.md` updated: `Build` → `Classroom Ready` — 2026-05-15
 ### Done (Phase 2)
 - [x] **Session F** — math() renderer: custom CSS (.mfrac/.msqrt/.mcoef) + helper function; choiceLayout() HTML-strip fix; 14 questions updated (Q05, Q18, Q23, Q34, Q37–Q38, Q43, Q47, Q57–Q58, Q62–Q67) with stacked fractions, radical overlines, superscript exponents; 72/72 pass — 2026-05-11
 - [x] **Session E** — June 2025 Q23 (axis of symmetry — SVG graph in choice 1, svgTable in choice 3); renderer confirmed innerHTML-safe; no renderer change needed; 72/72 pass — 2026-05-11
