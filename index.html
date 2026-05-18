@@ -2877,7 +2877,8 @@ const STATE = {
     drillMode: 'free',     // 'free' | 'standard' | 'lens' | 'wrong'
     filterStandard: null,  // cluster key or null
     filterLens: null,      // lens id or null
-    wrongPool: []          // pre-built pool for drillMode='wrong'
+    wrongPool: [],         // pre-built pool for drillMode='wrong'
+    walkthroughStep: 0    // which step is the last revealed in click-to-reveal
   },
   challenge: {
     started: false,
@@ -3118,11 +3119,21 @@ function renderPractice() {
     const walkRaw = isValid
       ? Q.walkthroughs[guess]
       : `${guessLens.name} doesn&rsquo;t fit this problem well. Consider: ${Q.applicableLenses.map(id => getLens(id).name).join(', ')}.`;
-    const walkHtml = Array.isArray(walkRaw)
-      ? `<div class="lens-steps">${walkRaw.map((step, i) =>
-          `<div class="lens-step"><span class="lens-step-num">Step ${i + 1}</span><span class="lens-step-body">${step}</span></div>`
+
+    const isStepArray = Array.isArray(walkRaw);
+    const steps = isStepArray ? walkRaw : [walkRaw];
+    const step = Math.min(STATE.practice.walkthroughStep, steps.length - 1);
+    const isLast = step >= steps.length - 1;
+
+    const walkHtml = isStepArray
+      ? `<div class="lens-steps">${steps.slice(0, step + 1).map((s, i) =>
+          `<div class="lens-step"><span class="lens-step-num">Step ${i + 1}</span><span class="lens-step-body">${s}</span></div>`
         ).join('')}</div>`
-      : `<div class="ti-screen" style="margin-top:10px;">${walkRaw}</div>`;
+      : `<div class="ti-screen" style="margin-top:10px;">${steps[0]}</div>`;
+
+    const stepCounter = steps.length > 1
+      ? `<div style="font-size:0.8em; color:var(--muted); margin-top:8px; text-align:right;">Step ${step + 1} of ${steps.length}</div>`
+      : '';
 
     let fb = '';
     if (isBest)       fb = `<div class="feedback good"><div class="fb-label">Strong pick</div><p>${guessLens.name} is the most efficient lens here.</p></div>`;
@@ -3134,9 +3145,13 @@ function renderPractice() {
       <div class="lens-picker-prompt" style="margin-top:12px;">
         <div class="pp-eyebrow">Step 2 &mdash; Walkthrough (${guessLens.name})</div>
         ${walkHtml}
+        ${stepCounter}
       </div>
       <div class="btn-row">
-        <button class="btn" onclick="advanceToAnswer()">Now pick your answer &rarr;</button>
+        ${step > 0 ? `<button class="btn secondary" onclick="prevWalkthroughStep()">&larr; Back</button>` : ''}
+        ${isLast
+          ? `<button class="btn" onclick="advanceToAnswer()">Answer the question &rarr;</button>`
+          : `<button class="btn" onclick="nextWalkthroughStep()">Next &rarr;</button>`}
         <button class="btn secondary" onclick="resetLensPick()">Re-pick lens</button>
       </div>
     `;
@@ -3446,6 +3461,7 @@ function startPractice(drillMode = 'free', filter = null) {
   STATE.practice.lensGuess = drillMode === 'lens' ? filter : null;
   STATE.practice.phase = drillMode === 'lens' ? 'answer' : 'lens-pick';
   STATE.practice.answerPick = null;
+  STATE.practice.walkthroughStep = 0;
   STATE.practice.subView = 'active';
   render();
 }
@@ -3454,12 +3470,15 @@ function pickLens(lensId) {
   const Q = currentQ();
   STATE.practice.lensGuess = lensId;
   STATE.practice.phase = 'walkthrough';
+  STATE.practice.walkthroughStep = 0;
   ANALYTICS.log('lens_pick', { qid: Q.id, standard: Q.standard, picked_lens: lensId, best_lens: Q.bestLens, was_valid: Q.applicableLenses.includes(lensId) });
   render();
 }
 
-function resetLensPick() { STATE.practice.lensGuess = null; STATE.practice.phase = 'lens-pick'; render(); }
+function resetLensPick() { STATE.practice.lensGuess = null; STATE.practice.phase = 'lens-pick'; STATE.practice.walkthroughStep = 0; render(); }
 function advanceToAnswer() { STATE.practice.phase = 'answer'; render(); }
+function nextWalkthroughStep() { STATE.practice.walkthroughStep++; render(); }
+function prevWalkthroughStep() { STATE.practice.walkthroughStep--; render(); }
 function pickAnswer(label) { STATE.practice.answerPick = label; render(); }
 
 function lockAnswer() {
@@ -3479,6 +3498,7 @@ function nextPracticeQ() {
     STATE.practice.phase = isLensDrill ? 'answer' : 'lens-pick';
     STATE.practice.lensGuess = isLensDrill ? STATE.practice.filterLens : null;
     STATE.practice.answerPick = null;
+    STATE.practice.walkthroughStep = 0;
     render();
   } else {
     renderPracticeComplete();

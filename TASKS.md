@@ -1,6 +1,23 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-15 (Session J — Deployment)
+Last updated: 2026-05-18 (Session L — Click-to-Reveal Walkthrough)
+
+---
+
+## Session L — Click-to-Reveal Walkthrough Steps — ✅ COMPLETE 2026-05-18
+
+## Session L — Click-to-Reveal Walkthrough Steps — Session PRD
+
+**Design concept:** Walkthrough phase reveals one step at a time; student clicks "Next" / "Back" to navigate; on the last step "Next" becomes "Answer the Question." Step arrays get true multi-step reveal; string walkthroughs are normalized to a single-element array — consistent UX across all 72 questions with zero content migration required.
+**Modules touched:** `STATE` (new `walkthroughStep` field), `UI_RENDER` (walkthrough phase renderer), `UI_HANDLERS` (two new step-navigation handlers + resets in `pickLens`, `resetLensPick`, `nextPracticeQ`, `startPractice`)
+**Interface changes:**
+- `STATE.practice` gains `walkthroughStep: 0` — reset to 0 whenever walkthrough phase is (re)entered or a new question loads
+- Walkthrough renderer: normalizes `walkRaw` to `steps[]` (array → as-is; string → single-element); renders `steps[0..walkthroughStep]` accumulated; shows "Back" when `step > 0`; shows "Next" when not on last step; shows "Answer the Question" on last step
+- `nextWalkthroughStep()` / `prevWalkthroughStep()` — new handlers; increment/decrement `walkthroughStep`, call `render()`
+- "Now pick your answer →" button removed — replaced by "Answer the Question" on last step
+- Step counter ("Step N of M") shown only when `steps.length > 1`
+**Out of scope:** Converting more walkthroughs to step arrays, CSS transition animations, Lens Drill review walkthrough, Challenge mode (no walkthroughs there)
+**Done when:** 72/72 `window.runPuzzleTests()` pass; string walkthroughs show full text + "Answer the Question" immediately; step-array walkthroughs reveal one step at a time with Back/Next; "Answer the Question" advances to answer phase; Re-pick lens still works; step counter shows "Step N of M" only for multi-step walkthroughs
 
 ---
 

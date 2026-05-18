@@ -18,7 +18,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 | Framework | Vanilla JS only, zero build tools |
 | Storage | None — session is ephemeral, no localStorage |
 | PII Policy | None stored; FAVORit analytics are anonymous (sid = `anon_` + timestamp) |
-| Current Status | Classroom Ready — deployed to gh-pages 2026-05-15; 72/72 questions; Sessions A–K + J complete |
+| Current Status | Classroom Ready — deployed to gh-pages 2026-05-15; 72/72 questions; Sessions A–K + J + L complete |
 
 ---
 
@@ -157,6 +157,7 @@ No star field, no orbs, no gradients, no texture. This is an intentional DESIGN_
 
 ## 7. LAST SESSION LOG
 
+- 2026-05-18 (Session L — Click-to-Reveal Walkthrough) — Walkthrough phase now reveals one step at a time. `STATE.practice.walkthroughStep` tracks current step. Step arrays show steps accumulated (Back/Next navigation); string walkthroughs normalized to single-element array ("Answer the question" shows immediately). Step counter ("Step N of M") shown only for multi-step walkthroughs. `nextWalkthroughStep()` / `prevWalkthroughStep()` handlers added. 72/72 pass.
 - 2026-05-15 (Session J — Deployment) — main pushed (8 commits, Sessions I–K). `git subtree push --prefix games/regents-mc-trainer origin gh-pages` created gh-pages branch. GitHub Pages enabled → `https://dariusjfavors-eng.github.io/mrfavors-lock-in/`. COMMAND_CENTER.md updated: Build → Classroom Ready. Google Sites iframe QA pending (user action).
 - 2026-05-15 (Session K — math() + Lens 3 step cards) — math() processing order fixed: ^{} and _{} now processed before renderFrac; fracs like \frac{2^{x+3}}{x^2-2} render correctly. Walkthrough renderer branches: array → .lens-steps bordered step cards; string → unchanged .ti-screen. 10 Lens 3 walkthroughs converted to step arrays (Q01 Q07 Q09 Q11 Q12 Q17 Q42 Q47 Q58 Q64). WORKFLOW.md documents processing order invariant + backward-compat migration pattern. 72/72 pass.
 - 2026-05-13 (Session I + Analytics) — Session I Browser QA complete: all 17 checks green at 1366×768; `\sqrt{}` processing-order bug found and fixed in `math()` (Q62 `\frac{10}{\sqrt{2}}` now renders correctly). Google Apps Script tracker added (`scripts/sheets-tracker.gs`): `doPost()` writes to two tabs — Questions (one row per answered question) and Sessions (one row per Challenge completion). FAVORit endpoint hardcoded in `ANALYTICS.workerUrl` (private repo). `mc_attempt` and `challenge_attempt` enriched with `stem`, `picked_text`, `correct_text`, `best_lens_name`. New `challenge_complete` event fires in `renderChallengeResults()`. 72/72 pass.
