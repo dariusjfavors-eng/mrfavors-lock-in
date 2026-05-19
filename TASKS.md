@@ -1,10 +1,19 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-18 (Session L — Click-to-Reveal Walkthrough)
+Last updated: 2026-05-19 (Session L — all walkthroughs converted to step arrays)
 
 ---
 
-## Session L — Click-to-Reveal Walkthrough Steps — ✅ COMPLETE 2026-05-18
+## Session L — Click-to-Reveal Walkthrough Steps — ✅ COMPLETE 2026-05-19
+
+### Content migration: all 161 walkthroughs → step arrays ✅ COMPLETE 2026-05-19
+All string walkthroughs across all 72 questions converted to multi-step arrays.
+Each lens follows its strategy pattern (L1: enter/intersect, L2: graph/zeros, L3: plug/check,
+L6: AC method, L7: vertex, L8: domain/range, L9: structural, L10: eliminate).
+13 unescaped apostrophes in step strings fixed. 72/72 runPuzzleTests() pass.
+Deployed to mrfavors-lock-in public repo (commit f129371).
+
+---
 
 ## Session L — Click-to-Reveal Walkthrough Steps — Session PRD
 

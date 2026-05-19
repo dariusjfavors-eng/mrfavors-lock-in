@@ -18,7 +18,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 | Framework | Vanilla JS only, zero build tools |
 | Storage | None — session is ephemeral, no localStorage |
 | PII Policy | None stored; FAVORit analytics are anonymous (sid = `anon_` + timestamp) |
-| Current Status | Classroom Ready — deployed to gh-pages 2026-05-15; 72/72 questions; Sessions A–K + J + L complete |
+| Current Status | Classroom Ready — deployed to gh-pages 2026-05-15; 72/72 questions; Sessions A–K + J + L complete. All 161 walkthroughs are multi-step click-to-reveal arrays. |
 
 ---
 
