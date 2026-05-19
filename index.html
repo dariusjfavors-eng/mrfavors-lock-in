@@ -1103,14 +1103,22 @@ const QUESTION_BANK = [
     applicableLenses: [1, 3, 9],
     bestLens: 3,
     walkthroughs: {
-      1: 'Y1 = 2X+7, Y2 = 19. Intersection at X = 6.',
+      1: [
+        'Enter Y1 = 2X+7 and Y2 = 19 on the Y= screen.',
+        'Press ZOOM 6 so both lines are visible.',
+        '2nd → TRACE → 5 (intersect). Press ENTER three times.',
+        'Read X = 6. That\'s your solution.'
+      ],
       3: [
         'Read the choices — you need the x-value that makes 2x + 7 = 19 true.',
         'Try choice (1): x = 6 → 2(6) + 7 = 12 + 7 = 19 ✓',
         'The equation holds. No need to test further.',
         'Answer: (1) x = 6.'
       ],
-      9: '2x = 12 → x = 6. Structural solve.'
+      9: [
+        'Subtract 7 from both sides: 2x + 7 = 19 → 2x = 12.',
+        'Divide both sides by 2: x = 6.'
+      ]
     },
     errorTags: ['arithmetic_slip']
   },
@@ -1130,9 +1138,22 @@ const QUESTION_BANK = [
     applicableLenses: [1, 3, 4],
     bestLens: 1,
     walkthroughs: {
-      1: 'Y1=3X−1, Y2=−X+7. 2nd TRACE → 5: intersect → (2, 5).',
-      3: 'Test (2,5): 3(2)−1=5 ✓ and −2+7=5 ✓.',
-      4: 'TABLE Y1 and Y2. At X=2, both = 5. Match.'
+      1: [
+        'Enter Y1 = 3X−1 and Y2 = −X+7 on the Y= screen.',
+        'Press ZOOM 6. Both lines should be visible.',
+        '2nd → TRACE → 5 (intersect). Press ENTER three times.',
+        'Read X = 2, Y = 5. The solution is (2, 5).'
+      ],
+      3: [
+        'Try choice (1): point (2, 5). Check y = 3x−1: 3(2)−1 = 5 ✓.',
+        'Check y = −x+7: −(2)+7 = 5 ✓.',
+        'Both equations satisfied. Answer: (1) (2, 5).'
+      ],
+      4: [
+        'Enter Y1 = 3X−1 and Y2 = −X+7 on the Y= screen.',
+        '2nd → GRAPH (TABLE). Scroll to find where Y1 = Y2.',
+        'At X = 2, both equal 5. The intersection is (2, 5).'
+      ]
     },
     errorTags: ['arithmetic_slip', 'wrong_substitution']
   },
@@ -1152,9 +1173,23 @@ const QUESTION_BANK = [
     applicableLenses: [7, 4, 9],
     bestLens: 7,
     walkthroughs: {
-      7: 'Y1=−16X²+32X+6. 2nd TRACE → 4: maximum. Vertex at t=1, h=22 ft.',
-      4: 'TABLE with ΔTbl=.25. Highest Y1 around X=1 → 22.',
-      9: 'Axis: t = −32/(2·−16) = 1. h(1) = −16+32+6 = 22.'
+      7: [
+        'Enter Y1 = −16X²+32X+6 on the Y= screen.',
+        'Press GRAPH. The parabola opens down — use CALC maximum.',
+        '2nd → TRACE → 4 (maximum). Set left/right bounds, then press ENTER.',
+        'Calculator shows vertex at t = 1, h = 22. Maximum height is 22 ft.'
+      ],
+      4: [
+        'Enter Y1 = −16X²+32X+6 on the Y= screen.',
+        '2nd → WINDOW (TBLSET). Set TblStart = 0, ΔTbl = 0.25.',
+        '2nd → GRAPH (TABLE). Scroll to find the highest Y1 value.',
+        'Maximum Y1 = 22 near X = 1. Maximum height is 22 ft.'
+      ],
+      9: [
+        'Axis of symmetry: t = −b/(2a) = −32/(2·−16) = −32/−32 = 1.',
+        'Plug t = 1 into h(t): h(1) = −16(1)² + 32(1) + 6 = −16 + 32 + 6 = 22.',
+        'Maximum height is 22 ft at t = 1 second.'
+      ]
     },
     errorTags: ['used_initial_velocity', 'computed_at_wrong_time']
   },
@@ -1174,9 +1209,21 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3, 2],
     bestLens: 9,
     walkthroughs: {
-      9: 'Difference of two squares: a²−b² = (a+b)(a−b). Here a=2x, b=5.',
-      3: 'Plug x=3: 4(9)−25=11. Test (2): (6+5)(6−5)=11 ✓.',
-      2: 'Y1=4X²−25, Y2=(2X+5)(2X−5). Same zeros confirm equivalence.'
+      9: [
+        'Recognize the pattern: 4x² − 25 = (2x)² − 5². This is a difference of two squares.',
+        'Apply: a² − b² = (a+b)(a−b), where a = 2x and b = 5.',
+        '(2x)² − 5² = (2x+5)(2x−5). Answer: (2).'
+      ],
+      3: [
+        'Plug in x = 3: 4(3)² − 25 = 36 − 25 = 11.',
+        'Test choice (2) at x = 3: (2(3)+5)(2(3)−5) = (11)(1) = 11 ✓.',
+        'Answer: (2).'
+      ],
+      2: [
+        'Enter Y1 = 4X²−25 and Y2 = (2X+5)(2X−5) on the Y= screen.',
+        'Open TABLE. If Y1 = Y2 for all X, the expressions are equivalent.',
+        'Both have the same zeros at x = 2.5 and x = −2.5. Answer: (2).'
+      ]
     },
     errorTags: ['perfect_square_confusion']
   },
@@ -1196,9 +1243,21 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3, 4],
     bestLens: 9,
     walkthroughs: {
-      9: 'Compound interest: B = P(1 + r)^t. P=500, r=0.04 → 500(1.04)^t.',
-      3: 'At t=1: should be 500·1.04=520. Test (3): 500(1.04)¹=520 ✓.',
-      4: 'TABLE at t=0,1,2. Only (3) gives 500, 520, 540.8.'
+      9: [
+        'Identify the growth type: "earns 4% annually" means exponential growth.',
+        'Exponential growth formula: B = P(1 + r)^t with P = 500 and r = 0.04.',
+        'B = 500(1.04)^t. Match to choices — answer: (3).'
+      ],
+      3: [
+        'After 1 year at 4% interest: $500 × 1.04 = $520.',
+        'Test choice (3): 500(1.04)¹ = 520 ✓.',
+        'Also verify t = 0 gives $500: 500(1.04)⁰ = 500 ✓. Answer: (3).'
+      ],
+      4: [
+        'Enter each choice as a Y= expression, using X for t.',
+        '2nd → GRAPH (TABLE). At X = 0 all should give 500; at X = 1 should give 520.',
+        'Only choice (3) gives 500 → 520 → 540.8 (constant ×1.04 each step). Answer: (3).'
+      ]
     },
     errorTags: ['rate_vs_multiplier', 'linear_vs_exponential']
   },
@@ -1218,8 +1277,17 @@ const QUESTION_BANK = [
     applicableLenses: [1, 3],
     bestLens: 1,
     walkthroughs: {
-      1: 'Y1=5(X−2), Y2=3X+8. Intersect at X=9.',
-      3: 'Test x=9: 5(7)=35 and 3(9)+8=35 ✓.'
+      1: [
+        'Enter Y1 = 5(X−2) and Y2 = 3X+8 on the Y= screen.',
+        'Press ZOOM 6. Adjust window if needed.',
+        '2nd → TRACE → 5 (intersect). Press ENTER three times.',
+        'Read X = 9. That\'s your solution.'
+      ],
+      3: [
+        'Try x = 9. Left side: 5(9−2) = 5(7) = 35.',
+        'Right side: 3(9)+8 = 27+8 = 35.',
+        '35 = 35 ✓. Answer: x = 9.'
+      ]
     },
     errorTags: ['distributive_skip', 'sign_error']
   },
@@ -1246,7 +1314,11 @@ const QUESTION_BANK = [
         'Constant: +2.',
         'f(−1) = 1 + 3 + 2 = 6. Answer: (1).'
       ],
-      4: 'Y1=X²−3X+2. TABLE at X=−1 → Y=6.'
+      4: [
+        'Enter Y1 = X²−3X+2 on the Y= screen.',
+        '2nd → GRAPH (TABLE). Navigate to X = −1.',
+        'Read Y1 at X = −1: (−1)² − 3(−1) + 2 = 1 + 3 + 2 = 6.'
+      ]
     },
     errorTags: ['sign_error_on_substitution']
   },
@@ -1266,8 +1338,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'y = mx + b. m = 2.5 = slope = rate of change. Each +1 in x → +2.5 in y.',
-      10: 'Choice (1) confuses slope with intercept. Choice (2) is the intercept, not slope meaning. Choice (4) wrong sign.'
+      9: [
+        'Identify the form: y = mx + b is slope-intercept form.',
+        'The slope m = 2.5 is the rate of change: each 1-unit increase in x produces a 2.5-unit increase in y.',
+        'The slope represents the rate of change per unit input. Answer: (3).'
+      ],
+      10: [
+        'Scan choices: slope m = 2.5 means +2.5 y per unit of x.',
+        'Eliminate (1): confuses slope and y-intercept positions. Eliminate (2): 3 is the y-intercept value, not the rate.',
+        'Eliminate (4): wrong sign — the line increases (positive slope). Answer: (3).'
+      ]
     },
     errorTags: ['slope_intercept_swap', 'rate_misinterpretation']
   },
@@ -1294,8 +1374,17 @@ const QUESTION_BANK = [
         'Test choice (2) to confirm it fails: 3(4) + 7(2) + 4 = 30 ✗',
         'Answer: (1).'
       ],
-      4: 'Y1=original expression, Y2=(1). Identical TABLE column.',
-      9: 'x² coeffs: 2+1=3. x coeffs: 5+(−2)=3. Constants: −3+7=4. → 3x²+3x+4.'
+      4: [
+        'Enter Y1 = (2x²+5x−3)+(x²−2x+7) and Y2 = 3x²+3x+4 (choice 1) on the Y= screen.',
+        '2nd → GRAPH (TABLE). Compare Y1 and Y2 for several X values.',
+        'If columns match, the expressions are equivalent. Answer: (1).'
+      ],
+      9: [
+        'Combine x² terms: 2x² + x² = 3x².',
+        'Combine x terms: 5x + (−2x) = 3x.',
+        'Combine constants: −3 + 7 = 4.',
+        'Result: 3x² + 3x + 4. Answer: (1).'
+      ]
     },
     errorTags: ['sign_distribution_error']
   },
@@ -1315,8 +1404,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: 'Fixed cost = 15 (one-time). Variable cost = 8 per class. C = 15 + 8x.',
-      3: 'At x=1: cost should be 23. Test (3): 15+8(1)=23 ✓. Test (2): 15+8=23 ✓ — but at x=2, (2) gives 38, (3) gives 31. Only (3) models the relationship correctly.'
+      9: [
+        'Identify the costs: $15 is paid once (fixed), $8 per class (variable).',
+        'Total cost after x classes: C = 15 + 8x.',
+        'Match to choices — answer: (3).'
+      ],
+      3: [
+        'At x = 1 class: cost = 15 + 8(1) = $23.',
+        'Test choice (2): 15·8 = 120 ✗. Test choice (3): 15+8(1) = 23 ✓.',
+        'At x = 2 classes: choice (3) gives 15+16 = 31 ✓ (one-time fee + twice the variable). Answer: (3).'
+      ]
     },
     errorTags: ['variable_swap', 'setup_error']
   },
@@ -1343,8 +1440,16 @@ const QUESTION_BANK = [
         'Test choice (2) f(n) = 5n + 3: f(1) = 8 ✗ — out.',
         'Answer: (1) f(n) = 3n + 2.'
       ],
-      9: 'Arithmetic: f(n) = first + (n−1)·d = 5+(n−1)·3 = 5+3n−3 = 3n+2.',
-      4: 'TABLE for each expression. Only (1) gives 5, 8, 11, 14...'
+      9: [
+        'Identify: sequence starts at 5, increases by 3 each term (arithmetic, d = 3).',
+        'Explicit formula: f(n) = a₁ + (n−1)·d = 5 + (n−1)·3.',
+        'Expand: 5 + 3n − 3 = 3n + 2. Answer: (1).'
+      ],
+      4: [
+        'Enter each answer choice as a Y= expression (use X for n).',
+        '2nd → GRAPH (TABLE) starting at X = 1. Expected: 5, 8, 11, 14...',
+        'Only choice (1): 3X+2 → gives 5, 8, 11, 14 ✓. Answer: (1).'
+      ]
     },
     errorTags: ['arithmetic_sequence_setup']
   },
@@ -1370,7 +1475,12 @@ const QUESTION_BANK = [
         'Watch the sign: negative times negative = positive.',
         'Answer: (2) x = −3.'
       ],
-      1: 'Y1=−2X+8, Y2=14. Intersect at X=−3.'
+      1: [
+        'Enter Y1 = −2X+8 and Y2 = 14 on the Y= screen.',
+        'Press ZOOM 6.',
+        '2nd → TRACE → 5 (intersect). Press ENTER three times.',
+        'Read X = −3. That\'s your solution.'
+      ]
     },
     errorTags: ['sign_error', 'inverse_ops']
   },
@@ -1390,8 +1500,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 4],
     bestLens: 9,
     walkthroughs: {
-      9: 'Average rate = (f(3)−f(1))/(3−1) = (12−4)/2 = 8/2 = 4.',
-      4: 'No calc needed but TABLE could verify if function is given explicitly.'
+      9: [
+        'Average rate of change formula: (f(b) − f(a)) / (b − a) over [a, b].',
+        'Use x = 1 to x = 3: (f(3) − f(1)) / (3 − 1) = (12 − 4) / 2 = 8 / 2 = 4.',
+        'The average rate of change is 4. Answer: (3).'
+      ],
+      4: [
+        'Enter the function as Y1 on the Y= screen.',
+        '2nd → GRAPH (TABLE). Read f(1) and f(3) from the table.',
+        'Average rate = (f(3) − f(1)) / (3 − 1) = (12 − 4) / 2 = 4.'
+      ]
     },
     errorTags: ['rate_misinterpretation', 'arithmetic_slip']
   },
@@ -1411,8 +1529,17 @@ const QUESTION_BANK = [
     applicableLenses: [9, 7],
     bestLens: 9,
     walkthroughs: {
-      9: 'Vertex form a(x−h)²+k → vertex at (h, k). Here h=3, k=5 → (3, 5).',
-      7: 'Y1=2(X−3)²+5. 2nd TRACE → 3: minimum → (3, 5).'
+      9: [
+        'Recognize the form: f(x) = a(x−h)² + k has vertex at (h, k).',
+        'Read h and k from f(x) = 2(x−3)² + 5: h = 3, k = 5.',
+        'Vertex is (3, 5). Watch the sign: (x−3)² means h = +3, not −3. Answer: (2).'
+      ],
+      7: [
+        'Enter Y1 = 2(X−3)²+5 on the Y= screen.',
+        'Press GRAPH. The parabola opens upward — use CALC minimum.',
+        '2nd → TRACE → 3 (minimum). Set bounds and press ENTER.',
+        'Calculator shows minimum at (3, 5). That\'s the vertex. Answer: (2).'
+      ]
     },
     errorTags: ['vertex_sign_confusion']
   },
@@ -1432,8 +1559,17 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'Exponential = multiplicative growth/decay each period. "Triples every 10 years" is multiplicative by 3 → exponential.',
-      10: 'Eliminate (1), (2), (4) — all describe constant additive change, which is linear.'
+      9: [
+        'Key distinction: linear = adds a fixed amount; exponential = multiplies by a fixed factor.',
+        '"Triples every 10 years" means ×3 each period — that\'s multiplicative → exponential.',
+        'Answer: (3). Choices (1)(2)(4) all describe constant additive change (linear).'
+      ],
+      10: [
+        'Scan choices: which describe additive change (linear) vs. multiplicative change (exponential)?',
+        'Eliminate (1): loses 1 lb/week (constant subtraction → linear).',
+        'Eliminate (2): gains 5 pts/game (constant addition → linear). Eliminate (4): earns $50/week (linear).',
+        'Only (3) describes a percentage change (multiplicative) → exponential. Answer: (3).'
+      ]
     },
     errorTags: ['linear_vs_exponential']
   },
@@ -1453,10 +1589,27 @@ const QUESTION_BANK = [
     applicableLenses: [2, 3, 6, 9],
     bestLens: 9,
     walkthroughs: {
-      2: 'Y1=X²+6X+5. GRAPH. Two zeros at x=−1 and x=−5.',
-      3: 'Test (1): plug x=−1: 1−6+5=0 ✓. Plug x=−5: 25−30+5=0 ✓.',
-      6: 'a·c=5, b=6. Pair: 1 and 5 (sum=6, product=5). Factor: (x+1)(x+5)=0. Roots: −1 and −5.',
-      9: 'Need pair that multiplies to +5 and adds to +6. Both positive? Pair 1 and 5 → roots −1 and −5.'
+      2: [
+        'Enter Y1 = X²+6X+5 on the Y= screen.',
+        'Press ZOOM 6. Two x-intercepts should be visible.',
+        '2nd → TRACE → 2 (zero). Set left/right bounds for each root.',
+        'Zeros at x = −1 and x = −5. Answer: (1).'
+      ],
+      3: [
+        'Try roots in choice (1): x = −1 and x = −5.',
+        'Test x = −1: (−1)² + 6(−1) + 5 = 1 − 6 + 5 = 0 ✓.',
+        'Test x = −5: (−5)² + 6(−5) + 5 = 25 − 30 + 5 = 0 ✓. Answer: (1).'
+      ],
+      6: [
+        'Compute a·c: 1 × 5 = 5. Enter Y1 = 5/X, Y2 = 6−X. Open TABLE.',
+        'Find X where Y1 = Y2: at X = 1, both equal 5 ✓. Pair: 1 and 5.',
+        'Factor: (x+1)(x+5) = 0. Roots: x = −1 and x = −5. Answer: (1).'
+      ],
+      9: [
+        'For x² + 6x + 5, find two numbers that multiply to +5 and add to +6.',
+        'Both positive: 1 × 5 = 5 ✓ and 1 + 5 = 6 ✓. Pair: 1 and 5.',
+        'Factor: (x+1)(x+5) = 0. Roots: x = −1 and x = −5. Answer: (1).'
+      ]
     },
     errorTags: ['sign_error_on_roots', 'factor_sign_confusion']
   },
@@ -1483,8 +1636,16 @@ const QUESTION_BANK = [
         'Choice (3) (3, 4): 4 > 2(3) − 3 → 4 > 3? Yes ✓',
         'Answer: (3). Key: ">" is strict — a point on the boundary line does NOT count.'
       ],
-      9: 'y=2x−3 is the boundary line. Points strictly above it satisfy y>2x−3. (3,4) is above the line.',
-      1: 'Y1=2X−3. Plot (3,4) — it sits above the line.'
+      9: [
+        'The boundary line is y = 2x − 3. Points above the line satisfy y > 2x − 3.',
+        'Check (3, 4): is 4 > 2(3) − 3 = 3? Yes, 4 > 3. The point is above the line.',
+        'The inequality is y > 2x − 3. Answer: (3).'
+      ],
+      1: [
+        'Enter Y1 = 2X−3 on the Y= screen. Press GRAPH.',
+        'At X = 3, Y1 = 3. The point (3, 4) has y = 4 > 3 — it sits above the line.',
+        '"Above the line" means y > boundary → inequality is y > 2x − 3. Answer: (3).'
+      ]
     },
     errorTags: ['boundary_confusion', 'strict_vs_weak_inequality']
   },
@@ -1504,8 +1665,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: 'a^(m/n) = (a^(1/n))^m. 27^(2/3) = (27^(1/3))^2 = 3^2 = 9.',
-      3: 'Plug into calculator: 27^(2÷3) → 9. Or: ∛27=3, then 3²=9.'
+      9: [
+        'Apply the rational exponent rule: a^(m/n) = (ⁿ√a)^m.',
+        '27^(2/3) = (³√27)² = 3² = 9.',
+        'Answer: (2).'
+      ],
+      3: [
+        'On TI-84: type 27 ^ (2÷3) and press ENTER.',
+        'Calculator returns 9.',
+        'Answer: (2).'
+      ]
     },
     errorTags: ['fractional_exponent_misuse', 'only_cube_root_taken']
   },
@@ -1525,9 +1694,21 @@ const QUESTION_BANK = [
     applicableLenses: [9, 1, 4],
     bestLens: 9,
     walkthroughs: {
-      9: 'y = mx + b. Slope m = −2, y-intercept b = 3 → y = −2x + 3.',
-      1: 'Graph each. Only (2) passes through (0, 3) with a downward slope.',
-      4: 'TABLE: at x=0, (2) gives y=3 ✓. At x=1, y=1 → slope=−2 ✓.'
+      9: [
+        'From the description: slope m = −2, y-intercept b = 3.',
+        'Slope-intercept form: y = mx + b = −2x + 3.',
+        'Match to choices — answer: (2).'
+      ],
+      1: [
+        'Enter each choice as Y1 on the Y= screen. Press GRAPH.',
+        'Look for the line that crosses the y-axis at 3 and slopes downward.',
+        'Only choice (2) has both: y-intercept 3 and negative slope. Answer: (2).'
+      ],
+      4: [
+        'Enter each answer choice on the Y= screen.',
+        '2nd → GRAPH (TABLE). At X = 0 check which gives y = 3 (y-intercept).',
+        'Choice (2) gives 3 at X = 0 ✓. At X = 1 gives 1. Slope = (1−3)/1 = −2 ✓. Answer: (2).'
+      ]
     },
     errorTags: ['slope_intercept_swap']
   },
@@ -1547,8 +1728,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'Total earnings = 12b + 9t. "At least $108" → ≥ 108. Rates: $12 for b, $9 for t. → 12b + 9t ≥ 108.',
-      10: 'Eliminate (2): ≤ means at most, wrong direction. Eliminate (3): exact, not a range. Eliminate (4): rates are swapped.'
+      9: [
+        'Set up the expression: $12 per babysitting hour (b) + $9 per tutoring hour (t).',
+        '"At least $108" means ≥ 108.',
+        'Inequality: 12b + 9t ≥ 108. Answer: (1).'
+      ],
+      10: [
+        'Eliminate (2): ≤ means "at most" — the problem says "at least" (≥). Wrong direction.',
+        'Eliminate (3): = means exact total, not a range. Eliminate (4): rates 9b + 12t swap the hourly rates.',
+        'Only (1) has the correct inequality direction and rates. Answer: (1).'
+      ]
     },
     errorTags: ['inequality_direction', 'variable_swap']
   },
@@ -1568,10 +1757,26 @@ const QUESTION_BANK = [
     applicableLenses: [2, 3, 6, 9],
     bestLens: 9,
     walkthroughs: {
-      2: 'Y1=X²+2X−15. GRAPH. Zeros at x=−5 and x=3.',
-      3: 'Test x=−5: 25−10−15=0 ✓. Test x=3: 9+6−15=0 ✓.',
-      6: 'a·c=−15, b=2. Pair: 5 and −3 (5+(−3)=2, 5·(−3)=−15). Factor: (x+5)(x−3). Zeros: −5 and 3.',
-      9: 'Need pair that multiplies to −15, adds to +2. Pair: 5 and −3. Roots are −5 and 3.'
+      2: [
+        'Enter Y1 = X²+2X−15 on the Y= screen. Press ZOOM 6.',
+        '2nd → TRACE → 2 (zero). Set left/right bounds for each root.',
+        'Two zeros: x = −5 and x = 3. Answer: (2).'
+      ],
+      3: [
+        'Test x = −5: (−5)² + 2(−5) − 15 = 25 − 10 − 15 = 0 ✓.',
+        'Test x = 3: (3)² + 2(3) − 15 = 9 + 6 − 15 = 0 ✓.',
+        'Both values are zeros. Answer: (2).'
+      ],
+      6: [
+        'Compute a·c: 1 × (−15) = −15. Find two numbers that multiply to −15 and add to 2.',
+        'Pair: 5 and −3. Check: (5)(−3) = −15 ✓ and 5 + (−3) = 2 ✓.',
+        'Factor: (x+5)(x−3) = 0. Zeros at x = −5 and x = 3. Answer: (2).'
+      ],
+      9: [
+        'For x² + 2x − 15, find two numbers that multiply to −15 and add to +2.',
+        'Pair: 5 and −3. Check: 5 × (−3) = −15 ✓ and 5 + (−3) = 2 ✓.',
+        'Factor: (x+5)(x−3) = 0 → roots x = −5 and x = 3. Answer: (2).'
+      ]
     },
     errorTags: ['sign_error_on_roots', 'product_sum_confusion']
   },
@@ -1591,10 +1796,26 @@ const QUESTION_BANK = [
     applicableLenses: [2, 8, 7, 9],
     bestLens: 2,
     walkthroughs: {
-      2: 'Y1=−16X²+128X. Zeros at t=0 (launch) and t=8 (landing). Rocket is in flight for 0 ≤ t ≤ 8.',
-      8: 'Real-world domain: rocket exists between launch (t=0) and landing. Landing: −16t²+128t=0 → t=8.',
-      7: 'Vertex at t=4 (max height). But valid t runs from t=0 to the second zero at t=8.',
-      9: 'Factor: t(−16t+128)=0 → t=0 or t=8. Domain restricted to between the zeros.'
+      2: [
+        'Enter Y1 = −16X²+128X on the Y= screen. Press ZOOM 6.',
+        '2nd → TRACE → 2 (zero). Find both zeros: t = 0 (launch) and t = 8 (landing).',
+        'The rocket is in flight between the two zeros. Domain: 0 ≤ t ≤ 8. Answer: (3).'
+      ],
+      8: [
+        'Identify the context: time starts at launch (t = 0) and ends when the rocket lands (h = 0).',
+        'Find landing time: −16t² + 128t = 0 → t(−16t + 128) = 0 → t = 0 or t = 8.',
+        'Real-world domain: only values between launch and landing are valid. Domain: 0 ≤ t ≤ 8. Answer: (3).'
+      ],
+      7: [
+        'Find the vertex: axis of symmetry at t = −128/(2·−16) = 4. Max height at t = 4.',
+        'The domain question asks where the rocket is in flight, not where the max height is.',
+        'The rocket is airborne from t = 0 (launch) to t = 8 (landing). Domain: 0 ≤ t ≤ 8. Answer: (3).'
+      ],
+      9: [
+        'Factor h(t): −16t² + 128t = t(−16t + 128) = 0.',
+        'Solutions: t = 0 or −16t + 128 = 0 → t = 8.',
+        'The rocket exists between launch (t = 0) and landing (t = 8). Domain: 0 ≤ t ≤ 8. Answer: (3).'
+      ]
     },
     errorTags: ['mathematical_vs_contextual_domain', 'zero_as_only_bound']
   },
@@ -1614,8 +1835,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 1],
     bestLens: 9,
     walkthroughs: {
-      9: 'Parallel lines have equal slopes. Original slope = 3. Only (2) has slope 3 with a different y-intercept.',
-      1: 'Y1=3X−7, Y2 through each choice. Only (2) produces a non-intersecting parallel line.'
+      9: [
+        'Parallel lines have equal slopes and different y-intercepts.',
+        'The original line y = 3x − 7 has slope 3.',
+        'Find the choice with slope 3 but a different y-intercept. Only (2) qualifies. Answer: (2).'
+      ],
+      1: [
+        'Enter Y1 = 3X − 7 on the Y= screen.',
+        'Enter each answer choice as Y2 and graph. A parallel line will NOT intersect Y1.',
+        'Only choice (2) produces a non-intersecting line. Answer: (2).'
+      ]
     },
     errorTags: ['parallel_vs_perpendicular', 'reciprocal_vs_negative_reciprocal']
   },
@@ -1635,10 +1864,26 @@ const QUESTION_BANK = [
     applicableLenses: [2, 3, 6, 9],
     bestLens: 9,
     walkthroughs: {
-      2: 'Y1=2X²−4X−6. GRAPH. Zeros at x=3 and x=−1.',
-      3: 'Test x=3: 2(9)−4(3)−6=18−12−6=0 ✓. Test x=−1: 2(1)+4−6=0 ✓.',
-      6: 'Divide by 2: x²−2x−3=0. a·c=−3, b=−2. Pair: −3 and 1. Factor: (x−3)(x+1)=0. Roots: 3, −1.',
-      9: 'Divide by 2 first: x²−2x−3=0. Pair that multiplies to −3, adds to −2: −3 and 1 → roots 3 and −1.'
+      2: [
+        'Enter Y1 = 2X²−4X−6 on the Y= screen. Press ZOOM 6.',
+        '2nd → TRACE → 2 (zero). Find both roots.',
+        'Zeros at x = 3 and x = −1. Answer: (1).'
+      ],
+      3: [
+        'Test x = 3: 2(3)² − 4(3) − 6 = 18 − 12 − 6 = 0 ✓.',
+        'Test x = −1: 2(−1)² − 4(−1) − 6 = 2 + 4 − 6 = 0 ✓.',
+        'Both values satisfy the equation. Answer: (1).'
+      ],
+      6: [
+        'Divide all terms by 2: x² − 2x − 3 = 0. Compute a·c: 1 × (−3) = −3.',
+        'Find two numbers: multiply to −3, add to −2. Pair: −3 and 1.',
+        'Factor: (x−3)(x+1) = 0 → roots x = 3 and x = −1. Answer: (1).'
+      ],
+      9: [
+        'GCF = 2: divide by 2 → x² − 2x − 3 = 0.',
+        'Find two numbers: multiply to −3, add to −2. Pair: −3 and 1.',
+        'Factor: (x−3)(x+1) = 0 → x = 3 and x = −1. Answer: (1).'
+      ]
     },
     errorTags: ['forgot_leading_coefficient', 'sign_error_on_roots']
   },
@@ -1661,8 +1906,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'Exponential changes by a constant factor (multiplier) each period. (4) grows 5% each month → multiply by 1.05 each time → exponential. (1)(2)(3) each add or subtract a fixed amount each period → linear.',
-      10: 'Eliminate (1)(2)(3): each changes by a fixed amount (−1 lb, +5 pts, −$50) → linear. Only (4) describes a percentage change → must be exponential.'
+      9: [
+        'Key distinction: linear adds/subtracts a fixed amount; exponential multiplies by a fixed factor each period.',
+        'Check (4): "grows 5% each month" means ×1.05 each month — multiplicative → exponential.',
+        'Choices (1)(2)(3) all describe a fixed change per period → linear. Answer: (4).'
+      ],
+      10: [
+        'Scan choices for the language: "loses 1 lb/week," "gains 5 pts/game," "saves $50/yr" → all constant change (linear).',
+        'Eliminate (1)(2)(3): constant change each period → linear, not exponential.',
+        'Only (4): "grows 5% each month" — a percentage means multiplication → exponential. Answer: (4).'
+      ]
     },
     errorTags: ['misidentifies_percentage_growth_as_linear']
   },
@@ -1686,8 +1939,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: "Andrea's mean: (82+87+90+84)/4 = 85.75. Joe's mean: (91+78+94+67)/4 = 82.5. Andrea's mean is higher. Spread: Andrea's range = 8, Joe's range = 27 → Joe's std dev is larger. Answer (3) matches both.",
-      10: "Joe's 67 drags his mean below Andrea's tight 80s cluster → eliminate (2)(4). Joe's wild spread (67 to 94) means higher std dev than Andrea's compact scores → eliminate (1). Only (3) remains."
+      9: [
+        'Andrea\'s mean: (82+87+90+84)/4 = 85.75. Joe\'s mean: (91+78+94+67)/4 = 82.5. Andrea\'s mean is higher.',
+        'Andrea\'s range: 90−82 = 8 (tight cluster). Joe\'s range: 94−67 = 27 (wide spread) → Joe\'s standard deviation is larger.',
+        'Answer (3): "Andrea has a higher mean and Joe has a greater standard deviation." Both conditions confirmed.'
+      ],
+      10: [
+        'Joe\'s score of 67 is a low outlier — his mean is pulled below Andrea\'s consistent 80s cluster. Eliminate (2)(4): those claim Joe\'s mean is higher.',
+        'Joe\'s range (67 to 94 = 27) is much wider than Andrea\'s (82 to 90 = 8) → Joe has higher standard deviation. Eliminate (1): it claims Andrea has higher std dev.',
+        'Only (3) remains: Andrea\'s mean is higher, Joe\'s standard deviation is greater. Answer: (3).'
+      ]
     },
     errorTags: ['confuses_mean_and_spread', 'ignores_outlier_effect_on_spread']
   },
@@ -1708,8 +1969,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'Degree = highest exponent; leading coefficient = its coefficient. Target: degree 3, leading coeff 2. (4) 2x³ → degree 3 ✓, leading coeff 2 ✓. (2) 6x³ has right degree but leading coeff 6 ≠ 2.',
-      10: 'Kill (1)(3): highest power is x², degree 2 not 3. Kill (2): 6x³ → leading coeff 6 ≠ 2. Only (4): 2x³ satisfies both conditions.'
+      9: [
+        'Identify the targets: degree 3 (highest exponent = 3) and leading coefficient 2.',
+        'Eliminate (1)(3): their highest power is x² → degree 2, not 3.',
+        'Between (2) and (4): (2) has 6x³ → leading coeff 6 ✗. (4) has 2x³ → leading coeff 2 ✓. Answer: (4).'
+      ],
+      10: [
+        'Degree check: eliminate (1) and (3) — both have x² as highest power → degree 2, not 3.',
+        'Leading coefficient check on (2): 6x³ has leading coeff 6 ≠ 2. Eliminate (2).',
+        'Only (4) remains: 2x³ + 4x² − 6 has degree 3 ✓ and leading coeff 2 ✓. Answer: (4).'
+      ]
     },
     errorTags: ['confuses_degree_with_leading_coefficient', 'ignores_leading_coefficient']
   },
@@ -1730,8 +1999,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: 'Distribute the negative: −3x² + 9 − 7x² + 5x − 4. Combine: (−3−7)x² = −10x², +5x stays, 9−4 = 5. Result: −10x² + 5x + 5.',
-      3: 'Store x=1: (−3+9)−(7−5+4) = 6−6 = 0. Test (1): −10+5+5 = 0 ✓. Test (3): −10−5+5 = −10 ✗.'
+      9: [
+        'Write out: (−3x²+9) − (7x²−5x+4). Distribute the negative: −3x² + 9 − 7x² + 5x − 4.',
+        'Combine x² terms: −3x² − 7x² = −10x². x term: +5x. Constants: 9 − 4 = 5.',
+        'Result: −10x² + 5x + 5. Answer: (1).'
+      ],
+      3: [
+        'Store x = 1 in the original: (−3(1)²+9) − (7(1)²−5(1)+4) = (−3+9) − (7−5+4) = 6 − 6 = 0.',
+        'Test choice (1) at x = 1: −10(1)² + 5(1) + 5 = −10 + 5 + 5 = 0 ✓.',
+        'Test choice (3) at x = 1: −10(1)² − 5(1) + 5 = −10 ✗. Answer: (1).'
+      ]
     },
     errorTags: ['forgot_distribute_negative', 'sign_error_on_middle_term']
   },
@@ -1755,8 +2032,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 4],
     bestLens: 9,
     walkthroughs: {
-      9: 'Rate of change = (h(12) − h(4)) / (12 − 4) = (60 − 12) / 8 = 48 / 8 = 6 inches per week.',
-      4: 'Read from table: h(4)=12, h(12)=60. Change in output = 60−12 = 48. Change in input = 12−4 = 8. Rate = 48/8 = 6.'
+      9: [
+        'Average rate of change formula: (f(b) − f(a)) / (b − a) over the interval [a, b].',
+        'Using the table: h(4) = 12 and h(12) = 60. Interval width: 12 − 4 = 8.',
+        'Rate = (60 − 12) / 8 = 48 / 8 = 6 inches per week. Answer: (2).'
+      ],
+      4: [
+        'Read from the table: at week 4, height = 12 in.; at week 12, height = 60 in.',
+        'Change in output (Δh): 60 − 12 = 48. Change in input (Δt): 12 − 4 = 8.',
+        'Rate of change = Δh/Δt = 48/8 = 6 inches per week. Answer: (2).'
+      ]
     },
     errorTags: ['reports_change_in_output_not_rate', 'uses_wrong_interval_endpoints']
   },
@@ -1777,8 +2062,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'From x²+5x = 3x+3 to x²+2x−3=0: she subtracted 3x and 3 from both sides. Subtracting from both sides = subtraction property of equality.',
-      10: 'Zero product property follows factoring — not done yet. Commutative reorders terms. Distributive needs parentheses. Only (4) matches moving terms across the equals sign.'
+      9: [
+        'Compare: x²+5x = 3x+3 became x²+2x−3 = 0. What changed?',
+        'Left side: 5x became 2x (−3x applied). Right side: 3x+3 became 0 (−3x and −3 applied).',
+        'She subtracted 3x and 3 from both sides → subtraction property of equality. Answer: (4).'
+      ],
+      10: [
+        'Eliminate (1) distributive: that requires multiplying across parentheses — no parentheses present here.',
+        'Eliminate (2) commutative: reorders terms, does not move them across the = sign.',
+        'Eliminate (3) zero product property: only applies after factoring, which has not happened yet. Answer: (4) subtraction property of equality.'
+      ]
     },
     errorTags: ['confuses_zero_product_with_subtraction_property']
   },
@@ -1799,8 +2092,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: 'Horizontal shift RIGHT by h units: replace x with (x−h). Right 2 → |x−2|. (1) |x+2| shifts LEFT. (3)(4) shift vertically, not horizontally.',
-      3: 'Vertex of w(x)=|x| is (0,0). Shifted right 2 → vertex should move to (2,0). Test h(2)=|2−2|=0 ✓. Test g(2)=|2+2|=4 ✗.'
+      9: [
+        'Horizontal shift rule: to shift right by h, replace x with (x−h) in the formula.',
+        'Shift right 2: replace x with (x−2) in |x| → h(x) = |x−2|.',
+        'Eliminate (1): |x+2| shifts LEFT. Eliminate (3)(4): adding/subtracting outside |·| shifts vertically. Answer: (2).'
+      ],
+      3: [
+        'The parent function w(x) = |x| has its vertex at (0, 0). Shifting right 2 moves the vertex to (2, 0).',
+        'Test choice (2): h(2) = |2−2| = |0| = 0 ✓ — vertex at x = 2 confirmed.',
+        'Test choice (1): g(2) = |2+2| = 4 ≠ 0 ✗ — vertex is not at x = 2. Answer: (2).'
+      ]
     },
     errorTags: ['horizontal_shift_direction_reversed']
   },
@@ -1821,8 +2122,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 1],
     bestLens: 9,
     walkthroughs: {
-      9: 'Solve eq 1 for y: y = 5 − 4x. Substitute into eq 2 (2x − 3y = 10), replacing y: 2x − 3(5 − 4x) = 10. Answer (3).',
-      1: 'Y= Intersection finds the answer graphically. For the algebraic step: isolate y=5−4x from eq 1, then substitute into eq 2 → 2x−3(5−4x)=10, which is (3).'
+      9: [
+        'From equation 1: 4x + y = 5 → solve for y: y = 5 − 4x.',
+        'Substitute into equation 2: 2x − 3y = 10 → 2x − 3(5 − 4x) = 10.',
+        'This matches choice (3). Answer: (3).'
+      ],
+      1: [
+        'Graph both equations on the TI-84 to find the solution graphically using 2nd TRACE → intersect.',
+        'To identify the substitution step: from eq 1 (4x+y=5), isolate y: y = 5−4x.',
+        'Substitute into eq 2 (2x−3y=10): 2x − 3(5−4x) = 10. That is choice (3). Answer: (3).'
+      ]
     },
     errorTags: ['substitutes_into_wrong_equation', 'wrong_sign_when_isolating_y']
   },
@@ -1843,8 +2152,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 2],
     bestLens: 9,
     walkthroughs: {
-      9: 'Complete the square: half of −6 is −3; (−3)²=9. Add 9 to BOTH sides: x²−6x+9 = 27+9. Left side = (x−3)². So (x−3)²=27+9.',
-      2: 'Y1=X²−6X−27. Zeros are ≈−3 and 9. Check: if (x−3)²=36=27+9, roots are x=3±6 → x=9 and x=−3 ✓. Answer (2).'
+      9: [
+        'To complete the square on x²−6x: take half the x-coefficient: (−6/2) = −3. Square it: (−3)² = 9.',
+        'Add 9 to BOTH sides: x² − 6x + 9 = 27 + 9 = 36.',
+        'Left side factors: (x−3)² = 36. So (x−3)² = 27 + 9 is the step shown. Answer: (2).'
+      ],
+      2: [
+        'Enter Y1 = X²−6X−27 on the Y= screen. Press ZOOM 6 and find zeros.',
+        'Zeros at x = −3 and x = 9. If (x−3)² = 36, then x = 3 ± 6 → x = 9 or x = −3 ✓.',
+        'The correct step adds 9 to both sides: (x−3)² = 27+9. Answer: (2).'
+      ]
     },
     errorTags: ['adds_to_only_one_side', 'wrong_value_when_completing_square']
   },
@@ -1865,8 +2182,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: '√3 ≈ 1.732… and √5 ≈ 2.236… — both non-terminating, non-repeating. Their sum ≈ 3.968… is also non-terminating non-repeating → irrational. Answer (4).',
-      10: 'Eliminate (1): sum is not an integer. Eliminate (2): nonterminating BUT repeating would be rational — √3+√5 does not repeat. Eliminate (3): a terminating decimal is rational, contradicting "irrational". Only (4) is correct.'
+      9: [
+        'Identify √3 and √5: both are irrational (non-terminating, non-repeating decimals).',
+        'Their sum: √3 + √5 ≈ 1.732 + 2.236 = 3.968… — also non-terminating, non-repeating.',
+        'N.RN.3: the sum of two irrationals that are not additive inverses is irrational. Answer: (4).'
+      ],
+      10: [
+        'Eliminate (1) "integer": √3+√5 ≈ 3.968, not a whole number.',
+        'Eliminate (2) "irrational, non-terminating, repeating": repeating means rational — that contradicts irrational.',
+        'Eliminate (3) "irrational, terminating": terminating means rational — contradicts irrational. Only (4) is consistent. Answer: (4).'
+      ]
     },
     errorTags: ['assumes_irrational_plus_irrational_is_rational', 'confuses_nonterminating_with_irrational']
   },
@@ -1887,8 +2212,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'a⁸ − b⁶ = (a⁴)² − (b³)². Recognize as difference of two squares X²−Y² where X=a⁴, Y=b³. Answer (3) shows this directly without expanding.',
-      10: 'Eliminate (1)(2): squaring a binomial (a−b)² = a²−2ab+b² produces a middle term — so these expand to a⁸−2a⁴b³+b⁶ ≠ a⁸−b⁶. Eliminate (4): (a⁶)²−(b⁴)²=a¹²−b⁸ ≠ a⁸−b⁶. Only (3) works.'
+      9: [
+        'Recognize the form: a⁸ − b⁶ = (a⁴)² − (b³)². This is a difference of two squares.',
+        'Apply A² − B² = (A+B)(A−B) with A = a⁴ and B = b³.',
+        'Result: (a⁴+b³)(a⁴−b³). Answer: (3).'
+      ],
+      10: [
+        'Eliminate (1)(2): (a⁴±b³)² expands to a⁸ ± 2a⁴b³ + b⁶ — that middle term is nonzero, so these ≠ a⁸−b⁶.',
+        'Eliminate (4): (a⁶−b⁴)(a⁶+b⁴) = a¹²−b⁸ ≠ a⁸−b⁶. Wrong exponents.',
+        'Only (3) (a⁴−b³)(a⁴+b³) = a⁸−b⁶ ✓. Answer: (3).'
+      ]
     },
     errorTags: ['treats_difference_of_squares_as_square_of_difference']
   },
@@ -1909,8 +2242,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: "Jack's age = x. Tim's age = 7x−4 (4 less than 7 times Jack's). Their sum = 44: (7x−4)+x=44. Answer (1).",
-      3: 'Try x=6: Tim=7(6)−4=38. Sum=38+6=44 ✓. Test (1): (42−4)+6=44 ✓. Test (3): 38≠44 ✗.'
+      9: [
+        'Let x = Jack\'s age. Tim\'s age = 7x − 4 ("4 less than 7 times Jack\'s age").',
+        'Their sum equals 44: x + (7x−4) = 44.',
+        'Simplify: 8x − 4 = 44 → 8x = 48 → x = 6. Answer: (1).'
+      ],
+      3: [
+        'Try choice (1): Jack\'s age = 6. Tim\'s age = 7(6) − 4 = 38. Sum = 6 + 38 = 44 ✓.',
+        'Try choice (3): Jack\'s age = 8. Tim\'s age = 7(8) − 4 = 52. Sum = 8 + 52 = 60 ≠ 44 ✗.',
+        'Jack is 6 years old. Answer: (1).'
+      ]
     },
     errorTags: ['omits_one_persons_age_from_sum', 'reverses_subtraction_direction']
   },
@@ -1931,8 +2272,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 4],
     bestLens: 9,
     walkthroughs: {
-      9: 'Common ratio: 6/12=1/2, 3/6=1/2 — geometric with r=1/2. Explicit formula: aₙ=a₁·r^(n−1)=12·(1/2)^(n−1). Check: a₁=12·1=12 ✓, a₂=12·(1/2)=6 ✓.',
-      4: 'Enter n values 1,2,3,4 in L1; 12,6,3,1.5 in L2. Each ratio L2/L2prev = 0.5. Geometric formula with r=1/2: aₙ=12·(1/2)^(n−1).'
+      9: [
+        'Check consecutive ratios: 6/12 = 1/2, 3/6 = 1/2, 1.5/3 = 1/2. Constant ratio → geometric with r = 1/2.',
+        'Explicit formula: aₙ = a₁ · r^(n−1) = 12 · (1/2)^(n−1).',
+        'Verify: a₁ = 12 ✓, a₂ = 12 · (1/2) = 6 ✓, a₃ = 12 · (1/4) = 3 ✓. Answer: (2).'
+      ],
+      4: [
+        'Enter the sequence terms in L2: 12, 6, 3, 1.5. Enter n values in L1: 1, 2, 3, 4.',
+        'Compute ratios: each term ÷ previous = 0.5. Constant ratio confirms geometric sequence.',
+        'Formula: aₙ = 12 · (1/2)^(n−1). Answer: (2).'
+      ]
     },
     errorTags: ['off_by_one_in_exponent', 'confuses_geometric_with_r_equals_2']
   },
@@ -1952,8 +2301,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: '√25 = 5 (a rational integer). √2 is irrational. N.RN.3: rational × irrational = irrational. Product = 5√2 ≈ 7.07, which is irrational. Trap (3),(4): 5√2 is not a whole number.',
-      10: 'Eliminate (2): rational × irrational is never rational. Eliminate (3),(4): 5√2 ≈ 7.07 — not a whole number or integer. Only (1) is correct.'
+      9: [
+        '√25 = 5 (rational). √2 is irrational (non-terminating, non-repeating).',
+        'N.RN.3: rational × irrational = irrational. Product: 5 · √2 = 5√2 ≈ 7.07.',
+        '5√2 is irrational and NOT a whole number. Eliminate (3)(4). Answer: (1).'
+      ],
+      10: [
+        'Eliminate (2): N.RN.3 — rational × irrational is always irrational, never rational.',
+        'Eliminate (3)(4): 5√2 ≈ 7.07 — not an integer or whole number.',
+        'Only (1) states the product is irrational without claiming it is an integer. Answer: (1).'
+      ]
     },
     errorTags: ['misclassifies_perfect_square_root', 'confuses_irrational_with_integer']
   },
@@ -1973,8 +2330,16 @@ const QUESTION_BANK = [
     applicableLenses: [1, 3],
     bestLens: 1,
     walkthroughs: {
-      1: 'Enter Y₁ = |4x + 2| and Y₂ = 3x + 5. Graph and use 2nd TRACE → intersect. Intersection visible at x = 3. Verify: |4(3)+2| = |14| = 14 and 3(3)+5 = 14 ✓.',
-      3: 'Test x = 3: |4(3)+2| = 14, 3(3)+5 = 14 ✓. Test x = 1: |6| = 6, 3(1)+5 = 8 ✗. Test x = 2: |10| = 10, 3(2)+5 = 11 ✗. Only x = 3 works among the choices.'
+      1: [
+        'Enter Y₁ = |4x+2| (use ABS button) and Y₂ = 3x+5 on the Y= screen. Press ZOOM 6.',
+        '2nd → TRACE → 5 (intersect). Press ENTER three times. Calculator shows x = 3.',
+        'Verify: Y₁ at x=3: |4(3)+2| = |14| = 14. Y₂ at x=3: 3(3)+5 = 14. Equal ✓. Answer: (4).'
+      ],
+      3: [
+        'Test x = 3: |4(3)+2| = |14| = 14 and 3(3)+5 = 14. Equal ✓.',
+        'Test x = 1: |4+2| = 6 and 3+5 = 8. Not equal ✗.',
+        'Only x = 3 satisfies the equation. Answer: (4).'
+      ]
     },
     errorTags: ['errors_in_absolute_value_evaluation', 'forgets_to_verify_substitution']
   },
@@ -1994,8 +2359,16 @@ const QUESTION_BANK = [
     applicableLenses: [6, 3],
     bestLens: 6,
     walkthroughs: {
-      6: 'Need two numbers: product = −120, sum = −26. Try 4 and −30: (4)(−30) = −120 ✓, 4+(−30) = −26 ✓. Factored form: (x+4)(x−30).',
-      3: 'Plug & Check: expand (x+4)(x−30) = x²−30x+4x−120 = x²−26x−120 ✓. Choice (2): gives x²+26x−120 (middle term sign flipped). Choices (3),(4): middle terms are ±14x — wrong.'
+      6: [
+        'Compute a·c: 1 × (−120) = −120. Find two numbers that multiply to −120 and add to −26.',
+        'Try 4 and −30: (4)(−30) = −120 ✓ and 4 + (−30) = −26 ✓.',
+        'Factored form: (x+4)(x−30). Answer: (2).'
+      ],
+      3: [
+        'Test choice (2): expand (x+4)(x−30) = x² − 30x + 4x − 120 = x² − 26x − 120. Matches ✓.',
+        'Test choice (1): (x−4)(x+30) = x² + 26x − 120. Middle term sign wrong ✗.',
+        'Choices (3)(4): middle term would be ±14x — does not match −26x. Answer: (2).'
+      ]
     },
     errorTags: ['sign_error_in_factoring', 'wrong_factor_pair']
   },
@@ -2015,8 +2388,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'Rewrite (4) in standard form: 2x³ + 4x² − 6. Degree = 3 ✓, leading coefficient = 2 ✓, constant = −6 ✓. Eliminate (1),(2): highest power is 2 (degree 2). Eliminate (3): 4−6x+2x³ — constant term is 4, not −6.',
-      10: 'Eliminate (1),(2): no x³ term present → degree 2, not 3. Eliminate (3): constant term is 4 (not −6). Only (4) satisfies all three conditions.'
+      9: [
+        'Identify the targets: degree 3, leading coefficient 2, constant term −6.',
+        'Eliminate (1)(2): highest power is x² → degree 2, not 3.',
+        'Eliminate (3): constant term is 4 ≠ −6. Only (4): 2x³+4x²−6 → degree 3 ✓, leading coeff 2 ✓, constant −6 ✓. Answer: (4).'
+      ],
+      10: [
+        'Eliminate (1)(2): scan for an x³ term — neither has one → degree 2, not 3.',
+        'Eliminate (3): the constant term (no variable) in 4 − 6x + 2x³ is 4 ≠ −6.',
+        'Only (4) 2x³ + 4x² − 6 satisfies: degree 3 ✓, leading coeff 2 ✓, constant −6 ✓. Answer: (4).'
+      ]
     },
     errorTags: ['misidentifies_degree', 'misreads_constant_term']
   },
@@ -2043,7 +2424,11 @@ const QUESTION_BANK = [
         'Trap (4): $540 = v(1) — that is the price after 1 year, not the original.',
         'Trap (1): $108 misreads the growth factor 1.08 as a dollar amount.'
       ],
-      9: 'In v(t) = a·bᵗ, the initial value (t = 0) equals a = 500. The 1.08 is the annual growth factor (8% growth per year), not a dollar amount.'
+      9: [
+        'In exponential form v(t) = a·bᵗ, the initial value is found at t = 0: v(0) = a · b⁰ = a.',
+        'Here a = 500, so the initial value is $500.',
+        'The 1.08 is the annual growth factor (100% + 8% = 1.08), not an additional dollar amount. Answer: (3).'
+      ]
     },
     errorTags: ['evaluates_at_wrong_t_value', 'confuses_initial_value_with_growth_factor']
   },
@@ -2063,8 +2448,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: 'Isolate h step by step: S = 2πr² + 2πrh → S − 2πr² = 2πrh → h = (S − 2πr²)/(2πr). Trap (2): adds 2πr² instead of subtracting. Trap (3): wrong denominator (r² ≠ r). Trap (4): missing the 2 in the denominator.',
-      3: 'Back-substitute choice (1) into S = 2πr² + 2πrh: S = 2πr² + 2πr·(S−2πr²)/(2πr) = 2πr² + S − 2πr² = S ✓.'
+      9: [
+        'Start with S = 2πr² + 2πrh. Subtract 2πr² from both sides: S − 2πr² = 2πrh.',
+        'Divide both sides by 2πr: h = (S − 2πr²)/(2πr).',
+        'Eliminate traps: (2) adds instead of subtracts. (3) uses r² in the denominator. (4) uses πr instead of 2πr. Answer: (1).'
+      ],
+      3: [
+        'Take choice (1): h = (S−2πr²)/(2πr). Substitute back into S = 2πr² + 2πrh.',
+        'S = 2πr² + 2πr · (S−2πr²)/(2πr) = 2πr² + (S−2πr²).',
+        'Simplify: 2πr² + S − 2πr² = S ✓. The formula checks out. Answer: (1).'
+      ]
     },
     errorTags: ['sign_error_in_isolation', 'wrong_denominator_when_solving_for_variable']
   },
@@ -2084,8 +2477,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 1],
     bestLens: 9,
     walkthroughs: {
-      9: 'From 3x − y = 10, solve for y: y = 3x − 10. Substitute into the second equation 2x + 5y = 1: 2x + 5(3x − 10) = 1. Trap (4): wrong sign — −3x + 10 would come from y = −3x + 10 (incorrect). Traps (1),(2): substituted into the wrong equation.',
-      1: 'Graph both equations. The substitution step uses y = 3x − 10 from the first equation, plugged into the second: 2x + 5(3x − 10) = 1.'
+      9: [
+        'From equation 1 (3x−y=10), isolate y: −y = 10−3x → y = 3x−10.',
+        'Substitute into equation 2 (2x+5y=1): 2x + 5(3x−10) = 1.',
+        'Eliminate (4): sign error — −3x+10 is wrong. Eliminate (1)(2): substituted into the wrong equation. Answer: (3).'
+      ],
+      1: [
+        'Graph both equations on the TI-84. Use 2nd TRACE → intersect to find the solution point.',
+        'For the algebraic step shown: from eq 1 (3x−y=10), solve for y: y = 3x−10.',
+        'Substitute into eq 2 (2x+5y=1): 2x+5(3x−10) = 1. That is choice (3). Answer: (3).'
+      ]
     },
     errorTags: ['substitutes_into_wrong_equation', 'sign_error_when_solving_for_y']
   },
@@ -2105,8 +2506,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: 'The step goes from 3(2x+5)−8 = 7x+10 to 3(2x+5) = 7x+18. We added 8 to both sides (−8+8=0 left; 10+8=18 right). Adding the same value to both sides is the addition property of equality.',
-      3: 'Verify: add 8 to both sides: 3(2x+5)−8+8 = 7x+10+8 → 3(2x+5) = 7x+18 ✓. The step used addition, not distribution or multiplication.'
+      9: [
+        'Compare the two lines: left side gained +8 (−8 became 0), right side gained +8 (10 became 18).',
+        'The same value (+8) was added to both sides — that defines the addition property of equality.',
+        'Eliminate: distributive needs parentheses to expand; commutative reorders; subtraction goes the wrong direction. Answer: (2).'
+      ],
+      3: [
+        'Starting equation: 3(2x+5) − 8 = 7x + 10.',
+        'Add 8 to both sides: left side: 3(2x+5) − 8 + 8 = 3(2x+5) ✓. Right side: 7x + 10 + 8 = 7x + 18 ✓.',
+        'This matches the given result. The property used is the addition property of equality. Answer: (2).'
+      ]
     },
     errorTags: ['confuses_addition_with_distributive_property', 'property_identification_error']
   },
@@ -2126,8 +2535,16 @@ const QUESTION_BANK = [
     applicableLenses: [4, 9],
     bestLens: 4,
     walkthroughs: {
-      4: 'Enter x-values in L1, f-values in L2. Compute consecutive ratios: Table (2): 180/200=0.9, 162/180=0.9, 146/162≈0.9 — constant ratio between 0 and 1 → exponential decay. Table (1): constant differences (−3) → linear. Table (3): ratios > 1 → exponential growth, not decay. Table (4): differences change direction → quadratic.',
-      9: 'Exponential decay has a constant ratio r where 0 < r < 1. Only table (2) has consistent ratio ≈ 0.9 per step (decaying by ~10% each time). Table (1) decreases by a constant amount (linear). Table (3) grows. Table (4) changes direction (quadratic shape).'
+      4: [
+        'Check each table for a constant ratio (exponential) or constant difference (linear).',
+        'Table (2): consecutive ratios = 0.9, 0.9, 0.9 — constant ratio between 0 and 1 → exponential decay ✓.',
+        'Table (1): constant difference → linear. Table (3): ratios > 1 → growth, not decay. Table (4): differences vary → quadratic. Answer: (2).'
+      ],
+      9: [
+        'Exponential decay: each term is a constant fraction of the previous (0 < ratio < 1).',
+        'Check Table (2): 180/200 = 0.9, 162/180 = 0.9 — constant ratio ≈ 0.9. Decays by ~10% each step ✓.',
+        'Eliminate other tables: (1) constant decrease (linear), (3) growing (ratio > 1), (4) inconsistent ratios. Answer: (2).'
+      ]
     },
     errorTags: ['confuses_constant_ratio_with_constant_difference', 'confuses_growth_with_decay']
   },
@@ -2154,7 +2571,11 @@ const QUESTION_BANK = [
         'Add the constant outside the radical: 2 + 5 = 7.',
         'Answer: (2) 7. Trap: the +5 is outside the radical — don\'t add it inside.'
       ],
-      9: 'Structure: f(x) = √(x+1) + 5. The +5 is added after taking the square root, not inside. At x=3: radicand = 4, √4 = 2, then 2 + 5 = 7.'
+      9: [
+        'Identify the structure of f(x) = √(x+1) + 5: the +5 is outside the radical, added after the root.',
+        'At x = 3: compute the radicand first: 3 + 1 = 4. Take the root: √4 = 2.',
+        'Add the outside term: 2 + 5 = 7. Answer: (3).'
+      ]
     },
     errorTags: ['order_of_operations_error', 'forgets_constant_term']
   },
@@ -2174,8 +2595,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 7],
     bestLens: 9,
     walkthroughs: {
-      9: 'Shift left 3 units: replace x with (x+3). g(x) = ((x+3)+5)² − 2 = (x+8)² − 2. Trap (1): shift right 3 gives (x+2)²−2. Traps (3),(4): these are vertical shifts (change to the −2 constant), not horizontal.',
-      7: 'Vertex of f is at (−5, −2). Shift left 3: new vertex = (−8, −2). Vertex form: g(x) = (x+8)² − 2.'
+      9: [
+        'Horizontal shift left 3: replace x with (x+3) in f(x) = (x+5)²−2.',
+        'g(x) = ((x+3)+5)²−2 = (x+8)²−2.',
+        'Eliminate traps: (1) shifts right (gives (x+2)²). (3)(4) change the −2 constant (vertical shifts). Answer: (2).'
+      ],
+      7: [
+        'Identify the vertex of f(x) = (x+5)²−2: vertex is at (−5, −2).',
+        'Shift left 3: subtract 3 from the x-coordinate of the vertex → new vertex (−5−3, −2) = (−8, −2).',
+        'Vertex form with new vertex (−8, −2): g(x) = (x+8)² − 2. Answer: (2).'
+      ]
     },
     errorTags: ['shift_direction_error', 'confuses_horizontal_with_vertical_shift']
   },
@@ -2195,8 +2624,16 @@ const QUESTION_BANK = [
     applicableLenses: [2, 9],
     bestLens: 2,
     walkthroughs: {
-      2: 'Enter f(x) = x(x²−36) in Y=. Graph and find all zeros using 2nd TRACE → zero. Three zeros: x = −6, x = 0, x = 6. f is degree 3, so up to 3 zeros is expected.',
-      9: 'Factor completely: x(x²−36) = x(x−6)(x+6). Set each factor to zero: x=0, x=6, x=−6. Traps: (1) missing −6; (2) missing 6; (3) missing the factor of x, so missing the zero at 0.'
+      2: [
+        'Enter Y1 = x(x²−36) on the Y= screen. Adjust WINDOW or use ZOOM 6.',
+        '2nd → TRACE → 2 (zero). Find each zero separately. Three zeros: x = −6, 0, and 6.',
+        'All three zeros are included in choice (4): {−6, 0, 6}. Answer: (4).'
+      ],
+      9: [
+        'Factor: x(x²−36). Recognize x²−36 as a difference of two squares: (x−6)(x+6).',
+        'Fully factored: x(x−6)(x+6). Set each factor to zero: x = 0, x = 6, x = −6.',
+        'All three zeros: {−6, 0, 6}. Eliminate (1)(2)(3): each is missing at least one zero. Answer: (4).'
+      ]
     },
     errorTags: ['misses_zero_at_origin', 'incomplete_factoring_of_difference_of_squares']
   },
@@ -2219,8 +2656,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'Relative frequency = joint cell ÷ grand total. Pizza AND Water = 58. Grand total = 400. RF = 58/400 = 0.145. Trap (3): 182/400 = 0.455 uses the pizza row total. Trap (2): 140/400 = 0.35 uses the water column total.',
-      10: 'Eliminate traps: "relative frequency of pizza AND water" needs the grand total (400) as denominator. Only 58/400 = 0.145 gives the joint relative frequency.'
+      9: [
+        'Relative frequency = specific count ÷ grand total. Find "Pizza AND Water" in the table: intersection cell = 58.',
+        'Grand total = 400. RF = 58/400 = 0.145.',
+        'Eliminate traps: (3) uses pizza row total (182); (2) uses water column total (140). Answer: (1).'
+      ],
+      10: [
+        '"Pizza AND Water" means the intersection cell of the two-way table (both conditions met).',
+        'Relative frequency always uses the grand total as the denominator: 58/400.',
+        'Eliminate choices using row or column totals — those give marginal, not joint, relative frequencies. Answer: (1).'
+      ]
     },
     errorTags: ['uses_marginal_total_instead_of_grand_total', 'confuses_conditional_with_joint_frequency']
   },
@@ -2240,8 +2685,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'Cancel units step by step: km cancels (÷ km from 0.6214 mi/km), hr cancels (÷ hr from 1 hr/60 min), min cancels (÷ min from 1 min/60 sec). Remaining: ft in numerator, sec in denominator → feet per second.',
-      10: 'Eliminate (3),(4): "per foot" puts ft in the denominator — the 5280 ft/mi conversion puts ft in the numerator. Eliminate (2): minutes cancel entirely in the chain. Only (1) feet per second results from complete unit cancellation.'
+      9: [
+        'Start: mi/hr. Multiply by 5280 ft/1 mi → mi cancels, get ft/hr.',
+        'Multiply by 1 hr/60 min → hr cancels, get ft/min.',
+        'Multiply by 1 min/60 sec → min cancels, get ft/sec. Final unit: feet per second. Answer: (1).'
+      ],
+      10: [
+        'Target unit: feet per second (ft/sec). Feet should end up in the numerator, seconds in denominator.',
+        'Eliminate (3)(4): ft in denominator means the 5280 conversion is inverted — wrong direction.',
+        'Eliminate (2): minutes should cancel completely. Only (1) feet per second survives full cancellation. Answer: (1).'
+      ]
     },
     errorTags: ['unit_cancellation_error', 'inverts_unit_fraction']
   },
@@ -2261,8 +2714,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: '(−2x²)³ = (−2)³·(x²)³ = −8·x⁶ = −8x⁶. Key rules: cube the coefficient (−2)³=−8; multiply the exponents for the variable (2×3=6). Odd power of a negative stays negative. Trap (3): adds exponents (2+3=5) instead of multiplying.',
-      3: 'Plug x=1: (−2)³ = −8. Check choices at x=1: (1)−6; (2)6; (3)−8 ✓ but exponent test fails; (4)−8 ✓. Plug x=2: (−2·4)³=(−8)³=−512. Choice (4): −8·2⁶=−8·64=−512 ✓. Choice (3): −8·2⁵=−256 ✗.'
+      9: [
+        'Apply the power rule: (−2x²)³ = (−2)³ · (x²)³.',
+        '(−2)³ = −8 (odd power of negative stays negative). (x²)³ = x^(2×3) = x⁶.',
+        'Result: −8x⁶. Trap (3) gives −8x⁵ (adds instead of multiplies exponents). Answer: (4).'
+      ],
+      3: [
+        'Plug x = 1 into original: (−2·1²)³ = (−2)³ = −8. Eliminate choices ≠ −8: (1)−6 ✗, (2)6 ✗.',
+        'Both (3) and (4) give −8 at x = 1. Plug x = 2: original = (−2·4)³ = (−8)³ = −512.',
+        'Test (4) at x = 2: −8·2⁶ = −8·64 = −512 ✓. Test (3): −8·2⁵ = −256 ✗. Answer: (4).'
+      ]
     },
     errorTags: ['adds_exponents_instead_of_multiplying', 'sign_error_with_odd_power']
   },
@@ -2285,8 +2746,16 @@ const QUESTION_BANK = [
     applicableLenses: [4, 9],
     bestLens: 4,
     walkthroughs: {
-      4: 'Enter years in L1, amounts in L2. Use only the 2000 and 2014 rows: (25 − 750)/(2014 − 2000) = −725/14 ≈ −51.8 g/yr. Trap (3): uses 2000 to 2019 → (8−750)/(2019−2000) = −742/19 ≈ −39.1. Trap (2): drops the negative sign.',
-      9: 'Average rate = Δy/Δx using only the endpoints 2000 and 2014: (25 − 750)/(14) = −725/14 ≈ −51.8 g/yr. The substance is decaying so the rate must be negative.'
+      4: [
+        'Enter year values in L1 and amount values in L2. Average rate = ΔL2/ΔL1.',
+        'Use the interval 2000 to 2014: (25 − 750) / (2014 − 2000) = −725/14 ≈ −51.8 g/yr.',
+        'Trap: do not use 2019 as endpoint — the question specifies 2000 to 2014. Keep the negative sign. Answer: (3).'
+      ],
+      9: [
+        'Average rate of change = (f(2014) − f(2000)) / (2014 − 2000).',
+        '(25 − 750) / 14 = −725/14 ≈ −51.8 grams per year.',
+        'The rate is negative (substance is decreasing). Eliminate choices with positive rates. Answer: (3).'
+      ]
     },
     errorTags: ['uses_wrong_interval_endpoints', 'drops_negative_sign_on_rate']
   },
@@ -2306,8 +2775,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: '(x²+2x−5) − (2x²−3x+4). Distribute the negative sign: x²+2x−5 − 2x²+3x−4. Combine: (1−2)x²=−x²; (2+3)x=5x; (−5−4)=−9. Result: −x²+5x−9. Key trap: not flipping −3x to +3x when distributing the minus.',
-      3: 'Plug x=1: (1+2−5)−(2−3+4) = (−2)−(3) = −5. Check choices at x=1: (1)3−1−1=1; (2)−1−1−1=−3; (3)−1+5−9=−5 ✓; (4)3+5−9=−1.'
+      9: [
+        'Distribute the negative: (x²+2x−5) − (2x²−3x+4) = x²+2x−5 − 2x²+3x−4.',
+        'Combine x² terms: 1−2 = −1 → −x². Combine x terms: 2+3 = 5 → 5x. Combine constants: −5−4 = −9.',
+        'Result: −x² + 5x − 9. The key trap is forgetting to flip the sign of −3x (it becomes +3x). Answer: (3).'
+      ],
+      3: [
+        'Plug x = 1 into the original: (1+2−5) − (2−3+4) = (−2) − (3) = −5.',
+        'Test choice (3) at x = 1: −1 + 5 − 9 = −5 ✓.',
+        'Test others: (1) gives 1, (2) gives −3, (4) gives −1 — all ≠ −5. Answer: (3).'
+      ]
     },
     errorTags: ['distribution_error_on_subtraction', 'sign_error_in_polynomial_operations']
   },
@@ -2327,8 +2804,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: 'Complete the square: x²−6x=24 → add (−6/2)²=9 to both sides: x²−6x+9=33 → (x−3)²=33. Trap (1): added 9 to left only, forgot to add to right. Trap (2): used full coefficient 6 instead of half (6/2=3). Trap (4): (x−6)² expands differently.',
-      3: 'Verify (3): (x−3)²=33 → x²−6x+9=33 → x²−6x=24 ✓. Test (1): (x−3)²=24 → x²−6x+9=24 → x²−6x=15 ✗. Only (3) gives the original equation.'
+      9: [
+        'Start with x²−6x = 24. Half of −6 is −3. Square it: (−3)² = 9.',
+        'Add 9 to BOTH sides: x²−6x+9 = 24+9 = 33. Left side: (x−3)².',
+        'Equation: (x−3)² = 33. Trap (1): forgot to add 9 to the right. Trap (4): (x−6)² ≠ x²−6x+9. Answer: (3).'
+      ],
+      3: [
+        'Expand choice (3): (x−3)² = 33 → x²−6x+9 = 33 → x²−6x = 33−9 = 24 ✓.',
+        'Expand choice (1): (x−3)² = 24 → x²−6x+9 = 24 → x²−6x = 15 ✗ (not 24).',
+        'Only (3) gives back the original x²−6x = 24. Answer: (3).'
+      ]
     },
     errorTags: ['forgets_to_add_constant_to_both_sides', 'uses_full_coefficient_instead_of_half']
   },
@@ -2348,8 +2833,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 4],
     bestLens: 9,
     walkthroughs: {
-      9: 'Explicit formula: aₙ = a₁·rⁿ⁻¹. a₄ = −2·(−3)³ = −2·(−27) = 54. Trap (1): −162 = a₅ (computed one term too many). Trap (2): −11 = treating as arithmetic, −2 + 3·(−3) = −11.',
-      4: 'Build term by term: a₁=−2; a₂=(−2)(−3)=6; a₃=(6)(−3)=−18; a₄=(−18)(−3)=54. Track signs — they alternate because the ratio is negative.'
+      9: [
+        'Identify the sequence: a₁ = −2, r = −3 (geometric, multiply by −3 each time).',
+        'Explicit formula: aₙ = a₁·r^(n−1). a₄ = −2·(−3)^(4−1) = −2·(−3)³ = −2·(−27) = 54.',
+        'Trap: (1) −162 = a₅ (one term too many). (2) −11 treats it as arithmetic. Answer: (1).'
+      ],
+      4: [
+        'a₁ = −2. Multiply by r = −3: a₂ = −2 × −3 = 6.',
+        'a₃ = 6 × −3 = −18. a₄ = −18 × −3 = 54.',
+        'Signs alternate: negative, positive, negative, positive. a₄ = 54. Answer: (1).'
+      ]
     },
     errorTags: ['off_by_one_in_sequence_index', 'confuses_geometric_with_arithmetic']
   },
@@ -2370,8 +2863,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'Combine like radical terms: −2√5 + 6√5 = (−2+6)√5 = 4√5. The constant 3 remains separate. Result: 3 + 4√5. Trap (1): absorbs the 3 into the radical. Traps (2),(4): √5 + √5 = 2√5, never √10 — you only get √10 by multiplying √5 · √2.',
-      10: 'Eliminate (2),(4): combining √5 terms never produces √10. Eliminate (1): 7√5 ignores the constant 3. Only (3) correctly keeps the constant separate from the radical term.'
+      9: [
+        'Identify like radical terms: −2√5 and 6√5 both have √5.',
+        'Add coefficients: −2 + 6 = 4 → 4√5. The constant 3 is separate and stays as 3.',
+        'Result: 3 + 4√5. Note: adding radicals never creates a different radical (√5 + √5 ≠ √10). Answer: (3).'
+      ],
+      10: [
+        'Eliminate (2)(4): adding radicals with the same index never creates a different radical — √5 + √5 ≠ √10.',
+        'Eliminate (1): 7√5 appears to combine 6√5 + 3, treating the constant 3 as a √5 term — wrong.',
+        'Only (3) keeps 3 separate and adds the √5 coefficients: 3 + 4√5. Answer: (3).'
+      ]
     },
     errorTags: ['absorbs_constant_into_radical', 'adds_radicands_instead_of_coefficients']
   },
@@ -2399,7 +2900,11 @@ const QUESTION_BANK = [
         'Solve: x = −4 or x = 3. Both values satisfy the equation.',
         'Answer: (2). Traps: choices (3) and (4) only give one value — a parabola can cross a horizontal line at two points.'
       ],
-      1: 'Graph y = −x²−x+6 and y = −6. Use 2nd TRACE → intersect. Two intersections at x = −4 and x = 3.'
+      1: [
+        'Enter Y1 = −X²−X+6 and Y2 = −6 on the Y= screen. Press ZOOM 6.',
+        '2nd → TRACE → 5 (intersect). Find first intersection. Repeat for the second.',
+        'Two solutions: x = −4 and x = 3. Answer: (2).'
+      ]
     },
     errorTags: ['misses_second_solution', 'sign_error_in_quadratic_setup']
   },
@@ -2423,8 +2928,16 @@ const QUESTION_BANK = [
     applicableLenses: [7, 9],
     bestLens: 7,
     walkthroughs: {
-      7: 'Vertex/Min-Max lens: the lowest point of the upward parabola is the vertex. From the graph, the minimum is at (3, −4). The axis of symmetry is the vertical line through the vertex: x = 3.',
-      9: 'Read the turning point from the graph: vertex = (3, −4). The axis of symmetry is always a vertical line x = (x-coordinate of vertex) = x = 3. Eliminate (2),(4): axis of symmetry is always x = c, never y = c for a vertical parabola.'
+      7: [
+        'Identify the type of parabola from the graph: opens upward → vertex is the minimum point.',
+        'Read the minimum point from the graph: (3, −4). The x-coordinate is 3.',
+        'The axis of symmetry is the vertical line through the vertex: x = 3. Answer: (3).'
+      ],
+      9: [
+        'Read the vertex from the graph: the turning point is at (3, −4).',
+        'The axis of symmetry is the vertical line through the vertex x-coordinate: x = 3.',
+        'Eliminate (2)(4): y = c is a horizontal line, not an axis of symmetry for a standard parabola. Answer: (3).'
+      ]
     },
     errorTags: ['confuses_x_and_y_for_axis_of_symmetry', 'swaps_vertex_coordinates']
   },
@@ -2472,8 +2985,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 8],
     bestLens: 9,
     walkthroughs: {
-      9: 'A function passes the vertical line test: each x-value maps to exactly one y-value. Graph (1): 5 isolated points, each at a distinct x — passes VLT ✓. Graph (3): columns x=2 and x=3 each have two stacked dots — two y-values, fails VLT. Graph (2): overlapping horizontal segments share x-values at two different heights — fails VLT. Graph (4): vertical line segments — one x has infinitely many y-values, fails VLT.',
-      8: 'Domain & Range lens: for a function, every input (x) must produce exactly one output (y). Only graph (1) has a unique y for every x shown.'
+      9: [
+        'A relation is a function if every x-value maps to exactly one y-value (vertical line test).',
+        'Apply VLT to each graph: Graph (1) — 5 distinct points, each unique x → passes ✓.',
+        'Graphs (2)(3)(4) each fail: (2) two segments share x-values, (3) stacked dots at same x, (4) vertical line. Answer: (1).'
+      ],
+      8: [
+        'For a function, each input x must produce exactly one output y.',
+        'Check graph (1): 5 isolated points, each with a different x → one y per x ✓.',
+        'Graphs (2)(3)(4) each have at least one x with two or more y-values → not functions. Answer: (1).'
+      ]
     },
     errorTags: ['fails_vertical_line_test', 'confuses_relation_with_function']
   },
@@ -2526,8 +3047,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 3],
     bestLens: 9,
     walkthroughs: {
-      9: 'Solve: 4+3x > 9−7x → add 7x: 4+10x > 9 → subtract 4: 10x > 5 → x > ½. Open circle (strict inequality >), ray pointing RIGHT. Graph (3) matches.',
-      3: 'Test x = 1: 4+3 = 7, 9−7 = 2, 7 > 2 ✓. Test x = 0: 4 > 9 ✗. Solution is x > ½. Open circle (not ≥), ray right.'
+      9: [
+        'Solve: 4+3x > 9−7x. Add 7x to both sides: 4+10x > 9.',
+        'Subtract 4: 10x > 5 → x > 1/2. Strict inequality → open circle (not ≥).',
+        'x > 1/2 means the ray points RIGHT on the number line. Graph (3) matches. Answer: (3).'
+      ],
+      3: [
+        'Test x = 1 (a value > ½): left side 4+3(1) = 7, right side 9−7(1) = 2. Is 7 > 2? Yes ✓.',
+        'Test x = 0 (a value ≤ ½): left side 4, right side 9. Is 4 > 9? No ✗.',
+        'Solution: x > ½. Open circle at ½, ray to the right. Answer: (3).'
+      ]
     },
     errorTags: ['uses_closed_circle_for_strict_inequality', 'wrong_direction_ray']
   },
@@ -2550,8 +3079,16 @@ const QUESTION_BANK = [
     applicableLenses: [3, 9],
     bestLens: 9,
     walkthroughs: {
-      9: 'Rationalize: multiply numerator and denominator by √2 → 10√2/2 = 5√2. No calculator needed.',
-      3: 'TI-84: 10/√(2) ≈ 7.071. Test choices: 5√(2) ≈ 7.071 ✓. Answer is (3).'
+      9: [
+        'Rationalize 10/√2: multiply top and bottom by √2.',
+        '10·√2 / (√2·√2) = 10√2/2.',
+        'Simplify: 10√2/2 = 5√2. Answer: (3).'
+      ],
+      3: [
+        'On TI-84: type 10/√(2) and press ENTER. Result ≈ 7.071.',
+        'Test each answer choice: 5√2 ≈ 7.071 ✓.',
+        'No other choice matches. Answer: (3).'
+      ]
     },
     errorTags: ['fails_to_rationalize', 'multiplies_radicand_instead']
   },
@@ -2571,8 +3108,16 @@ const QUESTION_BANK = [
     applicableLenses: [3, 9],
     bestLens: 9,
     walkthroughs: {
-      9: 'Simplify: 2√27 = 2·3√3 = 6√3; 4√12 = 4·2√3 = 8√3. Sum = 14√3. The √39 traps combine unlike radicands.',
-      3: 'TI-84: 2√(27)+4√(12) ≈ 24.25. Test: 14√(3) ≈ 24.25 ✓. Eliminates the √39 distractors.'
+      9: [
+        'Simplify 2√27: √27 = √(9·3) = 3√3. So 2√27 = 6√3.',
+        'Simplify 4√12: √12 = √(4·3) = 2√3. So 4√12 = 8√3.',
+        'Add: 6√3 + 8√3 = 14√3. You cannot add unlike radicals to get √39. Answer: (4).'
+      ],
+      3: [
+        'On TI-84: type 2√(27)+4√(12) and press ENTER. Result ≈ 24.25.',
+        'Test 14√3: 14 × 1.732 ≈ 24.25 ✓.',
+        'Test √39 options: √39 ≈ 6.24, so 6√39 ≈ 37.5 ✗. Answer: (4).'
+      ]
     },
     errorTags: ['combines_unlike_radicands', 'fails_to_simplify_radical']
   },
@@ -2599,7 +3144,11 @@ const QUESTION_BANK = [
         'g(−2) = 2 ÷ 2 = 1.',
         'Answer: (1). Watch the exponent: −2 + 3 = 1, not −2 − 3.'
       ],
-      4: 'Y1 = 2^(X+3)/(X²−2). TABLE at X = −2: Y1 = 1 ✓.'
+      4: [
+        'Enter Y1 = 2^(X+3)/(X²−2) on the Y= screen.',
+        '2nd → GRAPH (TABLE). Navigate to X = −2.',
+        'Read Y1 at X = −2: 2^(−2+3)/(4−2) = 2¹/2 = 1 ✓. Answer: (4).'
+      ]
     },
     errorTags: ['sign_error_in_exponent', 'denominator_evaluation_error']
   },
@@ -2619,8 +3168,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'K = ½mv² → multiply both sides by 2: 2K = mv² → divide by v²: m = 2K/v². Two-step isolation.',
-      10: 'Eliminate (2): dividing by v² removes it, not multiplies. Eliminate (3): no square root arises when isolating m. Eliminate (4): ½ inverts to 2, not stays as ½.'
+      9: [
+        'Start with K = ½mv². Multiply both sides by 2: 2K = mv².',
+        'Divide both sides by v²: m = 2K/v².',
+        'Eliminate traps: (2) leaves v² wrong; (3) takes a square root (not needed); (4) keeps ½. Answer: (1).'
+      ],
+      10: [
+        'Eliminate (2): dividing by v² moves it to the denominator — it does not multiply up.',
+        'Eliminate (3): isolating m does not involve taking a square root.',
+        'Eliminate (4): multiplying by 2 (the reciprocal of ½) clears the fraction — ½ should not appear in the answer. Answer: (1).'
+      ]
     },
     errorTags: ['fails_to_invert_half', 'takes_square_root_of_both_sides']
   },
@@ -2640,8 +3197,16 @@ const QUESTION_BANK = [
     applicableLenses: [1, 3],
     bestLens: 1,
     walkthroughs: {
-      1: 'Y1 = 2(3X−1)/3, Y2 = X+2. ZOOM 6 → 2nd TRACE → 5: intersect → X ≈ 2.667 = 8/3. Answer is (4).',
-      3: 'Test X = 8/3: LHS = 2(3·8/3−1)/3 = 2(7)/3 = 14/3. RHS = 8/3+2 = 14/3 ✓.'
+      1: [
+        'Enter Y1 = 2(3X−1)/3 and Y2 = X+2 on the Y= screen. Press ZOOM 6.',
+        '2nd → TRACE → 5 (intersect). Press ENTER three times.',
+        'X ≈ 2.667 = 8/3. Answer: (4).'
+      ],
+      3: [
+        'Try choice (4): x = 8/3. Left side: 2(3·(8/3)−1)/3 = 2(8−1)/3 = 2(7)/3 = 14/3.',
+        'Right side: 8/3 + 2 = 8/3 + 6/3 = 14/3.',
+        'Left = Right: 14/3 = 14/3 ✓. Answer: (4).'
+      ]
     },
     errorTags: ['fails_to_clear_fraction', 'distribution_error']
   },
@@ -2661,8 +3226,16 @@ const QUESTION_BANK = [
     applicableLenses: [9, 10],
     bestLens: 9,
     walkthroughs: {
-      9: 'Need mi→ft (×5280ft/1mi) and hr→min (×1hr/60min). Check units cancel: mi/hr × ft/mi × hr/min × car/ft = car/min ✓. Only (3) has both conversions oriented correctly.',
-      10: 'Eliminate (1)&(2): 1mi/5280ft inverts the conversion — miles don\'t cancel. Eliminate (4): 60min/1hr multiplies minutes instead of dividing. Answer is (3).'
+      9: [
+        'Starting unit: mi/hr. Target: ft/min. Need fractions that cancel miles and convert hours to minutes.',
+        '×5280ft/1mi cancels miles (mi/mi = 1). ×1hr/60min cancels hours. Remaining: ft/min ✓.',
+        'Only (3) has both conversion factors in the correct orientation. Answer: (3).'
+      ],
+      10: [
+        'Eliminate (1)(2): 1mi/5280ft has miles in the numerator — when multiplied by mi/hr, miles accumulate instead of canceling.',
+        'Eliminate (4): 60min/1hr places minutes in the numerator, making minutes accumulate instead of cancel.',
+        'Only (3) has both fractions oriented to cancel miles and hours correctly. Answer: (3).'
+      ]
     },
     errorTags: ['inverts_unit_conversion', 'flips_time_conversion']
   },
@@ -2687,8 +3260,16 @@ const QUESTION_BANK = [
     applicableLenses: [7, 8],
     bestLens: 8,
     walkthroughs: {
-      8: 'Scan the graph for the vertex (lowest point) — it sits at x = 3. Parabola opens upward, so it decreases left of x = 3 and increases right of x = 3. Increasing interval: [3, ∞).',
-      7: 'Enter Y1 = (X−3)²−4. 2nd TRACE → 3: minimum → vertex at X = 3. Parabola increases for all x > 3 → [3, ∞).'
+      8: [
+        'Scan the graph: the parabola opens upward, so it has a minimum (lowest point).',
+        'Identify the vertex from the graph: minimum is at x = 3.',
+        'A parabola increases to the RIGHT of its vertex: increasing interval is [3, ∞). Answer: (2).'
+      ],
+      7: [
+        'Enter Y1 = (X−3)²−4 on the Y= screen. Press GRAPH (opens upward).',
+        '2nd → TRACE → 3 (minimum). Set bounds and press ENTER. Vertex at x = 3.',
+        'After the minimum, the parabola increases. Increasing interval: x ≥ 3, or [3, ∞). Answer: (2).'
+      ]
     },
     errorTags: ['confuses_increasing_with_decreasing', 'reports_root_interval_instead']
   },
@@ -2714,8 +3295,16 @@ const QUESTION_BANK = [
     applicableLenses: [8, 10],
     bestLens: 8,
     walkthroughs: {
-      8: 'Read IQR = Q3 − Q1 for each: Swim IQR = 14 − 11 = 3; Track IQR = 12 − 9 = 3. Equal ✓. Eliminate (3): swim median (13) > track median (11). Eliminate (4): swim range = 17−9 = 8 > track range = 15−8 = 7.',
-      10: 'Eliminate (2): box plots show spread, not count. Eliminate (3): 13 > 11, so swim median is GREATER, not less. Eliminate (4): swim range = 8 > track range = 7. Only (1) is always true.'
+      8: [
+        'Read the box plots: IQR = Q3 − Q1. Swim: 14 − 11 = 3. Track: 12 − 9 = 3. Equal ✓.',
+        'Check other claims: Swim median = 13, Track median = 11. Swim median is GREATER, not less.',
+        'Swim range = 17−9 = 8; Track range = 15−8 = 7. Swim range > Track range. Only (1) is true. Answer: (1).'
+      ],
+      10: [
+        'Eliminate (2): box plots display distribution/spread — they do NOT show the number of students.',
+        'Eliminate (3): swim median = 13, track median = 11. Swim median is higher, not lower.',
+        'Eliminate (4): swim range = 17−9 = 8 > track range = 15−8 = 7. Swim has the larger range. Answer: (1).'
+      ]
     },
     errorTags: ['confuses_range_with_IQR', 'reads_median_direction_incorrectly']
   },
@@ -2749,8 +3338,16 @@ const QUESTION_BANK = [
     applicableLenses: [8, 10],
     bestLens: 8,
     walkthroughs: {
-      8: 'Domain = x-values the function is defined for. Left endpoint (0,20) has an OPEN circle → x = 0 excluded. Right endpoint (12,45) has a CLOSED dot → x = 12 included. Domain: 0 < x ≤ 12.',
-      10: 'Eliminate (1): open circle at x = 0 means x = 0 is NOT included — bracket [0 is wrong. Eliminate (2) and (4): those use y-values (15–45), not x-values. Domain is about x.'
+      8: [
+        'Domain = the set of valid x-values. Read the endpoints of the graph.',
+        'Left endpoint at x = 0: open circle (hollow) → x = 0 is NOT included. Use strict inequality: 0 < x.',
+        'Right endpoint at x = 12: closed dot → x = 12 IS included. Domain: 0 < x ≤ 12. Answer: (3).'
+      ],
+      10: [
+        'Eliminate (1): [0, 12] includes x = 0, but the open circle means x = 0 is excluded. Wrong.',
+        'Eliminate (2)(4): domain is about x-values, not y-values. Any option using 15 or 45 describes range, not domain.',
+        'Only (3): 0 < x ≤ 12 correctly excludes x = 0 and includes x = 12. Answer: (3).'
+      ]
     },
     errorTags: ['confuses_domain_with_range', 'ignores_open_circle']
   },
@@ -2797,8 +3394,16 @@ const QUESTION_BANK = [
     applicableLenses: [8, 10],
     bestLens: 8,
     walkthroughs: {
-      8: 'Vertical Line Test (VLT): if any vertical line crosses the graph more than once, it is NOT a function. A (downward arch): VLT passes ✓. B (horizontal line): VLT passes ✓. C (vertical line): every vertical line at x=same value hits it — FAILS ✗. D (circle): any interior x hits top and bottom — FAILS ✗. Functions: A and B only.',
-      10: 'Eliminate (3) and (4): C is a vertical line — fails VLT immediately. Eliminate (1): B is a horizontal line — it IS a function. Answer: A and B only.'
+      8: [
+        'Apply the Vertical Line Test (VLT): if a vertical line crosses the graph more than once, it is not a function.',
+        'A (downward arch): any vertical line hits it once ✓. B (horizontal line): any vertical line hits it once ✓.',
+        'C (vertical line): IS a vertical line — fails immediately ✗. D (circle): vertical lines through the middle hit twice ✗. Answer: (2) A and B.'
+      ],
+      10: [
+        'Eliminate options including C: C is a vertical line segment — it fails the VLT immediately (one x, infinite y-values).',
+        'Eliminate (1) (A only): B is a horizontal line — every x maps to exactly one y ✓ — B is a function.',
+        'D is a circle: the center x-values each map to two y-values (top and bottom) — fails VLT. Only A and B are functions. Answer: (2).'
+      ]
     },
     errorTags: ['fails_vertical_line_test', 'confuses_vertical_with_horizontal']
   },
@@ -2823,8 +3428,16 @@ const QUESTION_BANK = [
     applicableLenses: [7, 9],
     bestLens: 7,
     walkthroughs: {
-      7: 'Graph each algebraic choice in Y= on the TI-84. Press 2nd TRACE (CALC) → minimum to find the vertex x-coordinate — that is the axis of symmetry. (2): j(x) = 2x² + 8x → vertex at x = −2, not x = 2 ✗. (4): h(x) = x² − 4x − 5 → vertex at x = 2 ✓. For the table: minimum g(x) = 2 at x = 0 → axis x = 0 ✗. For the graph: vertex at x = 1 ✗.',
-      9: 'Axis of symmetry formula: x = −b/(2a). (2): j(x) = 2x² + 8x → x = −8/(2×2) = −2 ✗. (4): h(x) = x² − 4x − 5 → x = 4/2 = 2 ✓. Table: g(x) symmetric about x = 0 (g(−2)=g(2)=6, min at x=0) → axis x = 0 ✗. Graph: vertex at x = 1 ✗.'
+      7: [
+        'Graph each algebraic choice in Y=. Use 2nd TRACE → minimum to find the vertex x-coordinate (= axis of symmetry).',
+        'Test choice (2): j(x) = 2x²+8x → vertex at x = −8/(2·2) = −2 ✗ (not x = 2). Test choice (4): h(x) = x²−4x−5 → vertex at x = 4/(2·1) = 2 ✓.',
+        'The table shows min at x = 0 ✗. The graph shows vertex at x = 1 ✗. Answer: (4).'
+      ],
+      9: [
+        'Axis of symmetry: x = −b/(2a) for ax²+bx+c. Test each representation for axis x = 2.',
+        'Choice (2): j(x)=2x²+8x → x = −8/(4) = −2 ✗. Choice (4): h(x)=x²−4x−5 → x = 4/2 = 2 ✓.',
+        'Table: g(x) min at x = 0 → axis x = 0 ✗. Graph: vertex at x = 1 ✗. Answer: (4).'
+      ]
     },
     errorTags: ['axis_symmetry_formula', 'misreads_graph_vertex', 'ignores_table_symmetry']
   }
