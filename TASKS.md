@@ -1,6 +1,55 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-19 (Session L — all walkthroughs converted to step arrays)
+Last updated: 2026-05-19 (Session M — Parallel Example PRD written)
+
+---
+
+## Session M — Parallel Example Walkthroughs — ⬜ PLANNED
+
+**Design concept:** Replace the pre-answer walkthrough (which currently solves the actual question) with a parallel example — a real past Regents question on the same standard — that ends on setup without revealing the answer. The actual solution walkthrough moves to the review phase, shown only on wrong answers, across all Practice modes. Challenge mode is untouched.
+
+**Modules touched:** `QUESTION_BANK` (new `examples` field), `UI_RENDER` (walkthrough phase + review phase), `UI_HANDLERS` (no new handlers — reuses existing step navigation)
+
+**Data model:**
+- New field per question: `examples: { lensId: [...steps] }` — parallel example, pre-answer walkthrough phase
+- Existing `walkthroughs: { lensId: [...steps] }` — actual solution, review phase wrong-answers only
+- First pass scope: `bestLens` only per question (72 entries total — separate content session)
+- Content rules: source from real past Regents exam (same standard, verbatim stem); 2–3 setup steps; NO computation; NO answer; final step always ends with `?`
+
+**Walkthrough phase (pre-answer) — three-way split:**
+| Lens pick | Student sees |
+|---|---|
+| `bestLens` + `examples[lensId]` exists | Click-to-reveal parallel example (ends on setup question) |
+| Valid non-best lens | Neutral: "No worked example for this lens — give it a try." + Answer button |
+| Invalid lens (bad fit) | Nudge: "Switch to [bestLens name] to see a worked example" + re-pick button |
+
+**Review phase (post-answer) — universal rule:**
+| Result | Student sees |
+|---|---|
+| Wrong answer | `walkthroughs[lensId]` actual solution — ALL Practice modes |
+| Correct answer | No walkthrough — ALL Practice modes (suppresses current Lens Drill behavior) |
+
+**Anti-hallucination rules for `examples` content:**
+- Source every parallel example from a real past Regents question (NYSED-verified numbers)
+- Final step must end with `?` (never a computed answer)
+- No step may contain a declarative answer choice like "Answer: (3)"
+- Authoring sequence: pick exam question → write setup steps → verify with TI-84
+
+**Out of scope:**
+- Writing the 72 `examples` entries (content pass — Session M-content, separate session)
+- Any changes to Challenge mode
+- CSS animations or transition effects
+- Lens-pick screen changes
+- `runPuzzleTests()` extension for parallel example validation
+
+**Done when:**
+- Walkthrough phase shows parallel example (click-to-reveal) for `bestLens` picks when `examples` entry exists
+- Walkthrough phase shows neutral message + Answer button for valid non-best lens picks
+- Walkthrough phase shows nudge + re-pick button for invalid lens picks
+- Review phase shows actual solution (`walkthroughs`) for wrong answers in ALL Practice modes
+- Review phase shows NO walkthrough for correct answers in ALL Practice modes (including Lens Drill)
+- Challenge mode behavior unchanged
+- 72/72 `runPuzzleTests()` pass
 
 ---
 
