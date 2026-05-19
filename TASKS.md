@@ -4,7 +4,7 @@ Last updated: 2026-05-19 (Session M — Parallel Example PRD written)
 
 ---
 
-## Session M — Parallel Example Walkthroughs — ⬜ PLANNED
+## Session M — Parallel Example Walkthroughs — Logic Pass ✅ COMPLETE 2026-05-19 / Content Pass ⬜ OPEN
 
 **Design concept:** Replace the pre-answer walkthrough (which currently solves the actual question) with a parallel example — a real past Regents question on the same standard — that ends on setup without revealing the answer. The actual solution walkthrough moves to the review phase, shown only on wrong answers, across all Practice modes. Challenge mode is untouched.
 
