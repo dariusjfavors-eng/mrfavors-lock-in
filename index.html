@@ -3995,6 +3995,7 @@ const STATE = {
     filterStandard: null,  // cluster key or null
     filterLens: null,      // lens id or null
     wrongPool: [],         // pre-built pool for drillMode='wrong'
+    filterQuestion: null,  // qid for drillMode='single'
     walkthroughStep: 0    // which step is the last revealed in click-to-reveal
   },
   challenge: {
@@ -4176,6 +4177,7 @@ function renderPractice() {
   if (sv === 'home')            return renderPracticeHome();
   if (sv === 'standard-picker') return renderStandardPicker();
   if (sv === 'lens-picker')     return renderLensPicker();
+  if (sv === 'question-picker') return renderQuestionPicker();
 
   /* subView === 'active' */
   const Q = currentQ();
@@ -4345,7 +4347,9 @@ function renderPractice() {
       ? `Standard Drill &mdash; ${(STANDARD_CLUSTERS.find(c => c.key === STATE.practice.filterStandard) || {}).label || ''}`
       : STATE.practice.drillMode === 'wrong'
         ? 'Mistakes Drill'
-        : 'Free Roam';
+        : STATE.practice.drillMode === 'single'
+          ? STATE.practice.filterQuestion || 'Single Question'
+          : 'Free Roam';
 
   main.innerHTML = `
     <div class="problem-meta">
@@ -4430,8 +4434,37 @@ function renderLensPicker() {
   `;
 }
 
-function showStandardPicker() { STATE.practice.subView = 'standard-picker'; render(); }
-function showLensPicker()     { STATE.practice.subView = 'lens-picker'; render(); }
+function renderQuestionPicker() {
+  showRail(false, false);
+  const rows = QUESTION_BANK.map(q => {
+    const raw = q.stem.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    const preview = raw.length > 80 ? raw.slice(0, 80) + '…' : raw;
+    return `<button class="lens-pick" onclick="startPractice('single','${q.id}')">
+      <span class="lp-num">${q.id} &middot; ${q.standard}</span>${preview}
+    </button>`;
+  }).join('');
+  main.innerHTML = `
+    <div class="section-title">Pick a Question</div>
+    <div class="section-sub">Select any question to practice</div>
+    <div class="lens-picker-grid">${rows}</div>
+    <div style="margin-top:16px;">
+      <button class="btn secondary" onclick="backToPracticeHome()">&larr; Back</button>
+    </div>
+  `;
+}
+
+function showStandardPicker()  { STATE.practice.subView = 'standard-picker'; render(); }
+function showLensPicker()      { STATE.practice.subView = 'lens-picker'; render(); }
+function showQuestionPicker()  {
+  clearChallengeTimer();
+  STATE.challenge.started = false;
+  STATE.view = 'practice';
+  document.querySelectorAll('#nav button').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === 'practice');
+  });
+  STATE.practice.subView = 'question-picker';
+  render();
+}
 function backToPracticeHome() { STATE.practice.subView = 'home'; render(); }
 
 /* ---- CHALLENGE ---- */
@@ -4536,6 +4569,7 @@ function renderChallengeResults() {
       <div class="btn-row">
         <button class="btn secondary" onclick="downloadCSV()">Re-download CSV</button>
         ${wrong > 0 ? `<button class="btn" onclick="startWrongAnswerDrill()">Drill Mistakes (${wrong})</button>` : ''}
+        <button class="btn secondary" onclick="showQuestionPicker()">Practice a question</button>
         <button class="btn" onclick="resetChallenge()">Try Again</button>
         <button class="btn secondary" onclick="navigate('home')">&larr; Home</button>
       </div>
@@ -4567,6 +4601,7 @@ function navigate(view) {
     STATE.practice.drillMode = 'free';
     STATE.practice.filterStandard = null;
     STATE.practice.filterLens = null;
+    STATE.practice.filterQuestion = null;
     STATE.practice.wrongPool = [];
   }
   document.querySelectorAll('#nav button').forEach(b => {
@@ -4589,6 +4624,9 @@ function startPractice(drillMode = 'free', filter = null) {
     pool = QUESTION_BANK.filter(q => q.applicableLenses.includes(filter));
   } else if (drillMode === 'wrong') {
     pool = STATE.practice.wrongPool;
+  } else if (drillMode === 'single') {
+    const q = QUESTION_BANK.find(q => q.id === filter);
+    pool = q ? [q] : QUESTION_BANK;
   }
   if (!pool.length) pool = QUESTION_BANK;
   STATE.practice.queue = shuffle(pool.map(q => q.id));
@@ -4596,6 +4634,7 @@ function startPractice(drillMode = 'free', filter = null) {
   STATE.practice.drillMode = drillMode;
   STATE.practice.filterStandard = drillMode === 'standard' ? filter : null;
   STATE.practice.filterLens = drillMode === 'lens' ? filter : null;
+  STATE.practice.filterQuestion = drillMode === 'single' ? filter : null;
   STATE.practice.lensGuess = drillMode === 'lens' ? filter : null;
   STATE.practice.phase = drillMode === 'lens' ? 'answer' : 'lens-pick';
   STATE.practice.answerPick = null;
@@ -4645,14 +4684,19 @@ function nextPracticeQ() {
 
 function renderPracticeComplete() {
   showRail(false, false);
+  const isSingle = STATE.practice.drillMode === 'single';
+  const msg = isSingle
+    ? 'Question complete.'
+    : `You&rsquo;ve finished all ${STATE.practice.queue.length} question${STATE.practice.queue.length !== 1 ? 's' : ''} in this set.`;
+  const buttons = isSingle
+    ? `<button class="btn secondary" onclick="backToPracticeHome()">&larr; Practice Home</button>`
+    : `<button class="btn" onclick="startPractice();">Practice Again</button>
+       <button class="btn secondary" onclick="navigate('challenge')">Try Challenge Mode</button>`;
   main.innerHTML = `
     <div style="max-width:480px; margin: 40px auto; text-align:center;">
       <div class="section-title" style="text-align:center; border:none;">Practice Complete</div>
-      <p style="font-size:15px; margin: 16px 0 24px; color:var(--muted);">You&rsquo;ve finished all ${STATE.practice.queue.length} question${STATE.practice.queue.length !== 1 ? 's' : ''} in this set.</p>
-      <div class="btn-row" style="justify-content:center;">
-        <button class="btn" onclick="startPractice();">Practice Again</button>
-        <button class="btn secondary" onclick="navigate('challenge')">Try Challenge Mode</button>
-      </div>
+      <p style="font-size:15px; margin: 16px 0 24px; color:var(--muted);">${msg}</p>
+      <div class="btn-row" style="justify-content:center;">${buttons}</div>
     </div>
   `;
 }

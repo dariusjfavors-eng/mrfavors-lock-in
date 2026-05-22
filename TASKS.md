@@ -194,6 +194,46 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 
 ---
 
+## Session O — Question Picker (minimal pass) — ⬜ OPEN
+
+**Design concept:** Students who finish a Challenge and want to drill a specific missed question tap "Practice a question" on the Challenge results screen, see a flat list of all 72 questions (Q-number · standard · stem preview), pick one, work through the full Practice loop (lens-pick → walkthrough → answer → review), and return to Practice Home when done.
+
+*Why minimal: the primary use case is post-Challenge targeted remediation, which the results-screen entry point covers completely. Full scope deferred — see below.*
+
+**Work type:** Feature — UI + State
+**Modules touched:**
+- `STATE` — `practice` gains `filterQuestion: null | qid`
+- `UI_RENDER` — new `renderQuestionPicker()`; `renderChallengeResults()` (one new button); `renderPracticeComplete()` (single-mode route to Practice Home)
+- `UI_HANDLERS` — `startPractice('single', qid)` path (pool of one)
+- No `QUESTION_BANK` changes, no analytics changes, no new CSS classes required
+
+**Interface changes:**
+- Challenge results: "Practice a question" button → `renderQuestionPicker()`
+- `renderQuestionPicker()`: flat list of all 72 questions sorted by Q-number; each row: `Q01 · A.REI.3 · stem preview ~80 chars` (stem stripped of HTML); click → `startPractice('single', qid)`
+- `startPractice('single', qid)`: pool of one question; sets `STATE.practice.filterQuestion = qid`, `drillMode = 'single'`, `subView = 'active'`
+- `renderPracticeComplete()` in `drillMode === 'single'`: "← Practice Home" replaces "Start Over"; routes to `subView = 'home'`
+
+**Out of scope (this pass):**
+- Practice Home 4th entry-point card ("Pick a Question")
+- Back-to-picker routing after review (returns to Practice Home)
+- Per-standard grouping or search in the picker
+- Any changes to existing Practice modes or Challenge logic
+
+**Full scope (future session — Grill Me required):**
+- Practice Home 4th card
+- Back-to-picker routing: review complete → picker (requires `subView: 'question-picker'`)
+- Per-standard grouping or search filter in the flat list
+
+**Done when:**
+- "Practice a question" button visible on Challenge results screen
+- Flat list renders all 72 questions with Q-number, standard, and stem preview
+- Student picks one question → full lens-pick → walkthrough → answer → review loop runs
+- Review complete → "← Practice Home" returns to Practice Mode home screen
+- 72/72 `runPuzzleTests()` pass
+- No regression on existing Practice flows or Challenge mode
+
+---
+
 ## Open (priority order)
 
 ---

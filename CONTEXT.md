@@ -45,7 +45,7 @@ LENSES            → 10 static strategy objects; keystrokes, example, standards
 STANDARD_CLUSTERS → 11 cluster objects mapping human-readable labels to standard code arrays
 QUESTION_BANK     → question objects; choices use label:'1'–'4', correctAnswer:'1'–'4'
 ANALYTICS         → anonymous FAVORit schema; reads Worker URL from localStorage('favoritWorkerUrl') — URL never in committed code
-STATE             → UI state machine: view, selectedLensId, practice{subView,drillMode,filterStandard,filterLens,wrongPool,...}, challenge{attemptCount,questionStartTime,...}
+STATE             → UI state machine: view, selectedLensId, practice{subView,drillMode,filterStandard,filterLens,filterQuestion,wrongPool,...}, challenge{attemptCount,questionStartTime,...}
 UI_RENDER         → all view renderers including practice sub-views (see Screen Flow)
 UI_HANDLERS       → navigate(), selectLens(), practice handlers, challenge + timer handlers, CSV download
 INIT              → nav wiring, session-id footer, boot ANALYTICS.log
@@ -62,6 +62,8 @@ home → practice (subView='home') →
 home → challenge:
   start screen → startChallenge() → sampleChallenge(attemptCount) draws 24 Qs
     → [question + 90s timer] × 24 → renderChallengeResults() → auto-downloads CSV → home
+  renderChallengeResults() → "Practice a question" → renderQuestionPicker()
+    → pick Q → startPractice('single', qid) → [lens-pick → walkthrough → answer → review] → Practice Home
 ```
 
 ### Key Functions
@@ -81,6 +83,8 @@ home → challenge:
 | `generateCSV()` | Builds CSV string from `STATE.challenge.answers` (9 columns) |
 | `downloadCSV()` | Creates Blob URL, triggers `<a>` click, cleans up — auto-called 400ms after `renderChallengeResults()` |
 | `startWrongAnswerDrill()` | Reads `STATE.challenge.answers`, builds `STATE.practice.wrongPool` from missed questions, sets `STATE.view='practice'`, calls `startPractice('wrong')` |
+| `renderQuestionPicker()` | Flat list of all 72 questions sorted by Q-number; each row: Q-number · standard · stem preview (~80 chars, HTML-stripped); click → `startPractice('single', qid)` |
+| `startPractice('single', qid)` | Builds pool of one question; sets `STATE.practice.filterQuestion = qid`, `drillMode = 'single'`, `subView = 'active'`; on review complete → Practice Home |
 | `ANALYTICS.log(type, payload)` | Pushes to `ANALYTICS.events[]`, console, and fires POST to hardcoded Apps Script endpoint (private repo — URL committed). `localStorage('favoritWorkerUrl')` overrides if set. Events: `boot`, `view_change`, `lens_view`, `lens_pick`, `mc_attempt`, `challenge_attempt`, `challenge_complete`. `mc_attempt` + `challenge_attempt` carry: `qid`, `standard`, `stem`, `picked_choice`, `picked_text`, `correct_answer`, `correct_text`, `correct`, `best_lens`, `best_lens_name`. `challenge_complete` carries: `total`, `correct`, `score_pct`. |
 | `showRail(visible, showHint)` | Shows/hides `#persistent-rail`; optionally hides `#lens-hint-card`. `true/true` in practice active, `true/false` on active challenge question, `false/false` everywhere else |
 
