@@ -1,6 +1,20 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-22 (Session P — August 2025 Regents Q73–Q96 added)
+Last updated: 2026-05-22 (Session P — non-bestLens examples added to all 96 questions)
+
+---
+
+## Session P — Non-bestLens Examples (all 96 questions) ✅ COMPLETE 2026-05-22
+
+**Design concept:** Add at least one alternate-lens `examples` entry to every question so students who pick a non-bestLens can still see a parallel example for that strategy.
+
+**Modules touched:** `QUESTION_BANK` only
+
+**Interface changes:** Each question's `examples` block gains ≥1 additional `lensId: [...steps]` entry beyond the bestLens entry that already existed.
+
+**Out of scope:** bestLens examples for Q73–Q96 (those questions only have non-bestLens entries; bestLens pass deferred), UI changes, new lenses
+
+**Done when:** ✅ 96/96 runPuzzleTests() pass; deployed to mrfavors-lock-in
 
 ---
 
@@ -20,7 +34,7 @@ Last updated: 2026-05-22 (Session P — August 2025 Regents Q73–Q96 added)
 
 **Done when:** ✅ 96/96 runPuzzleTests() pass
 
-**Open next:** Add `examples` entries for Q73–Q96 (second content pass); deploy to mrfavors-lock-in
+**Open next (deferred):** bestLens `examples` entries for Q73–Q96 (parallel walkthrough pass — same-standard setup question, ends with "?")
 
 ---
 
