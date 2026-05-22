@@ -194,7 +194,7 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 
 ---
 
-## Session O — Question Picker (minimal pass) — ⬜ OPEN
+## Session O — Question Picker (minimal pass) — ✅ COMPLETE 2026-05-22
 
 **Design concept:** Students who finish a Challenge and want to drill a specific missed question tap "Practice a question" on the Challenge results screen, see a flat list of all 72 questions (Q-number · standard · stem preview), pick one, work through the full Practice loop (lens-pick → walkthrough → answer → review), and return to Practice Home when done.
 
