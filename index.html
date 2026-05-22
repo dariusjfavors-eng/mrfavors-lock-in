@@ -3944,6 +3944,856 @@ const QUESTION_BANK = [
       ]
     },
     errorTags: ['axis_symmetry_formula', 'misreads_graph_vertex', 'ignores_table_symmetry']
+  },
+  {
+    id: 'Q73',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 1,
+    standard: 'A.SSE.2',
+    stem: 'Which expression is equivalent to 100x^{2} − 16?',
+    choices: [
+      { label: '1', text: '(50x − 8)(50x + 8)' },
+      { label: '2', text: '(50x − 8)^{2}' },
+      { label: '3', text: '(10x − 4)(10x + 4)' },
+      { label: '4', text: '(10x − 4)^{2}' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [3, 10],
+    bestLens: 3,
+    walkthroughs: {
+      3: [
+        'Enter 100x^{2} − 16 into Y1. Enter choice (1) into Y2. Press 2nd+GRAPH to compare tables.',
+        'Check each MC option in Y2 until the table matches Y1 exactly.',
+        '(10x − 4)(10x + 4) = 100x^{2} − 16 (difference of squares). Tables match ✓.',
+        'Answer: (3) (10x − 4)(10x + 4)'
+      ],
+      10: [
+        'Factor 100x^{2} − 16: pull out GCF first → 4(25x^{2} − 4).',
+        'Difference of squares: 25x^{2} − 4 = (5x − 2)(5x + 2), so 4(5x−2)(5x+2).',
+        'Check which choice equals this: (10x−4)(10x+4) = 4(5x−2)·4... no — expand directly: (10x−4)(10x+4) = 100x^{2} − 16 ✓.',
+        'Trap: (50x−8)² gives 2500x^{2} term — too large. Eliminate (1),(2),(4). Answer: (3)'
+      ]
+    },
+    examples: {
+      3: [
+        'Consider the expression 9x^{2} − 25.',
+        'Enter 9x^{2} − 25 into Y1. Try each factor pair in Y2 and compare tables.',
+        'Which factored form makes the tables identical?'
+      ]
+    },
+    errorTags: ['wrong_factor_pairs', 'ignores_coefficient_check']
+  },
+  {
+    id: 'Q74',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 2,
+    standard: 'A.CED.1',
+    stem: 'Josie has $2.30 in dimes and quarters. She has two more dimes than quarters. Which equation below can be used to determine x, the number of quarters she has?',
+    choices: [
+      { label: '1', text: '0.35(2x + 2) = 2.30' },
+      { label: '2', text: '0.25(x + 2) + 0.10x = 2.30' },
+      { label: '3', text: '0.25x + 0.10(x + 2) = 2.30' },
+      { label: '4', text: '0.25x + 0.10(x − 2) = 2.30' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [9],
+    bestLens: 9,
+    walkthroughs: {
+      9: [
+        'x = number of quarters. Two MORE dimes than quarters → dimes = x + 2.',
+        'Quarter value: 0.25x. Dime value: 0.10(x + 2).',
+        'Total must equal $2.30: 0.25x + 0.10(x + 2) = 2.30.',
+        'Trap (2): reverses coins — treats quarters as x+2. Trap (4): subtracts 2 instead of adding. Answer: (3)'
+      ]
+    },
+    examples: {
+      9: [
+        'Marcus has nickels and dimes. He has three more dimes than nickels. Let n = number of nickels.',
+        'Identify the value of each coin type and how many of each he has.',
+        'Which expression represents the total value of his coins?'
+      ]
+    },
+    errorTags: ['reverses_coin_assignment', 'wrong_sign_on_difference']
+  },
+  {
+    id: 'Q75',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 3,
+    standard: 'F.IF.2',
+    stem: 'If g(x) = −2x^{2} + 16, then g(−3) equals',
+    choices: [
+      { label: '1', text: '−20' },
+      { label: '2', text: '−2' },
+      { label: '3', text: '34' },
+      { label: '4', text: '52' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [3, 4],
+    bestLens: 4,
+    walkthroughs: {
+      4: [
+        'Enter g(x) = −2x^{2} + 16 into Y=. Press 2nd+GRAPH to open the table.',
+        'Scroll to x = −3 and read the y-value directly from the table.',
+        'g(−3) = −2(−3)^{2} + 16 = −2(9) + 16 = −18 + 16 = −2.',
+        'Answer: (2) −2'
+      ],
+      3: [
+        'Substitute x = −3: g(−3) = −2(−3)^{2} + 16.',
+        '(−3)^{2} = 9 (squaring makes it positive). Then −2(9) = −18.',
+        '−18 + 16 = −2. Trap: forgetting to square before multiplying gives −2(−3) + 16 = 22.',
+        'Answer: (2) −2'
+      ]
+    },
+    examples: {
+      4: [
+        'Let f(x) = −x^{2} + 10. Enter it into Y= and open the table.',
+        'Find the y-value when x = −2.',
+        'What is f(−2)?'
+      ]
+    },
+    errorTags: ['squares_negative_incorrectly', 'drops_negative_on_coefficient']
+  },
+  {
+    id: 'Q76',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 4,
+    standard: 'A.REI.4',
+    stem: 'What are the zeros of f(x) = x^{2} − 8x − 20?',
+    choices: [
+      { label: '1', text: '10 and 2' },
+      { label: '2', text: '10 and −2' },
+      { label: '3', text: '−10 and 2' },
+      { label: '4', text: '−10 and −12' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [2, 3],
+    bestLens: 2,
+    walkthroughs: {
+      2: [
+        'Enter f(x) = x^{2} − 8x − 20 into Y1. Press 2nd+TRACE → Zero.',
+        'Set left/right bounds around each zero and guess. Repeat for the second zero.',
+        'Zeros at x = 10 and x = −2. (Check: (10−10)(10+2) = 0 ✓, (−2−10)(−2+2) = 0 ✓)',
+        'Answer: (2) 10 and −2'
+      ],
+      3: [
+        'Factor x^{2} − 8x − 20: find two numbers that multiply to −20 and add to −8.',
+        '10 × (−2) = −20 and 10 + (−2) = 8... try: (−10)(2) = −20, −10+2 = −8 ✓.',
+        'So f(x) = (x − 10)(x + 2) = 0 → x = 10 or x = −2.',
+        'Answer: (2) 10 and −2'
+      ]
+    },
+    examples: {
+      2: [
+        'Graph f(x) = x^{2} − 6x − 16 in Y1.',
+        'Use 2nd+TRACE → Zero to locate both x-intercepts.',
+        'What are the two zeros of this function?'
+      ]
+    },
+    errorTags: ['sign_error_on_second_zero', 'wrong_factor_pair']
+  },
+  {
+    id: 'Q77',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 5,
+    standard: 'F.IF.2',
+    stem: 'Which point lies on the graph of y = 3x^{2} − \frac{1}{4}x + 3?',
+    choices: [
+      { label: '1', text: '(−2, 15.5)' },
+      { label: '2', text: '(−1, 5.75)' },
+      { label: '3', text: '(1, 6.25)' },
+      { label: '4', text: '(2, 15.5)' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [3, 4],
+    bestLens: 3,
+    walkthroughs: {
+      3: [
+        'Enter y = 3x^{2} − \frac{1}{4}x + 3 into Y=. Press 2nd+GRAPH (table).',
+        'Check each MC point: look for the x-value in the table, read its y-value.',
+        'At x = −2: y = 3(4) − \frac{1}{4}(−2) + 3 = 12 + 0.5 + 3 = 15.5 ✓.',
+        'Answer: (1) (−2, 15.5)'
+      ],
+      4: [
+        'Enter the equation into Y=. Press 2nd+GRAPH. Scroll to x = −2.',
+        'Table shows y = 15.5. Check that (−2, 15.5) matches choice (1).',
+        'Trap: x = 2 gives y = 3(4) − 0.5 + 3 = 14.5 ≠ 15.5 — choice (4) is false.',
+        'Answer: (1) (−2, 15.5)'
+      ]
+    },
+    examples: {
+      3: [
+        'Enter y = 2x^{2} − x + 1 into Y= and open the table.',
+        'Find the y-value at x = −1, x = 0, and x = 1.',
+        'Which of these (x, y) pairs lies on the graph?'
+      ]
+    },
+    errorTags: ['plugs_in_wrong_x', 'fraction_coefficient_error']
+  },
+  {
+    id: 'Q78',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 6,
+    standard: 'A.REI.11',
+    stem: 'Given f(x) = x^{2} and g(x) = 8x − 15, graphed on the same set of axes, which value(s) of x will make f(x) = g(x)?',
+    choices: [
+      { label: '1', text: '3, only' },
+      { label: '2', text: '5, only' },
+      { label: '3', text: '3 and 5' },
+      { label: '4', text: '9 and 25' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [1, 2],
+    bestLens: 1,
+    walkthroughs: {
+      1: [
+        'Enter x^{2} into Y1 and 8x − 15 into Y2. Press 2nd+TRACE → 5:Intersect.',
+        'Find both intersection points. The x-coordinates are the solutions.',
+        'Intersections at x = 3 (y = 9) and x = 5 (y = 25).',
+        'Trap (4): those are the y-values at the intersections, not x-values. Answer: (3) 3 and 5'
+      ],
+      2: [
+        'Set f(x) = g(x): x^{2} = 8x − 15 → x^{2} − 8x + 15 = 0.',
+        'Factor: (x − 3)(x − 5) = 0 → x = 3 or x = 5.',
+        'Two solutions, so eliminate choices (1) and (2). Trap (4): 9 and 25 are y-values. Answer: (3) 3 and 5'
+      ]
+    },
+    examples: {
+      1: [
+        'Enter f(x) = x^{2} into Y1 and g(x) = 2x + 3 into Y2.',
+        'Use 2nd+TRACE → Intersect to find where the two graphs cross.',
+        'At what x-value(s) does f(x) = g(x)?'
+      ]
+    },
+    errorTags: ['reports_y_instead_of_x', 'finds_only_one_intersection']
+  },
+  {
+    id: 'Q79',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 7,
+    standard: 'A.APR.1',
+    stem: 'Which trinomial is written in standard form and has a constant term of 5?',
+    choices: [
+      { label: '1', text: 'x − 4x^{2} + 10' },
+      { label: '2', text: '2x^{2} + 6x − 5' },
+      { label: '3', text: '5x − 3x^{2} + 1' },
+      { label: '4', text: '4x^{5} − 8x^{2} + 5' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [10],
+    bestLens: 10,
+    walkthroughs: {
+      10: [
+        'Standard form = descending exponents. Constant term = the term with no variable.',
+        'Eliminate (1): x − 4x^{2} + 10 — exponents go 1, 2, 0 (ascending, not standard). Constant = 10 ≠ 5.',
+        'Eliminate (3): 5x − 3x^{2} + 1 — ascending exponents and constant = 1 ≠ 5.',
+        'Eliminate (2): constant = −5 ≠ 5. Only (4): 4x^{5} − 8x^{2} + 5 is descending with constant 5. Answer: (4)'
+      ]
+    },
+    examples: {
+      10: [
+        'Three expressions: 3x + x^{3} − 2, x^{2} − 5x + 7, 4 − x + x^{2}.',
+        'Check each: are the exponents in descending order? What is the constant term?',
+        'Which expression is written in standard form with a constant term of 7?'
+      ]
+    },
+    errorTags: ['confuses_standard_form_order', 'misidentifies_constant_term']
+  },
+  {
+    id: 'Q80',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 8,
+    standard: 'A.REI.1',
+    stem: 'When solving x^{2} + 6x = 8 for x, a student wrote x^{2} + 6x − 8 = 0 as their first step. Which property justifies this step?',
+    choices: [
+      { label: '1', text: 'associative property of addition' },
+      { label: '2', text: 'commutative property of addition' },
+      { label: '3', text: 'zero product property' },
+      { label: '4', text: 'addition property of equality' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [10],
+    bestLens: 10,
+    walkthroughs: {
+      10: [
+        'The student subtracted 8 from both sides: x^{2}+6x = 8 → x^{2}+6x−8 = 0.',
+        'Adding (or subtracting) the same value to both sides keeps the equation balanced.',
+        'Eliminate (1)/(2): those involve reordering/regrouping, not adding to both sides.',
+        'Eliminate (3): zero product property applies after factoring, not here. Answer: (4) addition property of equality'
+      ]
+    },
+    examples: {
+      10: [
+        'A student solving 3x + 7 = 13 writes 3x = 6 as their next step.',
+        'They subtracted 7 from both sides to maintain the balance of the equation.',
+        'Which property of equality justifies subtracting 7 from both sides?'
+      ]
+    },
+    errorTags: ['confuses_equality_properties', 'misapplies_zero_product_property']
+  },
+  {
+    id: 'Q81',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 9,
+    standard: 'F.LE.1',
+    stem: 'The tables below show the input and output values of four different functions. Which table represents a linear function?',
+    choices: [
+      { label: '1', text: svgTable(['x', 'f(x)'], [['−2','6'],['−1','1'],['0','−2'],['1','−3'],['2','−2'],['3','1']]) },
+      { label: '2', text: svgTable(['x', 'g(x)'], [['−4','3'],['−3','2'],['−2','1'],['−1','0'],['0','1'],['1','2']]) },
+      { label: '3', text: svgTable(['x', 'h(x)'], [['0','32'],['1','16'],['2','8'],['3','4'],['4','2'],['5','1']]) },
+      { label: '4', text: svgTable(['x', 'j(x)'], [['−3','−11'],['−2','−7'],['−1','−3'],['0','1'],['1','5'],['2','9']]) }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [9, 4],
+    bestLens: 9,
+    walkthroughs: {
+      9: [
+        'Linear function: constant first difference (Δy constant). Quadratic: constant second difference. Exponential: constant ratio.',
+        'Table (1) f(x): differences are −5, −3, −1, +1, +3 — not constant. Second differences = +2, +2 → quadratic.',
+        'Table (2) g(x): differences are −1, −1, +1, +1, +1 — not constant. Quadratic pattern.',
+        'Table (3) h(x): ratios are 1/2, 1/2, 1/2 — constant ratio → exponential decay.',
+        'Table (4) j(x): differences are +4, +4, +4 → constant → linear. Answer: (4)'
+      ],
+      4: [
+        'Check differences between consecutive outputs for each table.',
+        'j(x): −7−(−11)=4, −3−(−7)=4, 1−(−3)=4, 5−1=4, 9−5=4 — constant difference +4.',
+        'Constant first difference → linear. Answer: (4) j(x)'
+      ]
+    },
+    examples: {
+      9: [
+        'A table shows x: 0,1,2,3 and y: 5, 10, 20, 40.',
+        'Check differences: 5, 10, 20 — not constant. Check ratios: 2, 2, 2 — constant.',
+        'Is this function linear, quadratic, or exponential?'
+      ]
+    },
+    errorTags: ['confuses_first_and_second_differences', 'confuses_ratio_with_difference']
+  },
+  {
+    id: 'Q82',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 10,
+    standard: 'A.REI.4',
+    stem: 'What is the solution set of the equation 3x^{2} = 24x?',
+    choices: [
+      { label: '1', text: '{8}' },
+      { label: '2', text: '{0, 8}' },
+      { label: '3', text: '{0, −8}' },
+      { label: '4', text: '{0, 3, −8}' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [1, 2],
+    bestLens: 1,
+    walkthroughs: {
+      1: [
+        'Enter 3x^{2} into Y1 and 24x into Y2. Press 2nd+TRACE → Intersect.',
+        'Find both intersection points. Expect 2 solutions (quadratic = line has at most 2 intersections).',
+        'Intersections at x = 0 and x = 8. Eliminate choices with 1 or 3 answers.',
+        'Answer: (2) {0, 8}'
+      ],
+      2: [
+        '3x^{2} = 24x → 3x^{2} − 24x = 0 → 3x(x − 8) = 0.',
+        'Zero product: 3x = 0 → x = 0, or x − 8 = 0 → x = 8.',
+        'Trap (1): {8} only — student divided both sides by x and lost the x = 0 solution.',
+        'Answer: (2) {0, 8}'
+      ]
+    },
+    examples: {
+      2: [
+        'Solve 2x^{2} = 10x. Factor out the GCF from both terms.',
+        'Set each factor equal to zero and solve.',
+        'What is the solution set? (Hint: do not divide both sides by x.)'
+      ]
+    },
+    errorTags: ['divides_by_variable_loses_zero', 'wrong_sign_on_second_solution']
+  },
+  {
+    id: 'Q83',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 11,
+    standard: 'F.IF.6',
+    stem: 'The table below shows the radioactivity level of a substance after the given time, t, in seconds. What is the average rate of change in radioactivity level over the interval 1 ≤ t ≤ 3?',
+    choices: [
+      { label: '1', text: '3.75' },
+      { label: '2', text: '−3.75' },
+      { label: '3', text: '4.6875' },
+      { label: '4', text: '−4.6875' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [9],
+    bestLens: 9,
+    walkthroughs: {
+      9: [
+        'Average rate of change = (y₂ − y₁) / (x₂ − x₁). Use the interval endpoints t = 1 and t = 3.',
+        'From the table: at t = 1, level = 10; at t = 3, level = 2.5.',
+        'Rate = (2.5 − 10) / (3 − 1) = −7.5 / 2 = −3.75.',
+        'Negative because the level is decreasing. Answer: (2) −3.75'
+      ]
+    },
+    examples: {
+      9: [
+        'A table shows time t (sec) and temperature T (°F): t=2 → 80°, t=6 → 60°.',
+        'Average rate of change = (T₂ − T₁) / (t₂ − t₁).',
+        'What is the average rate of change of temperature over the interval 2 ≤ t ≤ 6?'
+      ]
+    },
+    errorTags: ['wrong_interval_endpoints', 'drops_negative_sign_on_rate']
+  },
+  {
+    id: 'Q84',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 12,
+    standard: 'S.ID.6',
+    stem: 'Fred recorded the number of minutes he read each day, from Monday through Friday. His results are shown in the table below. What is the correlation coefficient, to the nearest thousandth, and strength of the linear model of these data?',
+    choices: [
+      { label: '1', text: '0.984 and strong' },
+      { label: '2', text: '0.968 and strong' },
+      { label: '3', text: '0.984 and weak' },
+      { label: '4', text: '0.968 and weak' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [4],
+    bestLens: 4,
+    walkthroughs: {
+      4: [
+        'Press 2nd+0 → DiagnosticOn → Enter (turns on correlation display).',
+        'STAT → Edit: enter days (1–5) in L1, minutes (12,16,19,27,29) in L2.',
+        'STAT → CALC → LinReg(ax+b) → Calculate. Read r (not r²).',
+        'r ≈ 0.984. Closer to 1 → strong positive correlation. Answer: (1) 0.984 and strong'
+      ]
+    },
+    examples: {
+      4: [
+        'Enter x-values 1,2,3,4,5 into L1 and y-values 3,7,10,14,18 into L2.',
+        'Run STAT → CALC → LinReg and read the r-value.',
+        'Is the correlation strong or weak? Positive or negative?'
+      ]
+    },
+    errorTags: ['reads_r_squared_instead_of_r', 'misidentifies_correlation_strength']
+  },
+  {
+    id: 'Q85',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 13,
+    standard: 'F.BF.3',
+    stem: 'Given f(x) = x^{2}, which function will shift f(x) to the left 3 units?',
+    choices: [
+      { label: '1', text: 'g(x) = x^{2} + 3' },
+      { label: '2', text: 'h(x) = x^{2} − 3' },
+      { label: '3', text: 'j(x) = (x − 3)^{2}' },
+      { label: '4', text: 'k(x) = (x + 3)^{2}' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [3, 9],
+    bestLens: 9,
+    walkthroughs: {
+      9: [
+        'Horizontal shift left → replace x with (x + c). Shift LEFT 3: f(x+3) = (x+3)^{2}.',
+        'Trap (3): (x−3)^{2} shifts RIGHT 3, not left. The sign inside the parenthesis is counterintuitive.',
+        'Eliminate (1)/(2): adding/subtracting outside shifts vertically, not horizontally.',
+        'Answer: (4) k(x) = (x + 3)^{2}'
+      ],
+      3: [
+        'Enter f(x) = x^{2} in Y1. Enter each MC option in Y2. Press GRAPH.',
+        'Left shift means the parabola moves left — vertex should be at x = −3.',
+        'Check Y2 = (x+3)^{2}: vertex at x = −3 ✓. Tables confirm shift.',
+        'Answer: (4) k(x) = (x + 3)^{2}'
+      ]
+    },
+    examples: {
+      9: [
+        'f(x) = x^{2} has its vertex at the origin.',
+        'A right shift of 4 units gives (x − 4)^{2}. A left shift of 4 units gives (x + 4)^{2}.',
+        'Which direction does the parabola move when we replace x with (x + 2)?'
+      ]
+    },
+    errorTags: ['reverses_horizontal_shift_direction', 'confuses_horizontal_and_vertical_shift']
+  },
+  {
+    id: 'Q86',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 14,
+    standard: 'S.ID.2',
+    stem: 'A class of 20 students was surveyed to determine the number of pets each student owned. The data are represented in the dot plot below. Which statement about the data is correct?',
+    choices: [
+      { label: '1', text: 'The mean and the median are the same.' },
+      { label: '2', text: 'The median and the mode are the same.' },
+      { label: '3', text: 'The mean and the mode are the same.' },
+      { label: '4', text: 'The mean, median, and mode are all the same.' }
+    ],
+    correctAnswer: '2',
+    applicableLenses: [4],
+    bestLens: 4,
+    walkthroughs: {
+      4: [
+        'STAT → Edit: enter all pet values from the dot plot into L1.',
+        'STAT → CALC → 1-Var Stats → Calculate. Read x̄ (mean) and Med (median).',
+        'From the data: mean ≈ 2.5, median = 2, mode = 2 (appears most often).',
+        'Median = Mode = 2, but mean ≠ 2. Answer: (2) The median and the mode are the same.'
+      ]
+    },
+    examples: {
+      4: [
+        'A dot plot shows values: 1,1,2,2,2,3,4,5.',
+        'Enter the data into L1. Run 1-Var Stats to find the mean and median.',
+        'What is the mode? Which measures of center are equal?'
+      ]
+    },
+    errorTags: ['confuses_mean_median_mode', 'misreads_dot_plot']
+  },
+  {
+    id: 'Q87',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 15,
+    standard: 'F.IF.4',
+    stem: 'The range of f(x) = |x + 2| − 5 is',
+    choices: [
+      { label: '1', text: 'y ≥ −5' },
+      { label: '2', text: 'y ≥ 2' },
+      { label: '3', text: 'x ≥ −5' },
+      { label: '4', text: 'x ≥ 2' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [8, 3],
+    bestLens: 8,
+    walkthroughs: {
+      8: [
+        'Enter f(x) = |x + 2| − 5 into Y=. Press GRAPH. Identify the lowest y-value.',
+        'The absolute value is always ≥ 0, so the minimum of f(x) is −5 (when x = −2).',
+        'Range describes y-values. Eliminate (3) and (4): those use x, not y.',
+        'Lowest y = −5, and f(x) goes up from there. Answer: (1) y ≥ −5'
+      ],
+      3: [
+        'Absolute value minimum is 0, so f(x) minimum = 0 + (−5) = −5.',
+        'The graph is a V-shape with vertex at (−2, −5). Range = all y ≥ −5.',
+        'Traps (3),(4) use x instead of y — range uses y-values only.',
+        'Answer: (1) y ≥ −5'
+      ]
+    },
+    examples: {
+      8: [
+        'Graph f(x) = |x − 1| + 3 in Y=.',
+        'Find the vertex (lowest point) of the V-shape.',
+        'What is the range of this function?'
+      ]
+    },
+    errorTags: ['uses_x_instead_of_y_for_range', 'wrong_vertex_value']
+  },
+  {
+    id: 'Q88',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 16,
+    standard: 'N.RN.2',
+    stem: 'Which equation is always correct?',
+    choices: [
+      { label: '1', text: 'a^{3} · a^{4} = a^{12}' },
+      { label: '2', text: '(ab)^{3} = ab^{3}' },
+      { label: '3', text: '(a^{4})^{x} = a^{4+x}' },
+      { label: '4', text: 'a^{b} · a^{x} = a^{b+x}' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [10, 3],
+    bestLens: 10,
+    walkthroughs: {
+      10: [
+        'Exponent rules: multiply same base → ADD exponents. Power of a power → MULTIPLY exponents.',
+        'Eliminate (1): a^{3}·a^{4} = a^{3+4} = a^{7} ≠ a^{12}.',
+        'Eliminate (2): (ab)^{3} = a^{3}b^{3} ≠ ab^{3} (exponent applies to BOTH factors).',
+        'Eliminate (3): (a^{4})^{x} = a^{4x} ≠ a^{4+x}. Only (4): a^{b}·a^{x} = a^{b+x} ✓. Answer: (4)'
+      ],
+      3: [
+        'Plug in a=2, b=3, x=2. Check each choice numerically.',
+        '(1): 2^{3}·2^{4} = 8·16 = 128, but 2^{12} = 4096 ✗.',
+        '(4): 2^{3}·2^{2} = 8·4 = 32 = 2^{5} = 2^{3+2} ✓.',
+        'Answer: (4) a^{b}·a^{x} = a^{b+x}'
+      ]
+    },
+    examples: {
+      10: [
+        'Which is correct: x^{2}·x^{3} = x^{6} or x^{2}·x^{3} = x^{5}?',
+        'When multiplying same-base exponentials, add the exponents.',
+        'Test with x=2: 4·8 = 32 = 2^{5}. Which rule gives x^{5}?'
+      ]
+    },
+    errorTags: ['multiplies_instead_of_adds_exponents', 'misapplies_power_of_product_rule']
+  },
+  {
+    id: 'Q89',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 17,
+    standard: 'A.CED.4',
+    stem: 'The formula for the area of a trapezoid is A = \frac{1}{2}h(b_1 + b_2). The height, h, of the trapezoid may be expressed as',
+    choices: [
+      { label: '1', text: '\frac{2A}{b_1 + b_2}' },
+      { label: '2', text: 'A(b_1 + b_2)' },
+      { label: '3', text: '\frac{b_1 + b_2}{2A}' },
+      { label: '4', text: 'A − (b_1 + b_2)' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9],
+    bestLens: 9,
+    walkthroughs: {
+      9: [
+        'Isolate h using SADMEP (reverse order of operations).',
+        'A = \frac{1}{2}h(b_1+b_2). Multiply both sides by 2: 2A = h(b_1+b_2).',
+        'Divide both sides by (b_1+b_2): h = \frac{2A}{b_1+b_2}.',
+        'Answer: (1) \frac{2A}{b_1+b_2}'
+      ]
+    },
+    examples: {
+      9: [
+        'The formula d = rt relates distance, rate, and time.',
+        'Isolate r by using inverse operations: divide both sides by t.',
+        'What does r equal in terms of d and t?'
+      ]
+    },
+    errorTags: ['wrong_inverse_operation_order', 'fails_to_multiply_by_2_first']
+  },
+  {
+    id: 'Q90',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 18,
+    standard: 'F.IF.2',
+    stem: `Three functions are given below. f(x) = −|x + 2| + 7, g(x) = (x − 3)^{2} − 4, and h(x) shown in the table:${svgTable(['x','h(x)'],[['−4','5'],['−3','0'],['−2','−3'],['−1','−4'],['0','−3'],['1','0'],['2','5']])} Which functions have the same y-intercept?`,
+    choices: [
+      { label: '1', text: 'f(x) and g(x)' },
+      { label: '2', text: 'g(x) and h(x)' },
+      { label: '3', text: 'f(x) and h(x)' },
+      { label: '4', text: 'The functions all have different y-intercepts.' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [4, 3],
+    bestLens: 4,
+    walkthroughs: {
+      4: [
+        'Y-intercept: substitute x = 0 into each function.',
+        'f(0) = −|0 + 2| + 7 = −2 + 7 = 5. g(0) = (0 − 3)^{2} − 4 = 9 − 4 = 5.',
+        'h(0) = −3 (read directly from the table at x = 0).',
+        'f and g both have y-intercept = 5. h has y-intercept = −3. Answer: (1) f(x) and g(x)'
+      ],
+      3: [
+        'Enter f(x) = −|x + 2| + 7 into Y1, g(x) = (x − 3)^{2} − 4 into Y2.',
+        'Press 2nd+GRAPH. At x = 0: Y1 = 5, Y2 = 5. Both share y-intercept = 5.',
+        'Table shows h(0) = −3 ≠ 5. Eliminate (2), (3), (4). Answer: (1) f(x) and g(x)'
+      ]
+    },
+    examples: {
+      3: [
+        'Find the y-intercepts of f(x) = −2|x − 1| + 4 and g(x) = (x + 1)^{2} − 3.',
+        'Substitute x = 0 into each. Compare the results.',
+        'Do these two functions share the same y-intercept?'
+      ]
+    },
+    errorTags: ['skips_evaluating_at_x_equals_zero', 'misreads_table_y_intercept']
+  },
+  {
+    id: 'Q91',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 19,
+    standard: 'A.APR.1',
+    stem: 'What is the sum of (x + 7)^{2} and (x − 3)^{2}?',
+    choices: [
+      { label: '1', text: '2x^{2} + 58' },
+      { label: '2', text: '2x + 58' },
+      { label: '3', text: '2x^{2} + 8x + 58' },
+      { label: '4', text: '2x^{4} + 8x^{2} + 58' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [3, 9],
+    bestLens: 3,
+    walkthroughs: {
+      3: [
+        'Enter (x+7)^{2} + (x−3)^{2} into Y1. Press 2nd+GRAPH and check values.',
+        'At x = 0: 49 + 9 = 58. At x = 1: 64 + 4 = 68. Test choices at these x-values.',
+        'Choice (3): 2(1)^{2}+8(1)+58 = 68 ✓. Choice (1): 2(1)+58 = 60 ✗.',
+        'Answer: (3) 2x^{2} + 8x + 58'
+      ],
+      9: [
+        'Expand (x+7)^{2} = x^{2}+14x+49 and (x−3)^{2} = x^{2}−6x+9.',
+        'Add: 2x^{2} + (14−6)x + (49+9) = 2x^{2} + 8x + 58.',
+        'Trap (1): missing the 8x term. Trap (4): wrong — squaring sums doesn\'t give x^{4}.',
+        'Answer: (3) 2x^{2} + 8x + 58'
+      ]
+    },
+    examples: {
+      9: [
+        'Expand (x+2)^{2} = x^{2}+4x+4 and (x−1)^{2} = x^{2}−2x+1.',
+        'Add the two expanded forms by combining like terms.',
+        'What is the simplified sum?'
+      ]
+    },
+    errorTags: ['forgets_middle_term_when_squaring', 'drops_x_squared_term']
+  },
+  {
+    id: 'Q92',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 20,
+    standard: 'N.RN.2',
+    stem: 'What is the product of 2\sqrt{10} and 3\sqrt{2}?',
+    choices: [
+      { label: '1', text: '12\sqrt{5}' },
+      { label: '2', text: '5\sqrt{20}' },
+      { label: '3', text: '24\sqrt{5}' },
+      { label: '4', text: '5\sqrt{12}' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [3, 9],
+    bestLens: 3,
+    walkthroughs: {
+      3: [
+        'Compute 2\sqrt{10} × 3\sqrt{2} on the calculator: 2(10)^{0.5} × 3(2)^{0.5} ≈ 26.83.',
+        'Test each choice: 12\sqrt{5} ≈ 26.83 ✓. Choice (2): 5\sqrt{20} ≈ 22.36 ✗.',
+        'Choice (3): 24\sqrt{5} ≈ 53.67 ✗. Choice (4): 5\sqrt{12} ≈ 17.32 ✗.',
+        'Answer: (1) 12\sqrt{5}'
+      ],
+      9: [
+        'Multiply coefficients: 2 × 3 = 6. Multiply radicands: \sqrt{10} × \sqrt{2} = \sqrt{20}.',
+        'Simplify \sqrt{20} = \sqrt{4·5} = 2\sqrt{5}.',
+        '6 × 2\sqrt{5} = 12\sqrt{5}.',
+        'Answer: (1) 12\sqrt{5}'
+      ]
+    },
+    examples: {
+      9: [
+        'Simplify 3\sqrt{6} × 2\sqrt{6}.',
+        'Multiply coefficients, then multiply radicands. Simplify the result.',
+        'What is the simplified product?'
+      ]
+    },
+    errorTags: ['adds_coefficients_instead_of_multiplying', 'fails_to_simplify_radical']
+  },
+  {
+    id: 'Q93',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 21,
+    standard: 'A.APR.1',
+    stem: 'When 6x^{3} − 2x + 8 is subtracted from 5x^{3} + 3x − 4, the result is',
+    choices: [
+      { label: '1', text: '−x^{3} − 5x + 12' },
+      { label: '2', text: '11x^{3} + x + 4' },
+      { label: '3', text: '−x^{3} + 5x − 12' },
+      { label: '4', text: '−x^{3} + x + 4' }
+    ],
+    correctAnswer: '3',
+    applicableLenses: [3, 9],
+    bestLens: 3,
+    walkthroughs: {
+      3: [
+        'Enter (5x^{3}+3x−4) − (6x^{3}−2x+8) into Y1. Press 2nd+GRAPH.',
+        'At x = 1: (5+3−4) − (6−2+8) = 4 − 12 = −8. Test each choice at x = 1.',
+        'Choice (3): −1+5−12 = −8 ✓. Choice (1): −1−5+12 = 6 ✗. Eliminate others.',
+        'Answer: (3) −x^{3} + 5x − 12'
+      ],
+      9: [
+        '(5x^{3}+3x−4) − (6x^{3}−2x+8): distribute the negative sign across all terms.',
+        '= 5x^{3}+3x−4 − 6x^{3}+2x−8.',
+        'Combine: (5−6)x^{3} + (3+2)x + (−4−8) = −x^{3} + 5x − 12.',
+        'Trap (1): wrong sign on middle term — forgot -(−2x) = +2x. Answer: (3)'
+      ]
+    },
+    examples: {
+      9: [
+        'Subtract (3x^{2}−x+5) from (7x^{2}+2x−1).',
+        'Rewrite as (7x^{2}+2x−1) − (3x^{2}−x+5). Distribute the negative sign.',
+        'What is the simplified result?'
+      ]
+    },
+    errorTags: ['wrong_sign_distributing_subtraction', 'combines_unlike_degree_terms']
+  },
+  {
+    id: 'Q94',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 22,
+    standard: 'F.IF.1',
+    stem: 'Three relations are shown below. Relation I: {(1,2),(2,3),(3,4),(4,5)}. Relation II: a graph that passes the vertical line test. Relation III: an arrow diagram where each x maps to exactly one y. Which relations represent a function?',
+    choices: [
+      { label: '1', text: 'I and II, only' },
+      { label: '2', text: 'I and III, only' },
+      { label: '3', text: 'II and III, only' },
+      { label: '4', text: 'I, II, and III' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [9],
+    bestLens: 9,
+    walkthroughs: {
+      9: [
+        'A relation is a function if every x maps to exactly one y (no repeated x with different y).',
+        'Relation I: each x appears once → function ✓.',
+        'Relation II: graph passes vertical line test → function ✓.',
+        'Relation III: arrow diagram — each input has exactly one arrow → function ✓. Answer: (4) I, II, and III'
+      ]
+    },
+    examples: {
+      9: [
+        'Mapping: 1→3, 2→5, 3→3, 4→7. Does any x map to more than one y?',
+        'A graph with a circle: apply the vertical line test. Does any vertical line hit two points?',
+        'Which of these represents a function?'
+      ]
+    },
+    errorTags: ['confuses_function_definition', 'misapplies_vertical_line_test']
+  },
+  {
+    id: 'Q95',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 23,
+    standard: 'A.REI.6',
+    stem: 'The method of substitution was used to solve the system of equations below. 4x − 7y = 7 and x − y = −1. Which equation is a correct first step when using this method?',
+    choices: [
+      { label: '1', text: 'x = y − 1' },
+      { label: '2', text: 'y = x − 1' },
+      { label: '3', text: '3x − 6y = 8' },
+      { label: '4', text: '5x − 8y = 6' }
+    ],
+    correctAnswer: '1',
+    applicableLenses: [9],
+    bestLens: 9,
+    walkthroughs: {
+      9: [
+        'Substitution: isolate one variable in the simpler equation.',
+        'Use x − y = −1. Add y to both sides: x = y − 1.',
+        'Trap (2): y = x − 1 has wrong sign — from x − y = −1, solving for y gives y = x + 1.',
+        'Trap (3),(4): those are results of elimination, not substitution. Answer: (1) x = y − 1'
+      ]
+    },
+    examples: {
+      9: [
+        'System: 2x + y = 5 and x − y = 1. Which equation is simpler to isolate a variable from?',
+        'From x − y = 1, solve for x. What do you get?',
+        'What is the correct first step for substitution?'
+      ]
+    },
+    errorTags: ['wrong_sign_when_isolating', 'confuses_substitution_with_elimination']
+  },
+  {
+    id: 'Q96',
+    exam: 'August 2025 Algebra I Regents — Part I',
+    questionNumber: 24,
+    standard: 'N.Q.1',
+    stem: 'In 2009, Usain Bolt set the world record in the 100-meter dash with a time of 9.58 seconds. His approximate speed, in kilometers per hour, can be found using which conversion?',
+    choices: [
+      { label: '1', text: 'rac{9.58 sec}{100 m} × rac{1000 m}{1 km} × rac{60 sec}{1 min} × rac{60 min}{1 hr}' },
+      { label: '2', text: 'rac{9.58 sec}{100 m} × rac{1 min}{60 sec} × rac{1 hr}{60 min} × rac{1 km}{1000 m}' },
+      { label: '3', text: 'rac{100 m}{9.58 sec} × rac{1000 m}{1 km} × rac{60 sec}{1 min} × rac{60 min}{1 hr}' },
+      { label: '4', text: 'rac{100 m}{9.58 sec} × rac{1 km}{1000 m} × rac{60 sec}{1 min} × rac{60 min}{1 hr}' }
+    ],
+    correctAnswer: '4',
+    applicableLenses: [9],
+    bestLens: 9,
+    walkthroughs: {
+      9: [
+        'Start with the given rate: 100 m / 9.58 sec. Goal: convert to km/hr.',
+        'Cancel meters: × 1 km / 1000 m → m cancels, leaving km in numerator.',
+        'Cancel seconds: × 60 sec / 1 min × 60 min / 1 hr → sec cancels, leaving hr in denominator.',
+        'Remaining units: km/hr ✓. Trap (3): inverts km/m — meters don\'t cancel. Answer: (4)'
+      ]
+    },
+    examples: {
+      9: [
+        'A car travels 88 feet per second. Set up unit fractions to convert to miles per hour.',
+        'Start with 88 ft/sec. Which fractions cancel feet and convert seconds to hours?',
+        'Which setup gives miles per hour?'
+      ]
+    },
+    errorTags: ['inverts_unit_conversion_fraction', 'cancels_target_unit_instead_of_given']
   }
 ];
 

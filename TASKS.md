@@ -1,6 +1,26 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-19 (Session M — Parallel Example PRD written)
+Last updated: 2026-05-22 (Session P — August 2025 Regents Q73–Q96 added)
+
+---
+
+## Session P — August 2025 Question Bank Expansion ✅ COMPLETE 2026-05-22
+
+**Design concept:** Add all 24 August 2025 Algebra I Regents Part I questions to QUESTION_BANK (Q73–Q96), sourcing walkthrough steps directly from the teacher's handwritten scratch work.
+
+**Modules touched:** `QUESTION_BANK` only
+
+**Interface changes:**
+- Q73–Q96 appended after Q72
+- `walkthroughs: { lensId: [...steps] }` — steps derived from teacher's Google Drive annotations
+- `examples` field omitted on first pass (deferred to future content session)
+- `source: 'August 2025 Algebra I Regents — Part I'` on all new questions
+
+**Out of scope:** `examples` entries for new questions, UI changes, deployment
+
+**Done when:** ✅ 96/96 runPuzzleTests() pass
+
+**Open next:** Add `examples` entries for Q73–Q96 (second content pass); deploy to mrfavors-lock-in
 
 ---
 
