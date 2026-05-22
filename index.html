@@ -1125,7 +1125,18 @@ const QUESTION_BANK = [
         'Consider: What value of x satisfies 5x - 3 = 17?',
         'Using Plug & Check: substitute each answer choice into 5x - 3.',
         'Which value produces 17?'
+      ],
+      1: [
+        'Enter Y1 = 5x − 3 and Y2 = 17 on the Y= screen.',
+        'Press 2nd+TRACE → 5:Intersect. Move cursor near the crossing.',
+        'At what x-value do the two graphs meet?'
+      ],
+      9: [
+        'The equation 5x − 3 = 17 tells you: 5x must equal 20.',
+        'Read the structure: divide 20 by 5 to isolate x.',
+        'Which answer choice fits that reading without solving step-by-step?'
       ]
+    
     },
     errorTags: ['arithmetic_slip']
   },
@@ -1167,7 +1178,18 @@ const QUESTION_BANK = [
         'Consider: Where do y = 2x + 1 and y = -x + 7 intersect?',
         'Enter Y1 = 2x + 1 and Y2 = -x + 7 into your TI-84.',
         'What x-value do both lines share?'
+      ],
+      3: [
+        'A system gives two equations. Pick a candidate solution from the choices.',
+        'Substitute those x and y values into BOTH equations.',
+        'Which ordered pair makes both equations true?'
+      ],
+      4: [
+        'Enter y = 3x − 1 in Y1 and y = −x + 7 in Y2.',
+        'Press 2nd+GRAPH. Scroll the table to find where Y1 = Y2.',
+        'At which x-value are both outputs equal?'
       ]
+    
     },
     errorTags: ['arithmetic_slip', 'wrong_substitution']
   },
@@ -1210,7 +1232,18 @@ const QUESTION_BANK = [
         'A ball is launched with height h(t) = -16t^2 + 48t + 5.',
         'The vertex occurs at t = -b/(2a). Identify a = -16 and b = 48.',
         'At what time t does the ball reach its maximum height?'
+      ],
+      4: [
+        'Enter h(t) = −16t^{2} + 32t + 6 into Y=. Press 2nd+GRAPH.',
+        'Scroll the table to find the maximum y-value.',
+        'At what time t does the maximum height occur, and what is that height?'
+      ],
+      9: [
+        'The vertex of h(t) = −16t^{2} + 32t + 6 gives the maximum height.',
+        'Axis of symmetry: t = −b/(2a) = −32/(2·(−16)) = 1.',
+        'Without graphing, what is the maximum height h(1)?'
       ]
+    
     },
     errorTags: ['used_initial_velocity', 'computed_at_wrong_time']
   },
@@ -1251,7 +1284,18 @@ const QUESTION_BANK = [
         'Which expression is equivalent to x^2 - 10x + 25?',
         'Recognize the perfect square pattern: a^2 - 2ab + b^2 = (a - b)^2 with b = 5.',
         'Which answer choice is the correct factored form?'
+      ],
+      2: [
+        'Enter 4x^{2} − 25 in Y1. Press 2nd+TRACE → Zero.',
+        'Find the two x-values where the graph crosses the x-axis.',
+        'What are the zeros, and how do they relate to the factors of 4x^{2} − 25?'
+      ],
+      3: [
+        'Enter 4x^{2} − 25 in Y1. Enter each MC choice in Y2.',
+        'Press 2nd+GRAPH and compare the Y1 and Y2 columns in the table.',
+        'Which choice produces a table that matches Y1 exactly?'
       ]
+    
     },
     errorTags: ['perfect_square_confusion']
   },
@@ -1292,7 +1336,18 @@ const QUESTION_BANK = [
         'A car worth $18,000 loses 12% of its value each year.',
         'Losing 12% means multiplying by (1 - 0.12) = 0.88 each year.',
         'Which function models the car\'s value V after t years?'
+      ],
+      3: [
+        'Test t = 1 in each MC function. A savings account growing 4% annually should give 500(1.04)^{1} = 520.',
+        'Substitute t = 1 into each choice and compare the output to 520.',
+        'Which function gives the correct balance after 1 year?'
+      ],
+      4: [
+        'Enter the correct exponential model into Y=. Press 2nd+GRAPH.',
+        'Read the table: at t = 0 the balance should be 500; at t = 1 it should be 520.',
+        'Which model produces these values in the table?'
       ]
+    
     },
     errorTags: ['rate_vs_multiplier', 'linear_vs_exponential']
   },
@@ -1329,7 +1384,13 @@ const QUESTION_BANK = [
         'Consider the system: y = x + 3 and y = -2x + 9.',
         'Enter Y1 = x + 3 and Y2 = -2x + 9 into your TI-84.',
         'What are the coordinates of the intersection point?'
+      ],
+      3: [
+        'Take one answer choice and substitute it for x in 5(x − 2) = 3x + 8.',
+        'Check both sides: does 5(x − 2) equal 3x + 8 for that value?',
+        'Which choice makes both sides equal?'
       ]
+    
     },
     errorTags: ['distributive_skip', 'sign_error']
   },
@@ -1367,7 +1428,13 @@ const QUESTION_BANK = [
         'Let g(t) = t^2 - 4t + 1. Find g(-3).',
         'Substitute t = -3 into each term of g(t) carefully.',
         'What is the value of g(-3)?'
+      ],
+      4: [
+        'Enter f(x) = x^{2} − 3x + 2 into Y=. Press 2nd+GRAPH.',
+        'Scroll the table to x = −1 and read the y-value.',
+        'What does the table show for f(−1)?'
       ]
+    
     },
     errorTags: ['sign_error_on_substitution']
   },
@@ -1403,7 +1470,13 @@ const QUESTION_BANK = [
         'A gym charges a $50 sign-up fee plus $30 per month.',
         'Identify: starting value = 50, rate of change = 30 per month.',
         'Which equation models total cost C after m months?'
+      ],
+      10: [
+        'A line of best fit y = 2.5x − 3 has slope 2.5.',
+        'Slope = rise/run = change in y per unit increase in x. Eliminate choices describing the wrong direction or rate.',
+        'Which statement correctly describes what a slope of 2.5 means in this context?'
       ]
+    
     },
     errorTags: ['slope_intercept_swap', 'rate_misinterpretation']
   },
@@ -1447,7 +1520,18 @@ const QUESTION_BANK = [
         'Which expression is equivalent to 4(x + 2) - 3(x - 1)?',
         'Substitute x = 0 into the original and into each answer choice.',
         'Which choice gives the same value as the original expression?'
+      ],
+      4: [
+        'Enter (2x^{2}+5x−3)+(x^{2}−2x+7) into Y1. Press 2nd+GRAPH.',
+        'At x = 1: check which MC choice gives the same value as Y1.',
+        'Which expression is equivalent based on the table?'
+      ],
+      9: [
+        'Combine like terms by reading the structure: x^{2} terms are 2+1, x terms are 5+(−2), constants are −3+7.',
+        'Add each group: 3x^{2}, 3x, 4.',
+        'What is the simplified sum?'
       ]
+    
     },
     errorTags: ['sign_distribution_error']
   },
@@ -1483,7 +1567,13 @@ const QUESTION_BANK = [
         'Two numbers have a sum of 18 and a difference of 4.',
         'Set up the system: x + y = 18 and x - y = 4.',
         'Which ordered pair (x, y) satisfies both equations?'
+      ],
+      3: [
+        'Test x = 3 classes: cost should be 15 + 8(3) = 39.',
+        'Substitute x = 3 into each MC equation and check which gives 39.',
+        'Which equation is correct?'
       ]
+    
     },
     errorTags: ['variable_swap', 'setup_error']
   },
@@ -1526,7 +1616,18 @@ const QUESTION_BANK = [
         'The terms of a sequence are 3, 7, 11, 15, ...',
         'Test the formula a_n = 4n - 1 by substituting n = 1, 2, 3, 4.',
         'Which explicit formula generates this arithmetic sequence?'
+      ],
+      4: [
+        'Enter f(n) = 5 + 3(n − 1) into Y=. Press 2nd+GRAPH.',
+        'Check: f(1) = 5, f(2) = 8, f(3) = 11. Do the table values match the sequence?',
+        'Which MC function produces the same table values?'
+      ],
+      9: [
+        'An arithmetic sequence with first term 5 and common difference 3 has the form a_n = 5 + 3(n − 1).',
+        'Simplify: a_n = 3n + 2. The coefficient of n equals the common difference.',
+        'Which function represents the nth term without calculating each term?'
       ]
+    
     },
     errorTags: ['arithmetic_sequence_setup']
   },
@@ -1564,7 +1665,13 @@ const QUESTION_BANK = [
         'What value of x satisfies 2(x + 3) = 14?',
         'Substitute each answer choice into 2(x + 3).',
         'Which value makes the expression equal 14?'
+      ],
+      1: [
+        'Enter Y1 = −2x + 8 and Y2 = 14 on the Y= screen.',
+        'Press 2nd+TRACE → Intersect. The crossing x-value is the solution.',
+        'What is the solution to −2x + 8 = 14?'
       ]
+    
     },
     errorTags: ['sign_error', 'inverse_ops']
   },
@@ -1600,7 +1707,13 @@ const QUESTION_BANK = [
         'A table shows: hours = 1, 2, 3, 4 and earnings = $12, $24, $36, $48.',
         'Find the rate of change: change in earnings divided by change in hours.',
         'What is the hourly rate of pay in dollars per hour?'
+      ],
+      4: [
+        'If f is given as an equation, enter it into Y=. Press 2nd+GRAPH.',
+        'Read f(1) and f(3) from the table.',
+        'Apply the formula: average rate of change = (f(3) − f(1)) / (3 − 1). What is it?'
       ]
+    
     },
     errorTags: ['rate_misinterpretation', 'arithmetic_slip']
   },
@@ -1637,7 +1750,13 @@ const QUESTION_BANK = [
         'The function f(x) = (x - 5)^2 - 3 is written in vertex form f(x) = (x - h)^2 + k.',
         'Identify h and k directly from the equation.',
         'What are the coordinates of the vertex?'
+      ],
+      7: [
+        'f(x) = 2(x − 3)^{2} + 5 is already in vertex form a(x − h)^{2} + k.',
+        'Read h = 3 and k = 5 directly. The vertex is (h, k).',
+        'What are the coordinates of the vertex?'
       ]
+    
     },
     errorTags: ['vertex_sign_confusion']
   },
@@ -1674,7 +1793,13 @@ const QUESTION_BANK = [
         'A table shows: x = 0, 1, 2, 3 and y = 5, 15, 45, 135.',
         'Check consecutive ratios: 15/5 = 3, 45/15 = 3, 135/45 = 3.',
         'Does this table represent a linear or exponential function?'
+      ],
+      10: [
+        'Exponential growth means a constant multiplicative factor, not a constant additive amount.',
+        'Eliminate any scenario that increases by the same amount each period (that is linear).',
+        'Which scenario is the only one with a constant percent change each period?'
       ]
+    
     },
     errorTags: ['linear_vs_exponential']
   },
@@ -1721,7 +1846,23 @@ const QUESTION_BANK = [
         'The graph of y = (x + 3)(x - 2) crosses the x-axis at its zeros.',
         'Set each factor equal to zero: x + 3 = 0 gives x = -3; x - 2 = 0 gives x = 2.',
         'What are the x-intercepts of this parabola?'
+      ],
+      2: [
+        'Enter x^{2} + 6x + 5 into Y1. Press 2nd+TRACE → Zero.',
+        'Find both x-intercepts — those are the solutions.',
+        'What are the two zeros of x^{2} + 6x + 5?'
+      ],
+      3: [
+        'Take one MC pair, e.g., x = −1. Substitute into x^{2} + 6x + 5: (−1)^{2} + 6(−1) + 5.',
+        'Repeat for the second value in the pair. Does the expression equal 0 for both?',
+        'Which pair of solutions makes x^{2} + 6x + 5 = 0 true?'
+      ],
+      6: [
+        'Find two integers that multiply to 5 and add to 6.',
+        'Those integers are the constants in the factored form (x + ?)(x + ?).',
+        'What are the two factors, and what solutions do they give?'
       ]
+    
     },
     errorTags: ['sign_error_on_roots', 'factor_sign_confusion']
   },
@@ -1764,7 +1905,18 @@ const QUESTION_BANK = [
         'Which value of x satisfies 4x - 3 >= 9?',
         'Substitute each answer choice into 4x - 3.',
         'Which value gives a result greater than or equal to 9?'
+      ],
+      1: [
+        'Enter Y1 = 2x − 3. Graph and observe the boundary line.',
+        'Points ABOVE this line satisfy y > 2x − 3. Locate each MC point on the graph.',
+        'Which ordered pair lies in the region above the line?'
+      ],
+      9: [
+        'Take one MC ordered pair and substitute its x and y into y > 2x − 3.',
+        'Check: is the y-value strictly greater than 2x − 3 for that point?',
+        'Which ordered pair satisfies the inequality?'
       ]
+    
     },
     errorTags: ['boundary_confusion', 'strict_vs_weak_inequality']
   },
@@ -1800,7 +1952,13 @@ const QUESTION_BANK = [
         'Which expression is equivalent to the fourth root of x^8?',
         'Apply the rule: the nth root of x^m = x^(m/n), so the fourth root of x^8 = x^(8/4).',
         'What is the simplified form using rational exponents?'
+      ],
+      3: [
+        'Compute 27^{2/3} on the calculator: press 27 ^ (2/3) ENTER.',
+        'Compare the decimal result to each MC choice entered as a decimal.',
+        'Which choice matches the calculator output?'
       ]
+    
     },
     errorTags: ['fractional_exponent_misuse', 'only_cube_root_taken']
   },
@@ -1841,7 +1999,18 @@ const QUESTION_BANK = [
         'A line passes through (0, -4) and has slope 2.',
         'Write the equation using y = mx + b with m = 2 and b = -4.',
         'Which equation represents this line?'
+      ],
+      1: [
+        'Enter Y1 = −2x + 3 (a line with slope −2 and y-intercept 3).',
+        'Press GRAPH and compare the MC choices — which line overlaps Y1?',
+        'Which equation produces the same graph as a line with slope −2 and y-intercept 3?'
+      ],
+      4: [
+        'Enter each MC choice into Y=. Press 2nd+GRAPH.',
+        'At x = 0 the output should be 3 (y-intercept). At x = 1 the output should be 1 (slope −2).',
+        'Which equation gives y = 3 at x = 0 and y = 1 at x = 1?'
       ]
+    
     },
     errorTags: ['slope_intercept_swap']
   },
@@ -1877,7 +2046,13 @@ const QUESTION_BANK = [
         'Which values of x satisfy -3x + 6 > 15?',
         'Isolate x: subtract 6, then divide by -3 and flip the inequality sign.',
         'Which answer choice correctly shows the solution set?'
+      ],
+      10: [
+        'The student wants to earn AT LEAST $108, so the total must be ≥ 108, not ≤ or =.',
+        'Eliminate choices with the wrong inequality direction. Then check the coefficients (12 for b, 9 for t).',
+        'Which inequality correctly represents the constraint?'
       ]
+    
     },
     errorTags: ['inequality_direction', 'variable_swap']
   },
@@ -1923,7 +2098,23 @@ const QUESTION_BANK = [
         'Which quadratic equation has roots x = 4 and x = -3?',
         'Sum of roots = 4 + (-3) = 1; product of roots = (4)(-3) = -12.',
         'Which equation has the form x^2 - (sum)x + (product) = 0?'
+      ],
+      2: [
+        'Enter x^{2} + 2x − 15 into Y1. Press 2nd+TRACE → Zero.',
+        'Find both x-intercepts using left bound, right bound, guess.',
+        'What are the two zeros of x^{2} + 2x − 15?'
+      ],
+      3: [
+        'Take one MC pair of zeros, e.g., x = 3. Substitute: 9 + 6 − 15.',
+        'If the result is 0, that value is a zero. Check both values in the pair.',
+        'Which pair of values both make x^{2} + 2x − 15 = 0?'
+      ],
+      6: [
+        'Find two integers that multiply to −15 and add to 2.',
+        'Those integers fill in (x + ?)(x − ?) = 0.',
+        'What are the two factors, and what are the zeros?'
       ]
+    
     },
     errorTags: ['sign_error_on_roots', 'product_sum_confusion']
   },
@@ -1969,7 +2160,23 @@ const QUESTION_BANK = [
         'A company profit is P(x) = -2x^2 + 80x - 300, where x is items sold (x >= 0).',
         'Graph P(x) on your TI-84. The domain is restricted to x >= 0.',
         'For what values of x does the company make a profit (P > 0)?'
+      ],
+      7: [
+        'Vertex at t = −b/(2a) = −128/(2·(−16)) = 4. The rocket reaches max height at t = 4.',
+        'Zeros (launch and landing) at t = 0 and t = 8.',
+        'What is the appropriate domain — the t-values from launch to landing?'
+      ],
+      8: [
+        'Enter h(t) = −16t^{2} + 128t into Y=. Press GRAPH.',
+        'The domain is the set of t-values where h(t) ≥ 0 (rocket is in the air).',
+        'What t-values make up the domain of this physical model?'
+      ],
+      9: [
+        'h(t) = −16t^{2} + 128t represents height. The rocket starts (h = 0) at t = 0 and lands (h = 0) at t = 8.',
+        'Only positive time values make physical sense. The domain is 0 ≤ t ≤ 8.',
+        'Which domain restricts t to the interval when the rocket is in flight?'
       ]
+    
     },
     errorTags: ['mathematical_vs_contextual_domain', 'zero_as_only_bound']
   },
@@ -2005,7 +2212,13 @@ const QUESTION_BANK = [
         'Line m has equation y = (3/4)x + 2.',
         'The slope perpendicular to 3/4 is its negative reciprocal.',
         'Which slope belongs to a line perpendicular to line m?'
+      ],
+      1: [
+        'Enter Y1 = 3x − 7 and Y2 = each MC choice in turn.',
+        'Parallel lines have the same slope and will NEVER intersect.',
+        'Which MC choice produces a Y2 graph that never crosses Y1?'
       ]
+    
     },
     errorTags: ['parallel_vs_perpendicular', 'reciprocal_vs_negative_reciprocal']
   },
@@ -2051,7 +2264,23 @@ const QUESTION_BANK = [
         'The function f(x) = 2(x - 3)(x + 5) is in factored form.',
         'The zeros occur where each factor equals zero — the leading coefficient 2 does not change the zeros.',
         'What are the x-intercepts of f(x)?'
+      ],
+      2: [
+        'Enter 2x^{2} − 4x − 6 into Y1. Press 2nd+TRACE → Zero.',
+        'Find both zeros using left bound, right bound, and guess.',
+        'What are the two roots of 2x^{2} − 4x − 6 = 0?'
+      ],
+      3: [
+        'Take one MC pair, e.g., x = 3. Substitute: 2(9) − 4(3) − 6.',
+        'Evaluate: 18 − 12 − 6 = 0 ✓. Check the second value in the pair too.',
+        'Which pair both make 2x^{2} − 4x − 6 = 0?'
+      ],
+      6: [
+        'Factor out 2: 2(x^{2} − 2x − 3). Find integers that multiply to −3 and add to −2.',
+        'Those integers go in 2(x − ?)(x + ?).',
+        'What are the two factors and the resulting zeros?'
       ]
+    
     },
     errorTags: ['forgot_leading_coefficient', 'sign_error_on_roots']
   },
@@ -2090,7 +2319,13 @@ const QUESTION_BANK = [
         'A town has 4,000 residents and grows by 6% each year.',
         'Exponential growth: multiply by (1 + 0.06) = 1.06 each year.',
         'Which function models the population P after t years?'
+      ],
+      10: [
+        'Three scenarios are given. Eliminate any that increase by a fixed dollar or unit amount (that is linear).',
+        'Keep the scenario where the rate of change is a constant percentage of the current amount.',
+        'Which scenario is the only one that must be modeled by an exponential function?'
       ]
+    
     },
     errorTags: ['misidentifies_percentage_growth_as_linear']
   },
@@ -2130,7 +2365,13 @@ const QUESTION_BANK = [
         'Two data sets both have a mean of 30. Set A: {28, 29, 30, 31, 32}. Set B: {10, 20, 30, 40, 50}.',
         'Compare the ranges: Set A range = 4; Set B range = 40.',
         'Which data set has greater variability?'
+      ],
+      10: [
+        'Compare the means: Andrea averages in the 80s; Joe\'s outlier score of 67 pulls his mean down.',
+        'Compare the spreads: Joe\'s range is much wider than Andrea\'s tight cluster.',
+        'Which statement correctly describes both the mean AND the spread without computing exact values?'
       ]
+    
     },
     errorTags: ['confuses_mean_and_spread', 'ignores_outlier_effect_on_spread']
   },
@@ -2167,7 +2408,13 @@ const QUESTION_BANK = [
         'What is the degree of the polynomial 5x^3 - 2x^5 + x - 7?',
         'Rewrite in descending order: -2x^5 + 5x^3 + x - 7. The degree is the highest exponent.',
         'What is the degree of this polynomial?'
+      ],
+      10: [
+        'A degree-3 polynomial has a leading term with exponent 3. Eliminate choices whose highest exponent isn\'t 3.',
+        'A leading coefficient of 2 means the x^{3} term has coefficient 2. Eliminate others.',
+        'Which choice is the only one satisfying both conditions?'
       ]
+    
     },
     errorTags: ['confuses_degree_with_leading_coefficient', 'ignores_leading_coefficient']
   },
@@ -2204,7 +2451,13 @@ const QUESTION_BANK = [
         'Subtract (2x^2 - 5x + 3) from (4x^2 + x - 1).',
         'Rewrite as (4x^2 + x - 1) - (2x^2 - 5x + 3), then distribute the negative to every term.',
         'What is the simplified result?'
+      ],
+      3: [
+        'Pick a simple x-value, say x = 1. Evaluate (−3(1)^{2}+9)−(7(1)^{2}−5(1)+4).',
+        'Enter (−3x^{2}+9)−(7x^{2}−5x+4) in Y1. Check which MC choice gives the same value at x = 1.',
+        'Which expression is equivalent?'
       ]
+    
     },
     errorTags: ['forgot_distribute_negative', 'sign_error_on_middle_term']
   },
@@ -2244,7 +2497,13 @@ const QUESTION_BANK = [
         'Find the average rate of change of f(x) = 2x^2 over the interval [1, 4].',
         'Compute f(1) = 2 and f(4) = 32. Use the formula (f(4) - f(1)) / (4 - 1).',
         'What is the average rate of change over [1, 4]?'
+      ],
+      4: [
+        'Enter h(x) into Y= and press 2nd+GRAPH.',
+        'Scroll the table to x = 1, x = 2, x = 3 to see the plant heights over time.',
+        'At which week does the plant first exceed a given target height?'
       ]
+    
     },
     errorTags: ['reports_change_in_output_not_rate', 'uses_wrong_interval_endpoints']
   },
@@ -2281,7 +2540,13 @@ const QUESTION_BANK = [
         'Solve x^2 - 7x = 0 using the zero product property.',
         'Factor: x(x - 7) = 0. Set each factor equal to zero: x = 0 or x - 7 = 0.',
         'What are the two solutions?'
+      ],
+      10: [
+        'The step moves 3x + 3 to the left side of the equation — this is adding (−3x − 3) to both sides.',
+        'Eliminate associative and commutative properties (they deal with grouping/order, not adding to both sides).',
+        'Which property justifies adding the same quantity to both sides of an equation?'
       ]
+    
     },
     errorTags: ['confuses_zero_product_with_subtraction_property']
   },
@@ -2318,7 +2583,13 @@ const QUESTION_BANK = [
         'The graph of f(x) is shifted 4 units to the right.',
         'A right shift of 4 units replaces x with (x - 4) in the equation.',
         'Which equation represents f(x) shifted 4 units to the right?'
+      ],
+      3: [
+        'Consider g(x) = |x| shifted 2 units right. Test x = 2 — the shifted graph should hit its vertex there.',
+        'Substitute x = 2 into each MC choice. The vertex of the shifted V should give y = 0.',
+        'Which choice gives y = 0 at x = 2?'
       ]
+    
     },
     errorTags: ['horizontal_shift_direction_reversed']
   },
@@ -2355,7 +2626,13 @@ const QUESTION_BANK = [
         'Solve the system: x + y = 10 and 2x - y = 5.',
         'Add the equations to eliminate y: 3x = 15, so x = 5.',
         'Substitute x = 5 back in — what is the complete solution (x, y)?'
+      ],
+      1: [
+        'Enter y = (5 − 4x) in Y1 and 2x − 3y = 10 rewritten as y = (2x−10)/3 in Y2.',
+        'Press 2nd+TRACE → Intersect. The x-coordinate of the intersection is the solution.',
+        'What x-value satisfies both equations simultaneously?'
       ]
+    
     },
     errorTags: ['substitutes_into_wrong_equation', 'wrong_sign_when_isolating_y']
   },
@@ -2392,7 +2669,13 @@ const QUESTION_BANK = [
         'Complete the square to write x^2 + 10x + 3 in vertex form.',
         'Take half of 10, square it: (10/2)^2 = 25. Add and subtract 25.',
         'What is the vertex form of x^2 + 10x + 3?'
+      ],
+      2: [
+        'Enter x^{2} − 6x − 27 into Y1. Press 2nd+TRACE → Zero.',
+        'Find both zeros using left/right bounds.',
+        'What are the two solutions to x^{2} − 6x = 27?'
       ]
+    
     },
     errorTags: ['adds_to_only_one_side', 'wrong_value_when_completing_square']
   },
@@ -2429,7 +2712,13 @@ const QUESTION_BANK = [
         'Classify the result of sqrt(3) + sqrt(3).',
         'sqrt(3) + sqrt(3) = 2*sqrt(3). Multiplying an irrational by a rational stays irrational.',
         'Is 2*sqrt(3) rational or irrational?'
+      ],
+      10: [
+        'The sum \sqrt{3} + \sqrt{5} involves two different irrational numbers.',
+        'An irrational plus an irrational CAN be rational (e.g., \sqrt{2} + (−\sqrt{2}) = 0), but only if they cancel.',
+        'Can \sqrt{3} and \sqrt{5} cancel each other? Eliminate choices that claim the sum is rational.'
       ]
+    
     },
     errorTags: ['assumes_irrational_plus_irrational_is_rational', 'confuses_nonterminating_with_irrational']
   },
@@ -2466,7 +2755,13 @@ const QUESTION_BANK = [
         'Which expression is equivalent to x^2 - 36?',
         'Recognize: a^2 - b^2 = (a + b)(a - b) with a = x and b = 6.',
         'Which factored form equals x^2 - 36?'
+      ],
+      10: [
+        'Difference of squares: a^{8} − b^{6} = (a^{4})^{2} − (b^{3})^{2}.',
+        'Difference of squares factors as (X − Y)(X + Y). Eliminate choices that use wrong exponents.',
+        'Which factored form correctly applies the difference of squares pattern?'
       ]
+    
     },
     errorTags: ['treats_difference_of_squares_as_square_of_difference']
   },
@@ -2503,7 +2798,13 @@ const QUESTION_BANK = [
         'Maya is 5 years older than Zach. Together their ages total 29.',
         'Let z = Zach\'s age. Maya\'s age = z + 5. Set up: z + (z + 5) = 29.',
         'What is Zach\'s current age?'
+      ],
+      3: [
+        'Let x = Jack\'s age. Test x = 5: Tim\'s age = 7(5) − 4 = 31. Sum = 36 ≠ 44.',
+        'Substitute x = 5 into each MC equation. Which equation gives a sum of 44?',
+        'Which equation models the relationship correctly?'
       ]
+    
     },
     errorTags: ['omits_one_persons_age_from_sum', 'reverses_subtraction_direction']
   },
@@ -2540,7 +2841,13 @@ const QUESTION_BANK = [
         'A sequence starts 2, 6, 18, 54, ... The first term is 2 and the common ratio is 3.',
         'The nth term is a_n = 2 * 3^(n-1). Note the exponent is n-1, not n.',
         'What is the 5th term of this geometric sequence?'
+      ],
+      4: [
+        'Enter the geometric sequence formula into Y=. Press 2nd+GRAPH.',
+        'The table should show a_1 = 12, a_2 = 6, a_3 = 3, a_4 = 3/2.',
+        'Which formula produces these values in the table?'
       ]
+    
     },
     errorTags: ['off_by_one_in_exponent', 'confuses_geometric_with_r_equals_2']
   },
@@ -2576,7 +2883,13 @@ const QUESTION_BANK = [
         'Classify sqrt(49) + sqrt(2) as rational or irrational.',
         'sqrt(49) = 7 (rational); sqrt(2) is irrational. Rational + irrational = irrational.',
         'Is sqrt(49) + sqrt(2) rational or irrational?'
+      ],
+      10: [
+        'The sum of a rational and an irrational is always irrational. \sqrt{25} = 5 (rational). \sqrt{2} is irrational.',
+        '5 + \sqrt{2} cannot simplify to a whole number or fraction. Eliminate choices claiming it is rational.',
+        'Which choice correctly classifies the sum?'
       ]
+    
     },
     errorTags: ['misclassifies_perfect_square_root', 'confuses_irrational_with_integer']
   },
@@ -2612,7 +2925,13 @@ const QUESTION_BANK = [
         'Consider the system: y = |x - 2| and y = 3.',
         'Enter Y1 = abs(x - 2) and Y2 = 3 into your TI-84.',
         'How many intersection points does this system have, and what are they?'
+      ],
+      3: [
+        'Test each MC x-value in f(x) = |4x + 2| and g(x) = 3x + 5.',
+        'Substitute the candidate x into both: does f(x) equal g(x)?',
+        'Which x-value makes |4x + 2| = 3x + 5?'
       ]
+    
     },
     errorTags: ['errors_in_absolute_value_evaluation', 'forgets_to_verify_substitution']
   },
@@ -2648,7 +2967,13 @@ const QUESTION_BANK = [
         'Factor x^2 + 8x + 15 using the AC method. Here a*c = 1*15 = 15.',
         'List factor pairs of 15: (1, 15) and (3, 5). Which pair also adds to b = 8?',
         'Which factored form is equivalent to x^2 + 8x + 15?'
+      ],
+      3: [
+        'Enter x^{2} − 26x − 120 in Y1. Enter each MC factored form in Y2.',
+        'Press 2nd+GRAPH and compare the table values.',
+        'Which factored form matches Y1?'
       ]
+    
     },
     errorTags: ['sign_error_in_factoring', 'wrong_factor_pair']
   },
@@ -2684,7 +3009,13 @@ const QUESTION_BANK = [
         'What is the leading coefficient of -3x^4 + 7x^2 - x + 9?',
         'Write in standard form. The leading coefficient is the coefficient of the highest-degree term.',
         'What is the leading coefficient of this polynomial?'
+      ],
+      10: [
+        'A polynomial of degree 3 has leading coefficient 2 and constant −6.',
+        'Eliminate choices whose highest degree ≠ 3, leading coefficient ≠ 2, or constant ≠ −6.',
+        'Which is the only choice satisfying all three conditions?'
       ]
+    
     },
     errorTags: ['misidentifies_degree', 'misreads_constant_term']
   },
@@ -2722,7 +3053,13 @@ const QUESTION_BANK = [
         'The function P(t) = 200(1.05)^t models a population after t years.',
         'To find P(3), substitute t = 3 into P(t) = 200(1.05)^t.',
         'What is the population after 3 years?'
+      ],
+      9: [
+        'The function v(t) = 500(1.08)^{t}. At t = 0: v(0) = 500(1.08)^{0} = 500.',
+        'The original price is the value when t = 0 — no calculation needed.',
+        'What does the structure of v(0) = 500(1) tell you about the original price?'
       ]
+    
     },
     errorTags: ['evaluates_at_wrong_t_value', 'confuses_initial_value_with_growth_factor']
   },
@@ -2758,7 +3095,13 @@ const QUESTION_BANK = [
         'Solve the formula P = 2l + 2w for w.',
         'Subtract 2l from both sides, then divide both sides by 2.',
         'What is w in terms of P and l?'
+      ],
+      3: [
+        'S = 2πr^{2} + 2πrh. Test h = 3, r = 2: S = 2π(4) + 2π(2)(3) = 8π + 12π = 20π.',
+        'Substitute h = 3, r = 2, S = 20π into each MC expression for h. Which gives 3?',
+        'Which formula correctly isolates h?'
       ]
+    
     },
     errorTags: ['sign_error_in_isolation', 'wrong_denominator_when_solving_for_variable']
   },
@@ -2794,7 +3137,13 @@ const QUESTION_BANK = [
         'Solve the system: 3x + y = 11 and x - y = 1.',
         'Add the two equations to eliminate y: 4x = 12, so x = 3.',
         'What is the complete solution (x, y)?'
+      ],
+      1: [
+        'Enter Y1 = 3x − 10 + y rearranged for y: Y1 = 3x − 10, Y2 = (1 − 2x)/5.',
+        'Press 2nd+TRACE → Intersect to find the x that satisfies both.',
+        'Which value of x satisfies the system when substituted?'
       ]
+    
     },
     errorTags: ['substitutes_into_wrong_equation', 'sign_error_when_solving_for_y']
   },
@@ -2830,7 +3179,13 @@ const QUESTION_BANK = [
         'Which property justifies that 5(x + 3) = 5x + 15?',
         'Identify: a factor is being multiplied by a sum, distributing to each term inside.',
         'Which property allows multiplication to be distributed over addition?'
+      ],
+      3: [
+        'Test each MC property using the equation 3(2x+5) = 7x+18.',
+        'The step adds 8 to the right side — this means the same was added to the left.',
+        'Which property justifies adding the same value to both sides?'
       ]
+    
     },
     errorTags: ['confuses_addition_with_distributive_property', 'property_identification_error']
   },
@@ -2866,7 +3221,13 @@ const QUESTION_BANK = [
         'Build a table for f(x) = 100 * (0.5)^x for x = 0, 1, 2, 3.',
         'Check the ratio between consecutive outputs: each term is half the previous.',
         'Is this function growing or decaying, and what is the constant ratio?'
+      ],
+      9: [
+        'Exponential decay: each successive y-value is a fixed fraction of the previous (ratio between 0 and 1).',
+        'Check Table (2): does dividing any y-value by the previous give a consistent ratio less than 1?',
+        'Which table has a constant decay ratio?'
       ]
+    
     },
     errorTags: ['confuses_constant_ratio_with_constant_difference', 'confuses_growth_with_decay']
   },
@@ -2904,7 +3265,13 @@ const QUESTION_BANK = [
         'Let h(x) = 3x^2 - 5. Evaluate h(-2).',
         'Substitute x = -2: h(-2) = 3(-2)^2 - 5. Apply the exponent before multiplying by 3.',
         'What is the value of h(-2)?'
+      ],
+      9: [
+        'f(x) = \sqrt{x+1} + 5. At x = 3: \sqrt{3+1} + 5 = \sqrt{4} + 5.',
+        'The structure tells you: simplify the radicand first, then take the square root, then add 5.',
+        'What is f(3) by reading the function\'s structure step by step?'
       ]
+    
     },
     errorTags: ['order_of_operations_error', 'forgets_constant_term']
   },
@@ -2940,7 +3307,13 @@ const QUESTION_BANK = [
         'The graph of g(x) = f(x + 3) - 2 is a transformation of f(x).',
         'Horizontal: (x + 3) shifts left 3. Vertical: -2 shifts down 2.',
         'In which direction is the graph shifted horizontally?'
+      ],
+      7: [
+        'g(x) = (x+5)^{2} − 2 is in vertex form. Vertex is at (−5, −2).',
+        'A left shift of 3 replaces x with x + 3, moving the vertex from (−5, −2) to (−8, −2).',
+        'What is the equation of the shifted function in vertex form?'
       ]
+    
     },
     errorTags: ['shift_direction_error', 'confuses_horizontal_with_vertical_shift']
   },
@@ -2976,7 +3349,13 @@ const QUESTION_BANK = [
         'Graph f(x) = x^3 - 4x on your TI-84.',
         'Use 2nd -> TRACE -> 2: zero to find each x-intercept one at a time.',
         'What are all the zeros of f(x) = x^3 - 4x?'
+      ],
+      9: [
+        'f(x) = x(x^{2} − 36). Zeros occur where each factor equals zero: x = 0 or x^{2} − 36 = 0.',
+        'x^{2} − 36 = 0 → x^{2} = 36. Read the structure: x = ±6.',
+        'What are all three zeros by reading the factored form?'
       ]
+    
     },
     errorTags: ['misses_zero_at_origin', 'incomplete_factoring_of_difference_of_squares']
   },
@@ -3015,7 +3394,13 @@ const QUESTION_BANK = [
         'A survey of 40 students: 24 play sports, 16 don\'t. Of those who play sports, 15 also have a part-time job.',
         'Conditional frequency: P(job | sports) = 15 out of 24 sports players.',
         'What fraction of students who play sports also have a part-time job?'
+      ],
+      10: [
+        'A two-way frequency table: read row totals, column totals, and cell values.',
+        'Eliminate any statement that confuses joint frequency with marginal frequency.',
+        'Which statement correctly interprets the values in the table?'
       ]
+    
     },
     errorTags: ['uses_marginal_total_instead_of_grand_total', 'confuses_conditional_with_joint_frequency']
   },
@@ -3051,7 +3436,13 @@ const QUESTION_BANK = [
         'A car travels 45 miles per hour. Convert this speed to miles per minute.',
         'Set up: 45 mi/hr * (1 hr / 60 min). Cancel hours — the unit that remains is mi/min.',
         'What is the car\'s speed in miles per minute?'
+      ],
+      10: [
+        'A geometric sequence has first term −2 and common ratio −3.',
+        'Eliminate any MC value that doesn\'t match a^{4} = a^{1} × r^{3} = −2 × (−3)^{3}.',
+        'Which value is the only one consistent with the sequence formula?'
       ]
+    
     },
     errorTags: ['unit_cancellation_error', 'inverts_unit_fraction']
   },
@@ -3087,7 +3478,13 @@ const QUESTION_BANK = [
         'Simplify (x^4)^3 using exponent rules.',
         'Apply the power rule: (x^m)^n = x^(m*n), so multiply the exponents.',
         'What is the simplified form of (x^4)^3?'
+      ],
+      3: [
+        'Compute 3 − 2\sqrt{5} + 6\sqrt{5} by combining the radical terms: −2\sqrt{5} + 6\sqrt{5} = 4\sqrt{5}.',
+        'Enter the expression in the calculator and test each MC choice numerically.',
+        'Which choice equals 3 + 4\sqrt{5}?'
       ]
+    
     },
     errorTags: ['adds_exponents_instead_of_multiplying', 'sign_error_with_odd_power']
   },
@@ -3126,7 +3523,13 @@ const QUESTION_BANK = [
         'A table shows: x = 2, 4, 6, 8 and y = 20, 14, 8, 2.',
         'Find the rate of change for any interval: (y2 - y1) / (x2 - x1).',
         'What is the rate of change shown in this table?'
+      ],
+      9: [
+        'In y = ax^{2} + bx + c, the point (x, −6) lies on the graph, so y = −6.',
+        'Substitute y = −6 into −x^{2} − x + 6 = −6 and read: which x-values satisfy this structure?',
+        'Without full algebra, which answer choice(s) are plausible solutions?'
       ]
+    
     },
     errorTags: ['uses_wrong_interval_endpoints', 'drops_negative_sign_on_rate']
   },
@@ -3162,7 +3565,13 @@ const QUESTION_BANK = [
         'Subtract (3x^2 - x + 4) from (5x^2 + 2x - 1).',
         'Rewrite as (5x^2 + 2x - 1) - (3x^2 - x + 4) and distribute the negative to every term.',
         'What is the simplified result?'
+      ],
+      3: [
+        'Pick a test point, e.g., x = 1. The parabola with given features should pass through certain points.',
+        'Enter each MC equation in Y= and check whether it matches the described parabola\'s graph.',
+        'Which equation produces the correct parabola?'
       ]
+    
     },
     errorTags: ['distribution_error_on_subtraction', 'sign_error_in_polynomial_operations']
   },
@@ -3198,7 +3607,13 @@ const QUESTION_BANK = [
         'Write f(x) = x^2 - 8x + 7 in vertex form by completing the square.',
         'Take half of -8 and square it: (-4)^2 = 16. Add and subtract 16 to preserve equality.',
         'What is the vertex form of f(x) = x^2 - 8x + 7?'
+      ],
+      3: [
+        'Enter (2x^{2}−3x+4) in Y1 and (x^{2}+2x−5) in Y2. Enter Y1 − Y2 in Y3.',
+        'At x = 1: check which MC choice gives the same value as Y3.',
+        'Which expression is the correct difference?'
       ]
+    
     },
     errorTags: ['forgets_to_add_constant_to_both_sides', 'uses_full_coefficient_instead_of_half']
   },
@@ -3234,7 +3649,13 @@ const QUESTION_BANK = [
         'A sequence is defined as a_1 = 4, a_n = a_(n-1) + 6.',
         'Generate the first 4 terms: 4, 10, 16, 22. This is arithmetic with common difference 6.',
         'Which explicit formula represents this sequence?'
+      ],
+      4: [
+        'Enter each MC equation into Y=. Press 2nd+GRAPH.',
+        'The equivalent equation should have the same zeros as x^{2} − 6x = 24.',
+        'Which MC equation produces the same table values?'
       ]
+    
     },
     errorTags: ['off_by_one_in_sequence_index', 'confuses_geometric_with_arithmetic']
   },
@@ -3271,7 +3692,13 @@ const QUESTION_BANK = [
         'Simplify 4*sqrt(5) + 3*sqrt(5).',
         'Add like radicals by combining only the coefficients: (4 + 3)*sqrt(5).',
         'What is the simplified form?'
+      ],
+      10: [
+        'The expression 3 − 2\sqrt{5} + 6\sqrt{5} combines a rational number (3) and irrational radical terms.',
+        'Rational + irrational = irrational. Eliminate any choice claiming the result is rational.',
+        'Which choice correctly classifies the simplified expression?'
       ]
+    
     },
     errorTags: ['absorbs_constant_into_radical', 'adds_radicands_instead_of_coefficients']
   },
@@ -3310,7 +3737,13 @@ const QUESTION_BANK = [
         'Which values of x satisfy x^2 - 8x + 12 = 0?',
         'Using Plug & Check: substitute each answer choice pair into x^2 - 8x + 12.',
         'Which pair of values both make the equation equal zero?'
+      ],
+      1: [
+        'Enter f(x) = |4x + 2| in Y1 and g(x) = 3x + 5 in Y2.',
+        'Press 2nd+TRACE → Intersect. Find the crossing x-value.',
+        'At what x-value does f(x) = g(x)?'
       ]
+    
     },
     errorTags: ['misses_second_solution', 'sign_error_in_quadratic_setup']
   },
@@ -3350,7 +3783,13 @@ const QUESTION_BANK = [
         'The function f(x) = x^2 - 6x + 8 is a parabola.',
         'Use the axis of symmetry formula: x = -b/(2a) with a = 1 and b = -6.',
         'What is the equation of the axis of symmetry?'
+      ],
+      9: [
+        'A parabola in vertex form y = a(x − h)^{2} + k has vertex at (h, k).',
+        'Read h and k directly from the equation. The axis of symmetry is x = h.',
+        'What are the vertex coordinates and axis of symmetry without graphing?'
       ]
+    
     },
     errorTags: ['confuses_x_and_y_for_axis_of_symmetry', 'swaps_vertex_coordinates']
   },
@@ -3414,7 +3853,13 @@ const QUESTION_BANK = [
         'Which mapping diagram represents a function?',
         'A function assigns exactly one output to each input — check if any x-value maps to two different y-values.',
         'Which relationship has every input paired with exactly one output?'
+      ],
+      8: [
+        'Graph each function from the four choices in Y=.',
+        'A function has exactly one y-value for each x (vertical line test). Check which graphs pass.',
+        'Which graph(s) pass the vertical line test and represent functions?'
       ]
+    
     },
     errorTags: ['fails_vertical_line_test', 'confuses_relation_with_function']
   },
@@ -3483,7 +3928,13 @@ const QUESTION_BANK = [
         'Which graph represents the solution to 3x + 2 > 11?',
         'Solve: 3x > 9, so x > 3. Use an open circle at 3 and shade to the right.',
         'Which number line correctly shows x > 3?'
+      ],
+      3: [
+        'Pick a test value, say x = 4. The number line solution to the inequality should include 4 if 4 satisfies it.',
+        'Substitute x = 4 into the inequality. Check if 4 belongs to the solution set shown on each MC number line.',
+        'Which number line correctly represents the solution set?'
       ]
+    
     },
     errorTags: ['uses_closed_circle_for_strict_inequality', 'wrong_direction_ray']
   },
@@ -3522,7 +3973,13 @@ const QUESTION_BANK = [
         'Which expression is equivalent to sqrt(72)?',
         'Factor 72 = 36 * 2. Apply: sqrt(36 * 2) = sqrt(36) * sqrt(2) = 6*sqrt(2).',
         'What is the simplified form of sqrt(72)?'
+      ],
+      3: [
+        'Enter 4x^{5} + 2x^{3} − 8 in Y1 and each MC factored form in Y2.',
+        'At x = 1: compare Y1 and Y2 values. Which choice matches Y1?',
+        'Which factored form is equivalent?'
       ]
+    
     },
     errorTags: ['fails_to_rationalize', 'multiplies_radicand_instead']
   },
@@ -3558,7 +4015,13 @@ const QUESTION_BANK = [
         'Simplify sqrt(12) + sqrt(27).',
         'Simplify each: sqrt(12) = 2*sqrt(3) and sqrt(27) = 3*sqrt(3). Now add like radical terms.',
         'What is the simplified form of sqrt(12) + sqrt(27)?'
+      ],
+      3: [
+        'Enter (−2x^{2})^{3} into the calculator. Evaluate at x = 1: (−2)^{3} = −8.',
+        'Test each MC choice at x = 1 and compare to −8.',
+        'Which expression is equivalent to (−2x^{2})^{3}?'
       ]
+    
     },
     errorTags: ['combines_unlike_radicands', 'fails_to_simplify_radical']
   },
@@ -3596,7 +4059,13 @@ const QUESTION_BANK = [
         'Let f(x) = 2^x. Evaluate f(-3).',
         'Substitute x = -3: f(-3) = 2^(-3) = 1 / 2^3.',
         'What is the value of f(-3)?'
+      ],
+      4: [
+        'Enter the radioactive decay function into Y=. Press 2nd+GRAPH.',
+        'Read the table values at x = 0, 25, 50 and compare to the given data.',
+        'Which model matches the table values for radioactive decay?'
       ]
+    
     },
     errorTags: ['sign_error_in_exponent', 'denominator_evaluation_error']
   },
@@ -3632,7 +4101,13 @@ const QUESTION_BANK = [
         'Solve the formula A = (1/2)bh for b.',
         'Multiply both sides by 2 to clear the fraction, then divide both sides by h.',
         'What is b in terms of A and h?'
+      ],
+      10: [
+        'The difference (2x^{2}−3x+4) − (x^{2}+2x−5): distribute the negative carefully.',
+        'Eliminate choices with wrong signs on the middle or constant term.',
+        'Which choice is the only one with the correct sign on every term?'
       ]
+    
     },
     errorTags: ['fails_to_invert_half', 'takes_square_root_of_both_sides']
   },
@@ -3668,7 +4143,13 @@ const QUESTION_BANK = [
         'Solve the system: y = 2x - 3 and 4x + 2y = 6.',
         'Enter Y1 = 2x - 3. Rewrite equation 2 as y = -2x + 3 and enter as Y2.',
         'What is the intersection point (x, y)?'
+      ],
+      3: [
+        'Enter x^{2} − 6x − 27 in Y1. Enter each MC expression in Y2.',
+        'Press 2nd+GRAPH. Which Y2 table matches Y1 exactly?',
+        'Which expression is equivalent to x^{2} − 6x = 24 rearranged?'
       ]
+    
     },
     errorTags: ['fails_to_clear_fraction', 'distribution_error']
   },
@@ -3704,7 +4185,13 @@ const QUESTION_BANK = [
         'A cyclist rides 18 miles in 45 minutes. Convert this speed to miles per hour.',
         'Set up: 18 mi / 45 min * 60 min/hr. Cancel minutes — the unit that remains is mi/hr.',
         'What is the cyclist\'s speed in miles per hour?'
+      ],
+      10: [
+        'The sequence has a_1 = −2 and common ratio −3.',
+        'Test: a_4 = −2(−3)^{3}. Eliminate choices that don\'t equal this value.',
+        'Which is the correct fourth term?'
       ]
+    
     },
     errorTags: ['inverts_unit_conversion', 'flips_time_conversion']
   },
@@ -3745,7 +4232,13 @@ const QUESTION_BANK = [
         'A function graph rises from x = -3 to x = 2, then falls from x = 2 to x = 6.',
         'Using Lens 8 — Domain/Range: identify the x-interval where the graph goes upward.',
         'Over what interval is the function increasing?'
+      ],
+      7: [
+        'Graph f(x) = |x + 2| − 5 in Y=. Press TRACE and move to the vertex.',
+        'The vertex (lowest point of the V) gives the minimum y-value.',
+        'What are the coordinates of the vertex of this absolute value function?'
       ]
+    
     },
     errorTags: ['confuses_increasing_with_decreasing', 'reports_root_interval_instead']
   },
@@ -3787,7 +4280,13 @@ const QUESTION_BANK = [
         'A box plot shows: min = 15, Q1 = 30, median = 45, Q3 = 60, max = 80.',
         'Using Lens 8: locate Q1 and Q3 on the plot.',
         'What is the interquartile range (IQR = Q3 - Q1)?'
+      ],
+      10: [
+        'The range uses y-values, not x-values. Eliminate any choice that uses x.',
+        'For f(x) = |x + 2| − 5, the minimum y-value is −5 (vertex) and it goes up from there.',
+        'Which inequality correctly describes all possible y-values?'
       ]
+    
     },
     errorTags: ['confuses_range_with_IQR', 'reads_median_direction_incorrectly']
   },
@@ -3837,7 +4336,13 @@ const QUESTION_BANK = [
         'A function graph has a closed dot at x = -1 and an open dot at x = 5.',
         'Using Lens 8 — Domain/Range: trace the graph from its leftmost to rightmost x-value.',
         'What is the domain of this function?'
+      ],
+      10: [
+        'Each choice makes a claim about exponent rules. Test with a = 2, b = 3, x = 2.',
+        'Evaluate both sides of each equation numerically. Eliminate choices where the sides differ.',
+        'Which equation is the only one that holds true for all values?'
       ]
+    
     },
     errorTags: ['confuses_domain_with_range', 'ignores_open_circle']
   },
@@ -3900,7 +4405,13 @@ const QUESTION_BANK = [
         'A graph is shown. Apply the vertical line test.',
         'Draw vertical lines at several x-values — does any vertical line cross the graph more than once?',
         'Does the graph represent a function?'
+      ],
+      10: [
+        'The area formula A = \frac{1}{2}h(b_1+b_2). To isolate h, multiply both sides by 2 first.',
+        'Eliminate choices that divide before multiplying or skip a step.',
+        'Which expression for h is obtained by correctly applying inverse operations in order?'
       ]
+    
     },
     errorTags: ['fails_vertical_line_test', 'confuses_vertical_with_horizontal']
   },
@@ -3941,7 +4452,13 @@ const QUESTION_BANK = [
         'A parabola passes through (0, 5), (2, 1), and (4, 5).',
         'Notice x = 0 and x = 4 give the same y-value (5) — the axis of symmetry is halfway between them.',
         'What is the equation of the axis of symmetry?'
+      ],
+      9: [
+        'For axis of symmetry x = h in vertex form, or x = −b/(2a) in standard form.',
+        'For h(x) = x^{2} − 4x − 5: axis = −(−4)/(2·1) = 2. Check which representation has axis x = 2.',
+        'Which representation shows an axis of symmetry at x = 2?'
       ]
+    
     },
     errorTags: ['axis_symmetry_formula', 'misreads_graph_vertex', 'ignores_table_symmetry']
   },
@@ -3979,7 +4496,13 @@ const QUESTION_BANK = [
         'Consider the expression 9x^{2} − 25.',
         'Enter 9x^{2} − 25 into Y1. Try each factor pair in Y2 and compare tables.',
         'Which factored form makes the tables identical?'
+      ],
+      10: [
+        '100x^{2} − 16: pull out GCF of 4 → 4(25x^{2} − 4). Difference of squares: 25x^{2} = (5x)^{2}, 4 = 2^{2}.',
+        'Eliminate choices whose expanded form gives a wrong leading coefficient or constant.',
+        'Which choice is the only one that expands back to 100x^{2} − 16?'
       ]
+    
     },
     errorTags: ['wrong_factor_pairs', 'ignores_coefficient_check']
   },
@@ -4049,7 +4572,13 @@ const QUESTION_BANK = [
         'Let f(x) = −x^{2} + 10. Enter it into Y= and open the table.',
         'Find the y-value when x = −2.',
         'What is f(−2)?'
+      ],
+      3: [
+        'Take choice (2): substitute x = −1 into y = 3x^{2} − \frac{1}{4}x + 3.',
+        'Compute: 3(1) − (−\frac{1}{4}) + 3 = 3 + 0.25 + 3 = 6.25, not 5.75. So (2) fails.',
+        'Which point, when substituted into the equation, gives a true statement?'
       ]
+    
     },
     errorTags: ['squares_negative_incorrectly', 'drops_negative_on_coefficient']
   },
@@ -4087,7 +4616,13 @@ const QUESTION_BANK = [
         'Graph f(x) = x^{2} − 6x − 16 in Y1.',
         'Use 2nd+TRACE → Zero to locate both x-intercepts.',
         'What are the two zeros of this function?'
+      ],
+      3: [
+        'Test x = 10: 10^{2} − 8(10) − 20 = 100 − 80 − 20 = 0 ✓. Test x = −2: 4 + 16 − 20 = 0 ✓.',
+        'Now test choice (1): x = 2: 4 − 16 − 20 = −32 ≠ 0. Not a zero.',
+        'Which pair both make f(x) = 0?'
       ]
+    
     },
     errorTags: ['sign_error_on_second_zero', 'wrong_factor_pair']
   },
@@ -4125,7 +4660,13 @@ const QUESTION_BANK = [
         'Enter y = 2x^{2} − x + 1 into Y= and open the table.',
         'Find the y-value at x = −1, x = 0, and x = 1.',
         'Which of these (x, y) pairs lies on the graph?'
+      ],
+      4: [
+        'Enter y = 3x^{2} − \frac{1}{4}x + 3 into Y=. Press 2nd+GRAPH.',
+        'Read the y-values at x = −2, −1, 1, 2 from the table.',
+        'Which (x, y) pair in the table matches one of the MC choices?'
       ]
+    
     },
     errorTags: ['plugs_in_wrong_x', 'fraction_coefficient_error']
   },
@@ -4162,7 +4703,13 @@ const QUESTION_BANK = [
         'Enter f(x) = x^{2} into Y1 and g(x) = 2x + 3 into Y2.',
         'Use 2nd+TRACE → Intersect to find where the two graphs cross.',
         'At what x-value(s) does f(x) = g(x)?'
+      ],
+      2: [
+        'Set x^{2} = 8x − 15 → x^{2} − 8x + 15 = 0. Enter into Y1.',
+        'Press 2nd+TRACE → Zero. Find both x-intercepts.',
+        'What are the x-values where f(x) = g(x)?'
       ]
+    
     },
     errorTags: ['reports_y_instead_of_x', 'finds_only_one_intersection']
   },
@@ -4264,7 +4811,13 @@ const QUESTION_BANK = [
         'A table shows x: 0,1,2,3 and y: 5, 10, 20, 40.',
         'Check differences: 5, 10, 20 — not constant. Check ratios: 2, 2, 2 — constant.',
         'Is this function linear, quadratic, or exponential?'
+      ],
+      4: [
+        'Enter j(x) using the table values. For a linear function, the slope between any two points is constant.',
+        'Enter any two points from j(x) into the slope formula: Δy/Δx.',
+        'Is the slope constant? What is it?'
       ]
+    
     },
     errorTags: ['confuses_first_and_second_differences', 'confuses_ratio_with_difference']
   },
@@ -4404,7 +4957,13 @@ const QUESTION_BANK = [
         'f(x) = x^{2} has its vertex at the origin.',
         'A right shift of 4 units gives (x − 4)^{2}. A left shift of 4 units gives (x + 4)^{2}.',
         'Which direction does the parabola move when we replace x with (x + 2)?'
+      ],
+      3: [
+        'Enter f(x) = x^{2} in Y1 and each MC choice in Y2.',
+        'Press GRAPH. Which Y2 parabola has its vertex at x = −3 (shifted left 3 units from the origin)?',
+        'Which function shifts the parabola 3 units to the left?'
       ]
+    
     },
     errorTags: ['reverses_horizontal_shift_direction', 'confuses_horizontal_and_vertical_shift']
   },
@@ -4474,7 +5033,13 @@ const QUESTION_BANK = [
         'Graph f(x) = |x − 1| + 3 in Y=.',
         'Find the vertex (lowest point) of the V-shape.',
         'What is the range of this function?'
+      ],
+      3: [
+        'Substitute x = 0: f(0) = |0 + 2| − 5 = 2 − 5 = −3. The y-intercept is −3.',
+        'As x → ∞, |x + 2| − 5 → ∞. The function has no upper bound, only a minimum.',
+        'Given the minimum y-value, which inequality describes all possible y-values?'
       ]
+    
     },
     errorTags: ['uses_x_instead_of_y_for_range', 'wrong_vertex_value']
   },
@@ -4512,7 +5077,13 @@ const QUESTION_BANK = [
         'Which is correct: x^{2}·x^{3} = x^{6} or x^{2}·x^{3} = x^{5}?',
         'When multiplying same-base exponentials, add the exponents.',
         'Test with x=2: 4·8 = 32 = 2^{5}. Which rule gives x^{5}?'
+      ],
+      3: [
+        'Test choice (4) with a = 2, b = 3, x = 2: 2^{3} · 2^{2} = 8 · 4 = 32 = 2^{5} = 2^{3+2} ✓.',
+        'Test choice (1): 2^{3} · 2^{4} = 128, but 2^{12} = 4096 ✗. Fails.',
+        'Which equation gives equal values on both sides for any base and exponents?'
       ]
+    
     },
     errorTags: ['multiplies_instead_of_adds_exponents', 'misapplies_power_of_product_rule']
   },
