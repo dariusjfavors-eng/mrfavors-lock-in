@@ -1,6 +1,22 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-22 (Session P — non-bestLens examples added to all 96 questions)
+Last updated: 2026-05-22 (Session Q — bestLens examples completed for all 96 questions)
+
+---
+
+## Session Q — bestLens Examples, Annotation Style ✅ COMPLETE 2026-05-22
+
+**Design concept:** Fill in the 5 missing `examples[bestLens]` entries on Q73–Q96 using the teacher's annotation voice — direct, imperative, TI-84-focused — applied to a parallel Regents question on the same standard.
+
+**Modules touched:** `QUESTION_BANK` only
+
+**Interface changes:** Q82 (L1), Q90 (L4), Q91 (L3), Q92 (L3), Q93 (L3) each gained `examples[bestLens]: [step, step, 'setup question?']`
+
+**Discovery:** Most Q73–Q96 questions already had bestLens examples from earlier passes; only 5 were genuinely missing.
+
+**Out of scope:** Rewriting existing Q73–Q96 bestLens examples in annotation style (19 entries use formal framing — deferred), Q1–Q72 changes, UI changes
+
+**Done when:** ✅ 96/96 runPuzzleTests() pass; all 5 entries verified in browser; deployed
 
 ---
 
@@ -12,7 +28,7 @@ Last updated: 2026-05-22 (Session P — non-bestLens examples added to all 96 qu
 
 **Interface changes:** Each question's `examples` block gains ≥1 additional `lensId: [...steps]` entry beyond the bestLens entry that already existed.
 
-**Out of scope:** bestLens examples for Q73–Q96 (those questions only have non-bestLens entries; bestLens pass deferred), UI changes, new lenses
+**Out of scope:** bestLens examples for Q73–Q96 (completed in Session Q), UI changes, new lenses
 
 **Done when:** ✅ 96/96 runPuzzleTests() pass; deployed to mrfavors-lock-in
 
