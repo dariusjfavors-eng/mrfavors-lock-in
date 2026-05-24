@@ -581,6 +581,111 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 
 ---
 
+## Session T — Q73–Q96 Annotation-Style Example Rewrite ⬜ OPEN
+
+> No Grill Me required — content-only pass, no UI or logic changes.
+> Do this first: no dependencies, no risk, pure teaching quality improvement.
+
+**Design concept:** The 19 Q73–Q96 `examples[bestLens]` entries added in Session P use formal
+framing ("Consider the expression…", "Notice that…") — the style rejected in Session Q for Q1–Q72.
+Rewrite all 19 to match the teacher annotation voice used in Q1–Q72: direct imperative, TI-84
+keystrokes named by exact label (Y=, 2nd+GRAPH, VARS), arrow notation for navigation,
+no hedging verbs, final step always ends with "?".
+
+**Annotation voice rules (from Session Q):**
+- Direct imperative: "Enter the equation into Y=." not "Consider entering…"
+- TI-84 keystrokes named: "Press 2nd+GRAPH to open the table." not "use the table feature"
+- Arrow notation for navigation: "Arrow down to find x = 3."
+- No "Consider / Notice / Remember" openers
+- Final step ends with "?" — never a computed answer
+
+**Modules touched:** `QUESTION_BANK` only — `examples` field on Q73–Q96
+
+**Out of scope:** walkthroughs, UI, new questions, Q1–Q72 examples
+
+**Done when:**
+- All 19 Q73–Q96 bestLens examples use annotation voice
+- 96/96 `runPuzzleTests()` pass
+- Spot-check 3 in browser: click through parallel example, confirm annotation voice reads correctly
+
+---
+
+## Session U — Practice by Specific Past Exam ⬜ OPEN
+
+> Grill Me required before writing any code.
+> This is the highest-value exam-authenticity feature — "practice this specific paper" is how
+> real test prep works and is not possible today.
+
+**Design concept:** Add an "Exam Sets" entry point to Practice Home that lets students pick a
+specific past Regents Part I exam (June 2025, January 2026, August 2025) and work through only
+those questions in fixed exam order — no shuffle, no filter — closest possible simulation of
+sitting down with the actual paper.
+
+**Problem it solves:** Challenge Mode draws 24 questions balanced across all 96. A teacher who
+says "go practice the August 2025 paper tonight" has no way to make that happen today. Students
+who want to self-assess against a real past exam have no way to do that.
+
+**Rough scope (confirm via Grill Me):**
+- New `source` tag already exists on Q73–Q96 (e.g. `'August 2025 Algebra I Regents — Part I'`)
+- Confirm tagging on Q25–Q72 (June 2025, January 2026) — may need backfill
+- New `drillMode = 'exam'` + `filterExam` key in STATE.practice
+- Practice Home gains a 4th card: "Past Exam" → exam picker (3 rows: Aug 2025, Jan 2026, Jun 2025)
+- `startPractice('exam', examKey)` builds pool filtered by source tag, preserves exam order (no shuffle)
+- `renderPracticeComplete()` in exam mode shows score X/N for that exam set
+
+**Grill Me questions to resolve:**
+- Are all Q25–Q72 tagged with `source`? If not, what's the backfill strategy?
+- Should exam order be preserved or shuffled within the set?
+- Does the results screen need per-standard breakdown (like Challenge) or just a score?
+- Is a "try this exam in Challenge mode" (timed) a button on the exam results screen?
+
+**Out of scope (until Grill Me confirms otherwise):**
+- Timed exam mode within the exam set picker (could route to Challenge with filtered pool)
+- New questions or SVG work
+- Per-standard filter inside the exam picker
+
+**Done when (Grill Me will refine):**
+- Student selects a specific past exam from Practice Home
+- Works through those questions in order, lens-pick → walkthrough → answer → review
+- Results screen shows score for that exam set
+- 96/96 `runPuzzleTests()` pass; no regression on existing Practice or Challenge flows
+
+---
+
+## Session V — Full-scope Question Picker ⬜ OPEN
+
+> Grill Me required before writing any code.
+> Builds on the minimal Question Picker from Session O (Challenge results → flat list → single loop).
+
+**Design concept:** Surface the Question Picker from Practice Home as a 4th entry-point card
+("Pick a Question"), add back-to-picker routing after review completes, and optionally add a
+per-standard filter so students can browse by topic, not just scroll through all 96.
+
+**Rough scope (confirm via Grill Me):**
+- Practice Home 4th card: "Pick a Question" → `renderQuestionPicker()`
+- Back-to-picker routing: review complete in `drillMode='single'` → picker (not Practice Home)
+  — requires new `subView: 'question-picker'` and render branch
+- Optional: per-standard grouping in the flat list (cluster headers, collapsible or flat)
+- `STATE.practice.filterQuestion` already exists from Session O; routing is the new work
+
+**Grill Me questions to resolve:**
+- After review in single-question mode, should "Next" go back to the picker or Practice Home?
+  (Current: Practice Home. Session V target: picker.)
+- Should the picker show all 96 or let the student filter by standard cluster first?
+- Does the 4th Practice Home card open the picker directly or show a submenu?
+
+**Out of scope:**
+- Search/text filter in the picker
+- Sorting options beyond Q-number order
+- Any changes to Challenge mode, Free Roam, Standard Drill, or Lens Drill
+
+**Done when (Grill Me will refine):**
+- "Pick a Question" card visible on Practice Home
+- Student picks a question → full loop → review complete → back to picker (not Practice Home)
+- 96/96 `runPuzzleTests()` pass; no regression on existing flows
+
+---
+
 ## Phase 2 — Question Bank Expansion (June 2025 + 2026 Regents, image-bearing questions)
 
 > Grill Me pass was run 2026-05-10. SVG accuracy is non-negotiable — wrong graphs teach wrong math.
