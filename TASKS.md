@@ -1,6 +1,299 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-22 (Session Q — bestLens examples completed for all 96 questions)
+Last updated: 2026-05-24 (Session S — code review findings, annotated for next pass)
+
+---
+
+## Session S — Code Review Fixes ⬜ OPEN
+
+> Source: `/code-review max @games/regents-mc-trainer` run 2026-05-24, immediately after Session R.
+> All 9 findings are verified or plausible. Implement in priority order below.
+> No Grill Me required — root causes are confirmed. No new features, no new modules.
+
+### Fix 1 — Modal fraction bars missing (HIGH — visually broken for every user) ⬜
+
+**What's wrong:** The Reference Sheet modal uses bare `<span>` children inside `.mfrac` spans,
+but the CSS rule that draws the fraction bar targets `.mfrac .mnum` with `border-bottom`.
+Bare spans never match, so slope/quadratic/axis formulas render as two stacked text blocks
+with no horizontal bar — unreadable as fractions.
+
+**File:** `index.html` — the static modal HTML block starting at ~line 789.
+The CSS `.mfrac .mnum { border-bottom: ... }` is at ~line 649.
+
+**Fix:** Add `class="mnum"` to the numerator span and `class="mden"` to the denominator span
+in every `.mfrac` in the modal body. There are 3 fractions: slope, quadratic formula, axis.
+
+Current (broken):
+```html
+<span class="mfrac"><span>y₂ − y₁</span><span>x₂ − x₁</span></span>
+```
+Fixed:
+```html
+<span class="mfrac"><span class="mnum">y₂ − y₁</span><span class="mden">x₂ − x₁</span></span>
+```
+Apply to all three: slope (`ref-row` line 1 under Linear), quadratic formula x=, and axis x=.
+
+---
+
+### Fix 2 — Modal stays open on navigate() (HIGH — overlays Home/Library) ⬜
+
+**What's wrong:** `navigate()` replaces `main.innerHTML` but the modal is `position:fixed`
+outside `<main>`, so it persists over every view (Home, Library, Practice Home, Challenge
+splash). Those views have no `refSheetBtn()` trigger, so students who don't find the ×
+button inside the modal are stuck.
+
+**File:** `index.html` — `navigate()` function. Find it by searching `function navigate(`.
+
+**Fix:** Add one line at the top of `navigate()`:
+```js
+document.getElementById('reference-sheet-modal').classList.add('hidden');
+```
+
+---
+
+### Fix 3 — getLens(Q.bestLens).name unguarded in isValid walkthrough branch (HIGH) ⬜
+
+**What's wrong:** The null guard `(getLens(Q.bestLens)||{}).name||''` was added to the
+review-phase feedback in Session R, but the identical pattern exists ONE MORE TIME in the
+walkthrough-phase `isValid` branch and was missed. It crashes when a student picks a
+valid-but-non-best lens on any question where bestLens lookup fails.
+
+**File:** `index.html` — search for the string `is faster` inside `renderPractice()`.
+The line reads (approximately):
+```js
+else if (isValid) fb = `...<p>${guessLens.name} can crack it, but ${getLens(Q.bestLens).name} is faster.</p>`;
+```
+
+**Fix:** Change `${getLens(Q.bestLens).name}` to `${(getLens(Q.bestLens)||{}).name||''}` on
+that one line. (Note: `guessLens` on the same line is already safe because `getLens(guess)`
+is guarded by the `isValid` check a few lines above — only `Q.bestLens` needs the guard.)
+
+---
+
+### Fix 4 — touchcancel not handled: _dragActive locks on forever (MEDIUM) ⬜
+
+**What's wrong:** The drag IIFE wires `touchstart/touchmove/touchend` but not `touchcancel`.
+If the OS interrupts a drag (incoming call, notification, focus steal), `touchend` never fires
+and `_dragActive` stays `true` permanently. Every subsequent touchmove suppresses scroll
+via `e.preventDefault()` for the rest of the session.
+
+**File:** `index.html` — the drag IIFE, after the `touchend` listener line.
+
+**Fix:** Add one line immediately after `document.addEventListener('touchend', endDrag);`:
+```js
+document.addEventListener('touchcancel', endDrag);
+```
+
+---
+
+### Fix 5 — Non-passive touchmove degrades all scroll on touch devices (MEDIUM) ⬜
+
+**What's wrong:** `document.addEventListener('touchmove', fn, { passive: false })` is always
+active, even when the modal is closed and nothing is being dragged. The browser cannot use
+compositor-thread scroll for any touchmove on the page because this listener exists.
+
+**File:** `index.html` — the drag IIFE touchmove handler.
+
+Current:
+```js
+document.addEventListener('touchmove', function(e) {
+  if (!_dragActive) return;
+  var t = e.touches[0];
+  moveDrag(t.clientX, t.clientY);
+  e.preventDefault();
+}, { passive: false });
+```
+
+**Fix:** Move `preventDefault` inside the active-drag guard so the browser sees it's
+unconditionally-returning when inactive, then keep `{ passive: false }` only for the active path.
+Actually the minimal correct fix is to keep `{ passive: false }` (required to call preventDefault
+at all) but ensure the early return makes it a no-op when not dragging — the current code already
+does this. The real fix is structural: use a `passive: true` listener that only upgrades to
+non-passive during an active drag via a flag + a separate listener. For this codebase the
+pragmatic fix is acceptable as-is on Chromebook (auto-hidden scrollbars, few touch-scroll
+conflicts), but document the tradeoff in a comment:
+```js
+// passive:false required to preventDefault during drag; early-return minimizes cost when idle
+document.addEventListener('touchmove', function(e) {
+  if (!_dragActive) return;
+  var t = e.touches[0];
+  moveDrag(t.clientX, t.clientY);
+  e.preventDefault();
+}, { passive: false });
+```
+**Priority:** Fix 4 (touchcancel) first — that's the crash. Fix 5 is an accepted perf tradeoff
+on Chromebook; annotate the comment and move on.
+
+---
+
+### Fix 6 — Q.errorTags[0] unguarded: renders "undefined" on empty errorTags (MEDIUM) ⬜
+
+**What's wrong:** `Q.errorTags[0]` is interpolated directly into `innerHTML` at the review
+feedback line. If a future question has `errorTags: []` or omits the field, students see
+**"Common error: undefined."** in bold. The same value also logs as `undefined` to the
+FAVORit Sheets endpoint.
+
+**File:** `index.html` — review phase feedback builder. Search for `errorTags[0]`.
+There are two occurrences: one in the `innerHTML` string and one in the `ANALYTICS.log` call.
+
+**Fix both occurrences:**
+- In the `innerHTML` string: `${Q.errorTags[0]}` → `${(Q.errorTags && Q.errorTags[0]) || ''}`
+- In the analytics call: `error_tag: Q.errorTags[0]` → `error_tag: (Q.errorTags && Q.errorTags[0]) || null`
+
+---
+
+### Fix 7 — runPuzzleTests() check (d) misses empty array walkthroughs (MEDIUM) ⬜
+
+**What's wrong:** Check (d) uses `!q.walkthroughs[q.bestLens]` which is `false` for `[]`
+(empty array is truthy), so a question with `walkthroughs: { 9: [] }` passes the test
+but renders a blank walkthrough panel in the UI. Check (e) already has the correct
+`.length === 0` guard; check (d) needs the same.
+
+**File:** `index.html` — `runPuzzleTests()`, the `// (d)` block.
+
+Current:
+```js
+if (!q.walkthroughs || !q.walkthroughs[q.bestLens]) {
+  errors.push('walkthroughs[' + q.bestLens + '] missing');
+}
+```
+
+**Fix:**
+```js
+if (!q.walkthroughs || !q.walkthroughs[q.bestLens] ||
+    (Array.isArray(q.walkthroughs[q.bestLens]) && q.walkthroughs[q.bestLens].length === 0)) {
+  errors.push('walkthroughs[' + q.bestLens + '] missing or empty');
+}
+```
+
+---
+
+### Fix 8 — Modal position not reset on re-open after window resize (LOW) ⬜
+
+**What's wrong:** After a drag, `modal.style.left/top` are set inline and `style.right` is
+forced to `'auto'`. These persist across close/reopen. After a viewport resize (e.g., split-screen
+on Chromebook), the old absolute position may be off-screen with no recovery except another drag.
+
+**File:** `index.html` — `toggleReferenceSheet()` function.
+
+**Fix:** When showing (not hiding), clamp the current position to the viewport:
+```js
+function toggleReferenceSheet() {
+  const modal = document.getElementById('reference-sheet-modal');
+  modal.classList.toggle('hidden');
+  if (!modal.classList.contains('hidden')) {
+    // Re-clamp after potential viewport resize
+    const left = parseFloat(modal.style.left) || 0;
+    const top = parseFloat(modal.style.top) || 0;
+    if (modal.style.left) {
+      modal.style.left = Math.max(0, Math.min(left, window.innerWidth - modal.offsetWidth)) + 'px';
+      modal.style.top = Math.max(0, Math.min(top, window.innerHeight - modal.offsetHeight)) + 'px';
+    }
+  }
+}
+```
+
+---
+
+### Fix 9 — Text selection during fast drag (LOW — cosmetic) ⬜
+
+**What's wrong:** `mousemove` on `document` doesn't call `e.preventDefault()`, so dragging
+the modal quickly across formula text in the modal body produces a visible text selection.
+
+**File:** `index.html` — drag IIFE `mousemove` listener.
+
+Current:
+```js
+document.addEventListener('mousemove', function(e) { moveDrag(e.clientX, e.clientY); });
+```
+
+**Fix:**
+```js
+document.addEventListener('mousemove', function(e) {
+  if (_dragActive) e.preventDefault();
+  moveDrag(e.clientX, e.clientY);
+});
+```
+
+---
+
+### Done when:
+- Fixes 1–3 implemented (HIGH priority — required before gh-pages deploy)
+- Fixes 4, 6, 7 implemented (MEDIUM — data-safety and touch-correctness)
+- Fix 5 comment annotated (accepted tradeoff, no code change needed beyond the comment)
+- Fixes 8–9 implemented if time allows (LOW)
+- 96/96 `runPuzzleTests()` pass after every change
+- Browser QA at 1366×768: modal fractions visible with horizontal bars; modal closes on navigate; no crash on non-best lens pick
+
+---
+
+## Session R — Bug Fixes + Reference Sheet Modal ✅ COMPLETE 2026-05-24
+
+### Phase 1 — Bug Fixes
+
+**Bug 1 — Q96 Fraction Display (CRITICAL)**
+All 4 choices in Q96 render as `rac{...}` text — backslash was dropped. Students cannot read the choices.
+- **File:** `index.html` lines 5374–5377
+- **Fix:** Wrap each choice in `math()` and restore `\\frac{...}` prefix
+- **Root cause confirmed:** `\f` stripped in source; `math()` defined at line 942, available at parse time
+
+**Bug 2 — Null Guard on bestLens Lookup (MEDIUM)**
+`getLens(Q.bestLens).name` at line 5778 crashes review screen if `getLens()` returns undefined.
+- **Fix:** `${(getLens(Q.bestLens)||{}).name||''}`
+
+**Bug 3 — runPuzzleTests() Extension**
+Extend existing validation loop to catch content gaps silently passing today:
+- Check `Q.walkthroughs[Q.bestLens]` exists for every question
+- Check `Q.examples[Q.bestLens]` exists for every question
+- Check each examples entry is a non-empty array
+- No new test API — extend `errors.push(...)` block at lines 6305–6344
+
+### Phase 2 — Reference Sheet Modal
+
+**Design concept:** A small trigger button in the question header, consistent across Practice active and Challenge active views, opens a floating draggable formula sheet — always available, never filtered by standard — matching the NYS Regents exam where students always have the reference sheet in front of them.
+
+**Grill Me:** Complete 2026-05-24. Interview produced the floating modal approach (not a rail card). Key decisions: static HTML outside `<main>` (survives `main.innerHTML` reassignment); `position: fixed`; drag-by-handle with viewport constraint; mouse + touch events; `refSheetBtn()` helper called by both renderers.
+
+**Modules touched:**
+- `HTML body` — new `<div id="reference-sheet-modal" class="ref-modal hidden">` as sibling of `<main>` and `#persistent-rail`; never re-created by renderers
+- `UI_RENDER` — `renderPractice()` (active phase) and `renderChallenge()` (active question) each call `refSheetBtn()` in the question header; `refSheetBtn()` is the single source of truth for button HTML
+- `CSS` — `.ref-modal` (fixed position, z-index, border), `.ref-modal-handle` (drag strip), `.ref-cat-label`, `.ref-row`, `.ref-toggle-btn`
+- `JS` — `toggleReferenceSheet()` (toggles `.hidden` on `#reference-sheet-modal`); drag listeners wired once in INIT (mousedown/mousemove/mouseup + touchstart/touchmove/touchend; viewport-constrained)
+
+**Interface changes:**
+- `refSheetBtn()` → `<button onclick="toggleReferenceSheet()">Reference Sheet</button>` — small, inline in question header
+- `toggleReferenceSheet()` → toggles `.hidden`; no STATE change needed
+- Drag: `mousedown` on `.ref-modal-handle` sets `_dragActive = true` + records offset; `mousemove` on document updates `style.left`/`style.top`; `mouseup` clears flag; constrained to viewport bounds; touch mirrors mouse
+- Content: static HTML in modal body using existing `.mfrac` for fractions, Unicode for subscripts/superscripts; no JS rendering of content
+- Default position: top-right of viewport, clear of answer choices — verified in QA at 1366×768
+
+**Formula categories (source: teacher's Google Drive reference PDF, file ID 1jQ9NBon4xjurHWv3IK_isgRKc5KtSua8):**
+- Linear: slope m = (y₂−y₁)/(x₂−x₁), y = mx+b, y−y₁ = m(x−x₁)
+- Quadratic: y = ax²+bx+c, x = (−b±√(b²−4ac))/2a, axis x = −b/2a
+- Exponential/Growth: y = ab^x, A = P(1+r)^n
+- Sequences: arithmetic aₙ = a₁+d(n−1), geometric aₙ = a₁·r^(n−1)
+- Statistics: IQR = Q3−Q1, lower Q1−1.5·IQR, upper Q3+1.5·IQR
+- Unit conversions (compact): 1 mi = 5,280 ft, 1 mi ≈ 1.609 km, 1 kg ≈ 2.2 lb
+
+**Out of scope:**
+- Keyboard shortcut to toggle the sheet
+- Per-section collapsing inside the modal
+- Responsive/mobile layout changes for the modal
+- Persistence of modal position across page reload (no localStorage)
+- Any QUESTION_BANK, walkthrough, or examples changes
+- Full-scope Question Picker (deferred from Session O)
+- Q73–Q96 annotation-style example rewrite (deferred)
+- Animation or transition effects
+
+**Done when:**
+- Button appears in question header in Practice active and Challenge active; absent elsewhere
+- Modal opens/closes on button click
+- Modal is draggable by handle; constrained to viewport; cannot go off-screen
+- Modal default position does not overlap answer choices at 1366×768
+- Open modal → advance question → modal stays open
+- Touch and mouse drag both work
+- 96/96 `runPuzzleTests()` pass
+- No regression on existing Practice flows, Challenge mode, or persistent rail
 
 ---
 

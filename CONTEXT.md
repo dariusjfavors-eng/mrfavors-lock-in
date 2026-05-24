@@ -18,7 +18,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 | Framework | Vanilla JS only, zero build tools |
 | Storage | None — session is ephemeral, no localStorage |
 | PII Policy | None stored; FAVORit analytics are anonymous (sid = `anon_` + timestamp) |
-| Current Status | Classroom Ready — deployed to gh-pages 2026-05-15; 72/72 questions; Sessions A–K + J + L complete. All 161 walkthroughs are multi-step click-to-reveal arrays. Session M (parallel examples) PRD written — logic pass is next. |
+| Current Status | Classroom Ready — deployed to gh-pages; 96/96 questions; all sessions through R complete. Session R delivered: Q96 fraction bug fixed, null guard added, runPuzzleTests() extended (96/96), floating draggable Reference Sheet modal added. Next: Full-scope Question Picker (Practice Home 4th card), Q73–Q96 annotation-style example rewrite. |
 
 ---
 
@@ -130,6 +130,7 @@ home → challenge:
 - FAVORit POST is live and active — Apps Script endpoint hardcoded in `ANALYTICS.workerUrl` (repo is private; FERPA_RULES waived for private deployment). Sheet ID: `11tzYXMZim5gq_rJ9qBhL_PeuQgMIxbuSKbqUPYWC1jE`. Tracker script: `scripts/sheets-tracker.gs`. `localStorage('favoritWorkerUrl')` overrides the hardcoded URL if set on a device.
 - `window.runPuzzleTests()` is live — run in browser console to validate all questions; returns `{ passed, failed, total }`
 - Phase 2 SVG questions not yet authored — `[TODO:Q]` marker in source flags the insertion point
+- **Session R complete (2026-05-24):** Q96 fractions fixed (math() wrapping restored — choices now render as stacked fractions); null guard added on `getLens(Q.bestLens)` in review feedback; `runPuzzleTests()` extended with checks (d) walkthroughs[bestLens] and (e) examples[bestLens] non-empty array; Reference Sheet modal added — floating draggable overlay (position:fixed, outside `<main>`), mouse+touch drag, viewport-constrained, trigger button in Practice active + Challenge active headers, all 6 formula categories. 96/96 pass.
 
 ---
 
@@ -161,6 +162,7 @@ No star field, no orbs, no gradients, no texture. This is an intentional DESIGN_
 
 ## 7. LAST SESSION LOG
 
+- 2026-05-24 (Session R — Implementation) — Three Phase 1 bugs fixed: Q96 choices had `\x0c` (form feed) instead of `\f` causing `rac{...}` display — fixed via binary replacement, choices now render as stacked fractions via math(); null guard added on `getLens(Q.bestLens)` in review feedback (line 5778); runPuzzleTests() extended with checks (d) walkthroughs[bestLens] exists and (e) examples[bestLens] exists and is non-empty. Phase 2 Reference Sheet modal: `<div id="reference-sheet-modal">` added as sibling of `<main>` and `#persistent-rail`; CSS `.ref-modal`, `.ref-modal-handle`, `.ref-row`, `.ref-cat-label`, `.ref-sheet-trigger`; `refSheetBtn()` + `toggleReferenceSheet()` helpers; drag listeners wired once in INIT (mouse+touch, viewport-constrained); trigger button added to Practice active and Challenge active question headers. Formulas: Linear, Quadratic, Exponential/Growth, Sequences, Statistics, Unit Conversions. Browser QA: fractions ✅, modal opens/closes ✅, drag ✅, Challenge button ✅. 96/96 pass. File: 6,502 lines. Deploy to gh-pages pending.
 - 2026-05-19 (Session M — Logic Pass) — Three-way walkthrough branch wired in `renderPractice()` Phase 2: `examples[guess]` exists → click-to-reveal parallel example; `isValid` → neutral "No worked example — give it a try" + Answer button; `!isValid` → nudge to bestLens + re-pick only. Universal review rule: `!correct &&` replaces `isLensDrill &&` — wrong answers see `walkthroughs[lensId]` in ALL Practice modes; correct answers never see walkthrough (including Lens Drill, which previously always showed it). `Q.examples || {}` guard — no QUESTION_BANK changes needed. 72/72 runPuzzleTests() unaffected (data-only checks). Content pass (72 `examples` entries) is the next open task.
 - 2026-05-19 (Session M — PRD) — Grill Me interview complete. Parallel example feature planned: `examples: { lensId: [...steps] }` field (pre-answer, setup-only, ends with "?"); `walkthroughs` moves to review phase, wrong answers only, universal across all modes; Challenge untouched; bestLens-only first pass. Mini-PRD in TASKS.md. WORKFLOW.md annotated.
 - 2026-05-19 (Session L — Content Migration) — All 161 string walkthroughs converted to multi-step step arrays. Each lens follows strategy pattern. 13 apostrophes fixed. 72/72 pass. Deployed to mrfavors-lock-in.

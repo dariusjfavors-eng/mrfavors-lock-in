@@ -684,6 +684,64 @@ html, body {
 .pmode-icon { font-size: 26px; margin-bottom: 10px; }
 .pmode-card h4 { font-size: 14px; font-weight: 700; margin: 0 0 8px; }
 .pmode-card p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.4; }
+.ref-modal {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 280px;
+  background: #fff;
+  border: 1px solid #000;
+  z-index: 900;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+}
+.ref-modal.hidden { display: none; }
+.ref-modal-handle {
+  background: #000;
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+.ref-modal-body {
+  padding: 8px 10px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.ref-cat-label {
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #000;
+  margin: 8px 0 4px;
+  padding-bottom: 2px;
+}
+.ref-cat-label:first-child { margin-top: 0; }
+.ref-row { margin: 3px 0; line-height: 1.5; }
+.ref-close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 0 0 8px;
+  line-height: 1;
+}
+.ref-sheet-trigger {
+  font-size: 11px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 3px 8px;
+  border: 1px solid #000;
+  background: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ref-sheet-trigger:hover { background: var(--hover); }
 </style>
 </head>
 
@@ -726,6 +784,37 @@ html, body {
       </div>
     </aside>
   </div>
+
+<div id="reference-sheet-modal" class="ref-modal hidden">
+  <div class="ref-modal-handle" id="ref-modal-handle">
+    <span>Reference Sheet</span>
+    <button class="ref-close-btn" onclick="toggleReferenceSheet()" title="Close">&times;</button>
+  </div>
+  <div class="ref-modal-body">
+    <div class="ref-cat-label">Linear</div>
+    <div class="ref-row">Slope: m = <span class="mfrac"><span>y&#8322; &#8722; y&#8321;</span><span>x&#8322; &#8722; x&#8321;</span></span></div>
+    <div class="ref-row">y = mx + b</div>
+    <div class="ref-row">y &#8722; y&#8321; = m(x &#8722; x&#8321;)</div>
+    <div class="ref-cat-label">Quadratic</div>
+    <div class="ref-row">y = ax&#178; + bx + c</div>
+    <div class="ref-row">x = <span class="mfrac"><span>&#8722;b &#177; &#8730;(b&#178; &#8722; 4ac)</span><span>2a</span></span></div>
+    <div class="ref-row">Axis: x = <span class="mfrac"><span>&#8722;b</span><span>2a</span></span></div>
+    <div class="ref-cat-label">Exponential / Growth</div>
+    <div class="ref-row">y = ab<sup>x</sup></div>
+    <div class="ref-row">A = P(1 + r)<sup>n</sup></div>
+    <div class="ref-cat-label">Sequences</div>
+    <div class="ref-row">Arith: a<sub>n</sub> = a<sub>1</sub> + d(n &#8722; 1)</div>
+    <div class="ref-row">Geom: a<sub>n</sub> = a<sub>1</sub> &middot; r<sup>n&#8722;1</sup></div>
+    <div class="ref-cat-label">Statistics</div>
+    <div class="ref-row">IQR = Q3 &#8722; Q1</div>
+    <div class="ref-row">Lower fence: Q1 &#8722; 1.5 &middot; IQR</div>
+    <div class="ref-row">Upper fence: Q3 + 1.5 &middot; IQR</div>
+    <div class="ref-cat-label">Unit Conversions</div>
+    <div class="ref-row">1 mi = 5,280 ft</div>
+    <div class="ref-row">1 mi &#8776; 1.609 km</div>
+    <div class="ref-row">1 kg &#8776; 2.2 lb</div>
+  </div>
+</div>
 
   <footer class="footer">
     <span>Anon session &middot; No PII</span>
@@ -5371,10 +5460,10 @@ const QUESTION_BANK = [
     standard: 'N.Q.1',
     stem: 'In 2009, Usain Bolt set the world record in the 100-meter dash with a time of 9.58 seconds. His approximate speed, in kilometers per hour, can be found using which conversion?',
     choices: [
-      { label: '1', text: 'rac{9.58 sec}{100 m} × rac{1000 m}{1 km} × rac{60 sec}{1 min} × rac{60 min}{1 hr}' },
-      { label: '2', text: 'rac{9.58 sec}{100 m} × rac{1 min}{60 sec} × rac{1 hr}{60 min} × rac{1 km}{1000 m}' },
-      { label: '3', text: 'rac{100 m}{9.58 sec} × rac{1000 m}{1 km} × rac{60 sec}{1 min} × rac{60 min}{1 hr}' },
-      { label: '4', text: 'rac{100 m}{9.58 sec} × rac{1 km}{1000 m} × rac{60 sec}{1 min} × rac{60 min}{1 hr}' }
+      { label: '1', text: math('\\frac{9.58 sec}{100 m} × \\frac{1000 m}{1 km} × \\frac{60 sec}{1 min} × \\frac{60 min}{1 hr}') },
+      { label: '2', text: math('\\frac{9.58 sec}{100 m} × \\frac{1 min}{60 sec} × \\frac{1 hr}{60 min} × \\frac{1 km}{1000 m}') },
+      { label: '3', text: math('\\frac{100 m}{9.58 sec} × \\frac{1000 m}{1 km} × \\frac{60 sec}{1 min} × \\frac{60 min}{1 hr}') },
+      { label: '4', text: math('\\frac{100 m}{9.58 sec} × \\frac{1 km}{1000 m} × \\frac{60 sec}{1 min} × \\frac{60 min}{1 hr}') }
     ],
     correctAnswer: '4',
     applicableLenses: [9],
@@ -5521,6 +5610,14 @@ const _lensHintText = document.getElementById('lens-hint-text');
 function showRail(visible, showHint) {
   _rail.classList.toggle('hidden', !visible);
   if (_lensHintCard) _lensHintCard.classList.toggle('hidden', !showHint);
+}
+
+function refSheetBtn() {
+  return `<button class="ref-sheet-trigger" onclick="toggleReferenceSheet()">Reference Sheet</button>`;
+}
+
+function toggleReferenceSheet() {
+  document.getElementById('reference-sheet-modal').classList.toggle('hidden');
 }
 
 function render() {
@@ -5775,7 +5872,7 @@ function renderPractice() {
       const lensName = getLens(STATE.practice.lensGuess) ? getLens(STATE.practice.lensGuess).name : '';
       const fb = correct
         ? `<div class="feedback good"><div class="fb-label">Correct</div><p>Standard ${Q.standard}. Lens used: ${lensName}.</p></div>`
-        : `<div class="feedback bad"><div class="fb-label">Incorrect</div><p>Correct answer: (${Q.correctAnswer}). Common error: <strong>${Q.errorTags[0]}</strong>. Best lens: ${getLens(Q.bestLens).name}.</p></div>`;
+        : `<div class="feedback bad"><div class="fb-label">Incorrect</div><p>Correct answer: (${Q.correctAnswer}). Common error: <strong>${Q.errorTags[0]}</strong>. Best lens: ${(getLens(Q.bestLens)||{}).name||''}.</p></div>`;
       let walkExtra = '';
       if (!correct && STATE.practice.lensGuess && Q.walkthroughs && Q.walkthroughs[STATE.practice.lensGuess]) {
         const drillWalkRaw = Q.walkthroughs[STATE.practice.lensGuess];
@@ -5805,7 +5902,7 @@ function renderPractice() {
   main.innerHTML = `
     <div class="problem-meta">
       <span>Question ${STATE.practice.cursor + 1} of ${STATE.practice.queue.length} &middot; ${drillLabel}</span>
-      <span>${Q.standard}</span>
+      <div style="display:flex;align-items:center;gap:10px;"><span>${Q.standard}</span>${refSheetBtn()}</div>
     </div>
     <div class="problem-stem">${Q.stem}</div>
     ${body}
@@ -5970,7 +6067,7 @@ function renderChallenge() {
   main.innerHTML = `
     <div class="problem-meta">
       <span>Question ${C.cursor + 1} of ${C.queue.length}</span>
-      <span>${Q.standard}</span>
+      <div style="display:flex;align-items:center;gap:10px;"><span>${Q.standard}</span>${refSheetBtn()}</div>
     </div>
     <div class="timer-track">
       <div class="timer-fill${urgent ? ' urgent' : ''}" id="timer-bar" style="width:${pct}%"></div>
@@ -6302,6 +6399,52 @@ document.getElementById('session-id').textContent = 'SID: ' + ANALYTICS.sessionI
 ANALYTICS.log('boot', { build: 'v1.0', q_count: QUESTION_BANK.length, lens_count: LENSES.length });
 render();
 
+// Reference Sheet drag (wired once; modal lives outside <main>)
+(function() {
+  const modal = document.getElementById('reference-sheet-modal');
+  const handle = document.getElementById('ref-modal-handle');
+  let _dragActive = false;
+  let _dragOffX = 0;
+  let _dragOffY = 0;
+
+  function startDrag(clientX, clientY) {
+    _dragActive = true;
+    const rect = modal.getBoundingClientRect();
+    _dragOffX = clientX - rect.left;
+    _dragOffY = clientY - rect.top;
+  }
+
+  function moveDrag(clientX, clientY) {
+    if (!_dragActive) return;
+    let left = clientX - _dragOffX;
+    let top = clientY - _dragOffY;
+    left = Math.max(0, Math.min(left, window.innerWidth - modal.offsetWidth));
+    top = Math.max(0, Math.min(top, window.innerHeight - modal.offsetHeight));
+    modal.style.left = left + 'px';
+    modal.style.top = top + 'px';
+    modal.style.right = 'auto';
+  }
+
+  function endDrag() { _dragActive = false; }
+
+  handle.addEventListener('mousedown', function(e) { startDrag(e.clientX, e.clientY); e.preventDefault(); });
+  document.addEventListener('mousemove', function(e) { moveDrag(e.clientX, e.clientY); });
+  document.addEventListener('mouseup', endDrag);
+
+  handle.addEventListener('touchstart', function(e) {
+    var t = e.touches[0];
+    startDrag(t.clientX, t.clientY);
+    e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('touchmove', function(e) {
+    if (!_dragActive) return;
+    var t = e.touches[0];
+    moveDrag(t.clientX, t.clientY);
+    e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('touchend', endDrag);
+})();
+
 window.runPuzzleTests = function() {
   const VALID_LABELS = new Set(['1', '2', '3', '4']);
   let passed = 0;
@@ -6328,6 +6471,18 @@ window.runPuzzleTests = function() {
     // (c) bestLens is in applicableLenses
     if (!Array.isArray(q.applicableLenses) || !q.applicableLenses.includes(q.bestLens)) {
       errors.push('bestLens ' + q.bestLens + ' not in applicableLenses [' + (q.applicableLenses || []).join(',') + ']');
+    }
+
+    // (d) walkthroughs[bestLens] exists
+    if (!q.walkthroughs || !q.walkthroughs[q.bestLens]) {
+      errors.push('walkthroughs[' + q.bestLens + '] missing');
+    }
+
+    // (e) examples[bestLens] exists and is a non-empty array
+    if (!q.examples || !q.examples[q.bestLens]) {
+      errors.push('examples[' + q.bestLens + '] missing');
+    } else if (!Array.isArray(q.examples[q.bestLens]) || q.examples[q.bestLens].length === 0) {
+      errors.push('examples[' + q.bestLens + '] is empty or not an array');
     }
 
     if (errors.length === 0) {
