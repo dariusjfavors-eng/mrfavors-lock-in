@@ -581,7 +581,7 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 
 ---
 
-## Session T — Q73–Q96 Annotation-Style Example Rewrite ⬜ OPEN
+## Session T — Q73–Q96 Annotation-Style Example Rewrite ✅ COMPLETE 2026-05-24
 
 > No Grill Me required — content-only pass, no UI or logic changes.
 > Do this first: no dependencies, no risk, pure teaching quality improvement.
@@ -604,9 +604,9 @@ no hedging verbs, final step always ends with "?".
 **Out of scope:** walkthroughs, UI, new questions, Q1–Q72 examples
 
 **Done when:**
-- All 19 Q73–Q96 bestLens examples use annotation voice
-- 96/96 `runPuzzleTests()` pass
-- Spot-check 3 in browser: click through parallel example, confirm annotation voice reads correctly
+- ✅ All 19 Q73–Q96 bestLens examples use annotation voice (14 rewritten; 5 already compliant from Session Q)
+- ✅ 96/96 `runPuzzleTests()` pass
+- ✅ Spot-check 3 confirmed annotation voice: Q73 (L3 table compare), Q74 (L9 coin labeling), Q96 (L9 unit chain)
 
 ---
 
