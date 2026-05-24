@@ -792,13 +792,13 @@ html, body {
   </div>
   <div class="ref-modal-body">
     <div class="ref-cat-label">Linear</div>
-    <div class="ref-row">Slope: m = <span class="mfrac"><span>y&#8322; &#8722; y&#8321;</span><span>x&#8322; &#8722; x&#8321;</span></span></div>
+    <div class="ref-row">Slope: m = <span class="mfrac"><span class="mnum">y&#8322; &#8722; y&#8321;</span><span class="mden">x&#8322; &#8722; x&#8321;</span></span></div>
     <div class="ref-row">y = mx + b</div>
     <div class="ref-row">y &#8722; y&#8321; = m(x &#8722; x&#8321;)</div>
     <div class="ref-cat-label">Quadratic</div>
     <div class="ref-row">y = ax&#178; + bx + c</div>
-    <div class="ref-row">x = <span class="mfrac"><span>&#8722;b &#177; &#8730;(b&#178; &#8722; 4ac)</span><span>2a</span></span></div>
-    <div class="ref-row">Axis: x = <span class="mfrac"><span>&#8722;b</span><span>2a</span></span></div>
+    <div class="ref-row">x = <span class="mfrac"><span class="mnum">&#8722;b &#177; &#8730;(b&#178; &#8722; 4ac)</span><span class="mden">2a</span></span></div>
+    <div class="ref-row">Axis: x = <span class="mfrac"><span class="mnum">&#8722;b</span><span class="mden">2a</span></span></div>
     <div class="ref-cat-label">Exponential / Growth</div>
     <div class="ref-row">y = ab<sup>x</sup></div>
     <div class="ref-row">A = P(1 + r)<sup>n</sup></div>
@@ -5617,7 +5617,14 @@ function refSheetBtn() {
 }
 
 function toggleReferenceSheet() {
-  document.getElementById('reference-sheet-modal').classList.toggle('hidden');
+  const modal = document.getElementById('reference-sheet-modal');
+  modal.classList.toggle('hidden');
+  if (!modal.classList.contains('hidden') && modal.style.left) {
+    const left = parseFloat(modal.style.left) || 0;
+    const top = parseFloat(modal.style.top) || 0;
+    modal.style.left = Math.max(0, Math.min(left, window.innerWidth - modal.offsetWidth)) + 'px';
+    modal.style.top = Math.max(0, Math.min(top, window.innerHeight - modal.offsetHeight)) + 'px';
+  }
 }
 
 function render() {
@@ -5787,7 +5794,7 @@ function renderPractice() {
 
     let fb = '';
     if (isBest)       fb = `<div class="feedback good"><div class="fb-label">Strong pick</div><p>${guessLens.name} is the most efficient lens here.</p></div>`;
-    else if (isValid) fb = `<div class="feedback soft"><div class="fb-label">Workable</div><p>${guessLens.name} can crack it, but ${getLens(Q.bestLens).name} is faster.</p></div>`;
+    else if (isValid) fb = `<div class="feedback soft"><div class="fb-label">Workable</div><p>${guessLens.name} can crack it, but ${(getLens(Q.bestLens)||{}).name||''} is faster.</p></div>`;
     else              fb = `<div class="feedback bad"><div class="fb-label">Off-target</div><p>${guessLens.name} won&rsquo;t help here. Look at what the problem is asking for.</p></div>`;
 
     if (examples[guess]) {
@@ -5872,7 +5879,7 @@ function renderPractice() {
       const lensName = getLens(STATE.practice.lensGuess) ? getLens(STATE.practice.lensGuess).name : '';
       const fb = correct
         ? `<div class="feedback good"><div class="fb-label">Correct</div><p>Standard ${Q.standard}. Lens used: ${lensName}.</p></div>`
-        : `<div class="feedback bad"><div class="fb-label">Incorrect</div><p>Correct answer: (${Q.correctAnswer}). Common error: <strong>${Q.errorTags[0]}</strong>. Best lens: ${(getLens(Q.bestLens)||{}).name||''}.</p></div>`;
+        : `<div class="feedback bad"><div class="fb-label">Incorrect</div><p>Correct answer: (${Q.correctAnswer}). Common error: <strong>${(Q.errorTags && Q.errorTags[0]) || ''}</strong>. Best lens: ${(getLens(Q.bestLens)||{}).name||''}.</p></div>`;
       let walkExtra = '';
       if (!correct && STATE.practice.lensGuess && Q.walkthroughs && Q.walkthroughs[STATE.practice.lensGuess]) {
         const drillWalkRaw = Q.walkthroughs[STATE.practice.lensGuess];
@@ -6138,6 +6145,7 @@ function formatTime(s) {
    MODULE: UI_HANDLERS
 ============================================================================ */
 function navigate(view) {
+  document.getElementById('reference-sheet-modal').classList.add('hidden');
   clearChallengeTimer();
   if (view !== 'challenge') STATE.challenge.started = false;
   STATE.view = view;
@@ -6212,7 +6220,7 @@ function lockAnswer() {
   STATE.practice.phase = 'review';
   const _maPicked = (Q.choices.find(c => c.label === STATE.practice.answerPick) || {text:''}).text.replace(/<[^>]+>/g,'').trim();
   const _maCorrect = (Q.choices.find(c => c.label === Q.correctAnswer) || {text:''}).text.replace(/<[^>]+>/g,'').trim();
-  ANALYTICS.log('mc_attempt', { qid: Q.id, standard: Q.standard, lens_used: STATE.practice.lensGuess, picked_choice: STATE.practice.answerPick, picked_text: _maPicked, correct_answer: Q.correctAnswer, correct_text: _maCorrect, correct, stem: Q.stem.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim(), best_lens: Q.bestLens, best_lens_name: getLens(Q.bestLens) ? getLens(Q.bestLens).name : Q.bestLens, error_tag: correct ? null : Q.errorTags[0] });
+  ANALYTICS.log('mc_attempt', { qid: Q.id, standard: Q.standard, lens_used: STATE.practice.lensGuess, picked_choice: STATE.practice.answerPick, picked_text: _maPicked, correct_answer: Q.correctAnswer, correct_text: _maCorrect, correct, stem: Q.stem.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim(), best_lens: Q.bestLens, best_lens_name: getLens(Q.bestLens) ? getLens(Q.bestLens).name : Q.bestLens, error_tag: correct ? null : (Q.errorTags && Q.errorTags[0]) || null });
   render();
 }
 
@@ -6298,7 +6306,7 @@ function challengeLockAnswer() {
   const bestL = getLens(Q.bestLens);
   C.answers.push({
     qid: Q.id, picked: _challengeSelectedChoice, correct, standard: Q.standard,
-    errorTag: correct ? null : Q.errorTags[0],
+    errorTag: correct ? null : (Q.errorTags && Q.errorTags[0]) || null,
     timeSpent,
     stem: Q.stem.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
     bestLens: bestL ? bestL.name : Q.bestLens
@@ -6428,7 +6436,7 @@ render();
   function endDrag() { _dragActive = false; }
 
   handle.addEventListener('mousedown', function(e) { startDrag(e.clientX, e.clientY); e.preventDefault(); });
-  document.addEventListener('mousemove', function(e) { moveDrag(e.clientX, e.clientY); });
+  document.addEventListener('mousemove', function(e) { if (_dragActive) e.preventDefault(); moveDrag(e.clientX, e.clientY); });
   document.addEventListener('mouseup', endDrag);
 
   handle.addEventListener('touchstart', function(e) {
@@ -6436,6 +6444,7 @@ render();
     startDrag(t.clientX, t.clientY);
     e.preventDefault();
   }, { passive: false });
+  // passive:false required to preventDefault during drag; early-return minimizes cost when idle
   document.addEventListener('touchmove', function(e) {
     if (!_dragActive) return;
     var t = e.touches[0];
@@ -6443,6 +6452,7 @@ render();
     e.preventDefault();
   }, { passive: false });
   document.addEventListener('touchend', endDrag);
+  document.addEventListener('touchcancel', endDrag);
 })();
 
 window.runPuzzleTests = function() {
@@ -6473,9 +6483,10 @@ window.runPuzzleTests = function() {
       errors.push('bestLens ' + q.bestLens + ' not in applicableLenses [' + (q.applicableLenses || []).join(',') + ']');
     }
 
-    // (d) walkthroughs[bestLens] exists
-    if (!q.walkthroughs || !q.walkthroughs[q.bestLens]) {
-      errors.push('walkthroughs[' + q.bestLens + '] missing');
+    // (d) walkthroughs[bestLens] exists and is non-empty
+    if (!q.walkthroughs || !q.walkthroughs[q.bestLens] ||
+        (Array.isArray(q.walkthroughs[q.bestLens]) && q.walkthroughs[q.bestLens].length === 0)) {
+      errors.push('walkthroughs[' + q.bestLens + '] missing or empty');
     }
 
     // (e) examples[bestLens] exists and is a non-empty array

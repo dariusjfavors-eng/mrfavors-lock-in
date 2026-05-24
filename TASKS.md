@@ -4,13 +4,13 @@ Last updated: 2026-05-24 (Session S — code review findings, annotated for next
 
 ---
 
-## Session S — Code Review Fixes ⬜ OPEN
+## Session S — Code Review Fixes ✅ COMPLETE 2026-05-24
 
 > Source: `/code-review max @games/regents-mc-trainer` run 2026-05-24, immediately after Session R.
 > All 9 findings are verified or plausible. Implement in priority order below.
 > No Grill Me required — root causes are confirmed. No new features, no new modules.
 
-### Fix 1 — Modal fraction bars missing (HIGH — visually broken for every user) ⬜
+### Fix 1 — Modal fraction bars missing (HIGH — visually broken for every user) ✅
 
 **What's wrong:** The Reference Sheet modal uses bare `<span>` children inside `.mfrac` spans,
 but the CSS rule that draws the fraction bar targets `.mfrac .mnum` with `border-bottom`.
@@ -35,7 +35,7 @@ Apply to all three: slope (`ref-row` line 1 under Linear), quadratic formula x=,
 
 ---
 
-### Fix 2 — Modal stays open on navigate() (HIGH — overlays Home/Library) ⬜
+### Fix 2 — Modal stays open on navigate() (HIGH — overlays Home/Library) ✅
 
 **What's wrong:** `navigate()` replaces `main.innerHTML` but the modal is `position:fixed`
 outside `<main>`, so it persists over every view (Home, Library, Practice Home, Challenge
@@ -51,7 +51,7 @@ document.getElementById('reference-sheet-modal').classList.add('hidden');
 
 ---
 
-### Fix 3 — getLens(Q.bestLens).name unguarded in isValid walkthrough branch (HIGH) ⬜
+### Fix 3 — getLens(Q.bestLens).name unguarded in isValid walkthrough branch (HIGH) ✅
 
 **What's wrong:** The null guard `(getLens(Q.bestLens)||{}).name||''` was added to the
 review-phase feedback in Session R, but the identical pattern exists ONE MORE TIME in the
@@ -70,7 +70,7 @@ is guarded by the `isValid` check a few lines above — only `Q.bestLens` needs 
 
 ---
 
-### Fix 4 — touchcancel not handled: _dragActive locks on forever (MEDIUM) ⬜
+### Fix 4 — touchcancel not handled: _dragActive locks on forever (MEDIUM) ✅
 
 **What's wrong:** The drag IIFE wires `touchstart/touchmove/touchend` but not `touchcancel`.
 If the OS interrupts a drag (incoming call, notification, focus steal), `touchend` never fires
@@ -86,7 +86,7 @@ document.addEventListener('touchcancel', endDrag);
 
 ---
 
-### Fix 5 — Non-passive touchmove degrades all scroll on touch devices (MEDIUM) ⬜
+### Fix 5 — Non-passive touchmove degrades all scroll on touch devices (MEDIUM) ✅
 
 **What's wrong:** `document.addEventListener('touchmove', fn, { passive: false })` is always
 active, even when the modal is closed and nothing is being dragged. The browser cannot use
@@ -126,7 +126,7 @@ on Chromebook; annotate the comment and move on.
 
 ---
 
-### Fix 6 — Q.errorTags[0] unguarded: renders "undefined" on empty errorTags (MEDIUM) ⬜
+### Fix 6 — Q.errorTags[0] unguarded: renders "undefined" on empty errorTags (MEDIUM) ✅
 
 **What's wrong:** `Q.errorTags[0]` is interpolated directly into `innerHTML` at the review
 feedback line. If a future question has `errorTags: []` or omits the field, students see
@@ -142,7 +142,7 @@ There are two occurrences: one in the `innerHTML` string and one in the `ANALYTI
 
 ---
 
-### Fix 7 — runPuzzleTests() check (d) misses empty array walkthroughs (MEDIUM) ⬜
+### Fix 7 — runPuzzleTests() check (d) misses empty array walkthroughs (MEDIUM) ✅
 
 **What's wrong:** Check (d) uses `!q.walkthroughs[q.bestLens]` which is `false` for `[]`
 (empty array is truthy), so a question with `walkthroughs: { 9: [] }` passes the test
@@ -168,7 +168,7 @@ if (!q.walkthroughs || !q.walkthroughs[q.bestLens] ||
 
 ---
 
-### Fix 8 — Modal position not reset on re-open after window resize (LOW) ⬜
+### Fix 8 — Modal position not reset on re-open after window resize (LOW) ✅
 
 **What's wrong:** After a drag, `modal.style.left/top` are set inline and `style.right` is
 forced to `'auto'`. These persist across close/reopen. After a viewport resize (e.g., split-screen
@@ -195,7 +195,7 @@ function toggleReferenceSheet() {
 
 ---
 
-### Fix 9 — Text selection during fast drag (LOW — cosmetic) ⬜
+### Fix 9 — Text selection during fast drag (LOW — cosmetic) ✅
 
 **What's wrong:** `mousemove` on `document` doesn't call `e.preventDefault()`, so dragging
 the modal quickly across formula text in the modal body produces a visible text selection.
