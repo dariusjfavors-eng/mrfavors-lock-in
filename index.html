@@ -5809,7 +5809,7 @@ function renderPractice() {
         ? `<div style="font-size:0.8em; color:var(--muted); margin-top:8px; text-align:right;">Step ${step + 1} of ${steps.length}</div>`
         : '';
       const walkHtml = `<div class="lens-steps">${steps.slice(0, step + 1).map((s, i) =>
-          `<div class="lens-step"><span class="lens-step-num">Step ${i + 1}</span><span class="lens-step-body">${s}</span></div>`
+          `<div class="lens-step"><span class="lens-step-num">Step ${i + 1}</span><span class="lens-step-body">${math(s)}</span></div>`
         ).join('')}</div>`;
       body = `
         ${fb}
@@ -5888,9 +5888,9 @@ function renderPractice() {
         const drillWalkRaw = Q.walkthroughs[STATE.practice.lensGuess];
         const drillWalkHtml = Array.isArray(drillWalkRaw)
           ? `<div class="lens-steps">${drillWalkRaw.map((step, i) =>
-              `<div class="lens-step"><span class="lens-step-num">Step ${i + 1}</span><span class="lens-step-body">${step}</span></div>`
+              `<div class="lens-step"><span class="lens-step-num">Step ${i + 1}</span><span class="lens-step-body">${math(step)}</span></div>`
             ).join('')}</div>`
-          : `<div class="ti-screen" style="margin-top:8px;">${drillWalkRaw}</div>`;
+          : `<div class="ti-screen" style="margin-top:8px;">${math(drillWalkRaw)}</div>`;
         walkExtra = `<div class="lens-picker-prompt" style="margin-top:12px;"><div class="pp-eyebrow">How the ${lensName} lens solves it</div>${drillWalkHtml}</div>`;
       }
       lockBtn = `${fb}${walkExtra}<div class="btn-row"><button class="btn" onclick="nextPracticeQ()">Next question &rarr;</button><button class="btn secondary" onclick="navigate('home')">Exit</button></div>`;
@@ -6021,9 +6021,9 @@ function renderQuestionPicker() {
 function renderExamPicker() {
   showRail(false, false);
   var EXAMS = [
-    { key: 'June 2025 Algebra I Regents — Part I',    label: 'June 2025',    sub: 'June 2025 Algebra I Regents — Part I' },
-    { key: 'January 2026 Algebra I Regents — Part I', label: 'January 2026', sub: 'January 2026 Algebra I Regents — Part I' },
-    { key: 'August 2025 Algebra I Regents — Part I',  label: 'August 2025',  sub: 'August 2025 Algebra I Regents — Part I' }
+    { key: 'June 2025 Algebra I Regents — Part I',    label: 'June 2025' },
+    { key: 'January 2026 Algebra I Regents — Part I', label: 'January 2026' },
+    { key: 'August 2025 Algebra I Regents — Part I',  label: 'August 2025' }
   ];
   const rows = EXAMS.map(e => {
     const count = QUESTION_BANK.filter(q => q.exam === e.key).length;
@@ -6054,7 +6054,7 @@ function showQuestionPicker()  {
   STATE.practice.subView = 'question-picker';
   render();
 }
-function backToPracticeHome() { STATE.practice.subView = 'home'; render(); }
+function backToPracticeHome() { STATE.practice.subView = 'home'; STATE.practice.drillMode = 'free'; STATE.practice.filterExam = null; STATE.practice.examCorrect = 0; render(); }
 
 /* ---- CHALLENGE ---- */
 function renderChallenge() {
