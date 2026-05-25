@@ -5539,7 +5539,8 @@ const STATE = {
     filterQuestion: null,  // qid for drillMode='single'
     filterExam: null,      // exam key string for drillMode='exam'
     examCorrect: 0,        // correct-answer count for exam mode score screen
-    walkthroughStep: 0    // which step is the last revealed in click-to-reveal
+    walkthroughStep: 0,   // which step is the last revealed in click-to-reveal
+    lensEnabled: true     // false = skip lens-pick + example, go straight to answer
   },
   challenge: {
     started: false,
@@ -5778,6 +5779,12 @@ function renderPractice() {
         </button>`;
     }).join('');
 
+    const lensToggleBtn = !isWrongDrill
+      ? `<div class="btn-row" style="margin-top:12px;">
+           <button class="btn secondary" onclick="toggleLens()" style="font-size:0.85em;">Lens: ON &mdash; Skip going forward</button>
+         </div>`
+      : '';
+
     body = `
       <div class="lens-picker-prompt">
         <div class="pp-eyebrow">Step 1 &mdash; Which lens?</div>
@@ -5785,6 +5792,7 @@ function renderPractice() {
         ${diagnosticStrip}
       </div>
       <div class="lens-picker-grid">${lensOptions}</div>
+      ${lensToggleBtn}
     `;
   }
 
@@ -5824,6 +5832,7 @@ function renderPractice() {
           ${isLast
             ? `<button class="btn" onclick="advanceToAnswer()">Answer the question &rarr;</button>`
             : `<button class="btn" onclick="nextWalkthroughStep()">Next &rarr;</button>`}
+          ${!isLast ? `<button class="btn secondary" onclick="advanceToAnswer()">Skip &rarr;</button>` : ''}
           <button class="btn secondary" onclick="resetLensPick()">Re-pick lens</button>
         </div>
       `;
@@ -5897,7 +5906,10 @@ function renderPractice() {
       lockBtn = `${fb}${walkExtra}<div class="btn-row"><button class="btn" onclick="nextPracticeQ()">Next question &rarr;</button><button class="btn secondary" onclick="navigate('home')">Exit</button></div>`;
     }
 
-    body = `<div class="choices ${layout}">${choicesHtml}</div>${lockBtn}`;
+    const lensReenableBtn = !STATE.practice.lensEnabled && !isLensDrill && STATE.practice.drillMode !== 'wrong'
+      ? `<div class="btn-row" style="margin-top:4px;"><button class="btn secondary" onclick="toggleLens()" style="font-size:0.85em;">Lens: OFF &mdash; Re-enable</button></div>`
+      : '';
+    body = `<div class="choices ${layout}">${choicesHtml}</div>${lockBtn}${lensReenableBtn}`;
   }
 
   const drillLabel = isLensDrill
@@ -6060,7 +6072,7 @@ function showQuestionPicker()  {
   STATE.practice.subView = 'question-picker';
   render();
 }
-function backToPracticeHome() { STATE.practice.subView = 'home'; STATE.practice.drillMode = 'free'; STATE.practice.filterExam = null; STATE.practice.examCorrect = 0; render(); }
+function backToPracticeHome() { STATE.practice.subView = 'home'; STATE.practice.drillMode = 'free'; STATE.practice.filterExam = null; STATE.practice.examCorrect = 0; STATE.practice.lensEnabled = true; render(); }
 
 /* ---- CHALLENGE ---- */
 function renderChallenge() {
@@ -6238,8 +6250,9 @@ function startPractice(drillMode = 'free', filter = null) {
   STATE.practice.filterQuestion = drillMode === 'single' ? filter : null;
   STATE.practice.filterExam = drillMode === 'exam' ? filter : null;
   STATE.practice.examCorrect = 0;
-  STATE.practice.lensGuess = drillMode === 'lens' ? filter : null;
-  STATE.practice.phase = drillMode === 'lens' ? 'answer' : 'lens-pick';
+  const _skipLens = !STATE.practice.lensEnabled && drillMode !== 'lens' && drillMode !== 'wrong';
+  STATE.practice.lensGuess = drillMode === 'lens' ? filter : (_skipLens ? ((currentQ() || {}).bestLens || null) : null);
+  STATE.practice.phase = (drillMode === 'lens' || _skipLens) ? 'answer' : 'lens-pick';
   STATE.practice.answerPick = null;
   STATE.practice.walkthroughStep = 0;
   STATE.practice.subView = 'active';
@@ -6257,6 +6270,16 @@ function pickLens(lensId) {
 
 function resetLensPick() { STATE.practice.lensGuess = null; STATE.practice.phase = 'lens-pick'; STATE.practice.walkthroughStep = 0; render(); }
 function advanceToAnswer() { STATE.practice.phase = 'answer'; render(); }
+function toggleLens() {
+  STATE.practice.lensEnabled = !STATE.practice.lensEnabled;
+  if (!STATE.practice.lensEnabled) {
+    const Q = currentQ();
+    STATE.practice.lensGuess = Q ? Q.bestLens : null;
+    STATE.practice.phase = 'answer';
+    STATE.practice.walkthroughStep = 0;
+  }
+  render();
+}
 function nextWalkthroughStep() { STATE.practice.walkthroughStep++; render(); }
 function prevWalkthroughStep() { STATE.practice.walkthroughStep--; render(); }
 function pickAnswer(label) { STATE.practice.answerPick = label; render(); }
@@ -6276,8 +6299,9 @@ function nextPracticeQ() {
   if (STATE.practice.cursor < STATE.practice.queue.length - 1) {
     STATE.practice.cursor++;
     const isLensDrill = STATE.practice.drillMode === 'lens';
-    STATE.practice.phase = isLensDrill ? 'answer' : 'lens-pick';
-    STATE.practice.lensGuess = isLensDrill ? STATE.practice.filterLens : null;
+    const _skipLens2 = !STATE.practice.lensEnabled && !isLensDrill && STATE.practice.drillMode !== 'wrong';
+    STATE.practice.phase = (isLensDrill || _skipLens2) ? 'answer' : 'lens-pick';
+    STATE.practice.lensGuess = isLensDrill ? STATE.practice.filterLens : (_skipLens2 ? ((currentQ() || {}).bestLens || null) : null);
     STATE.practice.answerPick = null;
     STATE.practice.walkthroughStep = 0;
     render();

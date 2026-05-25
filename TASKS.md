@@ -1,6 +1,35 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-25 (Post-U code-review fixes — math() step rendering, exam state reset, dead code removal)
+Last updated: 2026-05-25 (Session X — Skip + Lens Toggle)
+
+---
+
+## Session X — Skip Button + Lens Toggle — Session PRD ✅ COMPLETE 2026-05-25
+
+**Design concept:** Add two friction-reducing controls to the Practice active loop — a "Skip →" button on the example step screen that jumps directly to answer choices, and a "LENS ON/OFF" toggle on the lens-pick screen that bypasses both lens-pick and example phases entirely for students building toward mastery.
+
+**Modules touched:** STATE (new `lensEnabled` field), UI_RENDER (`renderPractice()` — lens-pick phase + walkthrough phase + answer phase), UI_HANDLERS (new `toggleLens()`, updates to `startPractice()` and `nextPracticeQ()`)
+
+**Interface changes:**
+- STATE: `STATE.practice.lensEnabled` boolean, default `true`, session-only; resets to `true` in `backToPracticeHome()`
+- UI_RENDER lens-pick phase: toggle button "LENS: ON — Skip going forward" (hidden in wrong-answer drill)
+- UI_RENDER walkthrough phase Case 1: "Skip →" button (calls `advanceToAnswer()`); only on non-last steps
+- UI_RENDER answer/review phase: "Lens: OFF — Re-enable" button when `lensEnabled=false` and not lens/wrong drill
+- UI_HANDLERS: new `toggleLens()` — flips flag; if now false → `lensGuess=Q.bestLens`, `phase='answer'`, render; if now true → stay at current phase (takes effect next question)
+- `startPractice()`: if `lensEnabled===false` AND drillMode not in [lens, wrong] → `phase='answer'`, `lensGuess=firstQ.bestLens`
+- `nextPracticeQ()`: same lensEnabled check alongside existing `isLensDrill` check
+
+**Out of scope:** localStorage persistence, Challenge mode, Lens Drill changes, FAVORit analytics for toggle state, Session W per-standard grouping
+
+**Done when:**
+- "Skip →" button appears on example step screen (non-last steps only) and jumps to answer choices
+- Toggle button appears on lens-pick screen in Free Roam, Standard Drill, Past Exam, Pick a Question (not wrong-answer drill)
+- Toggle OFF: phase jumps to answer immediately, lensGuess auto-set to bestLens
+- Toggle ON mid-question: no disruption, current question stays at answer; re-enables from next question
+- Next question after toggle OFF: lands directly on answer choices (skips lens-pick + example)
+- Wrong-answer drill always shows lens-pick regardless of toggle
+- Lens Drill and Challenge mode unaffected
+- 99/99 runPuzzleTests() pass; browser QA green
 
 ---
 
