@@ -2379,7 +2379,7 @@ const QUESTION_BANK = [
   {
     id: 'Q25',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 25,
+    questionNumber: 3,
     standard: 'F.LE.1',
     stem: 'Which scenario best represents an exponential relationship?',
     choices: [
@@ -2422,7 +2422,7 @@ const QUESTION_BANK = [
   {
     id: 'Q26',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 26,
+    questionNumber: 4,
     standard: 'S.ID.2',
     stem: `The geometry test scores for Andrea and Joe are shown below.${svgTable(
       ['', 'Test 1', 'Test 2', 'Test 3', 'Test 4'],
@@ -2468,7 +2468,7 @@ const QUESTION_BANK = [
   {
     id: 'Q27',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 27,
+    questionNumber: 5,
     standard: 'A.APR.1',
     stem: 'Which polynomial has a degree of 3 and a leading coefficient of 2?',
     choices: [
@@ -2511,7 +2511,7 @@ const QUESTION_BANK = [
   {
     id: 'Q28',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 28,
+    questionNumber: 6,
     standard: 'A.APR.1',
     stem: 'The expression (−3x² + 9) − (7x² − 5x + 4) is equivalent to',
     choices: [
@@ -2554,7 +2554,7 @@ const QUESTION_BANK = [
   {
     id: 'Q29',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 29,
+    questionNumber: 7,
     standard: 'F.IF.6',
     stem: `The function h(x) gives the average height, in inches, of a tomato plant x weeks after transplanting.${svgTable(
       ['x (weeks)', '2', '4', '6', '9', '12', '16'],
@@ -2600,7 +2600,7 @@ const QUESTION_BANK = [
   {
     id: 'Q30',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 30,
+    questionNumber: 8,
     standard: 'A.REI.4',
     stem: 'Chloe is solving the equation x² + 5x = 3x + 3. Her first step gives x² + 2x − 3 = 0. Which property justifies this step?',
     choices: [
@@ -2643,7 +2643,7 @@ const QUESTION_BANK = [
   {
     id: 'Q31',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 31,
+    questionNumber: 9,
     standard: 'F.BF.3',
     stem: 'Which function represents the graph of w(x) = |x| shifted 2 units to the right?',
     choices: [
@@ -2686,7 +2686,7 @@ const QUESTION_BANK = [
   {
     id: 'Q32',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 32,
+    questionNumber: 10,
     standard: 'A.REI.6',
     stem: 'Given the system y + 4x = 5 and 2x − 3y = 10, a step in solving by substitution would be',
     choices: [
@@ -2729,7 +2729,7 @@ const QUESTION_BANK = [
   {
     id: 'Q33',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 33,
+    questionNumber: 11,
     standard: 'A.REI.4',
     stem: 'Which equation is equivalent to x² − 6x = 27?',
     choices: [
@@ -2772,7 +2772,7 @@ const QUESTION_BANK = [
   {
     id: 'Q34',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 34,
+    questionNumber: 14,
     standard: 'N.RN.3',
     stem: 'The sum of ' + math('\\sqrt{3}') + ' and ' + math('\\sqrt{5}') + ' is',
     choices: [
@@ -2815,7 +2815,7 @@ const QUESTION_BANK = [
   {
     id: 'Q35',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 35,
+    questionNumber: 15,
     standard: 'A.SSE.2',
     stem: 'Which expression is equivalent to a⁸ − b⁶?',
     choices: [
@@ -2858,7 +2858,7 @@ const QUESTION_BANK = [
   {
     id: 'Q36',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 36,
+    questionNumber: 17,
     standard: 'A.CED.1',
     stem: "The sum of Tim's age and Jack's age is 44. Tim's age is 4 less than 7 times Jack's age, x. An equation that could be used to model this scenario is",
     choices: [
@@ -2901,7 +2901,7 @@ const QUESTION_BANK = [
   {
     id: 'Q37',
     exam: 'June 2025 Algebra I Regents — Part I',
-    questionNumber: 37,
+    questionNumber: 22,
     standard: 'F.LE.2',
     stem: 'Which equation represents the sequence 12, 6, 3, ' + math('\\frac{3}{2}') + ', …, where a₁ = 12?',
     choices: [
@@ -6220,10 +6220,10 @@ function startPractice(drillMode = 'free', filter = null) {
     const q = QUESTION_BANK.find(q => q.id === filter);
     pool = q ? [q] : QUESTION_BANK;
   } else if (drillMode === 'exam' && filter) {
-    pool = QUESTION_BANK.filter(q => q.exam === filter);
+    pool = QUESTION_BANK.filter(q => q.exam === filter).sort((a, b) => a.questionNumber - b.questionNumber);
   }
   if (!pool.length) pool = QUESTION_BANK;
-  // exam mode preserves insertion order (= real exam order); all other modes shuffle
+  // exam mode sorted by questionNumber (= real exam order); all other modes shuffle
   STATE.practice.queue = drillMode === 'exam' ? pool.map(q => q.id) : shuffle(pool.map(q => q.id));
   STATE.practice.cursor = 0;
   STATE.practice.drillMode = drillMode;
@@ -6587,8 +6587,16 @@ window.runPuzzleTests = function() {
         console.error('[runPuzzleTests] FAIL exam pool "' + examKey + '": Q1–Q24 leakage: ' + leaks.map(function(q){return q.id;}).join(', '));
         failed++;
       } else {
-        console.log('[runPuzzleTests] PASS exam pool "' + examKey + '" — 24 questions, no leakage');
-        passed++;
+        var sorted = pool.slice().sort(function(a,b){ return a.questionNumber - b.questionNumber; });
+        var nums = sorted.map(function(q){ return q.questionNumber; });
+        var badOrder = nums.some(function(n,i){ return n !== i + 1; });
+        if (badOrder) {
+          console.error('[runPuzzleTests] FAIL exam pool "' + examKey + '": questionNumber sequence is not 1–24: ' + nums.join(','));
+          failed++;
+        } else {
+          console.log('[runPuzzleTests] PASS exam pool "' + examKey + '" — 24 questions, no leakage, ordered 1–24');
+          passed++;
+        }
       }
     }
   });
