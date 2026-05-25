@@ -557,13 +557,13 @@ never letters) and `choiceLayout()` — both are DESIGN_BRIEF-verified and must 
 - `renderPracticeComplete()` in `drillMode === 'single'`: "← Practice Home" replaces "Start Over"; routes to `subView = 'home'`
 
 **Out of scope (this pass):**
-- Practice Home 4th entry-point card ("Pick a Question")
+- Practice Home 5th entry-point card ("Pick a Question") — Past Exam became 4th in Session U
 - Back-to-picker routing after review (returns to Practice Home)
 - Per-standard grouping or search in the picker
 - Any changes to existing Practice modes or Challenge logic
 
 **Full scope (future session — Grill Me required):**
-- Practice Home 4th card
+- Practice Home 5th card
 - Back-to-picker routing: review complete → picker (requires `subView: 'question-picker'`)
 - Per-standard grouping or search filter in the flat list
 
@@ -686,12 +686,13 @@ were ever read. Removed `sub:` from all three entries.
 > Grill Me required before writing any code.
 > Builds on the minimal Question Picker from Session O (Challenge results → flat list → single loop).
 
-**Design concept:** Surface the Question Picker from Practice Home as a 4th entry-point card
+**Design concept:** Surface the Question Picker from Practice Home as a 5th entry-point card
 ("Pick a Question"), add back-to-picker routing after review completes, and optionally add a
 per-standard filter so students can browse by topic, not just scroll through all 96.
+(Past Exam is now the 4th card; Question Picker becomes the 5th.)
 
 **Rough scope (confirm via Grill Me):**
-- Practice Home 4th card: "Pick a Question" → `renderQuestionPicker()`
+- Practice Home 5th card: "Pick a Question" → `renderQuestionPicker()`
 - Back-to-picker routing: review complete in `drillMode='single'` → picker (not Practice Home)
   — requires new `subView: 'question-picker'` and render branch
 - Optional: per-standard grouping in the flat list (cluster headers, collapsible or flat)
