@@ -1045,6 +1045,7 @@ function math(s) {
   s = s.replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>');
   s = s.replace(/\^([A-Za-z0-9])/g, '<sup>$1</sup>');
   s = s.replace(/\_\{([^}]+)\}/g, '<sub>$1</sub>');
+  s = s.replace(/\_([A-Za-z0-9])/g, '<sub>$1</sub>');
   // \frac — runs last among structural transforms; all brace-bearing tokens above are now HTML
   const renderFrac = str => str.replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g,
     (_, n, d) => `<span class="mfrac"><span class="mnum">${n}</span><span class="mden">${d}</span></span>`);
@@ -5869,7 +5870,7 @@ function renderPractice() {
       return `
         <button type="button" class="${cls}" ${click} ${phase === 'review' ? 'disabled' : ''}>
           <span class="choice-label">(${c.label})</span>
-          <span>${c.text}</span>
+          <span>${math(c.text)}</span>
         </button>`;
     }).join('');
 
@@ -5916,7 +5917,7 @@ function renderPractice() {
       <span>Question ${STATE.practice.cursor + 1} of ${STATE.practice.queue.length} &middot; ${drillLabel}</span>
       <div style="display:flex;align-items:center;gap:10px;"><span>${Q.standard}</span>${refSheetBtn()}</div>
     </div>
-    <div class="problem-stem">${Q.stem}</div>
+    <div class="problem-stem">${math(Q.stem)}</div>
     ${body}
   `;
   showRail(true, true);
@@ -6007,7 +6008,7 @@ function renderLensPicker() {
 function renderQuestionPicker() {
   showRail(false, false);
   const rows = QUESTION_BANK.map(q => {
-    const raw = q.stem.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    const raw = math(q.stem).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
     const preview = raw.length > 80 ? raw.slice(0, 80) + '…' : raw;
     return `<button class="lens-pick" onclick="startPractice('single','${q.id}')">
       <span class="lp-num">${q.id} &middot; ${q.standard}</span>${preview}
@@ -6099,7 +6100,7 @@ function renderChallenge() {
     return `
       <button type="button" class="${cls}" ${click} ${C.answered ? 'disabled' : ''}>
         <span class="choice-label">(${c.label})</span>
-        <span>${c.text}</span>
+        <span>${math(c.text)}</span>
       </button>`;
   }).join('');
 
@@ -6119,7 +6120,7 @@ function renderChallenge() {
       <div class="timer-fill${urgent ? ' urgent' : ''}" id="timer-bar" style="width:${pct}%"></div>
     </div>
     <div class="timer-text${urgent ? ' urgent' : ''}" id="timer-text">${formatTime(C.secondsLeft)}</div>
-    <div class="problem-stem">${Q.stem}</div>
+    <div class="problem-stem">${math(Q.stem)}</div>
     <div class="choices ${layout}" id="challenge-choices">${choicesHtml}</div>
     ${lockBtn}
   `;
