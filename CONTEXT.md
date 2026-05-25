@@ -18,7 +18,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 | Framework | Vanilla JS only, zero build tools |
 | Storage | None — session is ephemeral, no localStorage |
 | PII Policy | None stored; FAVORit analytics are anonymous (sid = `anon_` + timestamp) |
-| Current Status | Classroom Ready — deployed to gh-pages; 96 questions; Sessions U + post-U code-review fixes complete. math() now called at render time on all walkthrough/example step strings (raw LaTeX in steps fixed); backToPracticeHome() resets exam state; 99/99 pass. Next: Session V — Full-scope Question Picker (Grill Me required). |
+| Current Status | Classroom Ready — deployed to gh-pages; 96 questions; Session V complete. Practice Home has 5 cards (Free Roam, Standard Drill, Lens Drill, Past Exam, Pick a Question); single-question review now routes back to picker via "← Back to Questions"; 99/99 pass. Next: Session W — per-standard grouping in picker (Grill Me required). |
 
 ---
 
@@ -59,11 +59,19 @@ home → practice (subView='home') →
   Free Roam: startPractice('free') → [lens-pick → walkthrough → answer → review] loop → practiceComplete
   Standard Drill: renderStandardPicker() → startPractice('standard', clusterKey) → [lens-pick → walkthrough → answer → review] loop
   Lens Drill: renderLensPicker() → startPractice('lens', lensId) → [answer → review] loop (lens-pick collapsed; rail hint = lens tagline)
+  Past Exam: showExamPicker() → renderExamPicker() (June 2025 / Jan 2026 / Aug 2025)
+    → startPractice('exam', examKey) → [lens-pick → walkthrough → answer → review] × 24 (fixed order)
+    → renderPracticeComplete() exam branch: X/24 score, %, pass/fail vs 65% threshold, Try Again + ← Home
+  Pick a Question: showQuestionPicker() → renderQuestionPicker() (all 96, Q-number order)
+    → pick Q → startPractice('single', qid) → [lens-pick → walkthrough → answer → review]
+    → renderPracticeComplete() single branch: "← Back to Questions" → showQuestionPicker()
 home → challenge:
   start screen → startChallenge() → sampleChallenge(attemptCount) draws 24 Qs
     → [question + 90s timer] × 24 → renderChallengeResults() → auto-downloads CSV → home
-  renderChallengeResults() → "Practice a question" → renderQuestionPicker()
-    → pick Q → startPractice('single', qid) → [lens-pick → walkthrough → answer → review] → Practice Home
+  renderChallengeResults() → "Drill Mistakes (N)" → startWrongAnswerDrill()
+    → startPractice('wrong') → [lens-pick → walkthrough → answer → review] loop → practiceComplete
+  renderChallengeResults() → "Practice a question" → showQuestionPicker() → renderQuestionPicker()
+    → pick Q → startPractice('single', qid) → [lens-pick → walkthrough → answer → review] → picker
 ```
 
 ### Key Functions
@@ -72,8 +80,11 @@ home → challenge:
 |----------|-------------|
 | `choiceLayout(q)` | Returns `'grid'` or `'stack'` based on choice text length (HTML-stripped) |
 | `sampleChallenge(attemptCount)` | Returns array of 24 question IDs: balanced by Jan 2026 Regents standard dist if `attemptCount===0`, random otherwise |
-| `renderPractice()` | Branches on `STATE.practice.subView`: home/standard-picker/lens-picker/active |
-| `renderPracticeHome()` | Three entry-point cards: Free Roam, Standard Drill, Lens Drill |
+| `renderPractice()` | Branches on `STATE.practice.subView`: home/standard-picker/lens-picker/exam-picker/active |
+| `renderPracticeHome()` | Five entry-point cards: Free Roam, Standard Drill, Lens Drill, Past Exam, Pick a Question |
+| `renderExamPicker()` | Lists 3 real exams (June 2025 / Jan 2026 / Aug 2025), "24 questions · fixed exam order"; click → `startPractice('exam', examKey)` |
+| `showExamPicker()` | Sets `STATE.practice.subView = 'exam-picker'`, calls `render()` — entry point from 4th Practice Home card |
+| `backToPracticeHome()` | Resets `drillMode='free'`, `filterExam=null`, `examCorrect=0`, `subView='home'`, calls `render()` — used by Past Exam score screen |
 | `renderStandardPicker()` | Lists 11 STANDARD_CLUSTERS with question counts; calls `startPractice('standard', key)` |
 | `renderLensPicker()` | Lists 10 lenses with applicable question counts; calls `startPractice('lens', id)` |
 | `startPractice(drillMode, filter)` | Builds filtered pool, shuffles, sets `STATE.practice.subView = 'active'`, calls `render()` |
@@ -83,8 +94,8 @@ home → challenge:
 | `generateCSV()` | Builds CSV string from `STATE.challenge.answers` (9 columns) |
 | `downloadCSV()` | Creates Blob URL, triggers `<a>` click, cleans up — auto-called 400ms after `renderChallengeResults()` |
 | `startWrongAnswerDrill()` | Reads `STATE.challenge.answers`, builds `STATE.practice.wrongPool` from missed questions, sets `STATE.view='practice'`, calls `startPractice('wrong')` |
-| `renderQuestionPicker()` | Flat list of all 72 questions sorted by Q-number; each row: Q-number · standard · stem preview (~80 chars, HTML-stripped); click → `startPractice('single', qid)` |
-| `startPractice('single', qid)` | Builds pool of one question; sets `STATE.practice.filterQuestion = qid`, `drillMode = 'single'`, `subView = 'active'`; on review complete → Practice Home |
+| `renderQuestionPicker()` | Flat list of all 96 questions sorted by Q-number; each row: Q-number · standard · stem preview (~80 chars, HTML-stripped); click → `startPractice('single', qid)` |
+| `startPractice('single', qid)` | Builds pool of one question; sets `STATE.practice.filterQuestion = qid`, `drillMode = 'single'`, `subView = 'active'`; on review complete → "← Back to Questions" routes to `showQuestionPicker()` |
 | `ANALYTICS.log(type, payload)` | Pushes to `ANALYTICS.events[]`, console, and fires POST to hardcoded Apps Script endpoint (private repo — URL committed). `localStorage('favoritWorkerUrl')` overrides if set. Events: `boot`, `view_change`, `lens_view`, `lens_pick`, `mc_attempt`, `challenge_attempt`, `challenge_complete`. `mc_attempt` + `challenge_attempt` carry: `qid`, `standard`, `stem`, `picked_choice`, `picked_text`, `correct_answer`, `correct_text`, `correct`, `best_lens`, `best_lens_name`. `challenge_complete` carries: `total`, `correct`, `score_pct`. |
 | `showRail(visible, showHint)` | Shows/hides `#persistent-rail`; optionally hides `#lens-hint-card`. `true/true` in practice active, `true/false` on active challenge question, `false/false` everywhere else |
 

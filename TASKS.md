@@ -681,38 +681,58 @@ were ever read. Removed `sub:` from all three entries.
 
 ---
 
-## Session V — Full-scope Question Picker ⬜ OPEN
+## Session V — Full-scope Question Picker ✅ COMPLETE 2026-05-25
+
+**Design concept:** Surface the existing Question Picker from Practice Home as a 5th entry-point
+card ("Pick a Question"), and change single-question review-complete routing from Practice Home
+back to the picker so students can run through targeted questions without losing their place in
+the list.
+
+**Grill Me:** Complete 2026-05-25. 7-question interview resolved: 5th card opens picker directly
+(no submenu); all 96 questions shown (no standard filter this session); review complete routes to
+picker via `showQuestionPicker()`. Mini-PRD written before any code touched.
+
+**Modules touched:** `STATE` (subView comment updated), `UI_RENDER` (`renderPracticeHome` 5th card,
+`renderPracticeComplete` single-mode button), `UI_HANDLERS` (`showQuestionPicker` — verified,
+no changes needed)
+
+**Interface changes:**
+- `STATE.practice.subView` comment: added `'question-picker'` to valid values list
+- `renderPracticeHome()`: 5th card "Pick a Question" (🎯) → `showQuestionPicker()`
+- `renderPracticeComplete()` single-mode branch: button label "← Back to Questions",
+  action `showQuestionPicker()` (was `backToPracticeHome()` / "← Practice Home")
+- `renderPractice()` already had `'question-picker'` branch from Session O — no change needed
+
+**Out of scope:** per-standard grouping, search/filter, sort options, Challenge changes,
+analytics event, scroll position persistence, QUESTION_BANK changes
+
+**Done when:** ✅ 5-card Practice Home; ✅ card → picker; ✅ full single-question loop;
+✅ review complete → "← Back to Questions" → picker; ✅ Challenge results → picker (no regression);
+✅ 99/99 runPuzzleTests() pass; ✅ browser QA at localhost:8765 — all checks green
+
+---
+
+## Session W — Per-Standard Grouping in Question Picker ⬜ OPEN
 
 > Grill Me required before writing any code.
-> Builds on the minimal Question Picker from Session O (Challenge results → flat list → single loop).
-
-**Design concept:** Surface the Question Picker from Practice Home as a 5th entry-point card
-("Pick a Question"), add back-to-picker routing after review completes, and optionally add a
-per-standard filter so students can browse by topic, not just scroll through all 96.
-(Past Exam is now the 4th card; Question Picker becomes the 5th.)
+> Builds on Session V full-scope picker (Practice Home 5th card + back-to-picker routing).
 
 **Rough scope (confirm via Grill Me):**
-- Practice Home 5th card: "Pick a Question" → `renderQuestionPicker()`
-- Back-to-picker routing: review complete in `drillMode='single'` → picker (not Practice Home)
-  — requires new `subView: 'question-picker'` and render branch
-- Optional: per-standard grouping in the flat list (cluster headers, collapsible or flat)
-- `STATE.practice.filterQuestion` already exists from Session O; routing is the new work
+- Add cluster headers (STANDARD_CLUSTERS) above question rows in `renderQuestionPicker()`
+- Each cluster header shows cluster label + question count
+- Questions under each header are filtered to that cluster's standards
+- Q1–Q24 "Regents style" questions that span multiple clusters: decide grouping rule
 
 **Grill Me questions to resolve:**
-- After review in single-question mode, should "Next" go back to the picker or Practice Home?
-  (Current: Practice Home. Session V target: picker.)
-- Should the picker show all 96 or let the student filter by standard cluster first?
-- Does the 4th Practice Home card open the picker directly or show a submenu?
+- Should cluster headers be collapsible or always-expanded flat sections?
+- Do Q1–Q24 "Regents style" questions appear under their standard cluster or in a separate group?
+- Does a student need to see all 96 at once, or is per-cluster browsing sufficient?
+- Is there a "Show All" toggle to restore the flat list?
 
-**Out of scope:**
-- Search/text filter in the picker
-- Sorting options beyond Q-number order
-- Any changes to Challenge mode, Free Roam, Standard Drill, or Lens Drill
-
-**Done when (Grill Me will refine):**
-- "Pick a Question" card visible on Practice Home
-- Student picks a question → full loop → review complete → back to picker (not Practice Home)
-- 96/96 `runPuzzleTests()` pass; no regression on existing flows
+**Out of scope (until Grill Me):**
+- Text search / free-form filter
+- Sorting within a cluster beyond Q-number order
+- Any changes to the single-question loop itself
 
 ---
 

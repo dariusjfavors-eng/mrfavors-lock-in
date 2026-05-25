@@ -5530,7 +5530,7 @@ const STATE = {
     phase: 'lens-pick', // 'lens-pick' | 'walkthrough' | 'answer' | 'review'
     lensGuess: null,
     answerPick: null,
-    subView: 'home',       // 'home' | 'standard-picker' | 'lens-picker' | 'exam-picker' | 'active'
+    subView: 'home',       // 'home' | 'standard-picker' | 'lens-picker' | 'exam-picker' | 'question-picker' | 'active'
     drillMode: 'free',     // 'free' | 'standard' | 'lens' | 'wrong' | 'single' | 'exam'
     filterStandard: null,  // cluster key or null
     filterLens: null,      // lens id or null
@@ -5956,6 +5956,11 @@ function renderPracticeHome() {
         <h4>Past Exam</h4>
         <p>Practice a real Regents Part I paper in exam order. See your score.</p>
       </div>
+      <div class="pmode-card" onclick="showQuestionPicker()">
+        <div class="pmode-icon">&#127919;</div>
+        <h4>Pick a Question</h4>
+        <p>Choose any question from all ${QUESTION_BANK.length} in the bank. Practice one at a time.</p>
+      </div>
     </div>
     <div style="margin-top:16px;">
       <button class="btn secondary" onclick="navigate('home')">&larr; Back to Home</button>
@@ -6310,7 +6315,7 @@ function renderPracticeComplete() {
     ? 'Question complete.'
     : `You&rsquo;ve finished all ${STATE.practice.queue.length} question${STATE.practice.queue.length !== 1 ? 's' : ''} in this set.`;
   const buttons = isSingle
-    ? `<button class="btn secondary" onclick="backToPracticeHome()">&larr; Practice Home</button>`
+    ? `<button class="btn secondary" onclick="showQuestionPicker()">&larr; Back to Questions</button>`
     : `<button class="btn" onclick="startPractice();">Practice Again</button>
        <button class="btn secondary" onclick="navigate('challenge')">Try Challenge Mode</button>`;
   main.innerHTML = `
