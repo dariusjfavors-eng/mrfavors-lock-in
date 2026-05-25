@@ -610,45 +610,34 @@ no hedging verbs, final step always ends with "?".
 
 ---
 
-## Session U — Practice by Specific Past Exam ⬜ OPEN
+## Session U — Practice by Specific Past Exam ✅ COMPLETE 2026-05-25
 
-> Grill Me required before writing any code.
-> This is the highest-value exam-authenticity feature — "practice this specific paper" is how
-> real test prep works and is not possible today.
+**Design concept:** A 4th "Past Exam" card on Practice Home lets students pick one of three real
+Regents Part I exams (June 2025, January 2026, August 2025) and work all 24 questions in exact
+exam order — full lens-pick → walkthrough → answer → review — ending on a score screen with
+X/24, percentage, and the 65% Regents passing threshold.
 
-**Design concept:** Add an "Exam Sets" entry point to Practice Home that lets students pick a
-specific past Regents Part I exam (June 2025, January 2026, August 2025) and work through only
-those questions in fixed exam order — no shuffle, no filter — closest possible simulation of
-sitting down with the actual paper.
+**Discovery:** TASKS.md referred to a `source` field; actual codebase uses `exam:` field already
+present on all 96 questions. No backfill needed. Each real exam has exactly 24 questions.
 
-**Problem it solves:** Challenge Mode draws 24 questions balanced across all 96. A teacher who
-says "go practice the August 2025 paper tonight" has no way to make that happen today. Students
-who want to self-assess against a real past exam have no way to do that.
+**Modules touched:** `STATE`, `UI_RENDER`, `UI_HANDLERS`, `Tests` — no QUESTION_BANK changes.
 
-**Rough scope (confirm via Grill Me):**
-- New `source` tag already exists on Q73–Q96 (e.g. `'August 2025 Algebra I Regents — Part I'`)
-- Confirm tagging on Q25–Q72 (June 2025, January 2026) — may need backfill
-- New `drillMode = 'exam'` + `filterExam` key in STATE.practice
-- Practice Home gains a 4th card: "Past Exam" → exam picker (3 rows: Aug 2025, Jan 2026, Jun 2025)
-- `startPractice('exam', examKey)` builds pool filtered by source tag, preserves exam order (no shuffle)
-- `renderPracticeComplete()` in exam mode shows score X/N for that exam set
+**Interface changes:**
+- `STATE.practice` gains `filterExam: null`, `examCorrect: 0`; `drillMode` gains `'exam'`; `subView` gains `'exam-picker'`
+- Practice Home: 4th "Past Exam" card → `showExamPicker()`
+- `renderExamPicker()`: 3 rows (June 2025 / Jan 2026 / Aug 2025), "24 questions · fixed exam order" each
+- `startPractice('exam', examKey)`: filters by `q.exam === examKey`, no shuffle (insertion order = exam order)
+- `lockAnswer()`: increments `STATE.practice.examCorrect` when correct + drillMode='exam'
+- `renderPracticeComplete()` exam branch: exam name, X/24, %, pass/fail vs 65%, Try Again + ← Home
+- `runPuzzleTests()` check (f): each real exam key yields exactly 24 questions, no Q1–Q24 leakage
 
-**Grill Me questions to resolve:**
-- Are all Q25–Q72 tagged with `source`? If not, what's the backfill strategy?
-- Should exam order be preserved or shuffled within the set?
-- Does the results screen need per-standard breakdown (like Challenge) or just a score?
-- Is a "try this exam in Challenge mode" (timed) a button on the exam results screen?
+**Out of scope:** Timed exam mode, per-standard breakdown on results, Drill Mistakes on exam results,
+per-standard filter in picker, Challenge mode changes, Q1–Q24 in picker.
 
-**Out of scope (until Grill Me confirms otherwise):**
-- Timed exam mode within the exam set picker (could route to Challenge with filtered pool)
-- New questions or SVG work
-- Per-standard filter inside the exam picker
-
-**Done when (Grill Me will refine):**
-- Student selects a specific past exam from Practice Home
-- Works through those questions in order, lens-pick → walkthrough → answer → review
-- Results screen shows score for that exam set
-- 96/96 `runPuzzleTests()` pass; no regression on existing Practice or Challenge flows
+**Done when:** ✅ 4-card Practice Home; ✅ picker shows 3 exams; ✅ August 2025 starts at Q73;
+✅ header shows "QUESTION N OF 24 · AUGUST 2025"; ✅ results screen: X/24, %, 65% threshold;
+✅ Try Again restarts from Q1 in fixed order; ✅ 99/99 runPuzzleTests() pass (96 Qs + 3 exam pools);
+✅ no regression on Free Roam, Standard Drill, Lens Drill, Mistakes Drill, Challenge, Question Picker.
 
 ---
 

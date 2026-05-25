@@ -5530,12 +5530,14 @@ const STATE = {
     phase: 'lens-pick', // 'lens-pick' | 'walkthrough' | 'answer' | 'review'
     lensGuess: null,
     answerPick: null,
-    subView: 'home',       // 'home' | 'standard-picker' | 'lens-picker' | 'active'
-    drillMode: 'free',     // 'free' | 'standard' | 'lens' | 'wrong'
+    subView: 'home',       // 'home' | 'standard-picker' | 'lens-picker' | 'exam-picker' | 'active'
+    drillMode: 'free',     // 'free' | 'standard' | 'lens' | 'wrong' | 'single' | 'exam'
     filterStandard: null,  // cluster key or null
     filterLens: null,      // lens id or null
     wrongPool: [],         // pre-built pool for drillMode='wrong'
     filterQuestion: null,  // qid for drillMode='single'
+    filterExam: null,      // exam key string for drillMode='exam'
+    examCorrect: 0,        // correct-answer count for exam mode score screen
     walkthroughStep: 0    // which step is the last revealed in click-to-reveal
   },
   challenge: {
@@ -5733,6 +5735,7 @@ function renderPractice() {
   if (sv === 'standard-picker') return renderStandardPicker();
   if (sv === 'lens-picker')     return renderLensPicker();
   if (sv === 'question-picker') return renderQuestionPicker();
+  if (sv === 'exam-picker')     return renderExamPicker();
 
   /* subView === 'active' */
   const Q = currentQ();
@@ -5904,7 +5907,9 @@ function renderPractice() {
         ? 'Mistakes Drill'
         : STATE.practice.drillMode === 'single'
           ? STATE.practice.filterQuestion || 'Single Question'
-          : 'Free Roam';
+          : STATE.practice.drillMode === 'exam' && STATE.practice.filterExam
+            ? STATE.practice.filterExam.replace(' Algebra I Regents — Part I', '')
+            : 'Free Roam';
 
   main.innerHTML = `
     <div class="problem-meta">
@@ -5945,6 +5950,11 @@ function renderPracticeHome() {
         <div class="pmode-icon">&#9737;</div>
         <h4>Lens Drill</h4>
         <p>Pick a TI-84 strategy. Drill questions where that lens applies.</p>
+      </div>
+      <div class="pmode-card" onclick="showExamPicker()">
+        <div class="pmode-icon">&#128196;</div>
+        <h4>Past Exam</h4>
+        <p>Practice a real Regents Part I paper in exam order. See your score.</p>
       </div>
     </div>
     <div style="margin-top:16px;">
@@ -6008,8 +6018,32 @@ function renderQuestionPicker() {
   `;
 }
 
+function renderExamPicker() {
+  showRail(false, false);
+  var EXAMS = [
+    { key: 'June 2025 Algebra I Regents — Part I',    label: 'June 2025',    sub: 'June 2025 Algebra I Regents — Part I' },
+    { key: 'January 2026 Algebra I Regents — Part I', label: 'January 2026', sub: 'January 2026 Algebra I Regents — Part I' },
+    { key: 'August 2025 Algebra I Regents — Part I',  label: 'August 2025',  sub: 'August 2025 Algebra I Regents — Part I' }
+  ];
+  const rows = EXAMS.map(e => {
+    const count = QUESTION_BANK.filter(q => q.exam === e.key).length;
+    return `<button class="lens-pick" onclick="startPractice('exam','${e.key.replace(/'/g,'&#39;')}')">
+      <span class="lp-num">${count} questions &middot; fixed exam order</span>${e.label}
+    </button>`;
+  }).join('');
+  main.innerHTML = `
+    <div class="section-title">Past Exam</div>
+    <div class="section-sub">Pick a real Regents Part I paper &mdash; all questions in exam order, then see your score</div>
+    <div class="lens-picker-grid">${rows}</div>
+    <div style="margin-top:16px;">
+      <button class="btn secondary" onclick="backToPracticeHome()">&larr; Back</button>
+    </div>
+  `;
+}
+
 function showStandardPicker()  { STATE.practice.subView = 'standard-picker'; render(); }
 function showLensPicker()      { STATE.practice.subView = 'lens-picker'; render(); }
+function showExamPicker()      { STATE.practice.subView = 'exam-picker'; render(); }
 function showQuestionPicker()  {
   clearChallengeTimer();
   STATE.challenge.started = false;
@@ -6158,6 +6192,8 @@ function navigate(view) {
     STATE.practice.filterStandard = null;
     STATE.practice.filterLens = null;
     STATE.practice.filterQuestion = null;
+    STATE.practice.filterExam = null;
+    STATE.practice.examCorrect = 0;
     STATE.practice.wrongPool = [];
   }
   document.querySelectorAll('#nav button').forEach(b => {
@@ -6183,14 +6219,19 @@ function startPractice(drillMode = 'free', filter = null) {
   } else if (drillMode === 'single') {
     const q = QUESTION_BANK.find(q => q.id === filter);
     pool = q ? [q] : QUESTION_BANK;
+  } else if (drillMode === 'exam' && filter) {
+    pool = QUESTION_BANK.filter(q => q.exam === filter);
   }
   if (!pool.length) pool = QUESTION_BANK;
-  STATE.practice.queue = shuffle(pool.map(q => q.id));
+  // exam mode preserves insertion order (= real exam order); all other modes shuffle
+  STATE.practice.queue = drillMode === 'exam' ? pool.map(q => q.id) : shuffle(pool.map(q => q.id));
   STATE.practice.cursor = 0;
   STATE.practice.drillMode = drillMode;
   STATE.practice.filterStandard = drillMode === 'standard' ? filter : null;
   STATE.practice.filterLens = drillMode === 'lens' ? filter : null;
   STATE.practice.filterQuestion = drillMode === 'single' ? filter : null;
+  STATE.practice.filterExam = drillMode === 'exam' ? filter : null;
+  STATE.practice.examCorrect = 0;
   STATE.practice.lensGuess = drillMode === 'lens' ? filter : null;
   STATE.practice.phase = drillMode === 'lens' ? 'answer' : 'lens-pick';
   STATE.practice.answerPick = null;
@@ -6217,6 +6258,7 @@ function pickAnswer(label) { STATE.practice.answerPick = label; render(); }
 function lockAnswer() {
   const Q = currentQ();
   const correct = STATE.practice.answerPick === Q.correctAnswer;
+  if (correct && STATE.practice.drillMode === 'exam') STATE.practice.examCorrect++;
   STATE.practice.phase = 'review';
   const _maPicked = (Q.choices.find(c => c.label === STATE.practice.answerPick) || {text:''}).text.replace(/<[^>]+>/g,'').trim();
   const _maCorrect = (Q.choices.find(c => c.label === Q.correctAnswer) || {text:''}).text.replace(/<[^>]+>/g,'').trim();
@@ -6240,6 +6282,29 @@ function nextPracticeQ() {
 
 function renderPracticeComplete() {
   showRail(false, false);
+  if (STATE.practice.drillMode === 'exam') {
+    const total = STATE.practice.queue.length;
+    const correct = STATE.practice.examCorrect;
+    const pct = Math.round(correct / total * 100);
+    const examShort = (STATE.practice.filterExam || '').replace(' Algebra I Regents — Part I', '');
+    const passNote = pct >= 65
+      ? `<p style="color:#2e7d32; font-weight:600; margin:0 0 8px;">&#10003; At or above the 65% Regents passing score</p>`
+      : `<p style="color:#8B0000; font-weight:600; margin:0 0 8px;">Below the 65% Regents passing score &mdash; keep drilling!</p>`;
+    main.innerHTML = `
+      <div style="max-width:480px; margin: 40px auto; text-align:center;">
+        <div class="section-title" style="text-align:center; border:none;">${examShort} Results</div>
+        <p style="font-size:36px; font-weight:700; margin: 16px 0 4px;">${correct} / ${total}</p>
+        <p style="font-size:22px; margin: 0 0 16px; color:var(--muted);">${pct}%</p>
+        ${passNote}
+        <p style="font-size:12px; color:var(--muted); margin: 0 0 24px;">65% = Regents passing score</p>
+        <div class="btn-row" style="justify-content:center;">
+          <button class="btn" onclick="startPractice('exam', STATE.practice.filterExam)">Try Again</button>
+          <button class="btn secondary" onclick="backToPracticeHome()">&larr; Practice Home</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
   const isSingle = STATE.practice.drillMode === 'single';
   const msg = isSingle
     ? 'Question complete.'
@@ -6502,6 +6567,29 @@ window.runPuzzleTests = function() {
     } else {
       console.error('[runPuzzleTests] FAIL ' + id + ': ' + errors.join('; '));
       failed++;
+    }
+  });
+
+  // (f) exam pools — each real exam key yields exactly 24 questions, none from Q1–Q24
+  var REAL_EXAMS = [
+    'June 2025 Algebra I Regents — Part I',
+    'January 2026 Algebra I Regents — Part I',
+    'August 2025 Algebra I Regents — Part I'
+  ];
+  REAL_EXAMS.forEach(function(examKey) {
+    var pool = QUESTION_BANK.filter(function(q) { return q.exam === examKey; });
+    if (pool.length !== 24) {
+      console.error('[runPuzzleTests] FAIL exam pool "' + examKey + '": expected 24, got ' + pool.length);
+      failed++;
+    } else {
+      var leaks = pool.filter(function(q) { return parseInt(q.id.replace('Q','')) <= 24; });
+      if (leaks.length) {
+        console.error('[runPuzzleTests] FAIL exam pool "' + examKey + '": Q1–Q24 leakage: ' + leaks.map(function(q){return q.id;}).join(', '));
+        failed++;
+      } else {
+        console.log('[runPuzzleTests] PASS exam pool "' + examKey + '" — 24 questions, no leakage');
+        passed++;
+      }
     }
   });
 
