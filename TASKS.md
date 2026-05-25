@@ -1,6 +1,6 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-24 (Session S — code review findings, annotated for next pass)
+Last updated: 2026-05-25 (Post-U code-review fixes — math() step rendering, exam state reset, dead code removal)
 
 ---
 
@@ -638,6 +638,46 @@ per-standard filter in picker, Challenge mode changes, Q1–Q24 in picker.
 ✅ header shows "QUESTION N OF 24 · AUGUST 2025"; ✅ results screen: X/24, %, 65% threshold;
 ✅ Try Again restarts from Q1 in fixed order; ✅ 99/99 runPuzzleTests() pass (96 Qs + 3 exam pools);
 ✅ no regression on Free Roam, Standard Drill, Lens Drill, Mistakes Drill, Challenge, Question Picker.
+
+---
+
+## Post-U Code-Review Fixes ✅ COMPLETE 2026-05-25
+
+> Source: `/code-review` run on Session U diff. 5 findings — 3 CONFIRMED (math() rendering),
+> 1 PLAUSIBLE (state hygiene), 1 dead code. No Grill Me required — root causes confirmed,
+> no new interfaces.
+
+### Fix 1-3 — math() not applied to step strings (HIGH — raw LaTeX visible in steps)
+
+**Root cause:** Stems and choices are pre-rendered through `math()` at data-definition time
+(stored as HTML). Walkthrough and example step arrays were authored in Sessions L, M, Q, T as
+raw strings — the step renderer never called `math()` on them. Students saw `\frac{1}{2}` as
+literal text in walkthrough and example steps, while stems and choices rendered correctly.
+
+**Three sites fixed in `renderPractice()`:**
+- Example step body (Case 1 — bestLens + parallel example):
+  `${s}` → `${math(s)}`
+- Walkthrough array step body (review phase):
+  `${step}` → `${math(step)}`
+- String-fallback walkthrough body (`.ti-screen` branch):
+  `${drillWalkRaw}` → `${math(drillWalkRaw)}`
+
+### Fix 4 — backToPracticeHome() stale exam state (PLAUSIBLE — bleeds into Free Roam)
+
+`backToPracticeHome()` set `subView='home'` but left `drillMode='exam'`, `filterExam`, and
+`examCorrect` set. No current crash — but if any renderer branched on `drillMode` before
+`startPractice()` reset it, exam state would contaminate a Free Roam run.
+
+**Fix:** Added `STATE.practice.drillMode = 'free'; STATE.practice.filterExam = null;
+STATE.practice.examCorrect = 0;` before the `render()` call.
+
+### Fix 5 — Dead `sub:` property in EXAMS array (trivial — dead code)
+
+`renderExamPicker()` defined `sub: '...'` on all 3 EXAMS entries; only `e.key` and `e.label`
+were ever read. Removed `sub:` from all three entries.
+
+**Done when:** ✅ 99/99 pass; ✅ walkthrough steps with LaTeX now render styled fractions/exponents;
+✅ Free Roam entered via ← Back from exam results shows drillMode='free' in STATE.
 
 ---
 
