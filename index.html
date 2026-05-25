@@ -489,6 +489,20 @@ html, body {
   color: var(--muted);
   margin-bottom: 2px;
 }
+.picker-cluster-hdr {
+  margin-top: 18px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.picker-cluster-count {
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 6px;
+}
 
 /* FEEDBACK */
 .feedback {
@@ -5568,7 +5582,7 @@ function choiceLayout(q) {
 
 /* Standard clusters — human-readable labels mapped to domain code arrays */
 const STANDARD_CLUSTERS = [
-  { key: 'linear-eq',    label: 'Solving Linear Equations',        standards: ['A.REI.3', 'A.REI.6', 'A.REI.11'] },
+  { key: 'linear-eq',    label: 'Solving Linear Equations',        standards: ['A.REI.1', 'A.REI.3', 'A.REI.6', 'A.REI.11'] },
   { key: 'inequalities', label: 'Inequalities & Systems',          standards: ['A.REI.12'] },
   { key: 'quadratics',   label: 'Quadratics & Factoring',          standards: ['A.REI.4', 'A.APR.3', 'A.SSE.2', 'A.SSE.3b'] },
   { key: 'polynomials',  label: 'Polynomial Operations',           standards: ['A.APR.1'] },
@@ -5576,7 +5590,7 @@ const STANDARD_CLUSTERS = [
   { key: 'functions',    label: 'Interpreting Functions',          standards: ['F.IF.1', 'F.IF.2', 'F.IF.4', 'F.IF.5', 'F.IF.6', 'F.IF.7', 'F.IF.9'] },
   { key: 'models',       label: 'Linear & Exponential Models',     standards: ['F.LE.1', 'F.LE.2', 'F.BF.1', 'F.BF.2', 'F.BF.3'] },
   { key: 'radicals',     label: 'Radicals & Rational Exponents',   standards: ['N.RN.2', 'N.RN.3'] },
-  { key: 'statistics',   label: 'Statistics & Data',               standards: ['S.ID.2', 'S.ID.5', 'S.ID.7'] },
+  { key: 'statistics',   label: 'Statistics & Data',               standards: ['S.ID.2', 'S.ID.5', 'S.ID.6', 'S.ID.7'] },
   { key: 'quantities',   label: 'Quantities & Units',              standards: ['N.Q.1'] },
   { key: 'geometry',     label: 'Geometry — Slope',                standards: ['G.GPE.5'] }
 ];
@@ -6019,22 +6033,45 @@ function renderLensPicker() {
 
 function renderQuestionPicker() {
   showRail(false, false);
-  const rows = QUESTION_BANK.map(q => {
+  function qRow(q) {
     const raw = math(q.stem).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
     const preview = raw.length > 80 ? raw.slice(0, 80) + '…' : raw;
     return `<button class="lens-pick" onclick="startPractice('single','${q.id}')">
       <span class="lp-num">${q.id} &middot; ${q.standard}</span>${preview}
     </button>`;
-  }).join('');
+  }
+  let body;
+  if (_pickerShowAll) {
+    body = `<div class="lens-picker-grid">${QUESTION_BANK.map(qRow).join('')}</div>`;
+  } else {
+    body = STANDARD_CLUSTERS.map(c => {
+      const qs = QUESTION_BANK.filter(q => c.standards.includes(q.standard));
+      if (!qs.length) return '';
+      const cnt = qs.length;
+      return `<div class="picker-cluster-hdr">${c.label}<span class="picker-cluster-count">${cnt} question${cnt !== 1 ? 's' : ''}</span></div>
+        <div class="lens-picker-grid">${qs.map(qRow).join('')}</div>`;
+    }).join('');
+  }
+  const toggleLabel = _pickerShowAll
+    ? 'Browse by Topic'
+    : `Show All (${QUESTION_BANK.length})`;
+  const sub = _pickerShowAll
+    ? 'All questions in Q-number order'
+    : 'Browse by topic &mdash; a question may appear in more than one cluster';
   main.innerHTML = `
     <div class="section-title">Pick a Question</div>
-    <div class="section-sub">Select any question to practice</div>
-    <div class="lens-picker-grid">${rows}</div>
+    <div class="section-sub">${sub}</div>
+    <div style="margin-top:10px;">
+      <button class="btn secondary" onclick="togglePickerView()">${toggleLabel}</button>
+    </div>
+    ${body}
     <div style="margin-top:16px;">
       <button class="btn secondary" onclick="backToPracticeHome()">&larr; Back</button>
     </div>
   `;
 }
+
+function togglePickerView() { _pickerShowAll = !_pickerShowAll; renderQuestionPicker(); }
 
 function renderExamPicker() {
   showRail(false, false);
@@ -6066,6 +6103,7 @@ function showQuestionPicker()  {
   clearChallengeTimer();
   STATE.challenge.started = false;
   STATE.view = 'practice';
+  _pickerShowAll = false;
   document.querySelectorAll('#nav button').forEach(b => {
     b.classList.toggle('active', b.dataset.view === 'practice');
   });
@@ -6384,6 +6422,7 @@ function resetChallenge() {
 }
 
 let _challengeSelectedChoice = null;
+let _pickerShowAll = false;
 
 function challengePickAnswer(label) {
   _challengeSelectedChoice = label;
@@ -6630,6 +6669,18 @@ window.runPuzzleTests = function() {
       }
     }
   });
+
+  // (g) cluster coverage — every question must appear in at least one STANDARD_CLUSTERS entry
+  var allClusterStds = new Set();
+  STANDARD_CLUSTERS.forEach(function(c) { c.standards.forEach(function(s) { allClusterStds.add(s); }); });
+  var unclustered = QUESTION_BANK.filter(function(q) { return !allClusterStds.has(q.standard); });
+  if (unclustered.length) {
+    console.error('[runPuzzleTests] FAIL cluster coverage: ' + unclustered.length + ' question(s) not in any cluster: ' + unclustered.map(function(q){ return q.id + '(' + q.standard + ')'; }).join(', '));
+    failed++;
+  } else {
+    console.log('[runPuzzleTests] PASS cluster coverage — all ' + QUESTION_BANK.length + ' questions appear in at least one cluster');
+    passed++;
+  }
 
   console.log('[runPuzzleTests] ' + passed + ' passed, ' + failed + ' failed — ' + QUESTION_BANK.length + ' questions checked');
   return { passed, failed, total: QUESTION_BANK.length };

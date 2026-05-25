@@ -741,27 +741,43 @@ analytics event, scroll position persistence, QUESTION_BANK changes
 
 ---
 
-## Session W — Per-Standard Grouping in Question Picker ⬜ OPEN
+## Session W — Per-Standard Grouping in Question Picker ✅ COMPLETE 2026-05-25
 
-> Grill Me required before writing any code.
-> Builds on Session V full-scope picker (Practice Home 5th card + back-to-picker routing).
+> Grill Me complete 2026-05-25. Mini-PRD below.
 
-**Rough scope (confirm via Grill Me):**
-- Add cluster headers (STANDARD_CLUSTERS) above question rows in `renderQuestionPicker()`
-- Each cluster header shows cluster label + question count
-- Questions under each header are filtered to that cluster's standards
-- Q1–Q24 "Regents style" questions that span multiple clusters: decide grouping rule
+**Design concept:** Replace the flat Q-number list in `renderQuestionPicker()` with a clustered view — always-expanded sections using `STANDARD_CLUSTERS` headers — so students can browse by topic. A "Show All" toggle restores the flat list. All 96 questions grouped by standard; Q1–Q24 appear under their matching cluster(s) alongside Q25–Q96 with no separate "Regents style" bucket.
 
-**Grill Me questions to resolve:**
-- Should cluster headers be collapsible or always-expanded flat sections?
-- Do Q1–Q24 "Regents style" questions appear under their standard cluster or in a separate group?
-- Does a student need to see all 96 at once, or is per-cluster browsing sufficient?
-- Is there a "Show All" toggle to restore the flat list?
+**Modules touched:** `UI_RENDER` (`renderQuestionPicker()` only) — no STATE, no QUESTION_BANK, no handler changes.
 
-**Out of scope (until Grill Me):**
+**Interface changes:**
+- `renderQuestionPicker()`: default view = clustered; each cluster header shows label + question count; questions appear under every matching cluster (a question with multiple matching standards appears in each); always-expanded, no collapse toggle
+- "Show All" button at top of picker toggles between clustered and flat views; flat view = current Q-number order (no change to existing flat render)
+- Toggle state is local to `renderQuestionPicker()` — a simple `_pickerShowAll` module-level boolean (or inline state via a data attribute); resets to clustered on next `showQuestionPicker()` call
+- `runPuzzleTests()`: new check — every question in QUESTION_BANK appears in at least one cluster; failure logs the qid and standard
+
+**Invariants (must not change):**
+- `startPractice('single', qid)` — picking a question works identically regardless of which view was active
+- "← Back to Questions" routing from review complete → `showQuestionPicker()` — no change
+- Challenge results → picker entry point — no change
+- Flat list Q-number order and row format (`Q01 · A.REI.3 · stem preview`) — unchanged in Show All view
+
+**Out of scope:**
 - Text search / free-form filter
 - Sorting within a cluster beyond Q-number order
-- Any changes to the single-question loop itself
+- Scroll position memory after returning from a single-question loop
+- Analytics event for cluster browsed
+- Collapsible cluster sections
+- Any QUESTION_BANK changes
+
+**Done when:**
+- Clustered view is the default; all 11 cluster headers visible with label + question count
+- Q1–Q24 appear under matching standard clusters alongside Q25–Q96
+- A question with multiple matching standards appears under each matching cluster
+- "Show All" button toggles to flat list (existing Q-number format); toggle back works
+- `runPuzzleTests()` new check passes: every question in at least one cluster
+- Picking any question in either view → full single-question loop runs correctly
+- "← Back to Questions" from review complete → picker (clustered default)
+- 99/99 + new cluster check runPuzzleTests() pass; browser QA green at 1366×768
 
 ---
 
