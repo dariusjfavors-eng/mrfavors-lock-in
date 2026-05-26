@@ -114,8 +114,8 @@ Override justified: 1-to-1 Regents exam fidelity is the core design contract.
 Font:         Arial, Helvetica, sans-serif  (system stack — no Google Fonts import needed)
 Display use:  Arial Bold (700) — exam cover header, “ALGEBRA I”, part labels
 Body use:     Arial Regular (400) — all question stems and answer choices
-Size (stem):  16px / 1.5 line-height (matches ~11pt print at 96dpi)
-Size (choices): 15px
+Size (stem):  18px / 1.6 line-height (~10% bump from original 16px for legibility)
+Size (choices): 17px
 Size (header): 13px uppercase letter-spacing 0.08em (matches booklet page header)
 Size (title):  clamp(1.4rem, 3vw, 2rem) bold — exam cover “ALGEBRA I” scale
 
