@@ -1,6 +1,56 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-25 (Session X — Skip + Lens Toggle)
+Last updated: 2026-05-26 (Session Y-1 — Lens Expansion Phase 1)
+
+---
+
+## Session Y-1 — S.ID Lens Definitions (Phase 1 of 3) ✅ COMPLETE 2026-05-26
+
+**Design concept:** Add three new lens objects (L11 Box Plot Read, L12 LinReg / Scatter, L13 Two-Way Table) to the LENSES array so students see a named TI-84 strategy for every S.ID question type. The Library and Lens Drill already iterate LENSES dynamically — no renderer changes needed.
+
+**Modules touched:** `LENSES` array only.
+
+**Interface changes:**
+- L11 Box Plot Read (id:11, S.ID.1/2/3): five-number summary, IQR, outlier rule, TI-84 Boxplot option
+- L12 LinReg / Scatter (id:12, S.ID.6/7/8): STAT→CALC→LinReg keystroke chain, r (DiagnosticOn), predict from model
+- L13 Two-Way Table (id:13, S.ID.5): joint/marginal/conditional frequency reading strategy
+
+**Out of scope (this pass):**
+- Updating applicableLenses/bestLens on S.ID questions — Session Y-2
+- Writing walkthroughs/examples for new lenses — Session Y-3
+- Other standard groups (F.LE, A.CED, N.Q, A-APR) — future phases
+
+**Done when:** ✅ Library shows 13 lenses; ✅ Lens Drill shows 13 rows (L11/L12/L13 show "0 q" — expected); ✅ lensDetail for L11 renders keystrokes, standards, pitfall; ✅ 100/100 runPuzzleTests() pass; ✅ getLens(11/12/13) returns correct objects.
+
+**NOTE:** L11/L12/L13 show "0 q" in Lens Drill — not a bug. Will be corrected in Session Y-2 when S.ID questions' applicableLenses/bestLens are updated.
+
+**S.ID questions to update in Session Y-2:**
+| qid | standard | Target bestLens |
+|-----|----------|-----------------|
+| Q08 | S.ID.7 | L12 LinReg/Scatter |
+| Q26 | S.ID.2 | L11 Box Plot Read |
+| Q50 | S.ID.5 | L13 Two-Way Table |
+| Q69 | S.ID.2 | L11 Box Plot Read |
+| Q84 | S.ID.6 | L12 LinReg/Scatter |
+| Q86 | S.ID.2 | L11 Box Plot Read |
+
+---
+
+## Session Y-2 — S.ID Question Schema Update (Phase 2 of 3) ⬜ OPEN
+
+> No Grill Me required — schema update only, no new interface decisions.
+> Do: for each S.ID question above, update `applicableLenses` to include new lens ID(s)
+> and set `bestLens` to the target lens. Confirm actual current bestLens values before overwriting.
+> After changes: 100/100 runPuzzleTests() pass.
+
+---
+
+## Session Y-3 — S.ID Walkthroughs + Examples (Phase 3 of 3) ⬜ OPEN
+
+> No Grill Me required — content pass only.
+> Write walkthroughs[newLensId] and examples[newLensId] for each of the 6 S.ID questions
+> using the new lens strategy voice (teacher annotation style, TI-84 keystrokes named).
+> After changes: 100/100 runPuzzleTests() pass.
 
 ---
 

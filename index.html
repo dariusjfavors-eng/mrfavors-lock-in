@@ -1023,6 +1023,60 @@ const LENSES = [
     },
     standards: ['ALL — universal lens'],
     pitfall: 'Don\'t over-trust elimination — verify your final pick with another lens.'
+  },
+  {
+    id: 11, code: 'L11', name: 'Box Plot Read', icon: '▭',
+    tagline: 'Read the five-number summary — compare medians and IQR.',
+    when: 'Box plot questions, comparing distributions, IQR calculation, outlier identification',
+    keystrokes: [
+      ['Identify five numbers', 'min, Q1, median, Q3, max from the plot'],
+      ['IQR = Q3 − Q1', 'span of the middle 50%'],
+      ['Outlier rule', 'below Q1 − 1.5·IQR or above Q3 + 1.5·IQR'],
+      ['Compare two groups', 'compare medians for center, IQR for spread'],
+      ['TI-84 option', 'STAT → Edit → L1 → 2nd Y= → Plot1 → Boxplot → GRAPH']
+    ],
+    example: {
+      problem: 'Two box plots show test scores. Which class has greater variability?',
+      walkthrough: 'Compute IQR for each: larger IQR = greater spread. Whiskers ≠ IQR.'
+    },
+    standards: ['S.ID.1', 'S.ID.2', 'S.ID.3'],
+    pitfall: 'Whiskers end at MIN/MAX — not at Q1 − 1.5·IQR. Outliers show as separate dots.'
+  },
+  {
+    id: 12, code: 'L12', name: 'LinReg / Scatter', icon: '↗',
+    tagline: 'STAT → CALC → LinReg: slope, y-intercept, and r in one step.',
+    when: 'Line of best fit, predicting from a regression model, correlation direction and strength, interpreting slope/intercept in context',
+    keystrokes: [
+      ['STAT → Edit', 'enter x-values in L1, y-values in L2'],
+      ['STAT → CALC → 4: LinReg(ax+b)', 'select LinReg'],
+      ['L1, L2 → ENTER', 'run regression'],
+      ['Read a (slope), b (y-int), r (correlation)', 'if r not showing: 2nd → 0 → DiagnosticOn → ENTER × 2 → rerun'],
+      ['Predict', 'substitute x into y = ax + b']
+    ],
+    example: {
+      problem: 'A scatter plot shows hours studied vs. score. Best fit: y = 5x + 60. Predict score at 8 hours.',
+      walkthrough: 'y = 5(8) + 60 = 100. Slope 5 means +5 points per additional hour studied.'
+    },
+    standards: ['S.ID.6', 'S.ID.7', 'S.ID.8'],
+    pitfall: 'r close to ±1 = strong association; near 0 = weak. Correlation ≠ causation.'
+  },
+  {
+    id: 13, code: 'L13', name: 'Two-Way Table', icon: '⊞',
+    tagline: 'Find the total, find the cell, divide — which total depends on the question.',
+    when: 'Two-way frequency tables, joint/marginal/conditional frequency, relative frequency questions',
+    keystrokes: [
+      ['No calculator needed', 'pure table reading'],
+      ['Joint frequency', 'single cell ÷ grand total'],
+      ['Marginal frequency', 'row or column total ÷ grand total'],
+      ['Conditional frequency', 'cell ÷ row total OR cell ÷ column total (restricted group)'],
+      ['Re-read the question', 'confirms WHICH total to divide by']
+    ],
+    example: {
+      problem: '120 students: 60 play sports, 45 of those also play an instrument. What fraction of sport-players play an instrument?',
+      walkthrough: 'Conditional: restricted to sport-players (60). 45 ÷ 60 = 0.75. NOT ÷ 120.'
+    },
+    standards: ['S.ID.5'],
+    pitfall: 'Conditional divides by the ROW or COLUMN total — not the grand total. Re-read to confirm the restriction.'
   }
 ];
 
