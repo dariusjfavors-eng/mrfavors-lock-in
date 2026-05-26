@@ -6048,7 +6048,8 @@ function renderQuestionPicker() {
       const qs = QUESTION_BANK.filter(q => c.standards.includes(q.standard));
       if (!qs.length) return '';
       const cnt = qs.length;
-      return `<div class="picker-cluster-hdr">${c.label}<span class="picker-cluster-count">${cnt} question${cnt !== 1 ? 's' : ''}</span></div>
+      const safeLabel = c.label.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return `<div class="picker-cluster-hdr">${safeLabel}<span class="picker-cluster-count">${cnt} question${cnt !== 1 ? 's' : ''}</span></div>
         <div class="lens-picker-grid">${qs.map(qRow).join('')}</div>`;
     }).join('');
   }
@@ -6071,7 +6072,7 @@ function renderQuestionPicker() {
   `;
 }
 
-function togglePickerView() { _pickerShowAll = !_pickerShowAll; renderQuestionPicker(); }
+function togglePickerView() { _pickerShowAll = !_pickerShowAll; render(); }
 
 function renderExamPicker() {
   showRail(false, false);
@@ -6099,11 +6100,11 @@ function renderExamPicker() {
 function showStandardPicker()  { STATE.practice.subView = 'standard-picker'; render(); }
 function showLensPicker()      { STATE.practice.subView = 'lens-picker'; render(); }
 function showExamPicker()      { STATE.practice.subView = 'exam-picker'; render(); }
-function showQuestionPicker()  {
+function showQuestionPicker(resetView)  {
   clearChallengeTimer();
   STATE.challenge.started = false;
   STATE.view = 'practice';
-  _pickerShowAll = false;
+  if (resetView !== false) _pickerShowAll = false;
   document.querySelectorAll('#nav button').forEach(b => {
     b.classList.toggle('active', b.dataset.view === 'practice');
   });
@@ -6378,7 +6379,7 @@ function renderPracticeComplete() {
     ? 'Question complete.'
     : `You&rsquo;ve finished all ${STATE.practice.queue.length} question${STATE.practice.queue.length !== 1 ? 's' : ''} in this set.`;
   const buttons = isSingle
-    ? `<button class="btn secondary" onclick="showQuestionPicker()">&larr; Back to Questions</button>`
+    ? `<button class="btn secondary" onclick="showQuestionPicker(false)">&larr; Back to Questions</button>`
     : `<button class="btn" onclick="startPractice();">Practice Again</button>
        <button class="btn secondary" onclick="navigate('challenge')">Try Challenge Mode</button>`;
   main.innerHTML = `
