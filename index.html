@@ -10,7 +10,7 @@
   v1.0 | Single-file HTML | White exam-paper aesthetic
 
   MODULES (search "MODULE:" to jump)
-    1. LENS_LIBRARY ...... 10 TI-84 strategies
+    1. LENS_LIBRARY ...... 13 TI-84 strategies
     2. QUESTION_BANK ..... 15 Regents-style questions (label: 1/2/3/4)
     3. ANALYTICS ......... anonymous FAVORit schema
     4. UI_STATE .......... state machine
@@ -5812,7 +5812,7 @@ function renderLibrary() {
   `).join('');
 
   main.innerHTML = `
-    <div class="section-title">The 10 Lenses</div>
+    <div class="section-title">The ${LENSES.length} Lenses</div>
     <div class="section-sub">Reusable strategies &middot; tagged to standards &middot; click to dive in</div>
     <div class="lens-grid">${cards}</div>
   `;
