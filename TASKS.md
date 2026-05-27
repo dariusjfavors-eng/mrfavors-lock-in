@@ -1,6 +1,30 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-27 (Sessions Y-2+Y-3 — S.ID schema + content complete)
+Last updated: 2026-05-27 (Session Z PRD — Lens Toggle Header Relocation)
+
+---
+
+## Session Z — Lens Toggle Header Relocation ⬜ OPEN
+
+**Design concept:** Move the lens ON/OFF toggle from its current two-location placement (lens-pick screen + answer/review screen) to a single persistent badge in the question header, right side inline with the standard tag and Reference Sheet button, visible across all Practice phases in all modes except Lens Drill and wrong-answer drill.
+
+**Modules touched:** `UI_RENDER` only (`renderPractice()`)
+
+**Interface changes:**
+- `renderPractice()` lens-pick phase: REMOVE `"LENS: ON — Skip going forward"` button
+- `renderPractice()` answer/review phase: REMOVE `"Lens: OFF — Re-enable"` button
+- `renderPractice()` question header (all active phases): ADD toggle badge right side — `S.ID.2 · [LENS: ON] [Reference Sheet]` / `S.ID.2 · [LENS: OFF] [Reference Sheet]`; reads `STATE.practice.lensEnabled` on every render; hidden when `drillMode === 'lens'` or `drillMode === 'wrong'`
+
+**Out of scope:** Challenge mode, `toggleLens()` logic, `lensEnabled` localStorage persistence, label text changes beyond ON/OFF, picker sub-view changes, other header element changes
+
+**Done when:**
+- Header badge shows `LENS: ON` / `LENS: OFF` correctly on lens-pick, walkthrough, answer, and review phases
+- Badge reflects persisted state across questions (toggle OFF on Q2 → Q3 header still shows `LENS: OFF`)
+- No badge in Lens Drill or wrong-answer drill
+- No badge on picker sub-views (standard-picker, lens-picker, exam-picker, question-picker)
+- Old toggle buttons gone from lens-pick phase and answer/review phase
+- Header layout intact at 1366×768 — no overflow between standard tag, badge, and Reference Sheet button
+- 100/100 `runPuzzleTests()` pass
 
 ---
 
