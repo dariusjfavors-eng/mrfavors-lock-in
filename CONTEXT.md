@@ -18,7 +18,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 | Framework | Vanilla JS only, zero build tools |
 | Storage | None — session is ephemeral, no localStorage |
 | PII Policy | None stored; FAVORit analytics are anonymous (sid = `anon_` + timestamp) |
-| Current Status | Classroom Ready — deployed live; 96 questions; Session X complete. Practice Home has 5 cards (Free Roam, Standard Drill, Lens Drill, Past Exam, Pick a Question). Skip button on example steps; Lens ON/OFF toggle. 99/99 pass. Next: Session W — per-standard grouping in picker (Grill Me required). |
+| Current Status | Classroom Ready — deployed live; 96 questions; 13 lenses; Sessions through AA complete. Lens toggle in persistent header badge; lens-pick grid color-coded (green/yellow/red). 100/100 pass. No session queued — next via Grill Me. |
 
 ---
 
@@ -41,7 +41,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 ### Module Map
 
 ```
-LENSES            → 10 static strategy objects; keystrokes, example, standards, pitfall
+LENSES            → 13 static strategy objects (L1–L13); keystrokes, example, standards, pitfall
 STANDARD_CLUSTERS → 11 cluster objects mapping human-readable labels to standard code arrays
 QUESTION_BANK     → question objects; choices use label:'1'–'4', correctAnswer:'1'–'4'
 ANALYTICS         → anonymous FAVORit schema; reads Worker URL from localStorage('favoritWorkerUrl') — URL never in committed code
@@ -173,6 +173,9 @@ No star field, no orbs, no gradients, no texture. This is an intentional DESIGN_
 
 ## 7. LAST SESSION LOG
 
+- 2026-05-27 (Session AA — Lens Color Coding) — Lens-pick grid color-coded by fit: `.lens-best` green left-border (bestLens), `.lens-workable` yellow #8B6914 (applicable non-best), `.lens-notrelated` red left-border + disabled (no onclick, cursor not-allowed). Mistakes Drill `.lens-highlight` (blue) layers on green. Lens Drill unaffected. 100/100 pass. File: ~6,809 lines.
+- 2026-05-27 (Session Z — Lens Toggle Header Relocation) — Removed lensToggleBtn from lens-pick phase; removed lensReenableBtn from answer/review phase. Added `lensBadge` (ref-sheet-trigger style) to question header right side: standard · [LENS: ON/OFF] [Reference Sheet]. Reads STATE.practice.lensEnabled every render; absent when drillMode='lens' or 'wrong'. toggleLens() logic unchanged. 100/100 pass.
+- 2026-05-27 (Sessions Y-1/Y-2/Y-3 — S.ID Lens Expansion) — L11 Box Plot Read, L12 LinReg/Scatter, L13 Two-Way Table added to LENSES (10→13). 6 S.ID questions updated: Q08→L12, Q26→L11, Q50→L13, Q69→L11, Q84→L12, Q86→L11. walkthroughs + examples in annotation voice on all 6. 100/100 pass.
 - 2026-05-25 (Math rendering fix) — math() not called at stem/choice render sites; Q73–Q96 showing raw `^{2}` in stems and choices. Fixed: math() wraps Q.stem and c.text at all 5 render sites. Bare subscript handler added to math() — fixes Q89 b₁/b₂ trapezoid formula and sequence walkthroughs a₁/a₂. Commit 9cf6609.
 - 2026-05-25 (Session X — Skip Button + Lens Toggle + Deploy fix) — "Skip →" button on example steps; Lens ON/OFF toggle on lens-pick screen; "Lens: OFF — Re-enable" in answer/review phase; new STATE.practice.lensEnabled, toggleLens(), lensEnabled bypass in startPractice()/nextPracticeQ(). 99/99 pass. Deploy fix: live site serves from mrfavors-lock-in/main — pushed via `git subtree push --prefix games/regents-mc-trainer mrfavors-lock-in main`. Verified live: 99/99, toggleLens present, all 5 Practice Home cards present, question picker working.
 - 2026-05-25 (Post-U code-review fixes) — math() applied at render time to all step strings: example step body, walkthrough array step body, string-fallback walkthrough body. backToPracticeHome() resets drillMode/filterExam/examCorrect. Dead sub: property removed from EXAMS array in renderExamPicker(). 99/99 pass. Commit 80a6423.

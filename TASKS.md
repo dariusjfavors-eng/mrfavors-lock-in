@@ -4,7 +4,29 @@ Last updated: 2026-05-27 (Session Z PRD — Lens Toggle Header Relocation)
 
 ---
 
-## Session Z — Lens Toggle Header Relocation ⬜ OPEN
+## Session AA — Lens Color Coding (Lens-Pick UX) ✅ COMPLETE 2026-05-27
+
+**Design concept:** Color-code the lens-pick grid by fit quality — green left-border for `bestLens`, yellow left-border for workable (`applicableLenses` but not `bestLens`), red left-border for non-applicable (disabled, non-interactive) — so students instantly see strategy fit without being able to pick a wrong-family lens.
+
+**Modules touched:** `UI_RENDER` only (`renderPractice()` — `lensOptions` map in lens-pick phase)
+
+**Interface changes:**
+- `lensOptions` map: each lens button receives one of three classes — `.lens-best` (green left-border, clickable), `.lens-workable` (yellow left-border, clickable), `.lens-notrelated` (red left-border, `disabled` attribute, cursor not-allowed, no onclick)
+- CSS: three new classes added to `<style>` block with left-border treatment consistent with existing `.lens-highlight` pattern
+
+**Out of scope:** Tooltip/label text explaining color meaning, Lens Drill / Mistakes Drill / Challenge mode, `pickLens()` / `toggleLens()` handler changes, `QUESTION_BANK` or `LENSES` data changes, `runPuzzleTests()` extension
+
+**Done when:**
+- Green left-border on `bestLens` button, clickable
+- Yellow left-border on workable lens buttons, clickable
+- Red left-border + `disabled` on non-applicable lens buttons (cursor not-allowed, no click)
+- Mistakes Drill `.lens-highlight` blue border still applies on applicable lenses (no collision — bestLens is always in applicableLenses)
+- Lens Drill unaffected
+- 100/100 `runPuzzleTests()` pass
+
+---
+
+## Session Z — Lens Toggle Header Relocation ✅ COMPLETE 2026-05-27
 
 **Design concept:** Move the lens ON/OFF toggle from its current two-location placement (lens-pick screen + answer/review screen) to a single persistent badge in the question header, right side inline with the standard tag and Reference Sheet button, visible across all Practice phases in all modes except Lens Drill and wrong-answer drill.
 

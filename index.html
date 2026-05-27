@@ -473,6 +473,10 @@ html, body {
   border-left: 3px solid var(--hint);
   background: var(--hint-bg);
 }
+.lens-pick.lens-best     { border-left: 3px solid var(--correct); }
+.lens-pick.lens-workable { border-left: 3px solid #8B6914; }
+.lens-pick.lens-notrelated { border-left: 3px solid var(--incorrect); cursor: not-allowed; opacity: 0.5; }
+.lens-pick.lens-notrelated:hover { background: var(--page); }
 .wrong-drill-strip {
   margin: 10px 0 0;
   padding: 8px 12px;
@@ -2529,7 +2533,7 @@ const QUESTION_BANK = [
       ],
       11: [
         'Compare center: Andrea mean = (82+87+90+84)÷4 = 85.75. Joe mean = (91+78+94+67)÷4 = 82.5. Andrea higher.',
-        'Compare spread: Andrea range = 90−82 = 8 (tight). Joe range = 94−67 = 27 (wide) → Joe has higher std dev.',
+        'Compare spread: Andrea range = 90−82 = 8 (tight cluster). Joe range = 94−67 = 27 (wide spread). Wider range → more variability → higher standard deviation.',
         'Andrea has higher mean; Joe has higher spread. Answer: (3).'
       ]
     },
@@ -3559,15 +3563,15 @@ const QUESTION_BANK = [
       9: [
         'Relative frequency = specific count ÷ grand total. Find "Pizza AND Water" in the table: intersection cell = 58.',
         'Grand total = 400. RF = 58/400 = 0.145.',
-        'Eliminate traps: (3) uses pizza row total (182); (2) uses water column total (140). Answer: (1).'
+        'Eliminate traps: (3) uses pizza row total (182); (2) uses water column total (140). Answer: (4).'
       ],
       10: [
         '"Pizza AND Water" means the intersection cell of the two-way table (both conditions met).',
         'Relative frequency always uses the grand total as the denominator: 58/400.',
-        'Eliminate choices using row or column totals — those give marginal, not joint, relative frequencies. Answer: (1).'
+        'Eliminate choices using row or column totals — those give marginal, not joint, relative frequencies. Answer: (4).'
       ],
       13: [
-        'Identify the type: "pizza AND water" → joint frequency = intersection cell of pizza row × water column = 58.',
+        'Identify the type: "pizza AND water" → joint frequency = the cell where the pizza row meets the water column = 58.',
         'Joint relative frequency = cell ÷ grand total = 58 ÷ 400 = 0.145.',
         'Eliminate (1)(2)(3): they use row/column totals instead of the intersection cell. Answer: (4).'
       ]
@@ -5900,18 +5904,18 @@ function renderPractice() {
 
     const lensOptions = LENSES.map(L => {
       const highlighted = isWrongDrill && highlightedLensIds.has(L.id);
+      const isBest = Q.bestLens === L.id;
+      const isNotRelated = !Q.applicableLenses.includes(L.id);
+      const fitClass = isBest ? ' lens-best' : isNotRelated ? ' lens-notrelated' : ' lens-workable';
+      const hlClass = (!isNotRelated && highlighted) ? ' lens-highlight' : '';
+      const disabledAttr = isNotRelated ? ' disabled' : '';
+      const onclickAttr = isNotRelated ? '' : ` onclick="pickLens(${L.id})"`;
       return `
-        <button class="lens-pick${highlighted ? ' lens-highlight' : ''}" onclick="pickLens(${L.id})">
+        <button class="lens-pick${fitClass}${hlClass}"${disabledAttr}${onclickAttr}>
           <span class="lp-num">${L.code} &middot; ${L.icon}</span>
           ${highlighted ? `<strong>${L.name}</strong>` : L.name}
         </button>`;
     }).join('');
-
-    const lensToggleBtn = !isWrongDrill
-      ? `<div class="btn-row" style="margin-top:12px;">
-           <button class="btn secondary" onclick="toggleLens()" style="font-size:0.85em;">Lens: ON &mdash; Skip going forward</button>
-         </div>`
-      : '';
 
     body = `
       <div class="lens-picker-prompt">
@@ -5920,7 +5924,6 @@ function renderPractice() {
         ${diagnosticStrip}
       </div>
       <div class="lens-picker-grid">${lensOptions}</div>
-      ${lensToggleBtn}
     `;
   }
 
@@ -6034,10 +6037,7 @@ function renderPractice() {
       lockBtn = `${fb}${walkExtra}<div class="btn-row"><button class="btn" onclick="nextPracticeQ()">Next question &rarr;</button><button class="btn secondary" onclick="navigate('home')">Exit</button></div>`;
     }
 
-    const lensReenableBtn = !STATE.practice.lensEnabled && !isLensDrill && STATE.practice.drillMode !== 'wrong'
-      ? `<div class="btn-row" style="margin-top:4px;"><button class="btn secondary" onclick="toggleLens()" style="font-size:0.85em;">Lens: OFF &mdash; Re-enable</button></div>`
-      : '';
-    body = `<div class="choices ${layout}">${choicesHtml}</div>${lockBtn}${lensReenableBtn}`;
+    body = `<div class="choices ${layout}">${choicesHtml}</div>${lockBtn}`;
   }
 
   const drillLabel = isLensDrill
@@ -6052,10 +6052,14 @@ function renderPractice() {
             ? STATE.practice.filterExam.replace(' Algebra I Regents — Part I', '')
             : 'Free Roam';
 
+  const lensBadge = !isLensDrill && STATE.practice.drillMode !== 'wrong'
+    ? `<button class="ref-sheet-trigger" onclick="toggleLens()">${STATE.practice.lensEnabled ? 'LENS: ON' : 'LENS: OFF'}</button>`
+    : '';
+
   main.innerHTML = `
     <div class="problem-meta">
       <span>Question ${STATE.practice.cursor + 1} of ${STATE.practice.queue.length} &middot; ${drillLabel}</span>
-      <div style="display:flex;align-items:center;gap:10px;"><span>${Q.standard}</span>${refSheetBtn()}</div>
+      <div style="display:flex;align-items:center;gap:10px;"><span>${Q.standard}</span>${lensBadge}${refSheetBtn()}</div>
     </div>
     <div class="problem-stem">${math(Q.stem)}</div>
     ${body}
