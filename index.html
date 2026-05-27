@@ -1609,8 +1609,8 @@ const QUESTION_BANK = [
       { label: '4', text: 'For each unit increase in x, y decreases by 2.5.' }
     ],
     correctAnswer: '3',
-    applicableLenses: [9, 10],
-    bestLens: 9,
+    applicableLenses: [9, 10, 12],
+    bestLens: 12,
     walkthroughs: {
       9: [
         'Identify the form: y = mx + b is slope-intercept form.',
@@ -1621,6 +1621,11 @@ const QUESTION_BANK = [
         'Scan choices: slope m = 2.5 means +2.5 y per unit of x.',
         'Eliminate (1): confuses slope and y-intercept positions. Eliminate (2): 3 is the y-intercept value, not the rate.',
         'Eliminate (4): wrong sign — the line increases (positive slope). Answer: (3).'
+      ],
+      12: [
+        'Read the model: y = 2.5x − 3. In LinReg form y = ax + b, slope a = 2.5.',
+        'Slope = rate of change: each 1-unit increase in x → y increases by 2.5.',
+        'Match to choices: (3) says "for each unit increase in x, y increases by 2.5." Answer: (3).'
       ]
     },
     examples: {
@@ -1633,8 +1638,13 @@ const QUESTION_BANK = [
         'A line of best fit y = 2.5x − 3 has slope 2.5.',
         'Slope = rise/run = change in y per unit increase in x. Eliminate choices describing the wrong direction or rate.',
         'Which statement correctly describes what a slope of 2.5 means in this context?'
+      ],
+      12: [
+        'A scatter plot of hours worked (x) vs. weekly earnings (y) has a line of best fit y = 12x + 20.',
+        'Identify slope a = 12 and y-intercept b = 20 from the equation.',
+        'Which statement best describes what the slope of 12 represents in this context?'
       ]
-    
+
     },
     errorTags: ['slope_intercept_swap', 'rate_misinterpretation']
   },
@@ -2504,8 +2514,8 @@ const QUESTION_BANK = [
       { label: '4', text: "The mean of Joe's test scores is higher than Andrea's, but Andrea's standard deviation is higher than Joe's." }
     ],
     correctAnswer: '3',
-    applicableLenses: [9, 10],
-    bestLens: 9,
+    applicableLenses: [9, 10, 11],
+    bestLens: 11,
     walkthroughs: {
       9: [
         'Andrea\'s mean: (82+87+90+84)/4 = 85.75. Joe\'s mean: (91+78+94+67)/4 = 82.5. Andrea\'s mean is higher.',
@@ -2516,6 +2526,11 @@ const QUESTION_BANK = [
         'Joe\'s score of 67 is a low outlier — his mean is pulled below Andrea\'s consistent 80s cluster. Eliminate (2)(4): those claim Joe\'s mean is higher.',
         'Joe\'s range (67 to 94 = 27) is much wider than Andrea\'s (82 to 90 = 8) → Joe has higher standard deviation. Eliminate (1): it claims Andrea has higher std dev.',
         'Only (3) remains: Andrea\'s mean is higher, Joe\'s standard deviation is greater. Answer: (3).'
+      ],
+      11: [
+        'Compare center: Andrea mean = (82+87+90+84)÷4 = 85.75. Joe mean = (91+78+94+67)÷4 = 82.5. Andrea higher.',
+        'Compare spread: Andrea range = 90−82 = 8 (tight). Joe range = 94−67 = 27 (wide) → Joe has higher std dev.',
+        'Andrea has higher mean; Joe has higher spread. Answer: (3).'
       ]
     },
     examples: {
@@ -2528,8 +2543,13 @@ const QUESTION_BANK = [
         'Compare the means: Andrea averages in the 80s; Joe\'s outlier score of 67 pulls his mean down.',
         'Compare the spreads: Joe\'s range is much wider than Andrea\'s tight cluster.',
         'Which statement correctly describes both the mean AND the spread without computing exact values?'
+      ],
+      11: [
+        'Team A scores: 72, 75, 78, 80, 85. Team B scores: 60, 70, 80, 90, 100.',
+        'Compare ranges: Team A range = 13 (tight). Team B range = 40 (wide spread).',
+        'Which team has greater variability in their scores?'
       ]
-    
+
     },
     errorTags: ['confuses_mean_and_spread', 'ignores_outlier_effect_on_spread']
   },
@@ -3533,8 +3553,8 @@ const QUESTION_BANK = [
       { label: '4', text: '0.145' }
     ],
     correctAnswer: '4',
-    applicableLenses: [9, 10],
-    bestLens: 9,
+    applicableLenses: [9, 10, 13],
+    bestLens: 13,
     walkthroughs: {
       9: [
         'Relative frequency = specific count ÷ grand total. Find "Pizza AND Water" in the table: intersection cell = 58.',
@@ -3545,6 +3565,11 @@ const QUESTION_BANK = [
         '"Pizza AND Water" means the intersection cell of the two-way table (both conditions met).',
         'Relative frequency always uses the grand total as the denominator: 58/400.',
         'Eliminate choices using row or column totals — those give marginal, not joint, relative frequencies. Answer: (1).'
+      ],
+      13: [
+        'Identify the type: "pizza AND water" → joint frequency = intersection cell of pizza row × water column = 58.',
+        'Joint relative frequency = cell ÷ grand total = 58 ÷ 400 = 0.145.',
+        'Eliminate (1)(2)(3): they use row/column totals instead of the intersection cell. Answer: (4).'
       ]
     },
     examples: {
@@ -3557,8 +3582,13 @@ const QUESTION_BANK = [
         'A two-way frequency table: read row totals, column totals, and cell values.',
         'Eliminate any statement that confuses joint frequency with marginal frequency.',
         'Which statement correctly interprets the values in the table?'
+      ],
+      13: [
+        'A two-way table shows 200 people surveyed: 80 prefer tea, 50 of those also prefer reading.',
+        'Joint: P(tea AND reading) = 50 ÷ 200 (grand total). Conditional: P(reading | tea) = 50 ÷ 80 (tea total only).',
+        'What is the relative frequency of people who prefer both tea and reading?'
       ]
-    
+
     },
     errorTags: ['uses_marginal_total_instead_of_grand_total', 'confuses_conditional_with_joint_frequency']
   },
@@ -4419,8 +4449,8 @@ const QUESTION_BANK = [
       { label: '4', text: 'The range of ages of the swim team is smaller than the range of ages of the track team.' }
     ],
     correctAnswer: '1',
-    applicableLenses: [8, 10],
-    bestLens: 8,
+    applicableLenses: [8, 10, 11],
+    bestLens: 11,
     walkthroughs: {
       8: [
         'Read the box plots: IQR = Q3 − Q1. Swim: 14 − 11 = 3. Track: 12 − 9 = 3. Equal ✓.',
@@ -4431,6 +4461,11 @@ const QUESTION_BANK = [
         'Eliminate (2): box plots display distribution/spread — they do NOT show the number of students.',
         'Eliminate (3): swim median = 13, track median = 11. Swim median is higher, not lower.',
         'Eliminate (4): swim range = 17−9 = 8 > track range = 15−8 = 7. Swim has the larger range. Answer: (1).'
+      ],
+      11: [
+        'Read the five-number summaries. Swim: Q1=11, Q3=14. Track: Q1=9, Q3=12.',
+        'IQR = Q3 − Q1. Swim IQR = 14−11 = 3. Track IQR = 12−9 = 3. Both equal 3 ✓.',
+        'Confirm: medians differ (13 vs 11), ranges differ (8 vs 7), team size unreadable from box plot. Answer: (1).'
       ]
     },
     examples: {
@@ -4443,8 +4478,13 @@ const QUESTION_BANK = [
         'The range uses y-values, not x-values. Eliminate any choice that uses x.',
         'For f(x) = |x + 2| − 5, the minimum y-value is −5 (vertex) and it goes up from there.',
         'Which inequality correctly describes all possible y-values?'
+      ],
+      11: [
+        'Box plot A: min=10, Q1=20, median=30, Q3=40, max=50. Box plot B: min=5, Q1=15, median=30, Q3=45, max=55.',
+        'Read IQR = Q3 − Q1 for each. A: 40−20 = 20. B: 45−15 = 30.',
+        'Which box plot shows greater spread in the middle 50% of the data?'
       ]
-    
+
     },
     errorTags: ['confuses_range_with_IQR', 'reads_median_direction_incorrectly']
   },
@@ -5068,14 +5108,19 @@ const QUESTION_BANK = [
       { label: '4', text: '0.968 and weak' }
     ],
     correctAnswer: '1',
-    applicableLenses: [4],
-    bestLens: 4,
+    applicableLenses: [4, 12],
+    bestLens: 12,
     walkthroughs: {
       4: [
         'Press 2nd+0 → DiagnosticOn → Enter (turns on correlation display).',
         'STAT → Edit: enter days (1–5) in L1, minutes (12,16,19,27,29) in L2.',
         'STAT → CALC → LinReg(ax+b) → Calculate. Read r (not r²).',
         'r ≈ 0.984. Closer to 1 → strong positive correlation. Answer: (1) 0.984 and strong'
+      ],
+      12: [
+        'Enable DiagnosticOn: 2nd → 0 → DiagnosticOn → ENTER → ENTER.',
+        'STAT → Edit: enter days 1,2,3,4,5 into L1 and minutes 12,16,19,27,29 into L2.',
+        'STAT → CALC → 4: LinReg(ax+b) → L1, L2 → ENTER. Read r ≈ 0.984. r near 1 = strong. Answer: (1).'
       ]
     },
     examples: {
@@ -5083,6 +5128,11 @@ const QUESTION_BANK = [
         'Enter x-values 1,2,3,4,5 into L1 and y-values 3,7,10,14,18 into L2.',
         'Run STAT → CALC → LinReg and read the r-value.',
         'Is the correlation strong or weak? Positive or negative?'
+      ],
+      12: [
+        'Enter hours studied {1,2,3,4,5} in L1 and test scores {55,65,70,80,90} in L2.',
+        'Run STAT → CALC → 4: LinReg(ax+b). Note r (correlation coefficient).',
+        'Is the linear model strong or weak? What does the slope tell you about the relationship?'
       ]
     },
     errorTags: ['reads_r_squared_instead_of_r', 'misidentifies_correlation_strength']
@@ -5144,14 +5194,19 @@ const QUESTION_BANK = [
       { label: '4', text: 'The mean, median, and mode are all the same.' }
     ],
     correctAnswer: '2',
-    applicableLenses: [4],
-    bestLens: 4,
+    applicableLenses: [4, 11],
+    bestLens: 11,
     walkthroughs: {
       4: [
         'STAT → Edit: enter all pet values from the dot plot into L1.',
         'STAT → CALC → 1-Var Stats → Calculate. Read x̄ (mean) and Med (median).',
         'From the data: mean ≈ 2.5, median = 2, mode = 2 (appears most often).',
         'Median = Mode = 2, but mean ≠ 2. Answer: (2) The median and the mode are the same.'
+      ],
+      11: [
+        'Read the dot plot: find the value that appears most often (mode) and the middle value (median).',
+        'Mode = 2 (tallest stack). Ordered data: count to the 10th and 11th values to find median = 2.',
+        'Mean ≈ 2.5 (pulled right by large values). Median = Mode = 2 ≠ mean. Answer: (2).'
       ]
     },
     examples: {
@@ -5159,6 +5214,11 @@ const QUESTION_BANK = [
         'Enter the data 1, 1, 2, 2, 2, 3, 4, 5 into L1.',
         'Press STAT → CALC → 1-Var Stats. Read x̄ (mean) and Med (median).',
         'What is the mode? Which two measures of center are equal?'
+      ],
+      11: [
+        'A dot plot shows pets owned: values 0,0,1,1,1,2,2,2,2,2,3,3,4.',
+        'Read mode (most dots = 2), median (7th value = 2), and estimate mean (slightly above 2).',
+        'Which two measures of center are equal for this data set?'
       ]
     },
     errorTags: ['confuses_mean_median_mode', 'misreads_dot_plot']

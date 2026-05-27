@@ -1,6 +1,6 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-26 (Session Y-1 — Lens Expansion Phase 1)
+Last updated: 2026-05-27 (Sessions Y-2+Y-3 — S.ID schema + content complete)
 
 ---
 
@@ -36,21 +36,28 @@ Last updated: 2026-05-26 (Session Y-1 — Lens Expansion Phase 1)
 
 ---
 
-## Session Y-2 — S.ID Question Schema Update (Phase 2 of 3) ⬜ OPEN
+## Session Y-2 — S.ID Question Schema Update (Phase 2 of 3) ✅ COMPLETE 2026-05-27
 
-> No Grill Me required — schema update only, no new interface decisions.
-> Do: for each S.ID question above, update `applicableLenses` to include new lens ID(s)
-> and set `bestLens` to the target lens. Confirm actual current bestLens values before overwriting.
-> After changes: 100/100 runPuzzleTests() pass.
+For each of 6 S.ID questions: updated `applicableLenses` to include new lens ID(s) and set `bestLens` to target lens.
+- Q08 S.ID.7: applicableLenses [9,10] → [9,10,12], bestLens 9 → 12
+- Q26 S.ID.2: applicableLenses [9,10] → [9,10,11], bestLens 9 → 11
+- Q50 S.ID.5: applicableLenses [9,10] → [9,10,13], bestLens 9 → 13
+- Q69 S.ID.2: applicableLenses [8,10] → [8,10,11], bestLens 8 → 11
+- Q84 S.ID.6: applicableLenses [4] → [4,12], bestLens 4 → 12
+- Q86 S.ID.2: applicableLenses [4] → [4,11], bestLens 4 → 11
 
 ---
 
-## Session Y-3 — S.ID Walkthroughs + Examples (Phase 3 of 3) ⬜ OPEN
+## Session Y-3 — S.ID Walkthroughs + Examples (Phase 3 of 3) ✅ COMPLETE 2026-05-27
 
-> No Grill Me required — content pass only.
-> Write walkthroughs[newLensId] and examples[newLensId] for each of the 6 S.ID questions
-> using the new lens strategy voice (teacher annotation style, TI-84 keystrokes named).
-> After changes: 100/100 runPuzzleTests() pass.
+For each of 6 S.ID questions: added `walkthroughs[newLensId]` and `examples[newLensId]` in teacher annotation voice.
+- Q08: walkthroughs[12] + examples[12] (LinReg/Scatter — interpret slope from given equation)
+- Q26: walkthroughs[11] + examples[11] (Box Plot Read — compare mean and spread from table)
+- Q50: walkthroughs[13] + examples[13] (Two-Way Table — conditional frequency)
+- Q69: walkthroughs[11] + examples[11] (Box Plot Read — compare IQR from two box plots)
+- Q84: walkthroughs[12] + examples[12] (LinReg/Scatter — compute r with DiagnosticOn)
+- Q86: walkthroughs[11] + examples[11] (Box Plot Read — mode/median/mean from dot plot)
+100/100 runPuzzleTests() pass.
 
 ---
 
