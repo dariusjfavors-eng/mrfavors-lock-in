@@ -38,14 +38,16 @@ The goal is to build automaticity, not just correctness.
 
 ### Practice Mode
 - Unlimited time
-- Hints available (Hint 1 → Hint 2 → TI-84 strategy)
-- Feedback explains the mistake
+- Student picks a TI-84 lens (strategy), sees a parallel worked example, then locks an answer
+- Wrong answers trigger a step-by-step walkthrough of the actual solution
+- Five entry points: Free Roam, Standard Drill, Lens Drill, Past Exam, Pick a Question
 
 ### Challenge Mode
 - Timed (same pacing as Regents Part I)
-- No hints
+- No lens guidance — student picks answer directly
 - Minimal feedback
 - Simulates real test pressure
+- Wrong-answer drill available after results
 
 ---
 
@@ -53,10 +55,10 @@ The goal is to build automaticity, not just correctness.
 
 Each question is:
 
-1. Recognize the question type
-2. Apply the correct TI-84 move
-3. Select the answer
-4. Get targeted feedback
+1. Pick the best TI-84 lens (strategy) from the lens-pick grid
+2. Step through a parallel worked example (click-to-reveal)
+3. Lock an answer — (1)(2)(3)(4)
+4. Wrong answers reveal a step-by-step solution walkthrough
 
 ---
 
