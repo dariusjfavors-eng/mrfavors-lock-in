@@ -18,7 +18,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 | Framework | Vanilla JS only, zero build tools |
 | Storage | None — session is ephemeral, no localStorage |
 | PII Policy | None stored; FAVORit analytics are anonymous (sid = `anon_` + timestamp) |
-| Current Status | Classroom Ready — deployed live; 96 questions; 13 lenses; Sessions through AA complete. Lens toggle in persistent header badge; lens-pick grid color-coded (green/yellow/red). 100/100 pass. No session queued — next via Grill Me. |
+| Current Status | Classroom Ready — deployed live; 96 questions; 19 lenses; Sessions through AB-3 complete. Lens toggle in persistent header badge; lens-pick grid color-coded (green/yellow/red). 100/100 pass. No session queued — next via Grill Me. |
 
 ---
 
@@ -41,7 +41,7 @@ Standard: A.REI, F.IF, F.LE, A.APR, A.SSE, A.CED, S.ID, F.BF | Folder: `games/re
 ### Module Map
 
 ```
-LENSES            → 13 static strategy objects (L1–L13); keystrokes, example, standards, pitfall
+LENSES            → 19 static strategy objects (L1–L19); keystrokes, example, standards, pitfall
 STANDARD_CLUSTERS → 11 cluster objects mapping human-readable labels to standard code arrays
 QUESTION_BANK     → question objects; choices use label:'1'–'4', correctAnswer:'1'–'4'
 ANALYTICS         → anonymous FAVORit schema; reads Worker URL from localStorage('favoritWorkerUrl') — URL never in committed code
@@ -86,7 +86,7 @@ home → challenge:
 | `showExamPicker()` | Sets `STATE.practice.subView = 'exam-picker'`, calls `render()` — entry point from 4th Practice Home card |
 | `backToPracticeHome()` | Resets `drillMode='free'`, `filterExam=null`, `examCorrect=0`, `subView='home'`, calls `render()` — used by Past Exam score screen |
 | `renderStandardPicker()` | Lists 11 STANDARD_CLUSTERS with question counts; calls `startPractice('standard', key)` |
-| `renderLensPicker()` | Lists 10 lenses with applicable question counts; calls `startPractice('lens', id)` |
+| `renderLensPicker()` | Lists 19 lenses with applicable question counts; calls `startPractice('lens', id)` |
 | `startPractice(drillMode, filter)` | Builds filtered pool, shuffles, sets `STATE.practice.subView = 'active'`, calls `render()` |
 | `renderChallenge()` | Renders timer bar + choices; delegates to `renderChallengeResults()` when done |
 | `startChallengeTimer()` | Sets `questionStartTime = Date.now()`; `setInterval` at 1s; updates `#timer-bar` and `#timer-text` |
@@ -129,7 +129,7 @@ home → challenge:
 - `(1)(2)(3)(4)` choice label format — never change to A/B/C/D
 - `choiceLayout()` logic — the >40 char threshold and grid-auto-flow: column order match the actual Regents booklet
 - `DESIGN_BRIEF.md` color palette (`#FFFFFF`, `#000000`, `#1A5C1A`, `#8B0000`, `#00008B`)
-- `LENSES` array — 10 entries, structure stable; do not add a Lens 11 without a session plan
+- `LENSES` array — 19 entries (L1–L19), structure stable; do not add a lens without a Grill Me session plan
 - FAVORit analytics schema — field names `sid`, `ts`, `type` are fixed
 - Fixed `.page-header` strip — always visible, matches booklet header format
 - `_challengeSelectedChoice` module-level variable — challenge mode relies on it surviving across `render()` calls
@@ -173,7 +173,8 @@ No star field, no orbs, no gradients, no texture. This is an intentional DESIGN_
 
 ## 7. LAST SESSION LOG
 
-- 2026-05-27 (Session AA — Lens Color Coding) — Lens-pick grid color-coded by fit: `.lens-best` green left-border (bestLens), `.lens-workable` yellow #8B6914 (applicable non-best), `.lens-notrelated` red left-border + disabled (no onclick, cursor not-allowed). Mistakes Drill `.lens-highlight` (blue) layers on green. Lens Drill unaffected. 100/100 pass. File: ~6,809 lines.
+- 2026-05-27 (Sessions AB-1/AB-2/AB-3 — Lens Library Expansion) — LENSES: 13 → 19. L14 Model & Translate (A.CED.1), L15 Rate of Change (F.IF.6), L16 Graph Compare (F.BF.3), L17 Linear/Exp Pattern (F.IF.5/F.LE.1), L18 Function Check/VLT (F.IF.1), L19 Unit Conversion Chain (N.Q.1). 21 questions updated (bestLens + applicableLenses); 18 questions got walkthroughs + examples in annotation voice. Fixed unescaped apostrophe syntax errors. 100/100 pass.
+- 2026-05-27 (Session AA — Lens Color Coding) — Lens-pick grid color-coded by fit: `.lens-best` green left-border (bestLens), `.lens-workable` yellow #8B6914 (applicable non-best), `.lens-notrelated` red left-border + disabled (no onclick, cursor not-allowed). Mistakes Drill `.lens-highlight` (blue) layers on green. Lens Drill unaffected. 100/100 pass.
 - 2026-05-27 (Session Z — Lens Toggle Header Relocation) — Removed lensToggleBtn from lens-pick phase; removed lensReenableBtn from answer/review phase. Added `lensBadge` (ref-sheet-trigger style) to question header right side: standard · [LENS: ON/OFF] [Reference Sheet]. Reads STATE.practice.lensEnabled every render; absent when drillMode='lens' or 'wrong'. toggleLens() logic unchanged. 100/100 pass.
 - 2026-05-27 (Sessions Y-1/Y-2/Y-3 — S.ID Lens Expansion) — L11 Box Plot Read, L12 LinReg/Scatter, L13 Two-Way Table added to LENSES (10→13). 6 S.ID questions updated: Q08→L12, Q26→L11, Q50→L13, Q69→L11, Q84→L12, Q86→L11. walkthroughs + examples in annotation voice on all 6. 100/100 pass.
 - 2026-05-25 (Math rendering fix) — math() not called at stem/choice render sites; Q73–Q96 showing raw `^{2}` in stems and choices. Fixed: math() wraps Q.stem and c.text at all 5 render sites. Bare subscript handler added to math() — fixes Q89 b₁/b₂ trapezoid formula and sequence walkthroughs a₁/a₂. Commit 9cf6609.
