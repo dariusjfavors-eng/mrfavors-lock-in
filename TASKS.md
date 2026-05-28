@@ -31,7 +31,7 @@ Last updated: 2026-05-27 (Session AB-3 COMPLETE — Lens Library Expansion L14�
 - `QUESTION_BANK` Phase AB-3: `walkthroughs[newLensId]` + `examples[newLensId]` added in teacher annotation voice for every question updated in Phase AB-2
 
 **Out of scope:**
-- STANDARD_CLUSTERS updates — [TODO: future session — verify that A.CED.A.1, F.IF.B.5, F.IF.B.6, F.BF.B.3, F.IF.A.1, N.Q.A.1 each appear in at least one cluster; any missing standard makes those questions unreachable from Standard Drill]
+- STANDARD_CLUSTERS updates — all 6 new standards already present; no changes needed
 - Any changes to L01–L13 lens objects
 - Any renderer, CSS, or UI handler changes (LENSES iterates dynamically — no code changes needed)
 - `runPuzzleTests()` extension for LENSES object structure validation
