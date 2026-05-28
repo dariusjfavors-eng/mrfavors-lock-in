@@ -1,6 +1,58 @@
 # TASKS — Mr. Favors' Regents Lock-In
 
-Last updated: 2026-05-27 (Session Z PRD — Lens Toggle Header Relocation)
+Last updated: 2026-05-27 (Session AB-3 COMPLETE — Lens Library Expansion L14–L19 all phases done)
+
+---
+
+## Sessions AB-1 / AB-2 / AB-3 — Lens Library Expansion (L14–L19) — Session PRD
+### Phase AB-1 ✅ COMPLETE 2026-05-27
+### Phase AB-2 ✅ COMPLETE 2026-05-27
+### Phase AB-3 ✅ COMPLETE 2026-05-27
+
+**Design concept:** Extend the lens library from 13 to 19 entries using the teacher's August 2025 Regents hand-annotations as the source of truth for 6 uncovered strategy types, then update `bestLens`/`applicableLenses` across all 96 questions to match — split into three phases mirroring the Y-1/Y-2/Y-3 pattern.
+
+**Modules touched:**
+- `LENSES` (Phase AB-1 only) — 6 new lens objects appended: L14–L19; no existing lens modified
+- `QUESTION_BANK` (Phases AB-2 + AB-3) — `bestLens`/`applicableLenses` updated on all affected questions across all 96; `walkthroughs` + `examples` for new lens IDs added
+
+**New lenses (Phase AB-1):**
+| ID | Code | Proposed Name | Standard(s) | Source |
+|----|------|---------------|-------------|--------|
+| 14 | L14 | Model & Translate | A.CED.A.1 | Aug 2025 Q2 annotation |
+| 15 | L15 | Rate of Change | F.IF.B.6 | Aug 2025 Q11 annotation |
+| 16 | L16 | Graph Compare | F.BF.B.3 | Aug 2025 Q13 annotation |
+| 17 | L17 | Linear / Exp Pattern | F.IF.B.5 | Aug 2025 Q9 annotation |
+| 18 | L18 | Function Check / VLT | F.IF.A.1 | Aug 2025 Q22 annotation |
+| 19 | L19 | Unit Conversion Chain | N.Q.A.1 | Aug 2025 Q24 annotation |
+
+**Interface changes:**
+- `LENSES`: 6 objects appended after L13; each carries `id`, `code`, `name`, `icon`, `tagline`, `when`, `keystrokes[]`, `example{}`, `standards[]`, `pitfall` — no field on L01–L13 modified
+- `QUESTION_BANK` Phase AB-2: `applicableLenses` and `bestLens` updated on every Q1–Q96 question whose `standard` matches a new lens; S.ID assignments from Sessions Y-2/Y-3 are not touched
+- `QUESTION_BANK` Phase AB-3: `walkthroughs[newLensId]` + `examples[newLensId]` added in teacher annotation voice for every question updated in Phase AB-2
+
+**Out of scope:**
+- STANDARD_CLUSTERS updates — [TODO: future session — verify that A.CED.A.1, F.IF.B.5, F.IF.B.6, F.BF.B.3, F.IF.A.1, N.Q.A.1 each appear in at least one cluster; any missing standard makes those questions unreachable from Standard Drill]
+- Any changes to L01–L13 lens objects
+- Any renderer, CSS, or UI handler changes (LENSES iterates dynamically — no code changes needed)
+- `runPuzzleTests()` extension for LENSES object structure validation
+- Challenge mode, lens toggle, or color-coding behavior
+
+**Done when — Phase AB-1:**
+- Library shows 19 lenses; L14–L19 render correctly in `lensDetail` view
+- Lens Drill shows 19 rows (L14–L19 show "0 q" — expected until Phase AB-2)
+- `getLens(14)` through `getLens(19)` each return correct objects
+- 100/100 `runPuzzleTests()` pass
+
+**Done when — Phase AB-2:**
+- Every question whose `standard` field matches A.CED.A.1, F.IF.B.6, F.BF.B.3, F.IF.B.5, F.IF.A.1, or N.Q.A.1 has the new lens ID in `applicableLenses` and `bestLens` updated to match teacher annotation
+- S.ID questions Q08, Q26, Q50, Q69, Q84, Q86 `bestLens` unchanged from Y-2
+- `runPuzzleTests()` check (d) fails on updated questions — **expected and correct; this is the gate that Phase AB-3 closes**
+
+**Done when — Phase AB-3:**
+- `walkthroughs[newLensId]` + `examples[newLensId]` written in annotation voice for every question updated in Phase AB-2
+- Final step of every `examples` entry ends with `?`
+- No step contains a declarative answer ("Answer: (N)")
+- 100/100 `runPuzzleTests()` pass
 
 ---
 

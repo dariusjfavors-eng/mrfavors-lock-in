@@ -1081,6 +1081,114 @@ const LENSES = [
     },
     standards: ['S.ID.5'],
     pitfall: 'Conditional divides by the ROW or COLUMN total — not the grand total. Re-read to confirm the restriction.'
+  },
+  {
+    id: 14, code: 'L14', name: 'Model & Translate', icon: '✎',
+    tagline: 'Name the variable, translate the sentence, write the equation.',
+    when: 'Word problems, "write an equation to model", cost/quantity/mixture contexts',
+    keystrokes: [
+      ['Read the question', 'identify the unknown — that is your variable'],
+      ['Name it', 'e.g., x = number of pennies'],
+      ['Translate each relationship', '"2 more than x" → x + 2; "twice as many" → 2x'],
+      ['Identify the total', 'e.g., "costs $2 total" → = 2'],
+      ['Write the equation', 'combine all parts into one equation and solve']
+    ],
+    example: {
+      problem: 'A bag has pennies and nickels worth $1.20 total. There are 4 more nickels than pennies. How many pennies?',
+      walkthrough: 'Let x = pennies. Nickels = x + 4. Equation: 0.01x + 0.05(x + 4) = 1.20. Solve for x.'
+    },
+    standards: ['A.CED.1'],
+    pitfall: 'Don\'t write the equation until every unknown is named — skipping the naming step leads to wrong expressions.'
+  },
+  {
+    id: 15, code: 'L15', name: 'Rate of Change', icon: '↕',
+    tagline: 'Two points → one slope: (y₂ − y₁) ÷ (x₂ − x₁).',
+    when: 'Average rate of change, slope from a table or graph, "how fast is it changing over an interval"',
+    keystrokes: [
+      ['Pick two points', '(x₁, y₁) and (x₂, y₂) from the table or graph'],
+      ['Subtract y-values', 'y₂ − y₁ (rise)'],
+      ['Subtract x-values', 'x₂ − x₁ (run) — same left-to-right order as y'],
+      ['Divide', '(y₂ − y₁) ÷ (x₂ − x₁)'],
+      ['Check sign', 'positive = increasing, negative = decreasing']
+    ],
+    example: {
+      problem: 'A table shows f(1) = 3 and f(5) = 11. What is the average rate of change over [1, 5]?',
+      walkthrough: '(11 − 3) ÷ (5 − 1) = 8 ÷ 4 = 2. Rate of change is 2.'
+    },
+    standards: ['F.IF.6'],
+    pitfall: 'Subtract x in the same order as y — swapping one flips the sign of the slope.'
+  },
+  {
+    id: 16, code: 'L16', name: 'Graph Compare', icon: '⇄',
+    tagline: 'Graph both functions — match the shift visually, eliminate the rest.',
+    when: 'Transformations, "which equation represents this shift", comparing f(x) to g(x)',
+    keystrokes: [
+      ['Y=', 'enter the original function as Y1'],
+      ['↓', 'enter the first answer choice as Y2'],
+      ['ZOOM 6', 'ZStandard to get a consistent window'],
+      ['GRAPH', 'compare the two curves — do they match the described shift?'],
+      ['Eliminate and repeat', 'swap Y2 for the next choice until the graphs match']
+    ],
+    example: {
+      problem: 'f(x) = x². Which choice shifts it left 3 units?',
+      walkthrough: 'Y1 = X². Try Y2 = (X+3)². GRAPH — curves match a left shift. Answer confirmed.'
+    },
+    standards: ['F.BF.3'],
+    pitfall: 'Left/right shifts are counterintuitive — f(x+3) shifts LEFT, not right. Graph it to confirm instead of guessing.'
+  },
+  {
+    id: 17, code: 'L17', name: 'Linear / Exp Pattern', icon: '∿',
+    tagline: 'Constant difference → linear. Constant ratio → exponential.',
+    when: 'Identify function type from a table, "which equation models this data", classify growth pattern',
+    keystrokes: [
+      ['No calc needed', 'pure table reading'],
+      ['Find consecutive differences', 'y₂ − y₁ for each row pair'],
+      ['If all differences are equal', '→ linear function'],
+      ['Find consecutive ratios', 'y₂ ÷ y₁ for each row pair'],
+      ['If all ratios are equal', '→ exponential function']
+    ],
+    example: {
+      problem: 'A table shows y-values 2, 6, 18, 54. Linear or exponential?',
+      walkthrough: 'Differences: 4, 12, 36 — not constant. Ratios: 3, 3, 3 — constant. Exponential.'
+    },
+    standards: ['F.IF.5', 'F.LE.1'],
+    pitfall: 'Check ALL consecutive pairs — one matching difference or ratio is not enough. Every gap must be equal.'
+  },
+  {
+    id: 18, code: 'L18', name: 'Function Check / VLT', icon: '✦',
+    tagline: 'Each input maps to exactly one output — repeated x with different y means not a function.',
+    when: '"Is this a function?", vertical line test, ordered pairs, mapping diagrams',
+    keystrokes: [
+      ['No calc needed', 'pure input/output reading'],
+      ['Scan all x-values', 'list them from the table, set, or mapping'],
+      ['Check for repeats', 'if any x-value appears twice with different y-values → NOT a function'],
+      ['For graphs', 'draw a vertical line — if it crosses the graph more than once → NOT a function'],
+      ['Repeated y-values are fine', 'only repeated x with different y fails']
+    ],
+    example: {
+      problem: 'Is {(1,2), (2,5), (1,3), (4,7)} a function?',
+      walkthrough: 'x = 1 appears twice: maps to 2 and 3. Two different outputs for one input → not a function.'
+    },
+    standards: ['F.IF.1'],
+    pitfall: 'Repeated y-values are allowed — only a repeated x-value with a different y-value disqualifies it.'
+  },
+  {
+    id: 19, code: 'L19', name: 'Unit Conversion Chain', icon: '÷',
+    tagline: 'Cancel units like fractions — if the unit is top and bottom, cross both out.',
+    when: 'Unit conversions, dimensional analysis, "express in different units", rate × rate chains',
+    keystrokes: [
+      ['Write the starting value as a fraction', 'e.g., 60 miles/1 hour'],
+      ['Multiply by a conversion fraction', 'place the unit to cancel in the denominator'],
+      ['Cross out matching units', 'top and bottom cancel like a fraction'],
+      ['Repeat', 'chain more conversion fractions until only the target unit remains'],
+      ['Multiply straight across', 'top numbers × top numbers ÷ bottom numbers']
+    ],
+    example: {
+      problem: 'Convert 60 miles per hour to feet per second. (1 mile = 5280 ft, 1 hour = 3600 sec)',
+      walkthrough: '60 mi/hr × 5280 ft/mi × 1 hr/3600 sec. Miles and hours cancel → 88 ft/sec.'
+    },
+    standards: ['N.Q.1'],
+    pitfall: 'If the unit to eliminate is in the numerator, your conversion fraction must put that unit in the denominator.'
   }
 ];
 
@@ -1720,8 +1828,8 @@ const QUESTION_BANK = [
       { label: '4', text: 'C = 23x' }
     ],
     correctAnswer: '3',
-    applicableLenses: [9, 3],
-    bestLens: 9,
+    applicableLenses: [9, 3, 14],
+    bestLens: 14,
     walkthroughs: {
       9: [
         'Identify the costs: $15 is paid once (fixed), $8 per class (variable).',
@@ -1732,7 +1840,13 @@ const QUESTION_BANK = [
         'At x = 1 class: cost = 15 + 8(1) = $23.',
         'Test choice (2): 15·8 = 120 ✗. Test choice (3): 15+8(1) = 23 ✓.',
         'At x = 2 classes: choice (3) gives 15+16 = 31 ✓ (one-time fee + twice the variable). Answer: (3).'
-      ]
+      ],
+      14: [
+        'Identify the variable: x = number of classes attended.',
+        'Translate the fixed cost: the $15 membership fee is a constant — +15.',
+        'Translate the per-class cost: $8 per class → 8x.',
+        'Write the equation: C = 15 + 8x. Answer: (3)'
+      ],
     },
     examples: {
       9: [
@@ -1744,8 +1858,12 @@ const QUESTION_BANK = [
         'Test x = 3 classes: cost should be 15 + 8(3) = 39.',
         'Substitute x = 3 into each MC equation and check which gives 39.',
         'Which equation is correct?'
-      ]
-    
+      ],
+      14: [
+        'A gym charges a $20 sign-up fee plus $10 per month.',
+        'Let x = number of months. Identify the constant part and the rate part.',
+        'Which equation represents the total cost T for x months?'
+      ],
     },
     errorTags: ['variable_swap', 'setup_error']
   },
@@ -1860,8 +1978,8 @@ const QUESTION_BANK = [
       { label: '4', text: '8' }
     ],
     correctAnswer: '2',
-    applicableLenses: [9, 4],
-    bestLens: 9,
+    applicableLenses: [9, 4, 15],
+    bestLens: 15,
     walkthroughs: {
       9: [
         'Average rate of change formula: (f(b) − f(a)) / (b − a) over [a, b].',
@@ -1872,7 +1990,12 @@ const QUESTION_BANK = [
         'Enter the function as Y1 on the Y= screen.',
         '2nd → GRAPH (TABLE). Read f(1) and f(3) from the table.',
         'Average rate = (f(3) − f(1)) / (3 − 1) = (12 − 4) / 2 = 4.'
-      ]
+      ],
+      15: [
+        'Identify the two points: (x\u2081, y\u2081) = (1, 4) and (x\u2082, y\u2082) = (3, 12).',
+        'Subtract y-values (rise): 12 \u2212 4 = 8.',
+        'Subtract x-values (run): 3 \u2212 1 = 2. Divide: 8 \u00f7 2 = 4. Answer: (2)'
+      ],
     },
     examples: {
       9: [
@@ -1884,8 +2007,12 @@ const QUESTION_BANK = [
         'If f is given as an equation, enter it into Y=. Press 2nd+GRAPH.',
         'Read f(1) and f(3) from the table.',
         'Apply the formula: average rate of change = (f(3) − f(1)) / (3 − 1). What is it?'
-      ]
-    
+      ],
+      15: [
+        'A function g has g(2) = 5 and g(6) = 21.',
+        'Identify the two points and substitute into (y\u2082 \u2212 y\u2081) \u00f7 (x\u2082 \u2212 x\u2081).',
+        'What is the average rate of change of g from x = 2 to x = 6?'
+      ],
     },
     errorTags: ['rate_misinterpretation', 'arithmetic_slip']
   },
@@ -1945,7 +2072,7 @@ const QUESTION_BANK = [
       { label: '4', text: 'A salary increases by $3,000 each year.' }
     ],
     correctAnswer: '3',
-    applicableLenses: [9, 10],
+    applicableLenses: [9, 10, 17],
     bestLens: 9,
     walkthroughs: {
       9: [
@@ -2472,7 +2599,7 @@ const QUESTION_BANK = [
       { label: '4', text: 'Dylan hopes to grow his business by 5% each month.' }
     ],
     correctAnswer: '4',
-    applicableLenses: [9, 10],
+    applicableLenses: [9, 10, 17],
     bestLens: 9,
     walkthroughs: {
       9: [
@@ -2660,8 +2787,8 @@ const QUESTION_BANK = [
       { label: '4', text: '58' }
     ],
     correctAnswer: '1',
-    applicableLenses: [9, 4],
-    bestLens: 9,
+    applicableLenses: [9, 4, 15],
+    bestLens: 15,
     walkthroughs: {
       9: [
         'Average rate of change formula: (f(b) − f(a)) / (b − a) over the interval [a, b].',
@@ -2672,7 +2799,12 @@ const QUESTION_BANK = [
         'Read from the table: at week 4, height = 12 in.; at week 12, height = 60 in.',
         'Change in output (Δh): 60 − 12 = 48. Change in input (Δt): 12 − 4 = 8.',
         'Rate of change = Δh/Δt = 48/8 = 6 inches per week. Answer: (2).'
-      ]
+      ],
+      15: [
+        'Read the two endpoints from the table: week 4 \u2192 h = 12 in., week 12 \u2192 h = 60 in.',
+        'Subtract y-values (rise): 60 \u2212 12 = 48.',
+        'Subtract x-values (run): 12 \u2212 4 = 8. Divide: 48 \u00f7 8 = 6 inches per week. Answer: (1)'
+      ],
     },
     examples: {
       9: [
@@ -2684,8 +2816,12 @@ const QUESTION_BANK = [
         'Enter h(x) into Y= and press 2nd+GRAPH.',
         'Scroll the table to x = 1, x = 2, x = 3 to see the plant heights over time.',
         'At which week does the plant first exceed a given target height?'
-      ]
-    
+      ],
+      15: [
+        'A table shows a plant: at week 2, height = 4 cm; at week 8, height = 22 cm.',
+        'Subtract the heights and the weeks in the same order, then divide rise by run.',
+        'What is the average rate of change in height from week 2 to week 8?'
+      ],
     },
     errorTags: ['reports_change_in_output_not_rate', 'uses_wrong_interval_endpoints']
   },
@@ -2746,8 +2882,8 @@ const QUESTION_BANK = [
       { label: '4', text: 'r(x) = |x| − 2' }
     ],
     correctAnswer: '2',
-    applicableLenses: [9, 3],
-    bestLens: 9,
+    applicableLenses: [9, 3, 16],
+    bestLens: 16,
     walkthroughs: {
       9: [
         'Horizontal shift rule: to shift right by h, replace x with (x−h) in the formula.',
@@ -2758,7 +2894,13 @@ const QUESTION_BANK = [
         'The parent function w(x) = |x| has its vertex at (0, 0). Shifting right 2 moves the vertex to (2, 0).',
         'Test choice (2): h(2) = |2−2| = |0| = 0 ✓ — vertex at x = 2 confirmed.',
         'Test choice (1): g(2) = |2+2| = 4 ≠ 0 ✗ — vertex is not at x = 2. Answer: (2).'
-      ]
+      ],
+      16: [
+        'Enter w(x) = |x| into Y1: press Y= \u2192 MATH \u2192 arrow right to NUM \u2192 select 1: abs( \u2192 type X).',
+        'Enter choice (1) |x + 2| into Y2. Press GRAPH \u2014 this shifts LEFT, not right.',
+        'Enter choice (2) |x \u2212 2| into Y2. Press GRAPH \u2014 the graph moves 2 units to the RIGHT.',
+        'Right shift \u2192 subtract inside: |x \u2212 2|. Answer: (2)'
+      ],
     },
     examples: {
       9: [
@@ -2770,8 +2912,12 @@ const QUESTION_BANK = [
         'Consider g(x) = |x| shifted 2 units right. Test x = 2 — the shifted graph should hit its vertex there.',
         'Substitute x = 2 into each MC choice. The vertex of the shifted V should give y = 0.',
         'Which choice gives y = 0 at x = 2?'
-      ]
-    
+      ],
+      16: [
+        'f(x) = x\u00b2 is entered into Y1. A new function shifts it 3 units to the right.',
+        'Enter g(x) = (x \u2212 3)\u00b2 into Y2. Press GRAPH and compare the two parabolas.',
+        'What transformation moves f(x) to the position of g(x)?'
+      ],
     },
     errorTags: ['horizontal_shift_direction_reversed']
   },
@@ -2961,8 +3107,8 @@ const QUESTION_BANK = [
       { label: '4', text: '4 − 7x = 44' }
     ],
     correctAnswer: '1',
-    applicableLenses: [9, 3],
-    bestLens: 9,
+    applicableLenses: [9, 3, 14],
+    bestLens: 14,
     walkthroughs: {
       9: [
         'Let x = Jack\'s age. Tim\'s age = 7x − 4 ("4 less than 7 times Jack\'s age").',
@@ -2973,7 +3119,12 @@ const QUESTION_BANK = [
         'Try choice (1): Jack\'s age = 6. Tim\'s age = 7(6) − 4 = 38. Sum = 6 + 38 = 44 ✓.',
         'Try choice (3): Jack\'s age = 8. Tim\'s age = 7(8) − 4 = 52. Sum = 8 + 52 = 60 ≠ 44 ✗.',
         'Jack is 6 years old. Answer: (1).'
-      ]
+      ],
+      14: [
+        'Name the variable: x = Jack\'s age.',
+        'Translate \'Tim\'s age is 4 less than 7 times Jack\'s age\': Tim = 7x − 4.',
+        'Translate \'sum of their ages is 44\': (7x − 4) + x = 44. Answer: (1)'
+      ],
     },
     examples: {
       9: [
@@ -2985,8 +3136,12 @@ const QUESTION_BANK = [
         'Let x = Jack\'s age. Test x = 5: Tim\'s age = 7(5) − 4 = 31. Sum = 36 ≠ 44.',
         'Substitute x = 5 into each MC equation. Which equation gives a sum of 44?',
         'Which equation models the relationship correctly?'
-      ]
-    
+      ],
+      14: [
+        'Ana is 3 more than twice Marco\'s age. Let x = Marco\'s age.',
+        'Write an expression for Ana\'s age. Their combined age is 27.',
+        'Which equation models this situation?'
+      ],
     },
     errorTags: ['omits_one_persons_age_from_sum', 'reverses_subtraction_direction']
   },
@@ -3384,8 +3539,8 @@ const QUESTION_BANK = [
       { label: '4', text: svgTable(['p', 'f(p)'], [['−3','−2'],['−2','−5'],['−1','−6'],['0','−5'],['1','−2'],['2','3']]) }
     ],
     correctAnswer: '2',
-    applicableLenses: [4, 9],
-    bestLens: 4,
+    applicableLenses: [4, 9, 17],
+    bestLens: 17,
     walkthroughs: {
       4: [
         'Check each table for a constant ratio (exponential) or constant difference (linear).',
@@ -3396,7 +3551,12 @@ const QUESTION_BANK = [
         'Exponential decay: each term is a constant fraction of the previous (0 < ratio < 1).',
         'Check Table (2): 180/200 = 0.9, 162/180 = 0.9 — constant ratio ≈ 0.9. Decays by ~10% each step ✓.',
         'Eliminate other tables: (1) constant decrease (linear), (3) growing (ratio > 1), (4) inconsistent ratios. Answer: (2).'
-      ]
+      ],
+      17: [
+        'Check table (1): differences \u2212 4 \u2212 7 = \u22123, 1 \u2212 4 = \u22123 \u2014 constant difference \u2192 linear, not exponential decay.',
+        'Check table (2): ratios 180 \u00f7 200 = 0.9, 162 \u00f7 180 = 0.9, 146 \u00f7 162 \u2248 0.9 \u2014 constant ratio below 1 \u2192 exponential decay.',
+        'Answer: (2)'
+      ],
     },
     examples: {
       4: [
@@ -3408,8 +3568,12 @@ const QUESTION_BANK = [
         'Exponential decay: each successive y-value is a fixed fraction of the previous (ratio between 0 and 1).',
         'Check Table (2): does dividing any y-value by the previous give a consistent ratio less than 1?',
         'Which table has a constant decay ratio?'
-      ]
-    
+      ],
+      17: [
+        'A table shows x = 0, 1, 2, 3 and y = 500, 400, 320, 256.',
+        'Divide each y-value by the previous: 400 \u00f7 500, 320 \u00f7 400, 256 \u00f7 320.',
+        'Are the ratios constant? What type of function does this table represent?'
+      ],
     },
     errorTags: ['confuses_constant_ratio_with_constant_difference', 'confuses_growth_with_decay']
   },
@@ -3470,8 +3634,8 @@ const QUESTION_BANK = [
       { label: '4', text: 'g(x) = (x + 5)² + 1' }
     ],
     correctAnswer: '2',
-    applicableLenses: [9, 7],
-    bestLens: 9,
+    applicableLenses: [9, 7, 16],
+    bestLens: 16,
     walkthroughs: {
       9: [
         'Horizontal shift left 3: replace x with (x+3) in f(x) = (x+5)²−2.',
@@ -3482,7 +3646,13 @@ const QUESTION_BANK = [
         'Identify the vertex of f(x) = (x+5)²−2: vertex is at (−5, −2).',
         'Shift left 3: subtract 3 from the x-coordinate of the vertex → new vertex (−5−3, −2) = (−8, −2).',
         'Vertex form with new vertex (−8, −2): g(x) = (x+8)² − 2. Answer: (2).'
-      ]
+      ],
+      16: [
+        'Enter f(x) = (x + 5)\u00b2 \u2212 2 into Y1.',
+        'A left shift adds to the inside value: (x + 5) \u2192 (x + 5 + 3) = (x + 8).',
+        'Enter choice (2) g(x) = (x + 8)\u00b2 \u2212 2 into Y2. Press GRAPH \u2014 confirms 3-unit left shift.',
+        'Answer: (2)'
+      ],
     },
     examples: {
       9: [
@@ -3494,8 +3664,12 @@ const QUESTION_BANK = [
         'g(x) = (x+5)^{2} − 2 is in vertex form. Vertex is at (−5, −2).',
         'A left shift of 3 replaces x with x + 3, moving the vertex from (−5, −2) to (−8, −2).',
         'What is the equation of the shifted function in vertex form?'
-      ]
-    
+      ],
+      16: [
+        'f(x) = (x \u2212 1)\u00b2 + 3 is in Y1. A new function g(x) shifts f(x) 4 units to the right.',
+        'Enter each answer choice into Y2 one at a time. Press GRAPH after each.',
+        'Which equation shifts f(x) exactly 4 units to the right?'
+      ],
     },
     errorTags: ['shift_direction_error', 'confuses_horizontal_with_vertical_shift']
   },
@@ -3609,8 +3783,8 @@ const QUESTION_BANK = [
       { label: '4', text: 'minutes per foot' }
     ],
     correctAnswer: '1',
-    applicableLenses: [9, 10],
-    bestLens: 9,
+    applicableLenses: [9, 10, 19],
+    bestLens: 19,
     walkthroughs: {
       9: [
         'Start: mi/hr. Multiply by 5280 ft/1 mi → mi cancels, get ft/hr.',
@@ -3621,7 +3795,13 @@ const QUESTION_BANK = [
         'Target unit: feet per second (ft/sec). Feet should end up in the numerator, seconds in denominator.',
         'Eliminate (3)(4): ft in denominator means the 5280 conversion is inverted — wrong direction.',
         'Eliminate (2): minutes should cancel completely. Only (1) feet per second survives full cancellation. Answer: (1).'
-      ]
+      ],
+      19: [
+        'Write the starting rate as a fraction: 104 km / 1 hr.',
+        'Cancel km: multiply by (0.6214 mi / 1 km) then (5280 ft / 1 mi) \u2014 km and mi cancel; ft stays in numerator.',
+        'Cancel hr: multiply by (1 hr / 60 min) then (1 min / 60 sec) \u2014 hr and min cancel; sec lands in denominator.',
+        'Remaining units: ft / sec \u2192 feet per second. Answer: (1)'
+      ],
     },
     examples: {
       9: [
@@ -3633,8 +3813,12 @@ const QUESTION_BANK = [
         'A geometric sequence has first term −2 and common ratio −3.',
         'Eliminate any MC value that doesn\'t match a^{4} = a^{1} × r^{3} = −2 × (−3)^{3}.',
         'Which value is the only one consistent with the sequence formula?'
-      ]
-    
+      ],
+      19: [
+        'A car travels at 60 miles per hour. Write the rate as a fraction: 60 mi / 1 hr.',
+        'Multiply by (5280 ft / 1 mi) and (1 hr / 60 min). Cross out units that appear in both numerator and denominator.',
+        'After canceling, what units remain?'
+      ],
     },
     errorTags: ['unit_cancellation_error', 'inverts_unit_fraction']
   },
@@ -3696,8 +3880,8 @@ const QUESTION_BANK = [
       { label: '4', text: '−51.8' }
     ],
     correctAnswer: '4',
-    applicableLenses: [4, 9],
-    bestLens: 4,
+    applicableLenses: [4, 9, 15],
+    bestLens: 15,
     walkthroughs: {
       4: [
         'Enter year values in L1 and amount values in L2. Average rate = ΔL2/ΔL1.',
@@ -3708,7 +3892,13 @@ const QUESTION_BANK = [
         'Average rate of change = (f(2014) − f(2000)) / (2014 − 2000).',
         '(25 − 750) / 14 = −725/14 ≈ −51.8 grams per year.',
         'The rate is negative (substance is decreasing). Eliminate choices with positive rates. Answer: (3).'
-      ]
+      ],
+      15: [
+        'Identify the two endpoints: (2000, 750) and (2014, 25).',
+        'Subtract y-values (rise): 25 \u2212 750 = \u2212725.',
+        'Subtract x-values (run): 2014 \u2212 2000 = 14.',
+        'Divide: \u2212725 \u00f7 14 \u2248 \u221251.8 grams per year. Negative because decreasing. Answer: (4)'
+      ],
     },
     examples: {
       4: [
@@ -3720,8 +3910,12 @@ const QUESTION_BANK = [
         'In y = ax^{2} + bx + c, the point (x, −6) lies on the graph, so y = −6.',
         'Substitute y = −6 into −x^{2} − x + 6 = −6 and read: which x-values satisfy this structure?',
         'Without full algebra, which answer choice(s) are plausible solutions?'
-      ]
-    
+      ],
+      15: [
+        'A table shows medicine in blood: at t = 0 hours, 400 mg; at t = 8 hours, 80 mg.',
+        'Subtract the amounts and the times in the same order, then divide rise by run.',
+        'What is the average rate of change from t = 0 to t = 8?'
+      ],
     },
     errorTags: ['uses_wrong_interval_endpoints', 'drops_negative_sign_on_rate']
   },
@@ -4026,8 +4220,8 @@ const QUESTION_BANK = [
       { label: '4', text: 'Graph (4)' }
     ],
     correctAnswer: '1',
-    applicableLenses: [9, 8],
-    bestLens: 9,
+    applicableLenses: [9, 8, 18],
+    bestLens: 18,
     walkthroughs: {
       9: [
         'A relation is a function if every x-value maps to exactly one y-value (vertical line test).',
@@ -4038,7 +4232,12 @@ const QUESTION_BANK = [
         'For a function, each input x must produce exactly one output y.',
         'Check graph (1): 5 isolated points, each with a different x → one y per x ✓.',
         'Graphs (2)(3)(4) each have at least one x with two or more y-values → not functions. Answer: (1).'
-      ]
+      ],
+      18: [
+        'For each graph, mentally draw a vertical line at different x-values.',
+        'If any vertical line crosses the graph more than once, that graph fails the VLT and is NOT a function.',
+        'Graph (1) passes the VLT \u2014 every vertical line crosses it exactly once. Answer: (1)'
+      ],
     },
     examples: {
       9: [
@@ -4050,8 +4249,12 @@ const QUESTION_BANK = [
         'Graph each function from the four choices in Y=.',
         'A function has exactly one y-value for each x (vertical line test). Check which graphs pass.',
         'Which graph(s) pass the vertical line test and represent functions?'
-      ]
-    
+      ],
+      18: [
+        'A set of ordered pairs: {(1, 3), (2, 5), (3, 3), (4, 7)}.',
+        'Check each x-value \u2014 does any x appear more than once with a different y-value?',
+        'Do these ordered pairs represent a function?'
+      ],
     },
     errorTags: ['fails_vertical_line_test', 'confuses_relation_with_function']
   },
@@ -4358,8 +4561,8 @@ const QUESTION_BANK = [
       { label: '4', text: math('\\frac{49\\text{ mi}}{1\\text{ hr}} \\cdot \\frac{5280\\text{ ft}}{1\\text{ mi}} \\cdot \\frac{60\\text{ min}}{1\\text{ hr}} \\cdot \\frac{1\\text{ car}}{56\\text{ ft}}') }
     ],
     correctAnswer: '3',
-    applicableLenses: [9, 10],
-    bestLens: 9,
+    applicableLenses: [9, 10, 19],
+    bestLens: 19,
     walkthroughs: {
       9: [
         'Starting unit: mi/hr. Target: ft/min. Need fractions that cancel miles and convert hours to minutes.',
@@ -4370,7 +4573,13 @@ const QUESTION_BANK = [
         'Eliminate (1)(2): 1mi/5280ft has miles in the numerator — when multiplied by mi/hr, miles accumulate instead of canceling.',
         'Eliminate (4): 60min/1hr places minutes in the numerator, making minutes accumulate instead of cancel.',
         'Only (3) has both fractions oriented to cancel miles and hours correctly. Answer: (3).'
-      ]
+      ],
+      19: [
+        'Start with 49 mi / 1 hr. Target: cars per minute.',
+        'Convert mi \u2192 ft: multiply by (5280 ft / 1 mi). Miles cancel, ft in numerator.',
+        'Convert hr \u2192 min: multiply by (1 hr / 60 min). Hours cancel, min in denominator.',
+        'Convert ft \u2192 cars: multiply by (1 car / 56 ft). Feet cancel. Remaining: cars / min. Answer: (3)'
+      ],
     },
     examples: {
       9: [
@@ -4382,8 +4591,12 @@ const QUESTION_BANK = [
         'The sequence has a_1 = −2 and common ratio −3.',
         'Test: a_4 = −2(−3)^{3}. Eliminate choices that don\'t equal this value.',
         'Which is the correct fourth term?'
-      ]
-    
+      ],
+      19: [
+        'A conveyor belt moves 3 feet per second. Each box is 2 feet long.',
+        'Write the starting rate as a fraction. Which conversion fraction turns feet into boxes?',
+        'Which fraction converts seconds into minutes? What are the final units?'
+      ],
     },
     errorTags: ['inverts_unit_conversion', 'flips_time_conversion']
   },
@@ -4519,7 +4732,7 @@ const QUESTION_BANK = [
       { label: '4', text: '15 < x ≤ 45' }
     ],
     correctAnswer: '3',
-    applicableLenses: [8, 10],
+    applicableLenses: [8, 10, 18],
     bestLens: 8,
     walkthroughs: {
       8: [
@@ -4588,8 +4801,8 @@ const QUESTION_BANK = [
       { label: '4', text: 'A, B, C, and D' }
     ],
     correctAnswer: '2',
-    applicableLenses: [8, 10],
-    bestLens: 8,
+    applicableLenses: [8, 10, 18],
+    bestLens: 18,
     walkthroughs: {
       8: [
         'Apply the Vertical Line Test (VLT): if a vertical line crosses the graph more than once, it is not a function.',
@@ -4600,7 +4813,13 @@ const QUESTION_BANK = [
         'Eliminate options including C: C is a vertical line segment — it fails the VLT immediately (one x, infinite y-values).',
         'Eliminate (1) (A only): B is a horizontal line — every x maps to exactly one y ✓ — B is a function.',
         'D is a circle: the center x-values each map to two y-values (top and bottom) — fails VLT. Only A and B are functions. Answer: (2).'
-      ]
+      ],
+      18: [
+        'Apply the vertical line test to each graph: a vertical line must cross it at most once.',
+        'Graph A: passes VLT \u2192 function. Graph B: passes VLT \u2192 function.',
+        'Graphs C and D: a vertical line crosses each more than once \u2192 not functions.',
+        'Answer: (2) A and B, only'
+      ],
     },
     examples: {
       8: [
@@ -4612,8 +4831,12 @@ const QUESTION_BANK = [
         'The area formula A = \\frac{1}{2}h(b_1+b_2). To isolate h, multiply both sides by 2 first.',
         'Eliminate choices that divide before multiplying or skip a step.',
         'Which expression for h is obtained by correctly applying inverse operations in order?'
-      ]
-    
+      ],
+      18: [
+        'Four mapping diagrams are shown. In one, the input x = 3 maps to both y = 5 and y = 7.',
+        'Check each diagram: does any input (x-value) produce more than one output?',
+        'Which mapping diagrams represent functions?'
+      ],
     },
     errorTags: ['fails_vertical_line_test', 'confuses_vertical_with_horizontal']
   },
@@ -4721,22 +4944,33 @@ const QUESTION_BANK = [
       { label: '4', text: '0.25x + 0.10(x − 2) = 2.30' }
     ],
     correctAnswer: '3',
-    applicableLenses: [9],
-    bestLens: 9,
+    applicableLenses: [9, 14],
+    bestLens: 14,
     walkthroughs: {
       9: [
         'x = number of quarters. Two MORE dimes than quarters → dimes = x + 2.',
         'Quarter value: 0.25x. Dime value: 0.10(x + 2).',
         'Total must equal $2.30: 0.25x + 0.10(x + 2) = 2.30.',
         'Trap (2): reverses coins — treats quarters as x+2. Trap (4): subtracts 2 instead of adding. Answer: (3)'
-      ]
+      ],
+      14: [
+        'Name the variable: x = number of quarters.',
+        'Translate \'two more dimes than quarters\': dimes = x + 2.',
+        'Write the value equation: value of quarters + value of dimes = total.',
+        '0.25x + 0.10(x + 2) = 2.30. Answer: (3)'
+      ],
     },
     examples: {
       9: [
         'Marcus has nickels and dimes. He has 3 more dimes than nickels.',
         'Label the number of nickels n. Write an expression for the number of dimes in terms of n.',
         'Which expression represents the total value of all his coins?'
-      ]
+      ],
+      14: [
+        'A jar has nickels and dimes worth $1.45 total. There are 4 more nickels than dimes.',
+        'Let x = number of dimes. Translate \'four more nickels than dimes\' into an expression.',
+        'Which equation represents the total value?'
+      ],
     },
     errorTags: ['reverses_coin_assignment', 'wrong_sign_on_difference']
   },
@@ -4992,8 +5226,8 @@ const QUESTION_BANK = [
       { label: '4', text: svgTable(['x', 'j(x)'], [['−3','−11'],['−2','−7'],['−1','−3'],['0','1'],['1','5'],['2','9']]) }
     ],
     correctAnswer: '4',
-    applicableLenses: [9, 4],
-    bestLens: 9,
+    applicableLenses: [9, 4, 17],
+    bestLens: 17,
     walkthroughs: {
       9: [
         'Linear function: constant first difference (Δy constant). Quadratic: constant second difference. Exponential: constant ratio.',
@@ -5006,7 +5240,12 @@ const QUESTION_BANK = [
         'Check differences between consecutive outputs for each table.',
         'j(x): −7−(−11)=4, −3−(−7)=4, 1−(−3)=4, 5−1=4, 9−5=4 — constant difference +4.',
         'Constant first difference → linear. Answer: (4) j(x)'
-      ]
+      ],
+      17: [
+        'Check each table: compute consecutive differences (y\u2082 \u2212 y\u2081) for linear, or ratios (y\u2082 \u00f7 y\u2081) for exponential.',
+        'Table (4) j(x): \u22127 \u2212 (\u221211) = 4, \u22123 \u2212 (\u22127) = 4, 1 \u2212 (\u22123) = 4 \u2014 constant difference.',
+        'Constant difference \u2192 linear function. Answer: (4)'
+      ],
     },
     examples: {
       9: [
@@ -5018,8 +5257,12 @@ const QUESTION_BANK = [
         'Enter j(x) using the table values. For a linear function, the slope between any two points is constant.',
         'Enter any two points from j(x) into the slope formula: Δy/Δx.',
         'Is the slope constant? What is it?'
-      ]
-    
+      ],
+      17: [
+        'A table shows x = 0, 1, 2, 3 and y = 3, 7, 11, 15.',
+        'Compute y\u2082 \u2212 y\u2081 for each consecutive pair of rows.',
+        'Is the difference constant? What type of function does this table represent?'
+      ],
     },
     errorTags: ['confuses_first_and_second_differences', 'confuses_ratio_with_difference']
   },
@@ -5080,22 +5323,32 @@ const QUESTION_BANK = [
       { label: '4', text: '−4.6875' }
     ],
     correctAnswer: '2',
-    applicableLenses: [9],
-    bestLens: 9,
+    applicableLenses: [9, 15],
+    bestLens: 15,
     walkthroughs: {
       9: [
         'Average rate of change = (y₂ − y₁) / (x₂ − x₁). Use the interval endpoints t = 1 and t = 3.',
         'From the table: at t = 1, level = 10; at t = 3, level = 2.5.',
         'Rate = (2.5 − 10) / (3 − 1) = −7.5 / 2 = −3.75.',
         'Negative because the level is decreasing. Answer: (2) −3.75'
-      ]
+      ],
+      15: [
+        'Read the two endpoints: at t = 1, level = 10; at t = 3, level = 2.5.',
+        'Subtract y-values (rise): 2.5 \u2212 10 = \u22127.5.',
+        'Subtract x-values (run): 3 \u2212 1 = 2. Divide: \u22127.5 \u00f7 2 = \u22123.75. Negative because level is decreasing. Answer: (2)'
+      ],
     },
     examples: {
       9: [
         'A table shows temperature: at t = 2, T = 80°F; at t = 6, T = 60°F.',
         'Substitute the endpoint values into the formula: (T₂ − T₁) / (t₂ − t₁).',
         'What is the average rate of change of temperature over the interval 2 ≤ t ≤ 6?'
-      ]
+      ],
+      15: [
+        'A table shows temperature at t = 1 hour: 80\u00b0F and at t = 5 hours: 56\u00b0F.',
+        'Subtract the temperatures and the times in the same order, then divide rise by run.',
+        'What is the average rate of change of temperature from t = 1 to t = 5?'
+      ],
     },
     errorTags: ['wrong_interval_endpoints', 'drops_negative_sign_on_rate']
   },
@@ -5154,8 +5407,8 @@ const QUESTION_BANK = [
       { label: '4', text: 'k(x) = (x + 3)^{2}' }
     ],
     correctAnswer: '4',
-    applicableLenses: [3, 9],
-    bestLens: 9,
+    applicableLenses: [3, 9, 16],
+    bestLens: 16,
     walkthroughs: {
       9: [
         'Horizontal shift left → replace x with (x + c). Shift LEFT 3: f(x+3) = (x+3)^{2}.',
@@ -5168,7 +5421,13 @@ const QUESTION_BANK = [
         'Left shift means the parabola moves left — vertex should be at x = −3.',
         'Check Y2 = (x+3)^{2}: vertex at x = −3 ✓. Tables confirm shift.',
         'Answer: (4) k(x) = (x + 3)^{2}'
-      ]
+      ],
+      16: [
+        'Enter f(x) = X\u00b2 into Y1. Press ZOOM 6 for a standard window.',
+        'Enter choice (1) X\u00b2 + 3 into Y2. Press GRAPH \u2014 this shifts UP, not left.',
+        'Enter choice (4) (X + 3)\u00b2 into Y2. Press GRAPH \u2014 graph moves 3 units to the LEFT.',
+        'Left shift \u2192 add inside the function: (x + 3)\u00b2. Answer: (4)'
+      ],
     },
     examples: {
       9: [
@@ -5180,8 +5439,12 @@ const QUESTION_BANK = [
         'Enter f(x) = x^{2} in Y1 and each MC choice in Y2.',
         'Press GRAPH. Which Y2 parabola has its vertex at x = −3 (shifted left 3 units from the origin)?',
         'Which function shifts the parabola 3 units to the left?'
-      ]
-    
+      ],
+      16: [
+        'f(x) = x\u00b2 is in Y1. Enter g(x) = (x \u2212 2)\u00b2 into Y2 and press GRAPH.',
+        'Compare the two parabolas \u2014 which direction and how many units did the graph shift?',
+        'What transformation does g(x) = (x \u2212 2)\u00b2 represent relative to f(x) = x\u00b2?'
+      ],
     },
     errorTags: ['reverses_horizontal_shift_direction', 'confuses_horizontal_and_vertical_shift']
   },
@@ -5535,22 +5798,33 @@ const QUESTION_BANK = [
       { label: '4', text: 'I, II, and III' }
     ],
     correctAnswer: '4',
-    applicableLenses: [9],
-    bestLens: 9,
+    applicableLenses: [9, 18],
+    bestLens: 18,
     walkthroughs: {
       9: [
         'A relation is a function if every x maps to exactly one y (no repeated x with different y).',
         'Relation I: each x appears once → function ✓.',
         'Relation II: graph passes vertical line test → function ✓.',
         'Relation III: arrow diagram — each input has exactly one arrow → function ✓. Answer: (4) I, II, and III'
-      ]
+      ],
+      18: [
+        'Check Relation I: {(1,2),(2,3),(3,4),(4,5)} \u2014 each x maps to exactly one y \u2192 function.',
+        'Check Relation II: the graph passes the vertical line test \u2192 function.',
+        'Check Relation III: arrow diagram, each x has exactly one arrow \u2192 function.',
+        'All three pass. Answer: (4) I, II, and III'
+      ],
     },
     examples: {
       9: [
         'Look at this mapping: 1→3, 2→5, 3→3, 4→7. Check whether any x-value maps to more than one y-value.',
         'For a graph that forms a circle: draw a vertical line anywhere and count how many points it touches.',
         'Which representation passes the function definition test?'
-      ]
+      ],
+      18: [
+        'A mapping diagram shows: 1\u21924, 2\u21926, 3\u21924, 4\u21929.',
+        'Check each input \u2014 does any input appear twice with a different output?',
+        'Does this mapping diagram represent a function?'
+      ],
     },
     errorTags: ['confuses_function_definition', 'misapplies_vertical_line_test']
   },
@@ -5599,22 +5873,33 @@ const QUESTION_BANK = [
       { label: '4', text: math('\\frac{100 m}{9.58 sec} × \\frac{1 km}{1000 m} × \\frac{60 sec}{1 min} × \\frac{60 min}{1 hr}') }
     ],
     correctAnswer: '4',
-    applicableLenses: [9],
-    bestLens: 9,
+    applicableLenses: [9, 19],
+    bestLens: 19,
     walkthroughs: {
       9: [
         'Start with the given rate: 100 m / 9.58 sec. Goal: convert to km/hr.',
         'Cancel meters: × 1 km / 1000 m → m cancels, leaving km in numerator.',
         'Cancel seconds: × 60 sec / 1 min × 60 min / 1 hr → sec cancels, leaving hr in denominator.',
         'Remaining units: km/hr ✓. Trap (3): inverts km/m — meters don\'t cancel. Answer: (4)'
-      ]
+      ],
+      19: [
+        'Start with 100 m / 9.58 sec. Target: km / hr.',
+        'Convert m \u2192 km: multiply by (1 km / 1000 m). Meters cancel, km stays in numerator.',
+        'Convert sec \u2192 hr: multiply by (60 sec / 1 min) then (60 min / 1 hr). Seconds and minutes cancel; hr in denominator.',
+        'Remaining units: km / hr. Answer: (4)'
+      ],
     },
     examples: {
       9: [
         'A car travels 88 feet per second. Write the starting rate as a fraction: 88 ft / 1 sec.',
         'Set up unit fractions to cancel feet (1 mi = 5,280 ft) and to convert seconds to hours.',
         'Which chain of unit fractions gives miles per hour?'
-      ]
+      ],
+      19: [
+        'A runner completes 200 meters in 25 seconds. Write the rate: 200 m / 25 sec.',
+        'Multiply by conversion fractions to get km/hr. Identify which fraction converts meters to kilometers.',
+        'Which fractions convert seconds to minutes and minutes to hours?'
+      ],
     },
     errorTags: ['inverts_unit_conversion_fraction', 'cancels_target_unit_instead_of_given']
   }
