@@ -475,8 +475,13 @@ html, body {
 }
 .lens-pick.lens-best     { border-left: 3px solid var(--correct); }
 .lens-pick.lens-workable { border-left: 3px solid #8B6914; }
-.lens-pick.lens-notrelated { border-left: 3px solid var(--incorrect); cursor: not-allowed; opacity: 0.5; }
-.lens-pick.lens-notrelated:hover { background: var(--page); }
+.lp-calc {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 3px;
+  font-style: italic;
+}
 .wrong-drill-strip {
   margin: 10px 0 0;
   padding: 8px 12px;
@@ -6187,25 +6192,25 @@ function renderPractice() {
         </div>`;
     }
 
-    const lensOptions = LENSES.map(L => {
+    const lensOptions = LENSES.filter(L => Q.applicableLenses.includes(L.id)).map(L => {
       const highlighted = isWrongDrill && highlightedLensIds.has(L.id);
       const isBest = Q.bestLens === L.id;
-      const isNotRelated = !Q.applicableLenses.includes(L.id);
-      const fitClass = isBest ? ' lens-best' : isNotRelated ? ' lens-notrelated' : ' lens-workable';
-      const hlClass = (!isNotRelated && highlighted) ? ' lens-highlight' : '';
-      const disabledAttr = isNotRelated ? ' disabled' : '';
-      const onclickAttr = isNotRelated ? '' : ` onclick="pickLens(${L.id})"`;
+      const fitClass = isBest ? ' lens-best' : ' lens-workable';
+      const hlClass = highlighted ? ' lens-highlight' : '';
+      const usesCalc = !L.keystrokes.some(k => k[0].toLowerCase().startsWith('no calc'));
+      const calcLine = usesCalc ? 'Uses TI-84' : 'No calculator needed';
       return `
-        <button class="lens-pick${fitClass}${hlClass}"${disabledAttr}${onclickAttr}>
+        <button class="lens-pick${fitClass}${hlClass}" onclick="pickLens(${L.id})">
           <span class="lp-num">${L.code} &middot; ${L.icon}</span>
           ${highlighted ? `<strong>${L.name}</strong>` : L.name}
+          <span class="lp-calc">${calcLine}</span>
         </button>`;
     }).join('');
 
     body = `
       <div class="lens-picker-prompt">
         <div class="pp-eyebrow">Step 1 &mdash; Which lens?</div>
-        <p>Read the problem. Before solving, pick the strategy that fits best. You&rsquo;ll see whether your lens is strong, workable, or off-target.</p>
+        <p>Each lens is a way to look at this problem. Pick the one that fits how you want to solve it on your TI-84.</p>
         ${diagnosticStrip}
       </div>
       <div class="lens-picker-grid">${lensOptions}</div>
